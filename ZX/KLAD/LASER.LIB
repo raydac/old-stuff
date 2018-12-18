@@ -1,0 +1,1050 @@
+#asm
+*F LB3_TXT0.A80
+#endasm
+/*	Функции общего назначения	*/
+UDG (ll1)
+int ll1;
+{
+#asm
+    LD L,(IY+6)
+    LD H,(IY+7)
+    LD (23606),HL
+#endasm
+}
+BORDER (ll1)
+int ll1;
+{
+#asm
+    LD A,(IY+6)
+    LD BC,254
+    OUT (C),A
+#endasm
+}
+INMASK (port,mask)
+int port,mask;
+{
+#asm
+    LD B,(IY+9)
+    LD C,(IY+8)
+    LD D,(IY+6)
+    IN A,(C)
+    AND D
+    LD C,A
+    LD B,0
+#endasm
+}
+INK (ll1)
+int ll1;
+{
+#asm
+    LD A,(SETV_A)
+    LD C,(IY+6)
+    AND 248
+    OR C
+    LD (SETV_A),A
+#endasm
+}
+PAPER (ll1)
+int ll1;
+{
+#asm
+      LD A,(SETV_A)
+      LD C,(IY+6)
+      AND 199
+      SLA C
+      SLA C
+      SLA C
+      OR C
+      LD (SETV_A),A
+#endasm
+}
+FLASH (ll1)
+int ll1;
+{
+#asm
+    LD A,18
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+BRIGHT (ll1)
+int ll1;
+{
+#asm
+    LD A,19
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+INVERSE (ll1)
+int ll1;
+{
+#asm
+    LD A,20
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+OVER (ll1)
+int ll1;
+{
+#asm
+    LD A,21
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+AT (x,y)
+int x,y;
+{
+#asm
+    LD A,(IY+6)
+    CALL 3742
+    LD A,(IY+8)
+    ADD A,L
+    LD L,A
+    LD (23684),HL
+#endasm
+}
+SCRCLS ()
+{
+#asm
+    DEFB 1,0,#18,#21,0,#40,#36,0,#0B,#23,#78,#B1,#20,#F8
+    DEFB 1,0,3,#3A,#8D,#5C,#57,#72,#0B,#23,#78,#B1,#20,#F9
+#endasm
+}
+SETPOTOK (pot)
+char pot;
+{
+#asm
+    LD A,(IY+6)
+    CALL 5633
+#endasm
+}
+PUTCH (char)
+char char;
+{
+#asm
+   LD A,(IY+6)
+   RST 16
+#endasm
+}
+PRSTR (ll1)
+int ll1;
+{
+#asm
+       LD L,(IY+6)
+       LD H,(IY+7)
+pr#sta LD A,(HL)
+       OR A
+       JR Z,pr#end
+       PUSH HL
+       LD L,A
+       LD H,0
+       ADD HL,HL
+       ADD HL,HL
+       ADD HL,HL
+       LD DE,(23606)
+       ADD HL,DE
+       LD DE,(23684)
+       EX DE,HL
+       PUSH HL
+       LD B,8
+p#Sy1  LD A,(DE)
+       LD (HL),A
+       INC DE
+       INC H
+       DJNZ p#Sy1
+       POP HL
+       PUSH HL
+       LD A,H
+       AND #18
+       RRCA
+       RRCA
+       RRCA
+       ADD A,#58
+       LD H,A
+       LD A,(SETV_A)
+       LD (HL),A
+       POP HL
+       INC L
+       JR NZ,p#Sy2
+       LD A,H
+       ADD A,8
+       LD H,A
+       CP #58
+       JR C,p#Sy2
+       LD H,#40
+p#Sy2  LD (23684),HL
+       POP HL
+       INC HL
+       JR pr#sta
+pr#end
+#endasm
+}
+RND(ll1)
+int ll1;
+{
+#asm
+        LD HL,(SF#RND)
+        LD DE,7
+        ADD HL,DE
+        LD E,L
+        LD D,H
+        ADD HL,HL
+        ADD HL,HL
+        LD C,L
+        LD B,H
+        ADD HL,HL
+        ADD HL,BC
+        ADD HL,DE
+        LD (SF#RND),HL
+        LD A,H
+        LD E,(IY+6)
+        LD L,A
+        LD H,0
+        LD D,H
+        PUSH IY
+        CALL 12457
+        POP IY
+        LD A,H
+        PUSH HL
+        POP BC
+#endasm
+}
+RND255()
+{
+#asm
+        LD HL,(SF#RND)
+        LD DE,7
+        ADD HL,DE
+        LD E,L
+        LD D,H
+        ADD HL,HL
+        ADD HL,HL
+        LD C,L
+        LD B,H
+        ADD HL,HL
+        ADD HL,BC
+        ADD HL,DE
+        LD (SF#RND),HL
+        LD B,0
+        LD C,H
+#endasm
+}
+PKEY()
+{
+#asm
+        XOR A
+        IN A,(#FE)
+        CPL
+        AND #1F
+        LD C,A
+        LD B,0
+#endasm
+}
+INTFUN (ll1) /* ll1 - адрес программы обработки маскируемого прерывания */
+int ll1;
+{
+#asm
+       DI
+       LD C,(IY+6)
+       LD B,(IY+7)
+       LD A,24
+       LD (65535),A
+       LD A,195
+       LD (65129),A
+       LD HL,i$int
+       LD (65130),HL
+       LD (i$iadr+1),BC
+       LD A,9
+       LD I,A
+       IM 2
+       JR i$iend
+i$int  DI
+       PUSH AF
+       PUSH BC
+       PUSH DE
+       PUSH HL
+       PUSH IY
+       PUSH IX
+       EXX
+       PUSH AF
+       PUSH BC
+       PUSH DE
+       PUSH HL
+       PUSH IY
+       PUSH IX
+       EXX
+i$iadr CALL 0000
+       EXX
+       POP IX
+       POP IY
+       POP HL
+       POP DE
+       POP BC
+       POP AF
+       EXX
+       POP IX
+       POP IY
+       POP HL
+       POP DE
+       POP BC
+       POP AF
+       EI
+       RET
+i$iend EI
+#endasm
+}
+CF128 (ll1) /* байт конфигурации компьютера в порте 32765 */
+int ll1;
+{
+#asm
+       LD BC,32765
+       LD A,(IY+6)
+       OUT (C),A
+#endasm
+}
+SFPOS (ll1,ll2) /* ll1 - начало спрайт-файла, ll2 - конец спрайт файла */
+int ll1,ll2;
+{
+#asm
+        LD C,(IY+6)
+        LD B,(IY+7)
+        LD L,(IY+8)
+        LD H,(IY+9)
+        LD (SFSTRT),HL
+        LD (SF_END),BC
+#endasm
+}
+LBSCR (ll1) /* ll1 - адрес теневого экрана */
+int ll1;
+{
+#asm
+        LD C,(IY+6)
+        LD B,(IY+7)
+        LD (SCR_AC),BC
+#endasm
+}
+ATRSCR (ll1) /* ll1 - адрес аттрибутов экрана */
+int ll1;
+{
+#asm
+        LD C,(IY+6)
+        LD B,(IY+7)
+        LD (SCRA_A),BC
+#endasm
+}
+
+/*	Функции для работы с окнами на экране	*/
+INVV (ll1,ll2,ll3,ll4) /* ll1-x,ll2-y,ll3-width,ll4-height */
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL INVV
+        POP IY
+#endasm
+}
+MIRV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL MIRV
+        POP IY
+#endasm
+}
+MARV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL MARV
+        POP IY
+#endasm
+}
+SETV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SETV
+        POP IY
+#endasm
+}
+CLSV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL CLSV
+        POP IY
+#endasm
+}
+/*	Протестировано все OK */
+WL1V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WL1V
+        POP IY
+#endasm
+}
+WR1V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WR1V
+        POP IY
+#endasm
+}
+WL4V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WL4V
+        POP IY
+#endasm
+}
+WR4V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WR4V
+        POP IY
+#endasm
+}
+WL8V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WL8V
+        POP IY
+#endasm
+}
+WR8V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL WR8V
+        POP IY
+#endasm
+}
+SL1V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SL1V
+        POP IY
+#endasm
+}
+SR1V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SR1V
+        POP IY
+#endasm
+}
+SL4V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SL4V
+        POP IY
+#endasm
+}
+SR4V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SR4V
+        POP IY
+#endasm
+}
+SL8V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SL8V
+        POP IY
+#endasm
+}
+SR8V (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL SR8V
+        POP IY
+#endasm
+}
+WCRV (ll1,ll2,ll3,ll4,ll5)
+int ll1,ll2,ll3,ll4,ll5;
+{
+#asm
+        LD C,(IY+14)
+        LD B,(IY+12)
+        LD L,(IY+10)
+        LD H,(IY+8)
+        LD A,(IY+6)
+        PUSH IY
+        CALL WCRV
+        POP IY
+#endasm
+}
+SCRV (ll1,ll2,ll3,ll4,ll5)
+int ll1,ll2,ll3,ll4,ll5;
+{
+#asm
+        LD C,(IY+14)
+        LD B,(IY+12)
+        LD L,(IY+10)
+        LD H,(IY+8)
+        LD A,(IY+6)
+        PUSH IY
+        CALL SCRV
+        POP IY
+#endasm
+}
+/*     All OK  */
+AWLV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL AWLV
+        POP IY
+#endasm
+}
+ASLV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL ASLV
+        POP IY
+#endasm
+}
+AWRV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL AWRV
+        POP IY
+#endasm
+}
+ASRV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL ASRV
+        POP IY
+#endasm
+}
+ATUV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL ATUV
+        POP IY
+#endasm
+}
+ATDV (ll1,ll2,ll3,ll4)
+int ll1,ll2,ll3,ll4;
+{
+#asm
+        LD C,(IY+12)
+        LD B,(IY+10)
+        LD L,(IY+8)
+        LD H,(IY+6)
+        PUSH IY
+        CALL ATDV
+        POP IY
+#endasm
+}
+/*	протестированно 14.12.97 все функции работают */
+/*	Функции для работы со спрайтами    */
+PTBL (x,y,num)
+int x,y,num;
+{
+#asm
+        LD A,(IY+6)
+        LD B,(IY+8)
+        LD C,(IY+10)
+        CALL PTBL
+#endasm
+}
+PTOR (x,y,num)
+int x,y,num;
+{
+#asm
+       LD A,(IY+6)
+       LD B,(IY+8)
+       LD C,(IY+10)
+       CALL PTOR
+#endasm
+}
+PTXR (x,y,num)
+int x,y,num;
+{
+#asm
+       LD A,(IY+6)
+       LD B,(IY+8)
+       LD C,(IY+10)
+       PUSH IY
+       CALL PTXR
+       POP IY
+#endasm
+}
+PTND (x,y,num)
+int x,y,num;
+{
+#asm
+       LD A,(IY+6)
+       LD B,(IY+8)
+       LD C,(IY+10)
+       CALL PTND
+#endasm
+}
+WL1M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WL1M
+#endasm
+}
+WR1M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WR1M
+#endasm
+}
+WL4M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WL4M
+#endasm
+}
+WR4M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WR4M
+#endasm
+}
+WL8M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WL8M
+#endasm
+}
+WR8M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL WR8M
+#endasm
+}
+SL1M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SL1M
+#endasm
+}
+SR1M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SR1M
+#endasm
+}
+SL4M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SL4M
+#endasm
+}
+SR4M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SR4M
+#endasm
+}
+SL8M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SL8M
+#endasm
+}
+SR8M (ll1)
+int ll1;
+{
+#asm
+       LD A,(IY+6)
+       CALL SR8M
+#endasm
+}
+WCRM (ll1,ll2)
+int ll1,ll2;
+{
+#asm
+       LD A,(IY+8)
+       LD B,(IY+6)
+       CALL WCRM
+#endasm
+}
+SCRM (ll1,ll2)
+int ll1,ll2;
+{
+#asm
+       LD A,(IY+8)
+       LD B,(IY+6)
+       CALL SCRM
+#endasm
+}
+ATOF ()
+{
+#asm
+        CALL ATOF
+#endasm
+}
+ATON ()
+{
+#asm
+        CALL ATON
+#endasm
+}
+/* ------ALL OK!------------- */
+GTBL (x,y,n)
+int x,y,n;
+{
+#asm
+         LD A,(IY+6)
+         LD B,(IY+8)
+         LD C,(IY+10)
+         CALL GTBL
+#endasm
+}
+GTOR (x,y,n)
+int x,y,n;
+{
+#asm
+         LD A,(IY+6)
+         LD B,(IY+8)
+         LD C,(IY+10)
+         CALL GTOR
+#endasm
+}
+GTXR (x,y,n)
+int x,y,n;
+{
+#asm
+         LD A,(IY+6)
+         LD B,(IY+8)
+         LD C,(IY+10)
+         CALL GTXR
+#endasm
+}
+GTND (x,y,n)
+int x,y,n;
+{
+#asm
+         LD A,(IY+6)
+         LD B,(IY+8)
+         LD C,(IY+10)
+         CALL GTND
+#endasm
+}
+/* ------OK------ */
+PMBL (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL PMBL
+#endasm
+}
+PMOR (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL PMOR
+#endasm
+}
+PMXR (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL PMXR
+#endasm
+}
+PMND (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL PMND
+#endasm
+}
+PMAT (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL PMAT
+#endasm
+}
+GMBL (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL GMBL
+#endasm
+}
+GMOR (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL GMOR
+#endasm
+}
+GMXR (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL GMXR
+#endasm
+}
+GMND (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL GMND
+#endasm
+}
+GMAT (x,y,d,s)
+int x,y,d,s;
+{
+#asm
+         LD C,(IY+6)
+         LD B,(IY+8)
+         LD D,(IY+10)
+         LD E,(IY+12)
+         CALL GMAT
+#endasm
+}
+PWBL (x,y,x1,y1,h,l,n)
+int x,y,x1,y1,h,l,n;
+{
+#asm
+         LD A,(IY+6)
+         LD H,(IY+8)
+         LD L,(IY+10)
+         LD D,(IY+12)
+         LD E,(IY+14)
+         LD B,(IY+16)
+         LD C,(IY+18)
+         CALL PWBL
+#endasm
+}
+PWOR (x,y,x1,y1,h,l,n)
+int x,y,x1,y1,h,l,n;
+{
+#asm
+         LD A,(IY+6)
+         LD H,(IY+8)
+         LD L,(IY+10)
+         LD D,(IY+12)
+         LD E,(IY+14)
+         LD B,(IY+16)
+         LD C,(IY+18)
+         CALL PWOR
+#endasm
+}
+PWXR (x,y,x1,y1,h,l,n)
+int x,y,x1,y1,h,l,n;
+{
+#asm
+         LD A,(IY+6)
+         LD H,(IY+8)
+         LD L,(IY+10)
+         LD D,(IY+12)
+         LD E,(IY+14)
+         LD B,(IY+16)
+         LD C,(IY+18)
+         CALL PWOR
+#endasm
+}
+PWND (x,y,x1,y1,h,l,n)
+int x,y,x1,y1,h,l,n;
+{
+#asm
+         LD A,(IY+6)
+         LD H,(IY+8)
+         LD L,(IY+10)
+         LD D,(IY+12)
+         LD E,(IY+14)
+         LD B,(IY+16)
+         LD C,(IY+18)
+         CALL PWND
+#endasm
+}
