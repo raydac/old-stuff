@@ -1,0 +1,16 @@
+;--------------------------------
+;* LASER BASIC for ASSEMBLER ZX *
+;*    HOME VIDEO GAMES Ent.     *
+;*        version 3.17          *
+;*            1997              *
+;--------------------------------
+SCRL_B	DEFB	#00,#5B
+SFSTRT	DEFB	#00,#00
+SF_END	DEFB	#00,#00
+SETV_A	DEFB	0
+SCR_AC	DEFW	#4000
+SCRA_A	DEFW	#5800
+;--------------------------------
+*F,1:LB3_TXT1
+*F,1:LB3_TXT2
+;--------------------------------
