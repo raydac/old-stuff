@@ -8,9 +8,6 @@ import org.xml.sax.SAXException;
 import java.util.*;
 import java.io.*;
 
-import com.igormaznitsa.MIDPTools.MenuTextPacker.MenuPacking.ItemReference;
-import com.igormaznitsa.MIDPTools.MenuTextPacker.MenuPacking.CommandLink;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
@@ -416,7 +413,7 @@ public class MenuPacker
         while (p_iter.hasNext())
         {
             ScreenReference p_scr = (ScreenReference) p_iter.next();
-            String s_str = "private static final int SCR_" + p_scr.s_ScreenId + " = " + p_scr.i_Offset + ";\r\n";
+            String s_str = "protected static final int SCR_" + p_scr.s_ScreenId + " = " + p_scr.i_Offset + ";\r\n";
             _outputStream.writeBytes("// Screen " + p_scr.s_ScreenId + "\r\n");
             _outputStream.writeBytes(s_str);
         }
@@ -427,7 +424,7 @@ public class MenuPacker
         while (p_iter.hasNext())
         {
             ItemReference p_scr = (ItemReference) p_iter.next();
-            String s_str = "private static final int ITEM_" + p_scr.s_ItemAbsId + " = " + p_scr.i_id + ";\r\n";
+            String s_str = "protected static final int ITEM_" + p_scr.s_ItemAbsId + " = " + p_scr.i_id + ";\r\n";
             _outputStream.writeBytes("// Item " + p_scr.s_ItemAbsId + "\r\n");
             _outputStream.writeBytes(s_str);
         }
@@ -438,7 +435,7 @@ public class MenuPacker
         while (p_iter.hasNext())
         {
             CommandReference p_scr = (CommandReference) p_iter.next();
-            String s_str = "private static final int COMMAND_" + p_scr.s_CommandId + " = " + p_scr.i_offset + ";\r\n";
+            String s_str = "protected static final int COMMAND_" + p_scr.s_CommandId + " = " + p_scr.i_offset + ";\r\n";
             _outputStream.writeBytes("// Command " + p_scr.s_CommandId + "\r\n");
             _outputStream.writeBytes(s_str);
         }

@@ -11,7 +11,7 @@ import java.awt.image.Raster;
 import java.awt.image.PixelGrabber;
 
 /**
- * Copyright (C) 2003 Igor A. Maznitsa (igor.maznitsa@igormaznitsa.com).  All rights reserved.
+ * Copyright © 2003 Igor A. Maznitsa (igor.maznitsa@igormaznitsa.com).  All rights reserved.
  * Software is confidential and copyrighted. Title to Software and all associated intellectual property rights
  * is retained by Igor A. Maznitsa. You may not make copies of Software, other than a single copy of Software for
  * archival purposes.  Unless enforcement is prohibited by applicable law, you may not modify, decompile, or reverse

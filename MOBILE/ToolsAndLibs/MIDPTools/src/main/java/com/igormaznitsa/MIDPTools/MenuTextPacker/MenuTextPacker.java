@@ -12,20 +12,20 @@ import java.util.*;
 
 import com.igormaznitsa.MIDPTools.MenuTextPacker.MenuPacking.StringReference;
 import com.igormaznitsa.MIDPTools.MenuTextPacker.MenuPacking.MenuPacker;
-
+import com.igormaznitsa.MIDPTools.MenuTextPacker.GameMenuPacking.GameMenuPacker;
 
 public class MenuTextPacker
 {
     HashMap p_languages = new HashMap();
     HashMap p_strings = new HashMap();
 
-    public static final char [][] achch_charsets = new char[][]{ new char[]{' ','0','1','2','3','4','5','6','7','8','9',':','.',',','!','?','+','-','\'','\"','(',')'},
-    new char[]{'A','B','C','D','E','F','G','H','I','Y','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','y','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'},
-    new char[]{'А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я','а','б','в','г','д','е','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я'}};
+    public static final char[][] achch_charsets = new char[][]{new char[]{'~', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', '.', ',', '!', '?', '+', '-', '/', '\'', '\"', '(', ')'},
+                        new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'},
+                        new char[]{'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'}};
 
     private class LanguageReference
     {
-        String s_id,s_name,s_resource;
+        String s_id, s_name, s_resource;
         boolean lg_default;
 
         public LanguageReference(String _id, String _name, String _resource, boolean _default)
@@ -49,39 +49,41 @@ public class MenuTextPacker
 
     private int convertCharToCharsetByte(char _char)
     {
-        for(int li=0;li<achch_charsets.length;li++)
+        for (int li = 0; li < achch_charsets.length; li++)
         {
-            char [] ach_charset = achch_charsets[li];
-            for(int lx=0;lx<ach_charset.length;lx++)
+            char[] ach_charset = achch_charsets[li];
+            for (int lx = 0; lx < ach_charset.length; lx++)
             {
                 if (_char == ach_charset[lx])
                 {
-                    return (li<<6)&lx;
+                    return (li << 6) | lx;
                 }
             }
         }
         return -1;
     }
 
-    public byte [] convertStringToByte(String _string,boolean _caseSensetive) throws IOException
+    public byte[] convertStringToByte(String _string, boolean _caseSensetive) throws IOException
     {
-        if (_string.length()>256) throw new IOException("The string has more symbols than 256 ["+_string+"]");
+        if (_string.length() == 0) throw new IOException("You have an empty string, I can't pack it");
+        if (_string.length() > 256) throw new IOException("The string has more symbols than 256 "+_string.length()+" [" + _string + "]");
 
         if (!_caseSensetive) _string = _string.toUpperCase();
-        byte [] ab_result = new byte[_string.length()+1];
+        byte[] ab_result = new byte[_string.length() + 1];
 
-        ab_result[0] = (byte)_string.length();
-        for(int li=0;li<_string.length();li++)
+        ab_result[0] = (byte) (_string.length()-1);
+        for (int li = 0; li < _string.length(); li++)
         {
             char ch_char = _string.charAt(li);
             int i_code = convertCharToCharsetByte(ch_char);
-            if (i_code < 0) throw new IOException("Unknown char \'"+ch_char+"\'");
-            ab_result [li+1] = (byte)i_code;
+            if (i_code < 0) throw new IOException("Unknown char \'" + ch_char + "\'");
+            ab_result[li + 1] = (byte) i_code;
         }
+
         return ab_result;
     }
 
-    public MenuTextPacker(String _file,boolean _saveAsByte,boolean _caseSensetive) throws Exception
+    public MenuTextPacker(String _file, boolean _saveAsByte, boolean _caseSensetive) throws Exception
     {
         String s_name = _file;
         if (s_name.endsWith(".xml"))
@@ -208,7 +210,7 @@ public class MenuTextPacker
         while (p_iter.hasNext())
         {
             StringReference p_SR = (StringReference) p_iter.next();
-            p_dos.writeBytes(" private static final int " + p_SR.s_id + " = " + i_li + ";\r\n");
+            p_dos.writeBytes(" protected static final int " + p_SR.s_id + " = " + i_li + ";\r\n");
             p_SR.i_number = i_li;
             i_li++;
         }
@@ -240,20 +242,22 @@ public class MenuTextPacker
             }
         }
 
-        byte [] ab_languageNamesArray = null;
+        byte[] ab_languageNamesArray = null;
         if (_saveAsByte)
         {
             ByteArrayOutputStream p_lnbaos = new ByteArrayOutputStream(1024);
-            for(int li=0;li<as_sortedlanguages.length;li++)
+            for (int li = 0; li < as_sortedlanguages.length; li++)
             {
                 LanguageReference p_ref = (LanguageReference) p_languages.get(as_sortedlanguages[li]);
-                byte [] ab_array = convertStringToByte(p_ref.s_name,_caseSensetive);
+                System.out.println("String: \""+p_ref.s_name+"\" length "+p_ref.s_name.length());
+                byte[] ab_array = convertStringToByte(p_ref.s_name, _caseSensetive);
                 p_lnbaos.write(ab_array);
                 p_lnbaos.flush();
             }
             ab_languageNamesArray = p_lnbaos.toByteArray();
             p_lnbaos = null;
             p_dos.writeShort(ab_languageNamesArray.length);
+            p_dos.write(ab_languageNamesArray);
         }
 
         for (int li = 0; li < as_sortedlanguages.length; li++)
@@ -277,6 +281,18 @@ public class MenuTextPacker
             DataOutputStream p_dosstr = new DataOutputStream(p_fosstr);
             p_nfile = null;
 
+            // Смещение UTF
+            int i_offsetUNICODE = 0;
+            if (!_saveAsByte)
+            {
+                if (p_ref.s_id.equals("ru"))
+                {
+                    i_offsetUNICODE = 0x350;
+                }
+
+                p_dosstr.writeShort(i_offsetUNICODE);
+            }
+
             p_dosstr.writeByte(i_strings_count);
 
             p_iter = p_sr.iterator();
@@ -288,16 +304,31 @@ public class MenuTextPacker
                 String p_str = p_strref.getValue(p_ref.s_id);
                 if (_saveAsByte)
                 {
-                    byte [] ab_byteString = convertStringToByte(p_str,_caseSensetive);
-                    p_dosstr.write(ab_byteString);
+                    System.out.println("String: \""+p_str+"\" length "+p_str.length());
+
+                    byte[] ab_byteString = convertStringToByte(p_str, _caseSensetive);
+                    p_bd.write(ab_byteString);
                 }
                 else
                 {
-                    p_bd.writeUTF(p_str);
+                    if (i_offsetUNICODE==0)
+                        p_bd.writeUTF(p_str);
+                    else
+                    {
+                        char [] ach_chars = p_str.toCharArray();
+                        for(int lc=0;lc<ach_chars.length;lc++)
+                        {
+                            int i_char = ach_chars[lc];
+                            if (i_char>0x80)
+                                i_char = i_char-i_offsetUNICODE;
+                            p_bd.writeByte(i_char);
+                        }
+                        p_bd.write(0);
+                    }
                 }
             }
             p_bd.flush();
-            byte [] ab_strArray = p_sbaos.toByteArray();
+            byte[] ab_strArray = p_sbaos.toByteArray();
 
             if (_saveAsByte)
             {
@@ -308,6 +339,7 @@ public class MenuTextPacker
             p_dosstr.flush();
             p_dosstr.close();
         }
+
         p_dos.flush();
         p_dos.close();
 
@@ -319,6 +351,8 @@ public class MenuTextPacker
         System.out.println("\r\nCommand string:");
         System.out.println("com.igormaznitsa.MIDPTools.MenuTextPacker.MenuTextPacker [/b] /t:xml_text_file [/m:xml_menu_file]\r\n");
         System.out.println("/b - save chars as bytes else the chars are written as UTF8");
+        System.out.println("/g - save simple one level game menu");
+        System.out.println("/c - case sensitive");
     }
 
     public static final void main(String[] _args)
@@ -331,25 +365,25 @@ public class MenuTextPacker
 
         boolean lg_saveAsByte = false;
         boolean lg_caseSensetive = false;
+        boolean lg_gameMenu = false;
         String s_xmltextfile = null;
         String s_xmlmenufile = null;
 
-        for(int li=0;li<_args.length;li++)
+        for (int li = 0; li < _args.length; li++)
         {
-            if (_args[li].startsWith("/b"))
+            if (_args[li].startsWith("/g"))
+                lg_gameMenu = true;
+            else if (_args[li].startsWith("/b"))
                 lg_saveAsByte = true;
-            else
-            if (_args[li].startsWith("/t:"))
+            else if (_args[li].startsWith("/t:"))
             {
                 s_xmltextfile = _args[li].substring(3);
             }
-            else
-            if (_args[li].startsWith("/c"))
+            else if (_args[li].startsWith("/c"))
             {
                 lg_caseSensetive = true;
             }
-            else
-            if (_args[li].startsWith("/m:"))
+            else if (_args[li].startsWith("/m:"))
             {
                 s_xmlmenufile = _args[li].substring(3);
             }
@@ -357,35 +391,64 @@ public class MenuTextPacker
 
         try
         {
-           HashMap p_stringTable = null;
+            HashMap p_stringTable = null;
 
-           if (s_xmltextfile != null)
-           p_stringTable =  new MenuTextPacker(s_xmltextfile,lg_saveAsByte,lg_caseSensetive).getStringTable();
+            if (s_xmltextfile != null)
+                p_stringTable = new MenuTextPacker(s_xmltextfile, lg_saveAsByte, lg_caseSensetive).getStringTable();
 
-            if (s_xmlmenufile!=null)
+            if (s_xmlmenufile != null)
             {
-                if (p_stringTable!=null)
+                if (p_stringTable != null)
                 {
-                   MenuPacker.packMenu(s_xmlmenufile,p_stringTable);
-                    FileOutputStream p_fos = new FileOutputStream("menu.bin");
-                    DataOutputStream p_dos = new DataOutputStream(p_fos);
+                    if (lg_gameMenu)
+                    {
+                        GameMenuPacker.packMenu(s_xmlmenufile, p_stringTable);
+                        FileOutputStream p_fos = new FileOutputStream("gmenu.bin");
+                        DataOutputStream p_dos = new DataOutputStream(p_fos);
 
-                    MenuPacker.writeMenuToStream(p_dos);
-                    p_dos.close();
+                        GameMenuPacker.writeMenuToStream(p_dos);
+                        p_dos.close();
 
-                    p_fos = new FileOutputStream("menu.java");
-                    p_dos = new DataOutputStream(p_fos);
+                        p_fos = new FileOutputStream("gmenu.java");
+                        p_dos = new DataOutputStream(p_fos);
 
-                    MenuPacker.writeMenuConstantsToStream(p_dos);
-                    p_dos.close();
+                        GameMenuPacker.writeMenuConstantsToStream(p_dos);
+                        p_dos.close();
+                    }
+                    else
+                    {
+                        MenuPacker.packMenu(s_xmlmenufile, p_stringTable);
+                        FileOutputStream p_fos = new FileOutputStream("menu.bin");
+                        DataOutputStream p_dos = new DataOutputStream(p_fos);
+
+                        MenuPacker.writeMenuToStream(p_dos);
+                        p_dos.close();
+
+                        p_fos = new FileOutputStream("menu.java");
+                        p_dos = new DataOutputStream(p_fos);
+
+                        MenuPacker.writeMenuConstantsToStream(p_dos);
+                        p_dos.close();
+                    }
                 }
                 else
                 {
-                    MenuPacker.packMenu(s_xmlmenufile,null);
-                    FileOutputStream p_fos = new FileOutputStream("texts.xml");
-                    DataOutputStream p_dos = new DataOutputStream(p_fos);
-                    MenuPacker.writeMenuTextIDToStream(p_dos);
-                    p_dos.close();
+                    if (lg_gameMenu)
+                    {
+                        GameMenuPacker.packMenu(s_xmlmenufile, null);
+                        FileOutputStream p_fos = new FileOutputStream("gtexts.xml");
+                        DataOutputStream p_dos = new DataOutputStream(p_fos);
+                        GameMenuPacker.writeMenuTextIDToStream(p_dos);
+                        p_dos.close();
+                    }
+                    else
+                    {
+                        MenuPacker.packMenu(s_xmlmenufile, null);
+                        FileOutputStream p_fos = new FileOutputStream("texts.xml");
+                        DataOutputStream p_dos = new DataOutputStream(p_fos);
+                        MenuPacker.writeMenuTextIDToStream(p_dos);
+                        p_dos.close();
+                    }
                 }
             }
         }
