@@ -1,0 +1,11 @@
+ private static final int ExitItemText = 0;
+ private static final int CancelStr = 1;
+ private static final int CommonTestItemText = 2;
+ private static final int MainScreenTitle = 3;
+ private static final int ArithmeticTestText = 4;
+ private static final int StringTestText = 5;
+ private static final int RNDTestText = 6;
+ private static final int SiemensTestItemText = 7;
+ private static final int BackCMD = 8;
+ private static final int NokiaTestItemText = 9;
+ private static final int WaitPleaseStr = 10;

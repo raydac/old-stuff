@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Menu>
+    <Commands>
+        <command id="BackCMD" type="BACK" text="BackCMD"/>
+    </Commands>
+    <Screens>
+        <screen id="MainScreen" caption="MainScreenTitle">
+            <Items>
+                <item id="CommonTestsItem" type="MENU" text="CommonTestItemText" screen="CommonScreen"/>
+                <item id="NokiaTestsItem" type="MENU" text="NokiaTestItemText" />
+                <item id="SiemensTestsItem" type="MENU" text="SiemensTestItemText"/>
+                <item id="ExitItem" type="MENU" text="ExitItemText"/>
+            </Items>
+        </screen>
+        <screen id="CommonScreen" caption="CommonTestItemText">
+            <Items>
+                <item id="ArithTestItem" type="MENU" text="ArithmeticTestText"/>
+                <item id="StringTestItem" type="MENU" text="StringTestText"/>
+                <item id="RNDTestItem" type="MENU" text="RNDTestText"/>
+            </Items>
+            <Commands>
+                <command id="BackCMD" flag="STATIC"/>
+            </Commands>
+        </screen>
+        <screen id="NokiaScreen" caption="NokiaTestItemText">
+            <Items>
+            </Items>
+            <Commands>
+                <command id="BackCMD" flag="STATIC"/>
+            </Commands>
+        </screen>
+        <screen id="SiemensScreen" caption="SiemensTestItemText">
+            <Items>
+            </Items>
+            <Commands>
+                <command id="BackCMD" flag="STATIC"/>
+            </Commands>
+        </screen>
+    </Screens>
+</Menu>
