@@ -34,6 +34,11 @@ public class RrgFormComponent_Image extends AbstractFormComponent
 
     protected BufferedImage p_modifiedImage;
 
+    public BufferedImage getModifiedImage()
+    {
+        return p_modifiedImage;
+    }
+
     public void copyTo(AbstractFormComponent _component)
     {
         synchronized (_component)
@@ -100,7 +105,7 @@ public class RrgFormComponent_Image extends AbstractFormComponent
                 if ((i_modifiers & MODIFIER_FLIP_VERT) != 0)
                 {
 
-                    // Âåðòèêàëüíûé ôëèï
+                    // Ð’ÐµÑ€Ñ‚Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¹ Ñ„Ð»Ð¸Ð¿
                     if (i_height >= 2)
                     {
                         int i_topLineOffset = 0;
@@ -125,7 +130,7 @@ public class RrgFormComponent_Image extends AbstractFormComponent
                     }
                 }
 
-                // Ãîðèçîíòàëüíûé ôëèï
+                // Ð“Ð¾Ñ€Ð¸Ð·Ð¾Ð½Ñ‚Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ñ„Ð»Ð¸Ð¿
                 if ((i_modifiers & MODIFIER_FLIP_HORZ) != 0)
                 {
                     if (i_width >= 2)

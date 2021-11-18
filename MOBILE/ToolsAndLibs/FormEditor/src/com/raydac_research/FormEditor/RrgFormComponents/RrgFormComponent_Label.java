@@ -133,8 +133,9 @@ public class RrgFormComponent_Label extends AbstractFormComponent
         if (p_labelFont != null && p_labelText != null)
         {
             p_labelImage = p_labelFont.getFont().makeTransparentStringImage(p_labelText.getText(), p_labelColor);
-            if (i_Width < p_labelImage.getWidth()) setWidthHeight(p_labelImage.getWidth(), i_Height);
-            if (i_Height < p_labelImage.getHeight()) setWidthHeight(i_Width, p_labelImage.getHeight());
+            setWidthHeight(p_labelImage.getWidth(), p_labelImage.getHeight());
+            //if (i_Width < p_labelImage.getWidth()) setWidthHeight(p_labelImage.getWidth(), i_Height);
+            //if (i_Height < p_labelImage.getHeight()) setWidthHeight(i_Width, p_labelImage.getHeight());
         }
         else
         {

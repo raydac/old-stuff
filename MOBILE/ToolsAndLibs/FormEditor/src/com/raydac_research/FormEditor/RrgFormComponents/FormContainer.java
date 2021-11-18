@@ -46,7 +46,7 @@ public class FormContainer extends AbstractFormComponent
 
     public void addRuler(FormRuler _ruler)
     {
-        // Проверяем на существование линейки с такими координатами и тогда не добавляем
+        // РџСЂРѕРІРµСЂСЏРµРј РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ Р»РёРЅРµР№РєРё СЃ С‚Р°РєРёРјРё РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё Рё С‚РѕРіРґР° РЅРµ РґРѕР±Р°РІР»СЏРµРј
         int i_coord = _ruler.getCoord();
         int i_type = _ruler.getType();
         for(int li=0;li<getRulersNumber();li++)
@@ -510,7 +510,7 @@ public class FormContainer extends AbstractFormComponent
             String s_str = "<" + XML_FORM_TAG + " " + XML_COMPONENT_ID + "=\"" + getID() + "\" " + XML_COMPONENT_WIDTH + "=\"" + getWidth() + "\" " + XML_COMPONENT_HEIGHT + "=\"" + getHeight() + "\" " + XML_COMPONENT_BACKGROUND_COLOR + "=\"" + p_backgroundColor.getRGB() + "\" " + XML_COMPONENT_DISABLED_COLOR + "=\"" + p_DisabledTextColor.getRGB() + "\" " + XML_COMPONENT_SELECTED_COLOR + "=\"" + p_SelectedTextColor.getRGB() + "\" " + XML_COMPONENT_NORMAL_COLOR + "=\"" + p_NormalTextColor.getRGB() + "\" " + XML_COMPONENT_PRESSED_COLOR + "=\"" + p_PressedTextColor.getRGB() + "\" " + XML_COMPONENT_CHANNEL + "=\"" + i_channel + "\">";
             _printStream.println(s_str);
 
-            // Записываем линейки
+            // Р—Р°РїРёСЃС‹РІР°РµРј Р»РёРЅРµР№РєРё
             _printStream.println("<"+XML_RULERS+">");
             for(int li=0;li<getRulersNumber();li++)
             {
@@ -518,7 +518,7 @@ public class FormContainer extends AbstractFormComponent
             }
             _printStream.println("</"+XML_RULERS+">");
 
-            // Записываем компоненты
+            // Р—Р°РїРёСЃС‹РІР°РµРј РєРѕРјРїРѕРЅРµРЅС‚С‹
             for (int li = 0; li < getSize(); li++)
             {
                 AbstractFormComponent p_component = getComponentAt(li);

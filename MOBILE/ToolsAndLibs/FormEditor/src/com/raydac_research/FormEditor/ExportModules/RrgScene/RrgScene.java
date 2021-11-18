@@ -15,13 +15,13 @@ import java.io.*;
 
 public class RrgScene
 {
-    // Типы компонент
+    // РўРёРїС‹ РєРѕРјРїРѕРЅРµРЅС‚
     public static final int TYPE_COMPONENT_IMAGE = 0;
     public static final int TYPE_COMPONENT_BUTTON = 1;
     public static final int TYPE_COMPONENT_LABEL = 2;
     public static final int TYPE_COMPONENT_CUSTOMAREA = 3;
 
-    // Выравнивания текста
+    // Р’С‹СЂР°РІРЅРёРІР°РЅРёСЏ С‚РµРєСЃС‚Р°
     public static final int TEXT_ALIGN_HORZ_LEFT = 0x0000;
     public static final int TEXT_ALIGN_HORZ_CENTER = 0x0100;
     public static final int TEXT_ALIGN_HORZ_RIGHT = 0x0200;
@@ -30,24 +30,24 @@ public class RrgScene
     public static final int TEXT_ALIGN_VERT_CENTER = 1;
     public static final int TEXT_ALIGN_VERT_DOWN = 2;
 
-    // Типы изображений
+    // РўРёРїС‹ РёР·РѕР±СЂР°Р¶РµРЅРёР№
     public static final int TYPE_IMAGE_PNG = 0;
 
-    // Фонты
+    // Р¤РѕРЅС‚С‹
     public static final int TYPE_FONT_TTF = 0;
     public static final int TYPE_FONT_BFT = 1;
 
-    // Типы звуков
+    // РўРёРїС‹ Р·РІСѓРєРѕРІ
     public static final int TYPE_SOUND_WAV = 0;
 
-    // Служебные флаги
+    // РЎР»СѓР¶РµР±РЅС‹Рµ С„Р»Р°РіРё
     public static final int SERVICE_FLAG_CHANNELS_EXIST = 1;
     public static final int SERVICE_FLAG_OFFSETS_EXIST = 2;
     public static final int SERVICE_FLAG_IMAGE_TYPES = 4;
     public static final int SERVICE_FLAG_SOUNDS_TYPES = 8;
     public static final int SERVICE_FLAG_FONTS_TYPES = 16;
 
-    // Флаги секций
+    // Р¤Р»Р°РіРё СЃРµРєС†РёР№
     private static final int SECTION_FLAG_FORM = 1;
     private static final int SECTION_FLAG_IMAGES = 2;
     private static final int SECTION_FLAG_SOUNDS = 4;
@@ -116,7 +116,7 @@ public class RrgScene
         {
             FormContainer p_form = _list.getFormAt(lt);
 
-            // Формируем секцию формы
+            // Р¤РѕСЂРјРёСЂСѓРµРј СЃРµРєС†РёСЋ С„РѕСЂРјС‹
             RRGScene_Form p_rrg_form = new RRGScene_Form(p_form.getID(),lt, p_form.getWidth(), p_form.getHeight(), p_form.getChannel(), p_form.getBackgroundColor(), p_form.getNormalTextColor(), p_form.getSelectedTextColor(), p_form.getPressedTextColor(), p_form.getDisabledTextColor());
 
             int i_componentIndex = 0;
@@ -385,7 +385,7 @@ public class RrgScene
         int i_formsSectionLength = ab_FormsSection.length;
         int i_formsSectionVLQlen = sizeOfVLQ(i_formsSectionLength);
 
-        // Размер заголовка 24 байта
+        // Р Р°Р·РјРµСЂ Р·Р°РіРѕР»РѕРІРєР° 24 Р±Р°Р№С‚Р°
         final int HEADER_LENGTH = 24;
         int i_dataSize = HEADER_LENGTH;
         i_dataSize += i_fontSectionLength + i_fontSectionVLQlen;
@@ -397,13 +397,13 @@ public class RrgScene
         ByteArrayOutputStream p_baos = new ByteArrayOutputStream(i_dataSize);
         DataOutputStream p_daos = new DataOutputStream(p_baos);
 
-        // Идентификатор
+        // РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
         p_daos.writeShort(0xFFDD);
-        // Версия
+        // Р’РµСЂСЃРёСЏ
         p_daos.writeShort(0x0100);
-        // Размер файла
+        // Р Р°Р·РјРµСЂ С„Р°Р№Р»Р°
         RrgResourceSection._write3bytes(i_dataSize, p_daos);
-        // Служебные флаги
+        // РЎР»СѓР¶РµР±РЅС‹Рµ С„Р»Р°РіРё
         int i_flags = 0;
 
         i_flags |= lg_saveChannelData ? SERVICE_FLAG_CHANNELS_EXIST : 0;
@@ -414,7 +414,7 @@ public class RrgScene
 
         p_daos.writeByte(i_flags);
 
-        //Флаги наличия секций
+        //Р¤Р»Р°РіРё РЅР°Р»РёС‡РёСЏ СЃРµРєС†РёР№
         i_flags = 0;
 
         i_flags |= i_formsSectionLength > 1 ? SECTION_FLAG_FORM : 0;
@@ -425,10 +425,10 @@ public class RrgScene
 
         p_daos.writeByte(i_flags);
 
-        // Смещения
+        // РЎРјРµС‰РµРЅРёСЏ
         int i_offset = HEADER_LENGTH;
 
-        // До секции IMAGES
+        // Р”Рѕ СЃРµРєС†РёРё IMAGES
         if (lg_SaveImages)
         {
             RrgResourceSection._write3bytes(i_offset, p_daos);
@@ -439,7 +439,7 @@ public class RrgScene
         }
         i_offset += i_imageSectionLength + i_imagesSectionVLQlen;
 
-        // До секции SOUNDS
+        // Р”Рѕ СЃРµРєС†РёРё SOUNDS
         if (lg_saveSounds)
         {
             RrgResourceSection._write3bytes(i_offset, p_daos);
@@ -450,7 +450,7 @@ public class RrgScene
         }
         i_offset += i_soundSectionLength + i_soundsSectionVLQlen;
 
-        // До секции TEXTS
+        // Р”Рѕ СЃРµРєС†РёРё TEXTS
         if (lg_SaveTexts)
         {
             RrgResourceSection._write3bytes(i_offset, p_daos);
@@ -461,7 +461,7 @@ public class RrgScene
         }
         i_offset += i_textSectionLength + i_textSectionVLQlen;
 
-        // До секции FONTS
+        // Р”Рѕ СЃРµРєС†РёРё FONTS
         if (lg_saveFontsData)
         {
             RrgResourceSection._write3bytes(i_offset, p_daos);
@@ -472,35 +472,35 @@ public class RrgScene
         }
         i_offset += i_fontSectionLength + i_fontSectionVLQlen;
 
-        // До секции FORMS
+        // Р”Рѕ СЃРµРєС†РёРё FORMS
         RrgResourceSection._write3bytes(i_offset, p_daos);
         i_offset += i_formsSectionLength + i_formsSectionVLQlen;
 
-        // Записываем секцию IMAGES
+        // Р—Р°РїРёСЃС‹РІР°РµРј СЃРµРєС†РёСЋ IMAGES
         if (lg_isImageSection && lg_SaveImages)
         {
             writeVLQ(p_daos, ab_ImageSection.length);
             p_daos.write(ab_ImageSection);
         }
-        // Записываем секцию SOUNDS
+        // Р—Р°РїРёСЃС‹РІР°РµРј СЃРµРєС†РёСЋ SOUNDS
         if (lg_isSoundsSection && lg_saveSounds)
         {
             writeVLQ(p_daos, ab_SoundsSection.length);
             p_daos.write(ab_SoundsSection);
         }
-        // Записываем секцию TEXTS
+        // Р—Р°РїРёСЃС‹РІР°РµРј СЃРµРєС†РёСЋ TEXTS
         if (lg_isTextsSection && lg_SaveTexts)
         {
             writeVLQ(p_daos, ab_TextsSection.length);
             p_daos.write(ab_TextsSection);
         }
-        // Записываем секцию FONTS
+        // Р—Р°РїРёСЃС‹РІР°РµРј СЃРµРєС†РёСЋ FONTS
         if (lg_isFontsSection && lg_saveFontsData)
         {
             writeVLQ(p_daos, ab_FontsSection.length);
             p_daos.write(ab_FontsSection);
         }
-        // Записываем секцию FORMS
+        // Р—Р°РїРёСЃС‹РІР°РµРј СЃРµРєС†РёСЋ FORMS
         if (ab_FormsSection.length > 1)
         {
             writeVLQ(p_daos, ab_FormsSection.length);
@@ -546,7 +546,7 @@ public class RrgScene
                 if ((_modifiers & RrgFormComponent_Image.MODIFIER_FLIP_VERT) != 0)
                 {
 
-                    // Вертикальный флип
+                    // Р’РµСЂС‚РёРєР°Р»СЊРЅС‹Р№ С„Р»РёРї
                     if (i_height >= 2)
                     {
                         int i_topLineOffset = 0;
@@ -571,7 +571,7 @@ public class RrgScene
                     }
                 }
 
-                // Горизонтальный флип
+                // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№ С„Р»РёРї
                 if ((_modifiers & RrgFormComponent_Image.MODIFIER_FLIP_HORZ) != 0)
                 {
                     if (i_width >= 2)
@@ -753,7 +753,7 @@ public class RrgScene
                             {
                                 int i_oldState = p_buttonComponent.getState();
 
-                                // Записываем состояния кнопки как картинки с выведенным текстом
+                                // Р—Р°РїРёСЃС‹РІР°РµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРєРё РєР°Рє РєР°СЂС‚РёРЅРєРё СЃ РІС‹РІРµРґРµРЅРЅС‹Рј С‚РµРєСЃС‚РѕРј
 
                                 // Normal
                                 if (p_buttonComponent.getNormalImage() != null)
@@ -896,7 +896,7 @@ public class RrgScene
                                     p_fis.read(ab_soundArray);
                                     p_fis.close();
 
-                                    //TODO Сделать вычисление длительности звукового файла
+                                    //TODO РЎРґРµР»Р°С‚СЊ РІС‹С‡РёСЃР»РµРЅРёРµ РґР»РёС‚РµР»СЊРЅРѕСЃС‚Рё Р·РІСѓРєРѕРІРѕРіРѕ С„Р°Р№Р»Р°
                                     RRGSceneResourceSound p_newResourceSound = new RRGSceneResourceSound(s_id, TYPE_SOUND_WAV, ab_soundArray, 1000);
                                     p_Section_Sounds.addResource(p_newResourceSound);
                                 }

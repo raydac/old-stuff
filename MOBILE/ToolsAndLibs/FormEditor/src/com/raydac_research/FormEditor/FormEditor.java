@@ -9,7 +9,13 @@ public class FormEditor
 {
     public static final void main(String [] _args)
     {
-        MainForm p_MainForm = new MainForm();
-        SplashForm p_SplashForm = new SplashForm(p_MainForm.getMainFrame());
+        String s_file = null;
+        if (_args.length>0) s_file = _args[0];
+
+        MainForm p_MainForm = new MainForm(s_file);
+
+        SplashForm p_SplashForm = null;
+        if (s_file==null)
+            p_SplashForm = new SplashForm(p_MainForm.getMainFrame());
     }
 }

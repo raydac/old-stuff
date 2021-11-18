@@ -4,7 +4,6 @@ import java.util.zip.CRC32;
 import java.util.*;
 import java.util.List;
 import java.io.*;
-import java.awt.*;
 
 public class Palette
 {
@@ -194,7 +193,6 @@ public class Palette
         Vector p_set = null;
         try
         {
-
             p_dis = new DataInputStream(new FileInputStream(_acofilename));
             int i_colornumber;
             int i_transparent;
@@ -228,6 +226,7 @@ public class Palette
                 }
             }
               else
+              if (_acofilename.toLowerCase().endsWith(".aco"))
               {
                 if (p_dis.readUnsignedShort() != 1) throw new IOException("Unknown format of given palette. Palette should be ACO or ACT file.");
 
@@ -253,6 +252,39 @@ public class Palette
                      p_set.add(new Integer(i_rgb));
                 }
               }
+            else
+            if (_acofilename.toLowerCase().endsWith(".pal"))
+            {
+                 int i_id = p_dis.readInt();
+                 if (i_id != (('R'<<24)|('I'<<16)|('F'<<8)|'F')) throw new IOException("Bad format id");
+                 readBackIntFromStream(p_dis);
+                 i_id = p_dis.readInt();
+                 if (i_id != (('P'<<24)|('A'<<16)|('L'<<8)|' ')) throw new IOException("Bad format id");
+                 i_id = p_dis.readInt();
+                 if (i_id != (('d'<<24)|('a'<<16)|('t'<<8)|'a')) throw new IOException("Bad format id");
+
+                 readBackIntFromStream(p_dis);
+
+                 int i_version = readBackShortFromStream(p_dis);
+                 int i_items = readBackShortFromStream(p_dis);
+
+                 if (i_version != 0x300) throw new IOException("Unsupported version");
+
+                 for(int li=0;li<i_items;li++)
+                 {
+                     int i_r = p_dis.readUnsignedByte();
+                     int i_g = p_dis.readUnsignedByte();
+                     int i_b = p_dis.readUnsignedByte();
+                     p_dis.readUnsignedByte();
+
+                     int i_rgb = 0xFF000000 | (i_r << 16) | (i_g << 8) | i_b;
+                     p_set.add(new Integer(i_rgb));
+                 }
+            }
+            else
+            {
+                throw new IOException("Unknown extension of given palette. Palette should be ACO,ACT or PAL file.");
+            }
         }
         catch (Exception p_ex)
         {
@@ -272,10 +304,20 @@ public class Palette
         setColors(p_set, true);
     }
 
-    public Palette(Image _image)
+    private static int readBackIntFromStream(InputStream _stream) throws IOException
     {
-        
+        int i_b0 = _stream.read() & 0xFF;
+        int i_b1 = _stream.read() & 0xFF;
+        int i_b2 = _stream.read() & 0xFF;
+        int i_b3 = _stream.read() & 0xFF;
+        return (i_b3<<24)|(i_b2<<16)|(i_b1<<8)|i_b0;
+    }
 
+    private static int readBackShortFromStream(InputStream _stream) throws IOException
+    {
+        int i_b0 = _stream.read() & 0xFF;
+        int i_b1 = _stream.read() & 0xFF;
+        return (i_b1<<8)|i_b0;
     }
 
     public Palette(Set _colors)
@@ -327,7 +369,8 @@ public class Palette
         int i_indx = -1;
         int i_diff = 0x7FFFFFFF;
 
-        for (int li = 0; li < colors.length; li++)
+        int i_colorsLength = colors.length;
+        for (int li = 0; li < i_colorsLength; li++)
         {
             int i_rgb = colors[li].intValue();
             int i_dr = (i_rgb >>> 16) & 0xFF;
@@ -335,6 +378,8 @@ public class Palette
             int i_db = i_rgb & 0xFF;
 
             int i_v = Math.abs(30*((i_dr-i_r)*(i_dr-i_r))+59*((i_dg-i_g)*(i_dg-i_g))+11*((i_db-i_b)*(i_db-i_b)));
+
+            if (i_dr == i_r && i_dg == i_g && i_db == i_b) return colors[li];
 
             if (i_v < i_diff)
             {
@@ -346,7 +391,9 @@ public class Palette
         if (i_indx < 0)
             return null;
         else
+        {
             return colors[i_indx];
+        }
     }
 
     public boolean containsColor(int color)

@@ -14,8 +14,14 @@ import java.awt.*;
 
 public class export_RRG_PATHS extends FileFilter implements AbstractFormExportModule
 {
+    private static final int NOTIFY_EVERYPOINT = 0x10;
+    private static final int NOTIFY_ENDPOINT = 0x20;
+
     private JCheckBox p_Flag_Offsets;
     private JCheckBox p_Flag_GenerateGabarite;
+    private JCheckBox p_Flag_ExportAreas;
+    private JCheckBox p_Flag_ExportAreaValueField;
+
 
     private class PathDataStore
     {
@@ -23,6 +29,17 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
         int i_Offset;
         int i_mainX;
         int i_mainY;
+    }
+
+    private class AreaDataStore
+    {
+        String s_ID;
+        int i_Offset;
+        int i_mainX;
+        int i_mainY;
+        int i_Width;
+        int i_Height;
+        int i_value;
     }
 
 
@@ -108,7 +125,7 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
 
                         StringBuffer p_StrBuffer = new StringBuffer(256);
 
-                        if (p_Flag_GenerateGabarite.isSelected())
+                        if (p_Flag_GenerateGabarite.isSelected() || p_pathComponent.lg_SaveBoundiaryInfo)
                         {
                             Dimension p_dim = p_pathComponent.getPathDimension();
                             p_StrBuffer.append("(short)");
@@ -131,21 +148,29 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
                         p_StrBuffer.append(',');
 
                         // Тип пути
+                        p_StrBuffer.append("(short)");
+                        int i_type = 0;
                         switch (p_pathComponent.i_PathType)
                         {
                             case RrgFormComponent_Path.PATH_NORMAL:
-                                p_StrBuffer.append("(short)");
-                                p_StrBuffer.append('0');
+                                i_type = 0;
                                 break;
                             case RrgFormComponent_Path.PATH_PENDULUM:
-                                p_StrBuffer.append("(short)");
-                                p_StrBuffer.append('1');
+                                i_type = 1;
                                 break;
                             case RrgFormComponent_Path.PATH_CYCLIC:
-                                p_StrBuffer.append("(short)");
-                                p_StrBuffer.append('2');
+                                i_type = 2;
+                                break;
+                            case RrgFormComponent_Path.PATH_CYCLIC_SMOOTH:
+                                i_type = 3;
                                 break;
                         }
+
+                        // Флаги
+                        i_type |= p_pathComponent.lg_NotifyOnEndPoint ? NOTIFY_ENDPOINT : 0;
+                        i_type |= p_pathComponent.lg_NotifyOnEveryPoint ? NOTIFY_EVERYPOINT : 0;
+
+                        p_StrBuffer.append(i_type);
                         p_StrBuffer.append(',');
                         i_offset++;
 
@@ -159,10 +184,18 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
                             p_StrBuffer.append("(short)");
                             p_StrBuffer.append(p_PathPoint.i_Y);
                             p_StrBuffer.append(',');
-                            p_StrBuffer.append("(short)");
-                            p_StrBuffer.append(p_PathPoint.i_Steps);
-                            p_StrBuffer.append(',');
-                            i_offset += 3;
+
+                            if (p_pathComponent.lg_SaveSteps)
+                            {
+                                p_StrBuffer.append("(short)");
+                                p_StrBuffer.append(p_PathPoint.i_Steps);
+                                p_StrBuffer.append(',');
+                                i_offset += 3;
+                            }
+                            else
+                            {
+                                i_offset += 2;
+                            }
                         }
 
                         p_pathData.add(p_PathDataStore);
@@ -213,6 +246,89 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
         }
 
         p_printStream.println();
+
+        if (p_Flag_ExportAreas.isSelected())
+        {
+            Vector p_areaData = new Vector();
+
+            p_printStream.println(s_spaces+"// The array contains values for areas");
+            p_printStream.println(s_spaces+"public static final int [] ai_Areas = new int [] {");
+
+            i_offset = 0;
+
+            // Экспорт кастом компонентов
+            for (int li = 0; li < p_exportedForm.getSize(); li++)
+            {
+                AbstractFormComponent p_component = p_exportedForm.getComponentAt(li);
+                switch (p_component.getType())
+                {
+                    case AbstractFormComponent.COMPONENT_CUSTOMAREA:
+                        {
+                            String s_pathID = p_component.getID().trim();
+                            String s_id = "AREA_" + s_pathID;
+
+                            p_printStream.print(s_spaces+s_spaces);
+                            p_printStream.println("// " + s_id);
+
+                            RrgFormComponent_CustomArea p_pathComponent = (RrgFormComponent_CustomArea) p_component;
+
+                            AreaDataStore p_AreaDataStore = new AreaDataStore();
+                            p_AreaDataStore.i_mainX = p_pathComponent.getX();
+                            p_AreaDataStore.i_mainY = p_pathComponent.getY();
+                            p_AreaDataStore.i_Height = p_pathComponent.getHeight();
+                            p_AreaDataStore.i_Width = p_pathComponent.getWidth();
+                            p_AreaDataStore.s_ID = s_id;
+                            p_AreaDataStore.i_value = p_pathComponent.getAreaValue();
+
+                            StringBuffer p_StrBuffer = new StringBuffer(256);
+
+                            p_AreaDataStore.i_Offset = i_offset;
+
+                            p_StrBuffer.append(p_AreaDataStore.i_mainX);
+                            p_StrBuffer.append(',');
+                            p_StrBuffer.append(p_AreaDataStore.i_mainY);
+                            p_StrBuffer.append(',');
+                            p_StrBuffer.append(p_AreaDataStore.i_Width);
+                            p_StrBuffer.append(',');
+                            p_StrBuffer.append(p_AreaDataStore.i_Height);
+                            p_StrBuffer.append(',');
+
+                            if (p_Flag_ExportAreaValueField.isSelected())
+                            {
+                                p_StrBuffer.append(p_AreaDataStore.i_value);
+                                p_StrBuffer.append(',');
+
+                                i_offset += 5;
+                            }
+                            else
+                            {
+                                i_offset += 4;
+                            }
+
+                            p_areaData.add(p_AreaDataStore);
+                            p_printStream.print(s_spaces+s_spaces);
+                            p_printStream.println(p_StrBuffer.toString());
+                        }
+                        ;
+                        break;
+                }
+            }
+            p_printStream.println(s_spaces+"};");
+            p_printStream.println();
+
+
+                p_printStream.println(s_spaces+"// AREAS offsets");
+
+                for (int li = 0; li < p_areaData.size(); li++)
+                {
+                    AreaDataStore p_store = (AreaDataStore) p_areaData.elementAt(li);
+
+                    p_printStream.print(s_spaces);
+                    p_printStream.print("private static final int ");
+                    p_printStream.println(p_store.s_ID + " = " + p_store.i_Offset + ";");
+                }
+                p_printStream.println();
+        }
 
         p_printStream.flush();
         p_printStream.close();

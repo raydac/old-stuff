@@ -220,7 +220,7 @@ public class BFTFont extends AbstractFont
         }
     }
 
-    public boolean loadForntFromFile(File _file) throws IOException
+    public boolean loadFontFromFile(File _file) throws IOException
     {
         if (_file.length() < 12) return false;
 
@@ -286,6 +286,8 @@ public class BFTFont extends AbstractFont
 
         if (i_strWidth == 0) i_strWidth = 5;
         if (i_strHeight == 0) i_strHeight = 5;
+
+
 
         BufferedImage p_bufferImage = null;
 

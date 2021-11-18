@@ -26,7 +26,7 @@ public class RrgResourceSection_Images extends RrgResourceSection
             RRGSceneResourceImage p_resource = (RRGSceneResourceImage) _resource;
             p_resource.setUsedFlag(false);
 
-            // Ищем похожую картинку в списке и если есть то ассоциируем со ссылкой на неё
+            // РС‰РµРј РїРѕС…РѕР¶СѓСЋ РєР°СЂС‚РёРЅРєСѓ РІ СЃРїРёСЃРєРµ Рё РµСЃР»Рё РµСЃС‚СЊ С‚Рѕ Р°СЃСЃРѕС†РёРёСЂСѓРµРј СЃРѕ СЃСЃС‹Р»РєРѕР№ РЅР° РЅРµС‘
             Iterator p_iter = p_resources.values().iterator();
 
 

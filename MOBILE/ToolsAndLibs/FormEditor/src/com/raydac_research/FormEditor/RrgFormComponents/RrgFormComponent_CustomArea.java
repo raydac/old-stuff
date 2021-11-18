@@ -131,11 +131,11 @@ public class RrgFormComponent_CustomArea extends AbstractFormComponent
         {
             final int STEP = 2;
 
-            // Отрисовываем сфокусированный
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј СЃС„РѕРєСѓСЃРёСЂРѕРІР°РЅРЅС‹Р№
             _g.drawRect(i_X, i_Y, i_Width - 1, i_Height - 1);
             _g.drawRect(i_X+1, i_Y+1, i_Width - 3, i_Height - 3);
 
-            // Отрисовываем несфокусированный
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РЅРµСЃС„РѕРєСѓСЃРёСЂРѕРІР°РЅРЅС‹Р№
             for (int lx = 0; lx < i_Width; lx += STEP)
             {
                 for (int ly = 0; ly < i_Height; ly += STEP)
@@ -157,7 +157,7 @@ public class RrgFormComponent_CustomArea extends AbstractFormComponent
         {
             final int STEP = 4;
 
-            // Отрисовываем несфокусированный
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РЅРµСЃС„РѕРєСѓСЃРёСЂРѕРІР°РЅРЅС‹Р№
             for (int lx = 0; lx < i_Width; lx += STEP)
             {
                 for (int ly = 0; ly < i_Height; ly += STEP)

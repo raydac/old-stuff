@@ -13,7 +13,7 @@ public class AboutForm extends Thread implements ActionListener
 
     private JDialog p_MainFrame;
 
-    private static final String s_AboutText = "RRG Form Editor\r\nv 3.7b (15 Okt 2004)\r\n©2004 Raydac Research Group Ltd.\r\nhttp://www.raydac-research.com";
+    private static final String s_AboutText = "RRG Form Editor\r\nv 4.6b(22 Sep 2005)\r\n©2004-2005 Raydac Research Group Ltd.\r\nhttp://www.raydac-research.com";
     private JPanel MainPanel;
 
     public AboutForm(JFrame _frame)
@@ -49,7 +49,7 @@ public class AboutForm extends Thread implements ActionListener
 
     public void run()
     {
-        p_MainFrame.show();
+        p_MainFrame.setVisible(true);
         p_MainFrame.dispose();
     }
 

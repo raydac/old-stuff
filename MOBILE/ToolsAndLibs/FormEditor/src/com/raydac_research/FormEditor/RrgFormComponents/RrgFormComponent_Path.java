@@ -32,9 +32,25 @@ public class RrgFormComponent_Path extends AbstractFormComponent
     public Color p_pathViewColor;
     public Color p_pathViewColor_trans;
 
+    public boolean lg_NotifyOnEveryPoint;
+    public boolean lg_NotifyOnEveryPoint_trans;
+
+    public boolean lg_NotifyOnEndPoint;
+    public boolean lg_NotifyOnEndPoint_trans;
+
+    public boolean lg_SaveSteps;
+    public boolean lg_SaveSteps_trans;
+
+    public boolean lg_SaveMainPointInfo;
+    public boolean lg_SaveMainPointInfo_trans;
+
+    public boolean lg_SaveBoundiaryInfo;
+    public boolean lg_SaveBoundiaryInfo_trans;
+
     public static final int PATH_NORMAL = 0;
     public static final int PATH_CYCLIC = 1;
     public static final int PATH_PENDULUM = 2;
+    public static final int PATH_CYCLIC_SMOOTH = 3;
 
     private final int MIN_WIDTH = 32;
     private final int MIN_HEIGHT = 32;
@@ -59,6 +75,13 @@ public class RrgFormComponent_Path extends AbstractFormComponent
             p_comp.p_PointVector = p_newVector;
             p_comp.p_MainPoint = (PathPoint) p_MainPoint.clone();
 
+            p_comp.lg_NotifyOnEveryPoint = lg_NotifyOnEveryPoint;
+            p_comp.lg_NotifyOnEndPoint = lg_NotifyOnEndPoint;
+
+            p_comp.lg_SaveBoundiaryInfo = lg_SaveBoundiaryInfo;
+            p_comp.lg_SaveSteps = lg_SaveSteps;
+            p_comp.lg_SaveMainPointInfo = lg_SaveMainPointInfo;
+
             p_comp.resourceUpdated();
         }
     }
@@ -77,6 +100,14 @@ public class RrgFormComponent_Path extends AbstractFormComponent
         p_MainPoint_trans = (PathPoint) p_MainPoint.clone();
 
         i_PathType_trans = i_PathType;
+
+        lg_NotifyOnEndPoint_trans = lg_NotifyOnEndPoint;
+        lg_NotifyOnEveryPoint_trans = lg_NotifyOnEveryPoint;
+
+        lg_SaveBoundiaryInfo_trans = lg_SaveBoundiaryInfo;
+        lg_SaveMainPointInfo_trans = lg_SaveMainPointInfo;
+        lg_SaveSteps_trans = lg_SaveSteps;
+
         lg_showSteps_trans = lg_showSteps;
         p_pathViewColor_trans = p_pathViewColor;
     }
@@ -89,6 +120,15 @@ public class RrgFormComponent_Path extends AbstractFormComponent
         PathPoint p_MainPoint_p = p_MainPoint;
         p_MainPoint = p_MainPoint_trans;
         p_MainPoint_trans = p_MainPoint_p;
+
+        i_PathType = i_PathType_trans;
+        lg_NotifyOnEndPoint = lg_NotifyOnEndPoint_trans;
+        lg_NotifyOnEveryPoint = lg_NotifyOnEveryPoint_trans;
+
+        lg_SaveBoundiaryInfo = lg_SaveBoundiaryInfo_trans;
+        lg_SaveSteps = lg_SaveSteps_trans;
+        lg_SaveMainPointInfo = lg_SaveMainPointInfo_trans;
+
 
         Vector p_PointVector_p = p_PointVector;
         p_PointVector = p_PointVector_trans;
@@ -109,6 +149,13 @@ public class RrgFormComponent_Path extends AbstractFormComponent
         p_MainPoint = new PathPoint(0, 0, 0);
         p_PointVector = new Vector();
         i_PathType = PATH_NORMAL;
+        lg_NotifyOnEndPoint = false;
+        lg_NotifyOnEveryPoint = false;
+
+        lg_SaveBoundiaryInfo = false;
+        lg_SaveMainPointInfo = true;
+        lg_SaveSteps = true;
+
         p_pathViewColor = Color.magenta;
     }
 
@@ -119,6 +166,11 @@ public class RrgFormComponent_Path extends AbstractFormComponent
         p_PointVector = null;
         i_PathType = PATH_NORMAL;
         p_pathViewColor = Color.magenta;
+        lg_SaveSteps = true;
+        lg_SaveBoundiaryInfo = false;
+        lg_SaveMainPointInfo = true;
+        lg_NotifyOnEndPoint = false;
+        lg_NotifyOnEveryPoint = false;
     }
 
     public void resourceUpdated()
@@ -421,10 +473,19 @@ public class RrgFormComponent_Path extends AbstractFormComponent
             i_y = i_y2;
         }
 
-        if (p_PointVector.size() > 1 && i_PathType == PATH_CYCLIC)
+        if (p_PointVector.size() > 1)
         {
-            drawLine(_g, i_x, i_y, i_firstX, i_firstY, i_steps);
+            switch(i_PathType)
+            {
+                case PATH_CYCLIC_SMOOTH :  drawLine(_g, i_x, i_y, i_firstX, i_firstY, i_steps); break;
+                case PATH_CYCLIC :
+                {
+                    _g.setColor(p_pathViewColor.darker());
+                    _g.drawLine(i_x,i_y,i_firstX,i_firstY);
+                };break;
+            }
         }
+
 
         if (_focused)
         {
@@ -437,7 +498,7 @@ public class RrgFormComponent_Path extends AbstractFormComponent
                 i_y = i_dragCoordY;
             }
 
-            // Ðèñóåì òî÷êó îòñ÷åòà
+            // Ð Ð¸ÑÑƒÐµÐ¼ Ñ‚Ð¾Ñ‡ÐºÑƒ Ð¾Ñ‚ÑÑ‡ÐµÑ‚Ð°
             _g.setColor(Color.red);
             if (i_x >= i_X && i_x < i_X + i_Width) _g.drawLine(i_x, i_Y, i_x, i_Y + i_Height - 1);
             if (i_y >= i_Y && i_y < i_Y + i_Height) _g.drawLine(i_X, i_y, i_X + i_Width - 1, i_y);
@@ -759,6 +820,11 @@ public class RrgFormComponent_Path extends AbstractFormComponent
 
     protected static final String XML_POINTS = "Points";
     protected static final String XML_POINT = "point";
+    protected static final String XML_NOTIFYONEND = "onEndNotify";
+    protected static final String XML_NOTIFYEVERYPOINT = "onEveryPointNotify";
+    protected static final String XML_SF_SAVESTEPS = "sf_savestepsinfo";
+    protected static final String XML_SF_SAVEMAINPOINTINFO = "sf_savemainpointinfo";
+    protected static final String XML_SF_SAVEBOUNDIARYINFO = "sf_saveboundiaryinfo";
     protected static final String XML_COLOR = "color";
     protected static final String XML_PATHTYPE = "PathType";
     protected static final String XML_X = "X";
@@ -802,8 +868,8 @@ public class RrgFormComponent_Path extends AbstractFormComponent
 
             for (int li = 0; li <= _steps; li++)
             {
-                int i_x = _x1 + ((i8_dx * li) >> 8);
-                int i_y = _y1 + ((i8_dy * li) >> 8);
+                int i_x = _x1 + (((i8_dx * li)+0x7F) >> 8);
+                int i_y = _y1 + (((i8_dy * li)+0x7F) >> 8);
 
                 if (i_x == _x2 && i_y == _y2) break;
 
@@ -822,6 +888,13 @@ public class RrgFormComponent_Path extends AbstractFormComponent
 
         String s_str = "<" + XML_COMPONENT_INFO + " " + XML_COLOR + "=\"" + p_pathViewColor.getRGB() + "\" " + XML_PATHTYPE + "=\"" + i_PathType + "\">";
         _printStream.println(s_str);
+
+        if (lg_NotifyOnEndPoint) _printStream.println("<"+XML_NOTIFYONEND+"/>");
+        if (lg_NotifyOnEveryPoint) _printStream.println("<"+XML_NOTIFYEVERYPOINT+"/>");
+
+        if (lg_SaveBoundiaryInfo) _printStream.println("<"+XML_SF_SAVEBOUNDIARYINFO+"/>");
+        if (lg_SaveMainPointInfo) _printStream.println("<"+XML_SF_SAVEMAINPOINTINFO+"/>");
+        if (lg_SaveSteps) _printStream.println("<"+XML_SF_SAVESTEPS+"/>");
 
         _printStream.println("<" + XML_MAINPOINT + " " + XML_X + "=\"" + p_MainPoint.i_X + "\" " + XML_Y + "=\"" + p_MainPoint.i_Y + "\"/>");
 
@@ -843,6 +916,13 @@ public class RrgFormComponent_Path extends AbstractFormComponent
     {
         String s_color = _element.getAttribute(XML_COLOR);
         String s_pathtype = _element.getAttribute(XML_PATHTYPE);
+
+        lg_SaveBoundiaryInfo = _element.getElementsByTagName(XML_SF_SAVEBOUNDIARYINFO).getLength()!=0;
+        lg_SaveMainPointInfo = _element.getElementsByTagName(XML_SF_SAVEMAINPOINTINFO).getLength()!=0;
+        lg_SaveSteps = _element.getElementsByTagName(XML_SF_SAVESTEPS).getLength()!=0;
+
+        lg_NotifyOnEveryPoint  = _element.getElementsByTagName(XML_NOTIFYEVERYPOINT).getLength()!=0;
+        lg_NotifyOnEndPoint = _element.getElementsByTagName(XML_NOTIFYONEND).getLength()!=0;
 
         try
         {

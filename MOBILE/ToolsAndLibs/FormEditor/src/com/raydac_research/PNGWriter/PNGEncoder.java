@@ -1,7 +1,7 @@
 package com.raydac_research.PNGWriter;
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
@@ -10,14 +10,12 @@ public class PNGEncoder
 {
     // the image producer and output stream supplied by the user
     private OutputStream out;
-    private Image p_image;
-
-    public static MediaTracker p_mtracker = new MediaTracker(new Button());
+    private BufferedImage p_image;
 
     // user-specified options; default values are shown to the right
-    private int bufferSize;		// MAX_CHUNK_DATA_SIZE
-    private int compressionLevel;	// Deflater.DEFAULT_COMPRESSION
-    private Integer backgroundColor;	// null (means do not output)
+    private int bufferSize;        // MAX_CHUNK_DATA_SIZE
+    private int compressionLevel;    // Deflater.DEFAULT_COMPRESSION
+    private Integer backgroundColor;    // null (means do not output)
     private boolean alpha;// false, to create alpha channel in the image (if it needs)
 
     // the maximum size of the data portion of a chunk, as defined in the PNG
@@ -53,8 +51,8 @@ public class PNGEncoder
     // signature (the first 8 bytes of every PNG file), and the rest define
     // the chunk types.
     private static final ImmutableByteArray PNG_SIGNATURE = new ImmutableByteArray(
-            new byte[]{(byte) 137, 80, 78, 71, 13, 10, 26, 10}
-    );  // end PNG_SIGNATURE definition
+                    new byte[]{(byte) 137, 80, 78, 71, 13, 10, 26, 10}
+            );  // end PNG_SIGNATURE definition
 
     private static final ImmutableByteArray CHUNK_TYPE_IHDR =
             new ImmutableByteArray(
@@ -87,7 +85,7 @@ public class PNGEncoder
             );  // end CHUNK_TYPE_IEND definition
 
 
-    public PNGEncoder(Image _image, OutputStream out, Palette _outpalette, boolean _removepalette)
+    public PNGEncoder(BufferedImage _image, OutputStream out,Palette _outpalette, boolean _removepalette)
     {
         lg_removepalette = _removepalette;
         p_alphaColor = null;
@@ -96,8 +94,7 @@ public class PNGEncoder
             _outpalette.resetTransparents();
             lg_outsidepalette = _removepalette; // was "true;"
             p_outsidepalette = _outpalette;
-        }
-        else
+        } else
         {
             lg_outsidepalette = false;
         }
@@ -113,19 +110,18 @@ public class PNGEncoder
 
 
     /**
-     * <p>
+     * <p/>
      * Sets the size of the IDAT chunks in the output image (except
      * for the last chunk, which is whatever is left).
      * </p>
-     * <p>
+     * <p/>
      * By default, the size is the maximum chunk data length as defined in the
      * PNG Specification, Version 1.0, which is (2^31) - 1
      * </p>
      *
-     * @param	size	the new maximum IDAT chunk size
-     *
-     * @throws	IllegalArgumentException	if <tt>size &lt;= 0 || size
-     *		&gt; (2^31) - 1</tt>
+     * @param size the new maximum IDAT chunk size
+     * @throws IllegalArgumentException if <tt>size &lt;= 0 || size
+     *                                  &gt; (2^31) - 1</tt>
      */
     public synchronized void setIDATSize(int size)
     {
@@ -144,20 +140,19 @@ public class PNGEncoder
     }
 
     /**
-     * <p>
+     * <p/>
      * Sets the compression level for the compressed portions of the PNG stream
      * (<tt>IDAT</tt> and <tt>zTXt</tt> chunks).  Valid values are 0
      * (no compression, fastest) through 9 (best compression, slowest).
      * </p>
-     * <p>
+     * <p/>
      * By default, the compression level is
      * <tt>java.util.zip.Deflater.DEFAULT_COMPRESSION</tt>
      * </p>
      *
-     * @param	compressionLevel	the new compression level
-     *
-     * @throws	IllegalArgumentException	if <tt>compressionLevel</tt> is
-     *		less than 0 or greater than 9
+     * @param compressionLevel the new compression level
+     * @throws IllegalArgumentException if <tt>compressionLevel</tt> is
+     *                                  less than 0 or greater than 9
      */
     public synchronized void setCompressionLevel(int compressionLevel)
     {
@@ -171,28 +166,28 @@ public class PNGEncoder
     }  // end setCompressionLevel()
 
     /**
-     * <p>
+     * <p/>
      * Sets the background color for the image.  This is the color against
      * which a viewer may choose to display the image.  This is especially
      * useful for images that contain transparency information.
      * </p>
-     * <p>
+     * <p/>
      * Only the red, green, and blue components of the specified color are used
      * to define the background.  The alpha component is ignored.
      * </p>
-     * <p>
+     * <p/>
      * A couple words of warning:
      * </p>
      * <ul>
      * <li>
-     * <p>
+     * <p/>
      * If your image is grayscale, and you want it to be encoded as grayscale
      * rather than true color in order to save space, then the background color,
      * if supplied, must be grayscale.
      * </p>
      * </li>
      * <li>
-     * <p>
+     * <p/>
      * If you know that your image contains exactly 256 colors, and you want it
      * to be encoded as a palette-indexed PNG, then the background color, if
      * supplied, must match one of the colors that occurs in the image.  If it
@@ -200,13 +195,13 @@ public class PNGEncoder
      * encoded as a palette-indexed PNG.
      * </p>
      * </li>
-     * <p>
+     * <p/>
      * By default, no background color information is output to the PNG stream.
      * </p>
      *
-     * @param	color	the background color, or <strong>null</strong> to
-     *		prevent background color information from appearing in the PNG
-     *		stream
+     * @param color the background color, or <strong>null</strong> to
+     *              prevent background color information from appearing in the PNG
+     *              stream
      */
     public synchronized void setBackgroundColor(Integer color)
     {
@@ -217,7 +212,7 @@ public class PNGEncoder
     /**
      * Enodes the image as a PNG and writes it to the output stream.
      *
-     * @throws	IOException	if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     public synchronized void encodeImage() throws IOException
     {
@@ -234,15 +229,15 @@ public class PNGEncoder
     private void writeTransparentsForPalette() throws IOException
     {
         int i_lastindx = -1;
-        byte [] ab_alphas = p_outsidepalette.getAlphas();
-        for(int li=0;li<ab_alphas.length;li++)
+        byte[] ab_alphas = p_outsidepalette.getAlphas();
+        for (int li = 0; li < ab_alphas.length; li++)
         {
-            if ((ab_alphas[li]&0xFF)<255) i_lastindx = li;
+            if ((ab_alphas[li] & 0xFF) < 255) i_lastindx = li;
         }
-        if (i_lastindx<0) return;
+        if (i_lastindx < 0) return;
 
         ByteArrayOutputStream p_baos = new ByteArrayOutputStream(ab_alphas.length);
-        for(int li=0;li<=i_lastindx;li++)
+        for (int li = 0; li <= i_lastindx; li++)
         {
             p_baos.write(ab_alphas[li]);
         }
@@ -275,8 +270,7 @@ public class PNGEncoder
         {
             if (!lg_removepalette) writePalette(data.getPalette());
             if (lg_outsidepalette) writeTransparentsForPalette();
-        }
-        else if (data.hasSingleAlpha())
+        } else if (data.hasSingleAlpha())
         {
             if (!alpha)
             {
@@ -285,9 +279,8 @@ public class PNGEncoder
 
                 if (lg_outsidepalette)
                     writeTransparentsForPalette();
-                else
-                  if (lg_removepalette)
-                      writeTransparencyOneColor(data.getAlphaColor(), data.isGrayscale());
+                else if (lg_removepalette)
+                    writeTransparencyOneColor(data.getAlphaColor(), data.isGrayscale());
             }
         }  // end if
 
@@ -342,27 +335,23 @@ public class PNGEncoder
             if (data.blackwhite)
             {
                 colorType = 0;
-            }
-            else
+            } else
             {
                 if (alpha && data.hasSingleAlpha())
                 {
                     if (data.isGrayscale())
                     {
                         colorType = 4;
-                    }
-                    else
+                    } else
                     {
                         colorType = 6;
                     }
-                }
-                else
+                } else
                 {
                     colorType = 3;
                 }
             }
-        }
-        else
+        } else
         {
             if (!data.isGrayscale())
             {
@@ -374,11 +363,11 @@ public class PNGEncoder
             }  // end if
         }  // end if/else
 
-        chunkData.write(colorType);		// 1-byte color type
+        chunkData.write(colorType);        // 1-byte color type
 
-        chunkData.write(0);	// 1-byte compression method (always 0)
-        chunkData.write(0);	// 1-byte filter method (always 0)
-        chunkData.write(0);	// 1-byte interlace flag
+        chunkData.write(0);    // 1-byte compression method (always 0)
+        chunkData.write(0);    // 1-byte filter method (always 0)
+        chunkData.write(0);    // 1-byte interlace flag
 
         chunkData.close();
 
@@ -403,10 +392,11 @@ public class PNGEncoder
         byte[] data = new byte[palette.getSize() * 3];
         for (int i = 0; i < palette.getSize(); ++i)
         {
-            Integer color = palette.getColorAt(i);
-            data[i * 3] = (byte) (color.intValue() >>> 16);
-            data[i * 3 + 1] = (byte) (color.intValue() >>> 8);
-            data[i * 3 + 2] = (byte) color.intValue();
+            int i_color = palette.getColorAt(i).intValue() & 0xFFFFFF;
+
+            data[i * 3] = (byte) (i_color >>> 16);
+            data[i * 3 + 1] = (byte) (i_color >>> 8);
+            data[i * 3 + 2] = (byte) i_color;
         }  // end for
 
         writeChunk(CHUNK_TYPE_PLTE.getBytes(), data);
@@ -481,8 +471,7 @@ public class PNGEncoder
         if (data.isPaletteIndexed())
         {
             bytes.write(data.getPalette().getColorIndex(backgroundColor.intValue()));
-        }
-        else
+        } else
         {
             bytes.write(0);
             bytes.write((backgroundColor.intValue() >>> 24) & 0xFF);
@@ -524,8 +513,7 @@ public class PNGEncoder
                 scanLineSize = data.getWidth() << 1;
             else
                 scanLineSize = data.getWidth() * 4;
-        }
-        else
+        } else
         {
             scanLineSize = data.getBitsPerPixel() * data.getWidth() / 8 + 1;
         }
@@ -631,9 +619,9 @@ public class PNGEncoder
             sumSub += filterSub(scanLine, i, bytesPerPixel);
             sumUp += filterUp(scanLine, i, prevScanLine);
             sumAverage += filterAverage(scanLine, i, prevScanLine,
-                    bytesPerPixel);
+                            bytesPerPixel);
             sumPaeth += filterPaeth(scanLine, i, prevScanLine,
-                    bytesPerPixel);
+                            bytesPerPixel);
         }  // end for
 
         // Select the filter type based on the sums of differences.
@@ -643,18 +631,15 @@ public class PNGEncoder
         {
             type = FILTER_TYPE_PAETH;
             result = filteredPaeth;
-        }
-        else if (sumAverage <= sumUp && sumAverage <= sumSub && sumAverage <= sumNone)
+        } else if (sumAverage <= sumUp && sumAverage <= sumSub && sumAverage <= sumNone)
         {
             type = FILTER_TYPE_AVERAGE;
             result = filteredAverage;
-        }
-        else if (sumUp <= sumSub && sumUp <= sumNone)
+        } else if (sumUp <= sumSub && sumUp <= sumNone)
         {
             type = FILTER_TYPE_UP;
             result = filteredUp;
-        }
-        else if (sumSub <= sumNone)
+        } else if (sumSub <= sumNone)
         {
             type = FILTER_TYPE_SUB;
             result = filteredSub;
@@ -814,12 +799,10 @@ public class PNGEncoder
         if (pa <= pb && pa <= pc)
         {
             result -= a;
-        }
-        else if (pb <= pc)
+        } else if (pb <= pc)
         {
             result -= b;
-        }
-        else
+        } else
         {
             result -= c;
         }  // end if/else
@@ -867,9 +850,9 @@ public class PNGEncoder
             throw new IllegalArgumentException("data too long: " + data.length);
         }  // end if
 
-        writeInt(data.length, out);	// 4-byte length
-        out.write(type);		// 4-byte type
-        out.write(data);		// data (length specified in length
+        writeInt(data.length, out);    // 4-byte length
+        out.write(type);        // 4-byte type
+        out.write(data);        // data (length specified in length
         //  field)
         // Calculate the CRC for the chunk.
         crcGenerator.reset();
@@ -917,9 +900,9 @@ public class PNGEncoder
         private Palette palette;
 
         // some boolean flags about the image
-        private boolean paletteIndexed;		// true if palette-indexed
-        private boolean grayscale;		// true if grayscale
-        private boolean gotAlphaChannel;	// true if has an alpha channel
+        private boolean paletteIndexed;        // true if palette-indexed
+        private boolean grayscale;        // true if grayscale
+        private boolean gotAlphaChannel;    // true if has an alpha channel
         private boolean blackwhite; // true if the image is blackwhite without alpha
 
         // If the image has a single fully transparent color, and no partially
@@ -972,17 +955,17 @@ public class PNGEncoder
                     {
                         throw new IOException("The background color value is not supported by the palette");
                     }
-                }
-                else
+                } else
                     this.processColor(backgroundColor.intValue(), paletteColors);
             }  // end if
 
             // Process every pixel of the image.
             for (int row = 0; row < height; ++row)
             {
+                int i_rc = row * width;
                 for (int col = 0; col < width; ++col)
                 {
-                    int c = pixels[row * width + col];
+                    int c = pixels[i_rc + col];
 
                     // If we haven't seen this color yet, then process it.
                     if (lg_outsidepalette)
@@ -991,13 +974,11 @@ public class PNGEncoder
                         if (!p_outsidepalette.containsColor(c | 0xFF000000))
                         {
                             throw new IOException("The image contains a color which is not supported by the required palette [0x" + Integer.toHexString(c) + "]");
-                        }
-                        else
+                        } else
                         {
                             this.processColor(c, paletteColors);
                         }
-                    }
-                    else if (!paletteColors.contains(new Integer(c)))
+                    } else if (!paletteColors.contains(new Integer(c)))
                     {
                         this.processColor(c, paletteColors);
                     }  // end if
@@ -1017,18 +998,15 @@ public class PNGEncoder
                 {
                     if (!this.blackwhite) this.palette = p_outsidepalette;
 
-                }
-                else if (!this.blackwhite) this.palette = new Palette(paletteColors);
-            }
-            else if (this.singleAlpha != null)
+                } else if (!this.blackwhite) this.palette = new Palette(paletteColors);
+            } else if (this.singleAlpha != null)
             {
                 // It is important that the red, green, and blue values of the
                 // transparent color do not match any of those in the image.
                 if (!lg_outsidepalette)
                 {
                     this.singleAlpha = findUniqueColor(paletteColors);
-                }
-                else
+                } else
                 {
                     this.singleAlpha = getAlphaColor(paletteColors);
                     if (this.singleAlpha == null) throw new IOException("Error when I find the alpha color");
@@ -1043,8 +1021,7 @@ public class PNGEncoder
             if (lg_outsidepalette)
             {
                 return p_alphaColor;
-            }
-            else
+            } else
             {
                 Iterator p_iter = _colors.iterator();
                 while (p_iter.hasNext())
@@ -1085,21 +1062,30 @@ public class PNGEncoder
                     {
                         this.singleAlpha = new Integer(color);
                     }  // end if
+                    else
+                    {
+                        if (this.singleAlpha.intValue() != color)
+                        {
+                            this.gotAlphaChannel = true;
+                            this.singleAlpha = null;
+                            this.blackwhite = false;
+                        }
+                    }
+
                     this.blackwhite = false;
-                }
-                else
+                } else
                 // If it's only partially transparent, then add the alpha
                 // channel.
-                    if (i_a < 255)
+                //if (i_a < 255)
+                {
+                    if (lg_outsidepalette)
                     {
-                        if (lg_outsidepalette)
-                        {
-                            throw new IOException("You have a partially transparent value in your image");
-                        }
-                        this.gotAlphaChannel = true;
-                        this.singleAlpha = null;
-                        this.blackwhite = false;
-                    }  // end if/else
+                        throw new IOException("You have a partially transparent value in your image");
+                    }
+                    this.gotAlphaChannel = true;
+                    this.singleAlpha = null;
+                    this.blackwhite = false;
+                }  // end if/else
             }  // end if
 
             // If we've been grayscale so far but this color isn't gray, then
@@ -1120,7 +1106,7 @@ public class PNGEncoder
                     throw new IOException("You have a color which is not supported by the palette [0x" + Integer.toHexString(color) + "]");
 
                 int i_indx = p_outsidepalette.getColorIndex(color | 0xFF000000);
-                p_outsidepalette.alphas[i_indx] = (byte)i_a;
+                p_outsidepalette.alphas[i_indx] = (byte) i_a;
 
             }
             paletteColors.add(new Integer(color));
@@ -1148,19 +1134,21 @@ public class PNGEncoder
         //
         private Integer findUniqueColor(Set colors)
         {
+            if (lg_outsidepalette) return null;
+
             // Get some random-ordered color components to minimize the chance
             // of a worst-case run through the colors.
             int[] reds = getScrambledColorComponents();
             int[] greens = getScrambledColorComponents();
             int[] blues = getScrambledColorComponents();
 
-            for (int r = 0; r <= 255; ++r)
+            for (int r = 0; r <= 255; r+=0x10)
             {
-                for (int g = 0; g <= 255; ++g)
+                for (int g = 0; g <= 255; g+=0x10)
                 {
-                    for (int b = 0; b <= 255; ++b)
+                    for (int b = 0; b <= 255; b+=0x10)
                     {
-                        Integer color = new Integer((((reds[r] & 0xFF) << 24) & 0xFF) & ((greens[g] & 0xFF) << 16) & (blues[b] & 0xFF));
+                        Integer color = new Integer((((reds[r] & 0xFF) << 16) | ((greens[g] & 0xFF) << 8) | (blues[b] & 0xFF)));
                         if (!colors.contains(color))
                         {
                             return color;
@@ -1169,10 +1157,7 @@ public class PNGEncoder
                 }  // end for
             }  // end for
 
-            if (lg_outsidepalette)
-                return null;  // shut up the compiler
-            else
-                return new Integer(0);
+            return new Integer(0);
         }  // end findUniqueColor()
 
 
@@ -1252,16 +1237,13 @@ public class PNGEncoder
             if (size > 16)
             {
                 return 8;
-            }
-            else if (size > 4)
+            } else if (size > 4)
             {
                 return 4;
-            }
-            else if (size > 2)
+            } else if (size > 2)
             {
                 return 2;
-            }
-            else
+            } else
             {
                 return 1;
             }  // end if/else
@@ -1365,8 +1347,7 @@ public class PNGEncoder
             if (isPaletteIndexed())
             {
                 return getBitDepth();
-            }
-            else
+            } else
             {
                 return getBitDepth() * getChannelCount();
             }  // end if
@@ -1393,13 +1374,11 @@ public class PNGEncoder
                 if (grayscale)
                 {
                     bitsPerPixel = 2;
-                }
-                else
+                } else
                 {
                     bitsPerPixel = 4;
                 }
-            }
-            else
+            } else
             {
                 bitsPerPixel = getBitsPerPixel();
                 bitsPerPixel = bitsPerPixel % 8 == 0 ? bitsPerPixel / 8 : bitsPerPixel / 8 + 1;
@@ -1416,8 +1395,7 @@ public class PNGEncoder
                 {
                     bits[0] = (byte) pixels[i_xy];
                     bits[1] = (byte) (pixels[i_xy] >>> 24);
-                }
-                else
+                } else
                 {
                     int off = 0;
                     bits[off++] = (byte) (pixels[i_xy] >>> 16);
@@ -1425,8 +1403,7 @@ public class PNGEncoder
                     bits[off++] = (byte) (pixels[i_xy]);
                     bits[off] = (byte) (pixels[i_xy] >>> 24);
                 }
-            }
-            else
+            } else
             {
                 // If the image is palette-indexed, then the pixel will definitely
                 // fit in one byte.
@@ -1439,32 +1416,35 @@ public class PNGEncoder
                 {
                     bits[0] = (byte) pixels[i_xy];
                     return bits;
-                }
-                else
+                } else
                 {
                     int off = 0;
 
-                    bits[off++] = (byte) (pixels[i_xy] >>> 16);
+                    int i_argb = pixels[i_xy];
+
+                    bits[off++] = (byte) (i_argb >>> 16);
 
                     if (!isGrayscale())
                     {
-                        bits[off++] = (byte) (pixels[i_xy] >>> 8);
-                        bits[off++] = (byte) (pixels[i_xy]);
+                        bits[off++] = (byte) (i_argb >>> 8);
+                        bits[off++] = (byte) (i_argb);
+                        bits[off] = (byte) (i_argb >>> 24);
+
                     }  // end if
                 }
             }
-/*
-            // The image is not palette-indexed, so fill in the bytes with the
-            // color components.  This bit of code relies on the fact that
-            // in this encoder the bit depth for a non-palette-indexed image
-            // is always 8
+            /*
+                        // The image is not palette-indexed, so fill in the bytes with the
+                        // color components.  This bit of code relies on the fact that
+                        // in this encoder the bit depth for a non-palette-indexed image
+                        // is always 8
 
 
-            if (hasAlphaChannel())
-            {
-                bits[off++] = (byte) (pixels[y][x] >>> 24);
-            }  // end if
-  */
+                        if (hasAlphaChannel())
+                        {
+                            bits[off++] = (byte) (pixels[y][x] >>> 24);
+                        }  // end if
+              */
             return bits;
         }  // end getPixelBits()
 
@@ -1481,20 +1461,20 @@ public class PNGEncoder
         //
         public int getFreeSpaceLeft()
         {
-          int i_color;
-          if(p_alphaColor!=null) i_color = p_alphaColor.intValue();
-            else i_color = pixels[(height>>1)*width];
-          for(int x = 0; x < width; x++)
-          {
-           int offset = x;
-           for(int y = 0; y < height; y++)
-           {
-              if(pixels[offset]!=i_color)
-                return x;
-              offset += width;
-           }
-          }
-          return width;
+            int i_color;
+            if (p_alphaColor != null) i_color = p_alphaColor.intValue();
+            else i_color = pixels[(height >> 1) * width];
+            for (int x = 0; x < width; x++)
+            {
+                int offset = x;
+                for (int y = 0; y < height; y++)
+                {
+                    if (pixels[offset] != i_color)
+                        return x;
+                    offset += width;
+                }
+            }
+            return width;
         } // end getFreeSpaceLeft()
 
         //
@@ -1502,20 +1482,20 @@ public class PNGEncoder
         //
         public int getFreeSpaceRight()
         {
-          int i_color;
-          if(p_alphaColor!=null) i_color = p_alphaColor.intValue();
-            else i_color = pixels[((height>>1)+1)*width-1];
-          for(int x = 0; x < width; x++)
-          {
-           int offset = width-x-1;
-           for(int y = 0; y < height; y++)
-           {
-              if(pixels[offset]!=i_color)
-                return x;
-              offset += width;
-           }
-          }
-          return width;
+            int i_color;
+            if (p_alphaColor != null) i_color = p_alphaColor.intValue();
+            else i_color = pixels[((height >> 1) + 1) * width - 1];
+            for (int x = 0; x < width; x++)
+            {
+                int offset = width - x - 1;
+                for (int y = 0; y < height; y++)
+                {
+                    if (pixels[offset] != i_color)
+                        return x;
+                    offset += width;
+                }
+            }
+            return width;
         } // end getFreeSpaceRight()
 
         //
@@ -1523,15 +1503,15 @@ public class PNGEncoder
         //
         public int getFreeSpaceTop()
         {
-          int i_color;
-          if(p_alphaColor!=null) i_color = p_alphaColor.intValue();
-            else i_color = pixels[width>>1];
-          int offset = 0;
-          for(int y = 0; y < height; y++)
-            for(int x = 0; x < width; x++)
-              if(pixels[offset++]!=i_color)
-               return y;
-          return height;
+            int i_color;
+            if (p_alphaColor != null) i_color = p_alphaColor.intValue();
+            else i_color = pixels[width >> 1];
+            int offset = 0;
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    if (pixels[offset++] != i_color)
+                        return y;
+            return height;
         } // end getFreeSpaceTop()
 
         //
@@ -1539,40 +1519,40 @@ public class PNGEncoder
         //
         public int getFreeSpaceBottom()
         {
-          int i_color;
-          int offset = height*width-1;
-          if(p_alphaColor!=null) i_color = p_alphaColor.intValue();
-            else i_color = pixels[offset-(width>>1)];
-          for(int y = 0; y < height; y++)
-            for(int x = 0; x < width; x++)
-              if(pixels[offset--]!=i_color)
-               return y;
-          return height;
+            int i_color;
+            int offset = height * width - 1;
+            if (p_alphaColor != null) i_color = p_alphaColor.intValue();
+            else i_color = pixels[offset - (width >> 1)];
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    if (pixels[offset--] != i_color)
+                        return y;
+            return height;
         } // end getFreeSpaceBottom()
 
         //
         // cropImage(int left,int right, int top,int bottom)
         //
-        public void cropImage(int left,int right, int top,int bottom)
+        public void cropImage(int left, int right, int top, int bottom)
         {
-          int width = this.width - left - right;
-          int height = this.height - top - bottom;
-          if(left>=0 && right>=0 && top>=0 && bottom>=0 && height>=0 && width>=0)
-          {
-            int[]dst_pixels = new int[width*height];
-            int offsetSrc = top*this.width + left;
-            int addXSrc = this.width - width;
-            int offsetDst = 0;
-            for(int j = 0;j<height;j++)
+            int width = this.width - left - right;
+            int height = this.height - top - bottom;
+            if (left >= 0 && right >= 0 && top >= 0 && bottom >= 0 && height >= 0 && width >= 0)
             {
-               for(int i = 0;i<width;i++)
-                 dst_pixels[offsetDst++] = pixels[offsetSrc++];
-               offsetSrc += addXSrc;
+                int[] dst_pixels = new int[width * height];
+                int offsetSrc = top * this.width + left;
+                int addXSrc = this.width - width;
+                int offsetDst = 0;
+                for (int j = 0; j < height; j++)
+                {
+                    for (int i = 0; i < width; i++)
+                        dst_pixels[offsetDst++] = pixels[offsetSrc++];
+                    offsetSrc += addXSrc;
+                }
+                pixels = dst_pixels;
+                this.width = width;
+                this.height = height;
             }
-            pixels = dst_pixels;
-            this.width = width;
-            this.height = height;
-          }
         } // end cropImage(int left,int right, int top,int bottom)
     }  // end class ImageData
 
@@ -1590,31 +1570,7 @@ public class PNGEncoder
             int i_width = p_image.getWidth(null);
             int i_height = p_image.getHeight(null);
 
-            p_mtracker.addImage(p_image, 0);
-
-            try
-            {
-                p_mtracker.waitForAll();
-            }
-            catch (InterruptedException e)
-            {
-                return;
-            }
-
-            p_mtracker.removeImage(p_image);
-
-            int[] ai_grabarray = new int[i_width * i_height];
-            PixelGrabber p_pixgrab = new PixelGrabber(p_image, 0, 0, i_width, i_height, ai_grabarray, 0, i_width);
-
-            try
-            {
-                p_pixgrab.grabPixels();
-            }
-            catch (InterruptedException e)
-            {
-                return;
-            }
-
+            int[] ai_grabarray = ((DataBufferInt) p_image.getRaster().getDataBuffer()).getData();
             p_image = null;
             p_imagedata = new ImageData(ai_grabarray, i_width, i_height);
         }
@@ -1634,7 +1590,6 @@ public class PNGEncoder
     //
     private static class ImmutableByteArray
     {
-
         private byte[] bytes;
 
 
@@ -1712,7 +1667,7 @@ public class PNGEncoder
         //
         // nextScanLine()
         //
-        public byte[] nextScanLine()
+        public byte[] nextScanLine() throws IOException
         {
             if (!this.hasNextScanLine())
             {
@@ -1780,7 +1735,7 @@ public class PNGEncoder
         //
         // Params:	byte[]	pixel	the pixel bits
         //
-        public void writePixel(byte[] pixel)
+        public void writePixel(byte[] pixel) throws IOException
         {
             // The bits per pixel with be either less than 8 or equal to 8.
             // This is not true for PNG images in general, but it is true for
@@ -1811,8 +1766,7 @@ public class PNGEncoder
                 {
                     this.flush();
                 }  // end if
-            }
-            else
+            } else
             {
                 // This part's a no-brainer...except that we have to use the
                 // write(byte[],int,int) version, because the write(byte[])
@@ -1831,7 +1785,7 @@ public class PNGEncoder
         //
         // Returns:	byte[]	the scan line that was built
         //
-        public byte[] finish()
+        public byte[] finish() throws IOException
         {
             // Write out our little byte buffer if it isn't empty.
             if (bufferIndex > 0)
@@ -1849,9 +1803,9 @@ public class PNGEncoder
         //
         // flush()
         //
-        // Purpose: Write the byte buffer to the main scan line buffer.
+        // Purpose: Write the byte buffer to the ImageGluer scan line buffer.
         //
-        private void flush()
+        private void flush() throws IOException
         {
             scanLine.write(buffer);
             bufferIndex = 0;
@@ -1988,212 +1942,4 @@ public class PNGEncoder
         }  // end write()
 
     }  // end class IDATOutputStream
-
-    public static void packingPNGtoLitePNG(byte[] _inarray, DataOutputStream _outputstream) throws IOException
-    {
-        final int HEADER_IHDR = 0;
-        final int HEADER_PLTE = 1;
-        final int HEADER_IDAT = 2;
-        final int HEADER_tRNS = 3;
-
-        int i_offset = 8;
-        int i_len = 8;
-
-        ByteArrayOutputStream p_baos = new ByteArrayOutputStream(512);
-
-        // Writing two bytes for length of PNG file
-        p_baos.write(0);
-        p_baos.write(0);
-
-        while (i_offset < _inarray.length)
-        {
-            // Reading of the chunk length field
-            int i_chunklen = 0;
-            i_chunklen = (_inarray[i_offset++] & 0xFF) << 24;
-            i_chunklen |= ((_inarray[i_offset++] & 0xFF) << 16);
-            i_chunklen = ((_inarray[i_offset++] & 0xFF) << 8);
-            i_chunklen |= (_inarray[i_offset++] & 0xFF);
-
-            // Reading of the chunk name field
-            String s_chnk = "";
-            s_chnk += (char) _inarray[i_offset++];
-            s_chnk += (char) _inarray[i_offset++];
-            s_chnk += (char) _inarray[i_offset++];
-            s_chnk += (char) _inarray[i_offset++];
-
-            if (s_chnk.equals("IHDR"))
-            {
-                i_len += (i_chunklen + 12);
-                p_baos.write(HEADER_IHDR);
-
-                int i_wdth = 0;
-                i_wdth = (_inarray[i_offset++] & 0xFF) << 24;
-                i_wdth |= ((_inarray[i_offset++] & 0xFF) << 16);
-                i_wdth = ((_inarray[i_offset++] & 0xFF) << 8);
-                i_wdth |= (_inarray[i_offset++] & 0xFF);
-
-                if (i_wdth > 255) throw new IOException("Too big width in the image");
-
-                int i_hght = 0;
-                i_hght = (_inarray[i_offset++] & 0xFF) << 24;
-                i_hght |= ((_inarray[i_offset++] & 0xFF) << 16);
-                i_hght = ((_inarray[i_offset++] & 0xFF) << 8);
-                i_hght |= (_inarray[i_offset++] & 0xFF);
-
-                if (i_hght > 255) throw new IOException("Too big height in the image");
-
-                int i_bitdepth = _inarray[i_offset++] & 0xFF;
-                int i_colortype = _inarray[i_offset++] & 0xFF;
-
-                // Compression method
-                if (_inarray[i_offset++] != 0) throw new IOException("Unsupported compression method");
-
-                // Filter method
-                if (_inarray[i_offset++] != 0) throw new IOException("Unsupported filter method");
-
-                // Interlace method
-                int i_interlace = (_inarray[i_offset++] & 0xFF);
-                if (i_interlace > 1) throw new IOException("Unsupported interlace mode");
-
-                // Reading CRC
-                i_offset += 4;
-
-                // Writing data to stream
-
-                // Writing of the width of the image
-                p_baos.write(i_wdth);
-                // Writing of the height of the image
-                p_baos.write(i_hght);
-                // Writing of the bitdepth and the colortype of the image
-                p_baos.write(((i_bitdepth << 4) & 0xF0) | ((i_colortype & 0x0F) | (i_interlace << 3)));
-
-
-                String s_statistic = i_wdth + "x" + i_hght;
-
-                s_statistic += " bpp: " + i_bitdepth;
-                if (i_bitdepth > 8)
-                {
-                    s_statistic = "!" + s_statistic;
-                    //Toolkit.getDefaultToolkit().beep();
-                }
-
-                switch (i_colortype)
-                {
-                    case 0:
-                        s_statistic += " GRAY";
-                        break;
-                    case 2:
-                        s_statistic += " RGB";
-                        break;
-                    case 3:
-                        {
-                            s_statistic += " PALETTE";
-                            s_statistic = "!" + s_statistic;
-                            //Toolkit.getDefaultToolkit().beep();
-                        }
-                        ;
-                        break;
-                    case 4:
-                        s_statistic += " GRAY+ALPHA";
-                        break;
-                    case 6:
-                        s_statistic += " RGB+ALPHA";
-                        break;
-                    default :
-                        throw new IOException("Unknown color type [" + i_colortype + "]");
-                }
-
-                if (i_interlace == 1) s_statistic += " (!)INTERLACED";
-//                if(lg_verbose)
-//                   System.out.println(s_statistic);
-
-            }
-            else if (s_chnk.equals("IDAT"))
-            {
-                i_len += (i_chunklen + 12);
-                p_baos.write(HEADER_IDAT);
-                // Writing length of data
-                if (i_chunklen > 0x7F)
-                {
-                    p_baos.write(((i_chunklen >> 8) & 0x7F) | 0x80);
-                    p_baos.write(i_chunklen & 0xFF);
-                }
-                else
-                {
-                    p_baos.write(i_chunklen);
-                }
-                // Writing data
-                for (int li = 0; li < i_chunklen; li++)
-                {
-                    p_baos.write(_inarray[i_offset++]);
-                }
-                // Reading CRC
-                i_offset += 4;
-            }
-            else if (s_chnk.equals("PLTE"))
-            {
-                i_len += (i_chunklen + 12);
-                p_baos.write(HEADER_PLTE);
-                // Writing length of data
-                if (i_chunklen > 0x7F)
-                {
-                    p_baos.write(((i_chunklen >> 8) & 0x7F) | 0x80);
-                    p_baos.write(i_chunklen & 0xFF);
-                }
-                else
-                {
-                    p_baos.write(i_chunklen);
-                }
-                // Writing data
-                for (int li = 0; li < i_chunklen; li++)
-                {
-                    p_baos.write(_inarray[i_offset++]);
-                }
-                // Reading CRC
-                i_offset += 4;
-            }
-            else if (s_chnk.equals("tRNS"))
-            {
-                i_len += (i_chunklen + 12);
-                p_baos.write(HEADER_tRNS);
-                // Writing length of data
-                if (i_chunklen > 0x7F)
-                {
-                    p_baos.write(((i_chunklen >> 8) & 0x7F) | 0x80);
-                    p_baos.write(i_chunklen & 0xFF);
-                }
-                else
-                {
-                    p_baos.write(i_chunklen);
-                }
-                // Writing data
-                for (int li = 0; li < i_chunklen; li++)
-                {
-                    p_baos.write(_inarray[i_offset++]);
-                }
-                // Reading CRC
-                i_offset += 4;
-            }
-            else if (s_chnk.equals("IEND"))
-            {
-                i_len += 12;
-                break;
-            }
-            else
-            {
-                i_offset += i_chunklen + 4;
-            }
-        }
-
-        p_baos.flush();
-        byte[] ab_litepng = p_baos.toByteArray();
-        ab_litepng[0] = (byte) (i_len >>> 8);
-        ab_litepng[1] = (byte) i_len;
-
-        // Writing the lite png to output stream
-        _outputstream.write(ab_litepng);
-        _outputstream.flush();
-        ab_litepng = null;
-    }
-
 }

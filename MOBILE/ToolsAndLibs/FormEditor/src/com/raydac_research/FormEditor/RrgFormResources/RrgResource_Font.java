@@ -9,8 +9,6 @@ import java.io.PrintStream;
 
 import com.raydac_research.FormEditor.Misc.Utilities;
 import com.raydac_research.Font.AbstractFont;
-import com.raydac_research.Font.BFTFont;
-import com.raydac_research.Font.TTFFont;
 
 public class RrgResource_Font extends AbstractRrgResource
 {
@@ -71,25 +69,8 @@ public class RrgResource_Font extends AbstractRrgResource
         }
         else
         {
-            BFTFont p_bftFont = new BFTFont();
-            TTFFont p_ttfFont = new TTFFont();
-
-            if (p_bftFont.loadForntFromFile(_file))
-            {
-                p_Font = p_bftFont;
-                p_FontFile = _file;
-            }
-            else
-            if (p_ttfFont.loadForntFromFile(_file))
-            {
-                p_Font = p_ttfFont;
-                p_FontFile = _file;
-            }
-            else
-            {
-                throw new IOException("Unsupported font format");
-            }
-
+            p_Font = AbstractFont.getAbstractFont(_file);
+            p_FontFile = _file;
             p_Font.setBold(_bold);
             p_Font.setItalic(_italic);
             p_Font.setSize(_size);

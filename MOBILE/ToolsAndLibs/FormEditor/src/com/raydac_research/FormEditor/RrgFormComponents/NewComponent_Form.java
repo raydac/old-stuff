@@ -132,7 +132,7 @@ public class NewComponent_Form extends JDialog implements ActionListener
                 return "You have a wrong value for Width or Height";
             }
 
-            if (i_newWidth < 5 || i_newWidth > 1024 || i_newHeight < 5 || i_newHeight > 1024) return "You must use WIDTH[0..1024] and HEIGHT[0..1024]";
+            if (i_newWidth < 5 || i_newHeight < 5) return "You must use WIDTH>=5 and HEIGHT>=5";
 
             return null;
         }
@@ -821,11 +821,19 @@ public class NewComponent_Form extends JDialog implements ActionListener
         private Object p_Type_Normal = new String("Normal");
         private Object p_Type_Cycled = new String("Cycled");
         private Object p_Type_Pendulum = new String("Pendulum");
+        private Object p_Type_CycledSmooth = new String("Cycled_smooth");
+
         private JTextField p_Text_MainX;
         private JTextField p_Text_MainY;
         private JButton p_UP_Button;
         private JButton p_DOWN_Button;
         private JCheckBox p_showStepsFlag;
+        private JCheckBox p_CheckBox_onNotifyPathEnd;
+        private JCheckBox p_CheckBox_onNotifyEveryPathPoint;
+        private JCheckBox p_CheckBox_saveStepsInfo;
+        private JCheckBox p_CheckBox_SaveBoundiaryInfo;
+        private JCheckBox checkBox1;
+        private JCheckBox p_CheckBox_SaveMainPointInfo;
 
         public void actionPerformed(ActionEvent e)
         {
@@ -938,6 +946,7 @@ public class NewComponent_Form extends JDialog implements ActionListener
             setColor(Color.green);
             p_TypeList.addItem(p_Type_Normal);
             p_TypeList.addItem(p_Type_Cycled);
+            p_TypeList.addItem(p_Type_CycledSmooth);
             p_TypeList.addItem(p_Type_Pendulum);
             p_TypeList.setSelectedItem(p_Type_Normal);
             p_pointsVector = new Vector();
@@ -984,6 +993,13 @@ public class NewComponent_Form extends JDialog implements ActionListener
 
             p_path.i_PathType = convertObjectToPathType(p_TypeList.getSelectedItem());
 
+            p_path.lg_NotifyOnEndPoint = p_CheckBox_onNotifyPathEnd.isSelected();
+            p_path.lg_NotifyOnEveryPoint = p_CheckBox_onNotifyEveryPathPoint.isSelected();
+
+            p_path.lg_SaveSteps = p_CheckBox_saveStepsInfo.isSelected();
+            p_path.lg_SaveMainPointInfo = p_CheckBox_SaveMainPointInfo.isSelected();
+            p_path.lg_SaveBoundiaryInfo = p_CheckBox_SaveBoundiaryInfo.isSelected();
+
             p_pointsVector = new Vector();
 
             p_path.lg_showSteps = p_showStepsFlag.isSelected();
@@ -998,6 +1014,7 @@ public class NewComponent_Form extends JDialog implements ActionListener
                 case RrgFormComponent_Path.PATH_NORMAL : return p_Type_Normal;
                 case RrgFormComponent_Path.PATH_CYCLIC : return p_Type_Cycled;
                 case RrgFormComponent_Path.PATH_PENDULUM : return p_Type_Pendulum;
+                case RrgFormComponent_Path.PATH_CYCLIC_SMOOTH : return p_Type_CycledSmooth;
             }
             return null;
         }
@@ -1007,6 +1024,7 @@ public class NewComponent_Form extends JDialog implements ActionListener
             if (p_Type_Normal.equals(_object)) return RrgFormComponent_Path.PATH_NORMAL;
             if (p_Type_Cycled.equals(_object)) return RrgFormComponent_Path.PATH_CYCLIC;
             if (p_Type_Pendulum.equals(_object)) return RrgFormComponent_Path.PATH_PENDULUM;
+            if (p_Type_CycledSmooth.equals(_object)) return RrgFormComponent_Path.PATH_CYCLIC_SMOOTH;
             return -1;
         }
 
@@ -1030,6 +1048,13 @@ public class NewComponent_Form extends JDialog implements ActionListener
             p_showStepsFlag.setSelected(p_path.lg_showSteps);
 
             p_TypeList.setSelectedItem(convertPathTypeToObject(p_path.i_PathType));
+
+            p_CheckBox_onNotifyEveryPathPoint.setSelected( p_path.lg_NotifyOnEveryPoint);
+            p_CheckBox_onNotifyPathEnd.setSelected( p_path.lg_NotifyOnEndPoint);
+
+            p_CheckBox_SaveBoundiaryInfo.setSelected(p_path.lg_SaveBoundiaryInfo);
+            p_CheckBox_SaveMainPointInfo.setSelected(p_path.lg_SaveMainPointInfo);
+            p_CheckBox_saveStepsInfo.setSelected(p_path.lg_SaveSteps);
         }
 
         public String isDataOk()
@@ -1069,6 +1094,14 @@ public class NewComponent_Form extends JDialog implements ActionListener
             p_pointsVector = new Vector();
 
             p_path.i_PathType = convertObjectToPathType(p_TypeList.getSelectedItem());
+
+            p_path.lg_NotifyOnEndPoint = p_CheckBox_onNotifyPathEnd.isSelected();
+            p_path.lg_NotifyOnEveryPoint = p_CheckBox_onNotifyEveryPathPoint.isSelected();
+
+            p_path.lg_SaveBoundiaryInfo = p_CheckBox_SaveBoundiaryInfo.isSelected();
+            p_path.lg_SaveMainPointInfo = p_CheckBox_SaveMainPointInfo.isSelected();
+            p_path.lg_SaveSteps = p_CheckBox_saveStepsInfo.isSelected();
+
 
             p_path.updateCoordsForPoints();
             componentToCenterOfForm(p_path);

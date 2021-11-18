@@ -93,13 +93,13 @@ public class NewResourceDialog extends JDialog implements ActionListener
         public boolean accept(File f)
         {
             if (f.isDirectory()) return true;
-            if (f.getName().toUpperCase().endsWith(".BFT") || f.getName().toUpperCase().endsWith(".TTF")) return true;
+            if (f.getName().toUpperCase().endsWith(".BFT") || f.getName().toUpperCase().endsWith(".TTF")|| f.getName().toUpperCase().endsWith(".GIF")) return true;
             return false;
         }
 
         public String getDescription()
         {
-            return "BFT and TTF fonts";
+            return "BFT,GIF or TTF fonts";
         }
 
         protected void drawPrewiew()
@@ -175,7 +175,7 @@ public class NewResourceDialog extends JDialog implements ActionListener
                     }
                     catch (Exception p_ex)
                     {
-                        Utilities.showErrorDialog(p_parent, "Error", p_ex.getMessage());
+                        Utilities.showErrorDialog(p_parent, "Error", p_ex.getMessage()+"["+p_SelectedFile.getAbsolutePath()+"]");
                         //p_ex.printStackTrace();
                     }
                 }

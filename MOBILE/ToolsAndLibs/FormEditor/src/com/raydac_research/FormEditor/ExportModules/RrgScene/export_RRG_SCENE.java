@@ -165,7 +165,7 @@ public class export_RRG_SCENE extends FileFilter implements AbstractFormExportMo
         p_outStream.flush();
         p_outStream.close();
 
-        // Генерируем исходники если требуется
+        // Р“РµРЅРµСЂРёСЂСѓРµРј РёСЃС…РѕРґРЅРёРєРё РµСЃР»Рё С‚СЂРµР±СѓРµС‚СЃСЏ
         AbstractLanguageHeaderGenerator p_generator = getLanguageGenerator(i_languageFormat);
         if (p_generator!=null)
         {

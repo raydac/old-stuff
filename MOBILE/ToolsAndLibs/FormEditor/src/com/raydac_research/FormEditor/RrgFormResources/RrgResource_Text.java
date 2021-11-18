@@ -59,7 +59,10 @@ public class RrgResource_Text extends AbstractRrgResource
         if (_stream == null) return;
         String s_str = "<"+XML_RESOURCE_INFO+">";
         _stream.println(s_str);
-        s_str="<"+XML_TEXT+" "+XML_VALUE+"=\""+s_Text+"\"/>";
+
+        String s_stttr = s_Text.replaceAll("\n","(%nxt%)");
+
+        s_str="<"+XML_TEXT+" "+XML_VALUE+"=\""+s_stttr+"\"/>";
         _stream.println(s_str);
         _stream.println("</"+XML_RESOURCE_INFO+">");
     }
@@ -70,7 +73,8 @@ public class RrgResource_Text extends AbstractRrgResource
         if (p_images.getLength() == 0) throw new IOException("<"+XML_TEXT+"> format error");
         Element p_image = (Element)p_images.item(0);
         String s_value = p_image.getAttribute(XML_VALUE);
-
+        s_value = s_value.replace("(%nxt%)","\n");
+        
         setText(s_value);
     }
 }

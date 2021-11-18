@@ -174,8 +174,10 @@ public class FormExport extends JDialog implements ActionListener
         public static final int EXPORT_DOBGUI = 0;
         public static final int EXPORT_RRGPATHS = 1;
         public static final int EXPORT_RRGSCENE = 2;
+        public static final int EXPORT_MCIIMAGE = 3;
         private JRadioButton p_RRGPATHS_button;
         private JRadioButton p_RRGSCENE_button;
+        private JRadioButton p_MCIIMAGE_button;
 
         public JPanel getPanel()
         {
@@ -188,6 +190,7 @@ public class FormExport extends JDialog implements ActionListener
             if (p_DOBGUI_button.isSelected()) return EXPORT_DOBGUI;
             if (p_RRGPATHS_button.isSelected()) return EXPORT_RRGPATHS;
             if (p_RRGSCENE_button.isSelected()) return EXPORT_RRGSCENE;
+            if (p_MCIIMAGE_button.isSelected()) return EXPORT_MCIIMAGE;
             return -1;
         }
 
@@ -197,6 +200,7 @@ public class FormExport extends JDialog implements ActionListener
             p_buttonGroup.add(p_DOBGUI_button);
             p_buttonGroup.add(p_RRGPATHS_button);
             p_buttonGroup.add(p_RRGSCENE_button);
+            p_buttonGroup.add(p_MCIIMAGE_button);
         }
     }
 
@@ -205,6 +209,7 @@ public class FormExport extends JDialog implements ActionListener
     private export_DOBGUI p_export_dobgui;
     private export_RRG_PATHS p_export_rrgpaths;
     private export_RRG_SCENE p_export_rrgscene;
+    private export_MobileCompoundForms p_export_mciimage;
     private FormCollection p_formCollection;
     private FormsList p_formList;
     private ResourceContainer p_resourceContainer;
@@ -215,6 +220,7 @@ public class FormExport extends JDialog implements ActionListener
         p_export_dobgui = new export_DOBGUI();
         p_export_rrgpaths = new export_RRG_PATHS();
         p_export_rrgscene = new export_RRG_SCENE();
+        p_export_mciimage = new export_MobileCompoundForms();
         p_SelectExportTypePanel = new SelectExportTypePanel();
         p_SelectExportedForms = new SelectExportedForms();
         p_OptionPanel.setLayout(new BorderLayout(0, 0));
@@ -283,6 +289,8 @@ public class FormExport extends JDialog implements ActionListener
                 return p_export_rrgpaths;
             case SelectExportTypePanel.EXPORT_RRGSCENE:
                 return p_export_rrgscene;
+            case SelectExportTypePanel.EXPORT_MCIIMAGE:
+                return p_export_mciimage;
         }
         return null;
     }
@@ -327,6 +335,7 @@ public class FormExport extends JDialog implements ActionListener
                             catch (IOException e1)
                             {
                                 Utilities.showErrorDialog(this, "Error during exporting process", e1.getMessage());
+                                //e1.printStackTrace();
                                 return;
                             }
                             finally

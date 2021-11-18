@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.raydac_research.FormEditor.ExportModules.export_MobileCompoundForms">
+  <grid id="1e55d" binding="p_MainPanel" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="67" y="46" width="223" height="215"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="6c9c" class="javax.swing.JCheckBox" binding="p_CheckBox_ConvertModifiedToStaticImages">
+        <constraints>
+          <xy x="0" y="2" width="222" height="22"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Convert modified images to static images"/>
+        </properties>
+      </component>
+      <component id="ece02" class="javax.swing.JCheckBox" binding="p_CheckBox_ImagesOnly">
+        <constraints>
+          <xy x="0" y="33" width="84" height="22"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <selected value="false"/>
+          <text value="Images only"/>
+        </properties>
+      </component>
+      <component id="61570" class="javax.swing.JCheckBox" binding="p_CheckBox_SaveChannel">
+        <constraints>
+          <xy x="0" y="64" width="115" height="22"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="Save channel data"/>
+        </properties>
+      </component>
+      <component id="69d85" class="javax.swing.JCheckBox" binding="p_CheckBox_SaveTextAsImages">
+        <constraints>
+          <xy x="0" y="95" width="123" height="22"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Save text as images"/>
+        </properties>
+      </component>
+      <grid id="a2bf8" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="186" width="223" height="29"/>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="etched"/>
+        <children>
+          <component id="bf8cd" class="javax.swing.JCheckBox" binding="p_CheckBox_copyImagesOnDisk">
+            <constraints>
+              <xy x="2" y="3" width="123" height="22"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="Copy images on disk"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="a3acf" class="javax.swing.JCheckBox" binding="p_CheckBox_SaveAnchorInfo">
+        <constraints>
+          <xy x="0" y="126" width="107" height="22"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <selected value="false"/>
+          <text value="Save anchor info"/>
+        </properties>
+      </component>
+      <component id="5996f" class="javax.swing.JCheckBox" binding="p_CheckBox_SavePaths">
+        <constraints>
+          <xy x="0" y="157" width="80" height="22"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="Save paths"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

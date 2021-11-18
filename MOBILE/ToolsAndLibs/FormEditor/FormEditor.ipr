@@ -34,8 +34,25 @@
       <entry name="?*.jpg" />
     </wildcardResourcePatterns>
   </component>
-  <component name="EntryPointsManager">
-    <entry_points />
+  <component name="DependenciesAnalyzeManager">
+    <option name="myForwardDirection" value="false" />
+  </component>
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/Doc/MCFFormat.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/Doc/RRGScene_Format.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/Font/AbstractFont.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/Font/GIFFont.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/ExportModules/RrgScene/Languages/Generator_Java.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/ExportModules/RrgScene/Resources/RrgResourceSection_Images.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/ExportModules/RrgScene/RrgScene.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/ExportModules/RrgScene/export_RRG_SCENE.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/ExportModules/export_MobileCompoundForms.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/Misc/MainForm.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/RrgFormComponents/FormContainer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/RrgFormComponents/JRrgFormContainer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/RrgFormComponents/RrgFormComponent_CustomArea.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/RrgFormComponents/RrgFormComponent_Image.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/raydac_research/FormEditor/RrgFormComponents/RrgFormComponent_Path.java" charset="UTF-8" />
   </component>
   <component name="ExportToHTMLSettings">
     <option name="PRINT_LINE_NUMBERS" value="false" />
@@ -47,14 +64,6 @@
       <option name="myName" value="Project Default" />
     </profile>
     <version value="1.0" />
-  </component>
-  <component name="JavacSettings">
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="false" />
-    <option name="DEPRECATION" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
-    <option name="MAXIMUM_HEAP_SIZE" value="128" />
-    <option name="USE_GENERICS_COMPILER" value="false" />
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />

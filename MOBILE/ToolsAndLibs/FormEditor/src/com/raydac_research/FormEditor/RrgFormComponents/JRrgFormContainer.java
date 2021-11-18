@@ -30,7 +30,8 @@ public class JRrgFormContainer extends JComponent
 
     public static final int FILTER_NONE = 0;
     public static final int FILTER_NTSC = 1;
-    public static final int FILTER_PHONELCD = 2;
+    public static final int FILTER_LCD444 = 2;
+    public static final int FILTER_LCD332 = 3;
 
     protected int i_filterType;
 
@@ -441,8 +442,11 @@ public class JRrgFormContainer extends JComponent
             case FILTER_NTSC:
                 filterNTSC(p_BufferImage);
                 break;
-            case FILTER_PHONELCD:
-                filterPhoneLCD(p_BufferImage);
+            case FILTER_LCD444:
+                filterRGB444(p_BufferImage);
+                break;
+            case FILTER_LCD332:
+                filterRGB332(p_BufferImage);
                 break;
         }
 
@@ -493,7 +497,7 @@ public class JRrgFormContainer extends JComponent
                 i_Ei_prev = i_Ei;
                 i_Eq_prev = i_Eq;
 
-                // Легкое смазывание яркости
+                // Р›РµРіРєРѕРµ СЃРјР°Р·С‹РІР°РЅРёРµ СЏСЂРєРѕСЃС‚Рё
                 i_Y += ((i_Y_prev - i_Y) >> 1);
 
                 if ((i_vertLine & 1) != 0) i_Y -= 0x1800;
@@ -531,7 +535,7 @@ public class JRrgFormContainer extends JComponent
                     i_Eq = i_Eq_prev >> 1;
                 }
 
-                // Легкое смазывание яркости
+                // Р›РµРіРєРѕРµ СЃРјР°Р·С‹РІР°РЅРёРµ СЏСЂРєРѕСЃС‚Рё
                 i_Y += ((i_Y_prev - i_Y) >> 1);
 
                 if ((i_vertLine & 1) != 0) i_Y -= 0x1800;
@@ -577,7 +581,7 @@ public class JRrgFormContainer extends JComponent
         }
     }
 
-    private void filterPhoneLCD(BufferedImage _RGBimage)
+    private void filterRGB444(BufferedImage _RGBimage)
     {
         int[] ai_ImageBuffer = ((DataBufferInt) _RGBimage.getRaster().getDataBuffer()).getData();
 
@@ -598,6 +602,27 @@ public class JRrgFormContainer extends JComponent
             if (i_g > 0xFF) i_g = 0xFF;
             if (i_b > 0xFF) i_b = 0xFF;
 
+
+            ai_ImageBuffer[li] = (i_r<<16) | (i_g<<8) | i_b;
+        }
+    }
+
+    private void filterRGB332(BufferedImage _RGBimage)
+    {
+        int[] ai_ImageBuffer = ((DataBufferInt) _RGBimage.getRaster().getDataBuffer()).getData();
+
+        int i_len = ai_ImageBuffer.length;
+
+        for (int li = 0; li < i_len; li++)
+        {
+            int i_rgb = ai_ImageBuffer[li];
+            int i_r = (i_rgb >>> 16) & 0xFF;
+            int i_g = (i_rgb >>> 8) & 0xFF;
+            int i_b = i_rgb & 0xFF;
+
+            i_r = i_r | 0x1F;
+            i_g = i_g | 0x1F;
+            i_b = i_b | 0x3F;
 
             ai_ImageBuffer[li] = (i_r<<16) | (i_g<<8) | i_b;
         }
@@ -685,11 +710,11 @@ public class JRrgFormContainer extends JComponent
             g.setColor(RULES_COLOR);
             g.setFont(RULES_FONT);
 
-            // Вертикальная линейка
+            // Р’РµСЂС‚РёРєР°Р»СЊРЅР°СЏ Р»РёРЅРµР№РєР°
             g.fillRect(p_ViewRect.x, p_ViewRect.y, RULES_WIDTH, p_ViewRect.y + p_ViewRect.height);
-            // Горизонтальная линейка
+            // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ Р»РёРЅРµР№РєР°
             g.fillRect(p_ViewRect.x, p_ViewRect.y, p_ViewRect.x + p_ViewRect.width, RULES_WIDTH);
-            // Граница
+            // Р“СЂР°РЅРёС†Р°
             g.setColor(Color.black);
             int i_xx = p_ViewRect.x + 1 + RULES_WIDTH;
             int i_yy = p_ViewRect.y + 1 + RULES_WIDTH;
@@ -703,7 +728,7 @@ public class JRrgFormContainer extends JComponent
             int i_fontHeight = RULES_FONT_METRICS.getHeight();
 
             g.setColor(RULES_LABEL_COLOR);
-            // горизонтальные метки
+            // РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ РјРµС‚РєРё
             int i_xStart = ((p_ViewRect.x + RULES_WIDTH) / i_rulesStep) * i_rulesStep;
             int i_xEnd = p_ViewRect.x + p_ViewRect.width;
             int i_Yoffset = p_ViewRect.y;
@@ -714,7 +739,7 @@ public class JRrgFormContainer extends JComponent
                 {
                     int i_xc = i_Xoffset + li;
 
-                    // Большая метка
+                    // Р‘РѕР»СЊС€Р°СЏ РјРµС‚РєР°
                     if (i_Scale == 1)
                     {
                         g.drawLine(i_xc, i_Yoffset, i_xc, i_Yoffset + RULES_LABEL_BIG_HEIGHT - 1);
@@ -725,7 +750,7 @@ public class JRrgFormContainer extends JComponent
                     }
                     if (i_Scale != 1)
                     {
-                        // Координата
+                        // РљРѕРѕСЂРґРёРЅР°С‚Р°
                         String s_coord = Integer.toString((i_xc - i_BWW) / i_Scale);
                         int i_strWdth = RULES_FONT_METRICS.stringWidth(s_coord);
                         g.drawString(s_coord, i_xc - (i_strWdth >> 1), i_Yoffset + RULES_LABEL_BIG_HEIGHT + i_fontHeight);
@@ -736,13 +761,13 @@ public class JRrgFormContainer extends JComponent
                     if (i_Scale > 2)
                         if ((i_Xoffset + li) % i_Scale == 0)
                         {
-                            // Малая метка
+                            // РњР°Р»Р°СЏ РјРµС‚РєР°
                             g.drawLine(i_Xoffset + li, i_Yoffset, i_Xoffset + li, i_Yoffset + RULES_LABEL_SMALL_HEIGHT - 1);
                         }
                 }
             }
 
-            // Вертикальные метки
+            // Р’РµСЂС‚РёРєР°Р»СЊРЅС‹Рµ РјРµС‚РєРё
             int i_yStart = ((p_ViewRect.y + RULES_WIDTH) / i_rulesStep) * i_rulesStep;
             int i_yEnd = p_ViewRect.y + p_ViewRect.height;
             i_Xoffset = p_ViewRect.x;
@@ -753,7 +778,7 @@ public class JRrgFormContainer extends JComponent
                 int i_yc = i_Yoffset + li;
                 if (i_yc % i_rulesStep == 0)
                 {
-                    // Большая метка
+                    // Р‘РѕР»СЊС€Р°СЏ РјРµС‚РєР°
                     if (i_Scale == 1)
                     {
                         g.drawLine(i_Xoffset, i_yc, i_Xoffset + RULES_LABEL_BIG_HEIGHT - 1, li + i_Yoffset);
@@ -766,7 +791,7 @@ public class JRrgFormContainer extends JComponent
 
                     if (i_Scale > 1)
                     {
-                        // Координата
+                        // РљРѕРѕСЂРґРёРЅР°С‚Р°
                         String s_coord = Integer.toString((i_yc - i_BWW) / i_Scale);
                         int i_strWdth = RULES_FONT_METRICS.stringWidth(s_coord);
                         g.translate(i_Xoffset + RULES_LABEL_BIG_HEIGHT + i_fontHeight, i_yc);
@@ -781,7 +806,7 @@ public class JRrgFormContainer extends JComponent
                     if (i_Scale > 2)
                         if ((i_Yoffset + li) % i_Scale == 0)
                         {
-                            // Малая метка
+                            // РњР°Р»Р°СЏ РјРµС‚РєР°
                             g.drawLine(i_Xoffset, li + i_Yoffset, i_Xoffset + RULES_LABEL_SMALL_HEIGHT - 1, li + i_Yoffset);
                         }
                 }
@@ -798,7 +823,7 @@ public class JRrgFormContainer extends JComponent
                         {
                             Color p_color = COLOR_VERTICAL_RULER;
                             g.setColor(p_color);
-                            // Проверка видимости
+                            // РџСЂРѕРІРµСЂРєР° РІРёРґРёРјРѕСЃС‚Рё
                             if ((i_coord >= (p_ViewRect.x + RULES_WIDTH)) && (i_coord <= (p_ViewRect.x + p_ViewRect.width)))
                             {
                                 int i_x = i_coord;
@@ -812,7 +837,7 @@ public class JRrgFormContainer extends JComponent
                         {
                             Color p_color = COLOR_HORIZONTAL_RULER;
                             g.setColor(p_color);
-                            // Проверка видимости
+                            // РџСЂРѕРІРµСЂРєР° РІРёРґРёРјРѕСЃС‚Рё
                             if ((i_coord >= (p_ViewRect.y + RULES_WIDTH)) && (i_coord <= (p_ViewRect.y + p_ViewRect.height)))
                             {
                                 int i_y = i_coord;
@@ -847,12 +872,12 @@ public class JRrgFormContainer extends JComponent
                 {
                     if (!_leftKey)
                     {
-                        // Добавляем
+                        // Р”РѕР±Р°РІР»СЏРµРј
                         p_newRulerIndicator = new FormRuler(FormRuler.TYPE_HORIZ, i_yy);
                     }
                     else
                     {
-                        // Удаляем
+                        // РЈРґР°Р»СЏРµРј
                         FormRuler p_focusedRuler = getFocusedRuler(_x,_y,i_overRulersState);
                         if (p_focusedRuler!=null)
                         {
@@ -866,12 +891,12 @@ public class JRrgFormContainer extends JComponent
                 {
                     if (!_leftKey)
                     {
-                        // Добавляем
+                        // Р”РѕР±Р°РІР»СЏРµРј
                         p_newRulerIndicator = new FormRuler(FormRuler.TYPE_VERT, i_xx);
                     }
                     else
                     {
-                        // Удаляем
+                        // РЈРґР°Р»СЏРµРј
                         FormRuler p_focusedRuler = getFocusedRuler(_x,_y,i_overRulersState);
                         if (p_focusedRuler!=null)
                         {
@@ -953,7 +978,7 @@ public class JRrgFormContainer extends JComponent
             g.fill3DRect(i_x + i_width - (SELECTED_RECTANGLE_SIZE >> 1), i_y + i_height - (SELECTED_RECTANGLE_SIZE >> 1), SELECTED_RECTANGLE_SIZE, SELECTED_RECTANGLE_SIZE, true);
         }
 
-        // Рисуем линейки
+        // Р РёСЃСѓРµРј Р»РёРЅРµР№РєРё
         if (lg_drawRulers) drawRulers((Graphics2D) g, ((JViewport) getParent()).getViewRect());
     }
 }

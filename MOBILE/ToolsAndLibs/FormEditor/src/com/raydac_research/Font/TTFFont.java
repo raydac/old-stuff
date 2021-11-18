@@ -6,6 +6,7 @@ import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.util.StringTokenizer;
 
 public class TTFFont extends AbstractFont
 {
@@ -150,7 +151,7 @@ public class TTFFont extends AbstractFont
         return p_fontMentrics.stringWidth(_string);
     }
 
-    public boolean loadForntFromFile(File _file) throws IOException
+    public boolean loadFontFromFile(File _file) throws IOException
     {
         try
         {
@@ -164,12 +165,37 @@ public class TTFFont extends AbstractFont
         return true;
     }
 
+    private String [] parseToArray(String _string)
+    {
+        int i_strings = getLinesNumber(_string);
+        String [] as_arra = new String[i_strings];
+        int i_indx = 0;
+        String s_buff ="";
+        char [] ach_chars = _string.toCharArray();
+        for(int li=0;li<ach_chars.length;li++)
+        {
+            char ch_char = ach_chars[li];
+            if (ch_char=='\n')
+            {
+                as_arra[i_indx++] = s_buff;
+                s_buff="";
+            }
+            else
+            {
+                s_buff+=ch_char;
+            }
+        }
+        if (i_indx<i_strings) as_arra[i_indx] = s_buff;
+        return as_arra;
+    }
+
     public BufferedImage makeTransparentStringImage(String _str, Color _color)
     {
         if (p_font == null) return null;
 
         int i_width = getStringWidth(_str);
-        int i_height = getHeight();
+        int i_lines = getLinesNumber(_str);
+        int i_height = getHeight()*i_lines;
 
         BufferedImage p_buffImage = new BufferedImage(i_width,i_height,BufferedImage.TYPE_INT_ARGB);
         int[] ai_ImageBuffer = ((DataBufferInt) p_buffImage.getRaster().getDataBuffer()).getData();
@@ -178,10 +204,27 @@ public class TTFFont extends AbstractFont
         Graphics p_graphics = p_buffImage.getGraphics();
         p_graphics.setColor(_color);
         p_graphics.setFont(p_font);
-        p_graphics.drawString(_str,0,p_fontMentrics.getMaxAscent());
 
-        if (lg_Underline) p_graphics.drawLine(0,getBaseline(),i_width,getBaseline());
+        String [] as_arra = parseToArray(_str);
 
-        return p_buffImage;
+        int i_y = 0;
+
+        for(int li=0;li<i_lines;li++)
+        {
+            p_graphics.drawString(as_arra[li],0,i_y+p_fontMentrics.getMaxAscent());
+            i_y += getHeight();
+        }
+
+        if (lg_Underline)
+        {
+            i_y = getBaseline();
+            while(i_lines>0)
+            {
+                p_graphics.drawLine(0,i_y,i_width,i_y);
+                i_y +=getBaseline();
+                i_lines--;
+            }
+        }
+        return cropImage(p_buffImage);
     }
 }

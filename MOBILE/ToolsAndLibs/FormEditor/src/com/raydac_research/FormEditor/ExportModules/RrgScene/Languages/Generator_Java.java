@@ -34,8 +34,8 @@ public class Generator_Java implements AbstractLanguageHeaderGenerator
         _outStream.println("{");
         _outStream.println();
 
-        // Выводим индексы ресурсов
-        // Изображения
+        // Р’С‹РІРѕРґРёРј РёРЅРґРµРєСЃС‹ СЂРµСЃСѓСЂСЃРѕРІ
+        // РР·РѕР±СЂР°Р¶РµРЅРёСЏ
         RrgResourceSection p_section = _scene.getImagesSection();
         if (p_section != null)
         {
@@ -47,7 +47,7 @@ public class Generator_Java implements AbstractLanguageHeaderGenerator
                 _outStream.println();
             }
         }
-        // Текст
+        // РўРµРєСЃС‚
         p_section = _scene.getTextsSection();
         if (p_section != null)
         {
@@ -59,7 +59,7 @@ public class Generator_Java implements AbstractLanguageHeaderGenerator
                 _outStream.println();
             }
         }
-        // Звуки
+        // Р—РІСѓРєРё
         p_section = _scene.getSoundsSection();
         if (p_section != null)
         {
@@ -71,7 +71,7 @@ public class Generator_Java implements AbstractLanguageHeaderGenerator
                 _outStream.println();
             }
         }
-        // Фонты
+        // Р¤РѕРЅС‚С‹
         p_section = _scene.getFontsSection();
         if (p_section != null)
         {
@@ -83,7 +83,7 @@ public class Generator_Java implements AbstractLanguageHeaderGenerator
                 _outStream.println();
             }
         }
-        // Формы и компоненты
+        // Р¤РѕСЂРјС‹ Рё РєРѕРјРїРѕРЅРµРЅС‚С‹
         RRGScene_FormsSection p_forms = _scene.getFormsSection();
         if (p_forms != null)
         {

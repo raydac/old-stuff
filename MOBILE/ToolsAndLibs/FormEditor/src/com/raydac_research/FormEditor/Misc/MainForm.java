@@ -27,8 +27,9 @@ import org.w3c.dom.NodeList;
 
 public class MainForm extends FileFilter implements WindowListener, ActionListener, TreeSelectionListener, MouseListener, MouseMotionListener, FocusListener
 {
+    private static final boolean DEMO = false;
+
     private JPanel p_PropertiesPanel;
-    private JButton p_AppendButton;
     private JTextField p_ResourceIDEditLabel;
 
     private Object p_CurrentPropertiesPage;
@@ -86,7 +87,8 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
     private static final String ACTION_FILTER_NONE = "FILTER_NONE";
     private static final String ACTION_FILTER_NTSC = "FILTER_NTSC";
-    private static final String ACTION_FILTER_PHONELCD = "FILTER_PHONELCD";
+    private static final String ACTION_FILTER_LCD444 = "FILTER_LCD444";
+    private static final String ACTION_FILTER_LCD332 = "FILTER_LCD332";
 
     private static final JMenu p_Menu_File = new JMenu("File");
 
@@ -140,7 +142,8 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
     private static final ButtonGroup p_ViewFilterGroup = new ButtonGroup();
     private static final JCheckBoxMenuItem p_View_Filter_None = new JCheckBoxMenuItem("Filter NONE");
     private static final JCheckBoxMenuItem p_View_Filter_NTSC = new JCheckBoxMenuItem("Filter NTSC");
-    private static final JCheckBoxMenuItem p_View_Filter_PhoneLCD = new JCheckBoxMenuItem("Filter Phone LCD");
+    private static final JCheckBoxMenuItem p_View_Filter_LCD444 = new JCheckBoxMenuItem("Filter LCD444");
+    private static final JCheckBoxMenuItem p_View_Filter_LCD332 = new JCheckBoxMenuItem("Filter LCD332");
 
     private static final JMenu p_Help = new JMenu("Help");
 
@@ -301,7 +304,8 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         p_ViewFilterGroup.add(p_View_Filter_None);
         p_ViewFilterGroup.add(p_View_Filter_NTSC);
-        p_ViewFilterGroup.add(p_View_Filter_PhoneLCD);
+        p_ViewFilterGroup.add(p_View_Filter_LCD444);
+        p_ViewFilterGroup.add(p_View_Filter_LCD332);
 
         p_Menu_View.addSeparator();
         p_View_Filter_None.setActionCommand(ACTION_FILTER_NONE);
@@ -312,9 +316,13 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         p_Menu_View.add(p_View_Filter_NTSC);
         p_View_Filter_NTSC.addActionListener(this);
 
-        p_View_Filter_PhoneLCD.setActionCommand(ACTION_FILTER_PHONELCD);
-        p_Menu_View.add(p_View_Filter_PhoneLCD);
-        p_View_Filter_PhoneLCD.addActionListener(this);
+        p_View_Filter_LCD444.setActionCommand(ACTION_FILTER_LCD444);
+        p_Menu_View.add(p_View_Filter_LCD444);
+        p_View_Filter_LCD444.addActionListener(this);
+
+        p_View_Filter_LCD332.setActionCommand(ACTION_FILTER_LCD332);
+        p_Menu_View.add(p_View_Filter_LCD332);
+        p_View_Filter_LCD332.addActionListener(this);
 
         // RrgForm
         p_Menu_Form.add(p_Item_NewForm);
@@ -373,7 +381,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
     private Object p_undoComponent = null;
     private Object p_redoComponent = null;
 
-    public MainForm()
+    public MainForm(String _file)
     {
         p_FormCollection = new FormCollection();
         p_TreeDataRenderer = new TreeDataRenderer();
@@ -387,7 +395,6 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         p_FormExport = new FormExport(p_MainFrame);
 
-        p_AppendButton.addActionListener(this);
         p_AppendChangesButton.addActionListener(this);
 
         p_PropertiesPanel.setLayout(new BorderLayout(0, 0));
@@ -446,6 +453,39 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         FormTree.setModel(p_FormCollection);
 
         p_TabbedPane.setSelectedIndex(1);
+
+        if (_file!=null)
+        {
+            // Р—Р°РіСЂСѓР¶Р°РµРј С„РѕСЂРјСѓ
+            File p_fileForOpen = new File (_file);
+            if (p_fileForOpen.exists() && !p_fileForOpen.isDirectory())
+            {
+                ResourceContainer p_resCont = new ResourceContainer();
+                FormCollection p_newFormCollection = new FormCollection();
+                try
+                {
+                    LoadFromFile(p_fileForOpen, p_resCont, p_newFormCollection);
+                }
+                catch (IOException e1)
+                {
+                    Utilities.showErrorDialog(p_MainFrame, "Error of loading", e1.getMessage());
+                    return;
+                }
+
+                p_Clipboard = null;
+
+                p_ResourceContainer.copy(p_resCont);
+                p_FormCollection.copy(p_newFormCollection);
+                p_CurrentFile = p_fileForOpen;
+                p_MainFrame.setTitle(p_CurrentFile.getAbsolutePath());
+
+                selectForm(p_FormCollection.getFirstForm());
+
+                fillFormsList();
+
+                lg_currentFileChanged = false;
+            }
+        }
 
         p_MainFrame.show();
     }
@@ -527,8 +567,33 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
             }
             else if (e.getSource().equals(p_AppendChangesButton))
             {
+                String s_Str = p_ResourceIDEditLabel.getText().trim();
+                if (s_Str.length() == 0)
+                {
+                    Utilities.showInfoDialog(p_MainFrame, "Info", "You should not have an empty id field");
+                    return;
+                }
+
                 if (p_CurrentSelectedResource != null)
                 {
+                    // РїСЂРѕРёР·РІРѕРґРёРј Р°РїРіСЂРµР№Рґ СЂРµСЃСѓСЂСЃР°
+
+                    if (!p_CurrentSelectedResource.getResourceID().equals(s_Str))
+                    {
+                        if (p_ResourceContainer.containsID(s_Str))
+                        {
+                            Utilities.showErrorDialog(p_MainFrame, "Duplicated name", "You are having the \'" + s_Str + "\' resource already in the list");
+                            return;
+                        }
+                        else
+                        {
+                            p_CurrentSelectedResource.setResourceID(s_Str);
+                            TreePath p_treePath = p_ResourceContainer.getTreePath(p_CurrentSelectedResource);
+                            ResourcesTree.setSelectionPath(p_treePath);
+                            p_ResourceContainer.isUpdated();
+                        }
+                    }
+
                     AbstractPropertiesPage p_propertiesPage = (AbstractPropertiesPage) p_CurrentPropertiesPage;
                     String s_errorMessage = p_propertiesPage.isDataOk();
                     if (s_errorMessage == null)
@@ -560,63 +625,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                 }
                 else
                 {
-                    NewComponent_Form.AbstractFormComponentPanel p_propertiesPage = (NewComponent_Form.AbstractFormComponentPanel) p_CurrentPropertiesPage;
-                    String s_errorMessage = p_propertiesPage.isDataOk();
-                    if (s_errorMessage == null)
-                    {
-                        synchronized (p_CurrentSelectedComponent)
-                        {
-                            p_propertiesPage.fillComponentFromProperties(p_CurrentSelectedComponent, p_ResourceContainer);
-                            p_propertiesPage.fillPropertiesFromComponent(p_CurrentSelectedComponent, p_ResourceContainer);
-                        }
-
-                        if (p_CurrentSelectedComponent.equals(p_FormCollection.getSelectedForm()))
-                        {
-                            p_FormComponent.setFormSize(p_FormCollection.getSelectedForm().getWidth(), p_FormCollection.getSelectedForm().getHeight());
-                            p_FormComponent.setBackground(p_FormCollection.getSelectedForm().getBackgroundColor());
-                            p_FormCollection.getSelectedForm().fillComponentPropertiesFromForm();
-                        }
-                        lg_currentFileChanged = true;
-
-                        p_FormComponent.fillBufferImage();
-                    }
-                    else
-                    {
-                        Utilities.showErrorDialog(p_MainFrame, "Error", s_errorMessage);
-                        return;
-                    }
-                }
-            }
-            else if (e.getSource().equals(p_AppendButton))
-            {
-                String s_Str = p_ResourceIDEditLabel.getText().trim();
-                if (s_Str.length() == 0)
-                {
-                    Utilities.showInfoDialog(p_MainFrame, "Info", "You should not have an empty id field");
-                    return;
-                }
-
-                if (p_CurrentSelectedResource != null)
-                {
-                    if (!p_CurrentSelectedResource.getResourceID().equals(s_Str))
-                    {
-                        if (p_ResourceContainer.containsID(s_Str))
-                        {
-                            Utilities.showErrorDialog(p_MainFrame, "Duplicated name", "You are having the \'" + s_Str + "\' resource already in the list");
-                            return;
-                        }
-                        else
-                        {
-                            p_CurrentSelectedResource.setResourceID(s_Str);
-                            TreePath p_treePath = p_ResourceContainer.getTreePath(p_CurrentSelectedResource);
-                            ResourcesTree.setSelectionPath(p_treePath);
-                            p_ResourceContainer.isUpdated();
-                        }
-                    }
-                    lg_currentFileChanged = true;
-                }
-                else
-                {
+                    // РђРїРіСЂРµР№Рґ РєРѕРјРїРѕРЅРµРЅС‚Р°
                     String s_StrChannel = p_ComponentChannelID.getText().trim();
                     String s_StrX = p_ComponentXcoord.getText().trim();
                     String s_StrY = p_ComponentYcoord.getText().trim();
@@ -661,18 +670,43 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                         Utilities.showErrorDialog(p_MainFrame, "Duplicated name", "You are having the \'" + s_Str + "\' component already in the list");
                         return;
                     }
-                    else
-                    {
+
                         p_CurrentSelectedComponent.setID(s_Str);
                         p_CurrentSelectedComponent.setX(i_newX);
                         p_CurrentSelectedComponent.setY(i_newY);
                         p_CurrentSelectedComponent.setChannel(i_channel);
-                        TreePath p_treePath = p_FormCollection.getSelectedForm().getTreePath(p_CurrentSelectedComponent);
-                        FormTree.setSelectionPath(p_treePath);
-                        p_FormCollection.getSelectedForm().isUpdated();
 
+
+
+                    NewComponent_Form.AbstractFormComponentPanel p_propertiesPage = (NewComponent_Form.AbstractFormComponentPanel) p_CurrentPropertiesPage;
+                    String s_errorMessage = p_propertiesPage.isDataOk();
+                    if (s_errorMessage == null)
+                    {
+                        synchronized (p_CurrentSelectedComponent)
+                        {
+                            p_propertiesPage.fillComponentFromProperties(p_CurrentSelectedComponent, p_ResourceContainer);
+                            p_propertiesPage.fillPropertiesFromComponent(p_CurrentSelectedComponent, p_ResourceContainer);
+                        }
+
+                        if (p_CurrentSelectedComponent.equals(p_FormCollection.getSelectedForm()))
+                        {
+                            p_FormComponent.setFormSize(p_FormCollection.getSelectedForm().getWidth(), p_FormCollection.getSelectedForm().getHeight());
+                            p_FormComponent.setBackground(p_FormCollection.getSelectedForm().getBackgroundColor());
+                            p_FormCollection.getSelectedForm().fillComponentPropertiesFromForm();
+                        }
                         lg_currentFileChanged = true;
+
+                        p_FormComponent.fillBufferImage();
                     }
+                    else
+                    {
+                        Utilities.showErrorDialog(p_MainFrame, "Error", s_errorMessage);
+                        return;
+                    }
+
+                    TreePath p_treePath = p_FormCollection.getSelectedForm().getTreePath(p_CurrentSelectedComponent);
+                    FormTree.setSelectionPath(p_treePath);
+                    p_FormCollection.getSelectedForm().isUpdated();
                 }
             }
             else if (e.getActionCommand() == ACTION_FILE_NEW)
@@ -831,7 +865,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                                 p_fc.removeComponentForIndex(p_fc.getIndexForComponent((AbstractFormComponent) p_vector.elementAt(li)));
                             }
 
-                            if (p_Clipboard.doesUseResource(p_resource))
+                            if (p_Clipboard!=null && p_Clipboard.doesUseResource(p_resource))
                             {
                                 p_Clipboard = null;
                             }
@@ -997,9 +1031,13 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
             {
                 p_FormComponent.setFilter(JRrgFormContainer.FILTER_NTSC);
             }
-            else if (e.getActionCommand().equals(ACTION_FILTER_PHONELCD))
+            else if (e.getActionCommand().equals(ACTION_FILTER_LCD444))
             {
-                p_FormComponent.setFilter(JRrgFormContainer.FILTER_PHONELCD);
+                p_FormComponent.setFilter(JRrgFormContainer.FILTER_LCD444);
+            }
+            else if (e.getActionCommand().equals(ACTION_FILTER_LCD332))
+            {
+                p_FormComponent.setFilter(JRrgFormContainer.FILTER_LCD332);
             }
             else
             {
@@ -1025,7 +1063,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         }
     }
 
-    // Инициализация коллекции, удаляем все ресурсы и создаем одну пустую форму
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕР»Р»РµРєС†РёРё, СѓРґР°Р»СЏРµРј РІСЃРµ СЂРµСЃСѓСЂСЃС‹ Рё СЃРѕР·РґР°РµРј РѕРґРЅСѓ РїСѓСЃС‚СѓСЋ С„РѕСЂРјСѓ
     protected void initResourcesAndForm()
     {
         p_Clipboard = null;
@@ -1050,11 +1088,14 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
     protected void saveToFile(File _newFile, ResourceContainer _resources, FormCollection _collection) throws IOException
     {
-        if (Utilities.askDialog(p_MainFrame, "Relative paths", "Do you want to use relative paths to resources?"))
-            SaveToFile(_newFile, _resources, _collection, true);
-        else
-            SaveToFile(_newFile, _resources, _collection, false);
-        lg_currentFileChanged = false;
+        if (!DEMO)
+        {
+            if (Utilities.askDialog(p_MainFrame, "Relative paths", "Do you want to use relative paths to resources?"))
+                SaveToFile(_newFile, _resources, _collection, true);
+            else
+                SaveToFile(_newFile, _resources, _collection, false);
+            lg_currentFileChanged = false;
+        }
     }
 
     protected void removeCurrentForm()
@@ -1500,7 +1541,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         if (i_overRuler != JRrgFormContainer.OVER_RULER_NONE)
         {
-            // Обработка нажатия на линейки
+            // РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° Р»РёРЅРµР№РєРё
             p_focusedFormRuler = p_FormComponent.getFocusedRuler(i_x, i_y, i_overRuler);
             if (p_focusedFormRuler != null)
             {
@@ -1525,7 +1566,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         }
         else
         {
-            // Обработка нажатия на компоненты
+            // РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРѕРјРїРѕРЅРµРЅС‚С‹
             i_x = i_x / p_FormComponent.getScale() - JRrgFormContainer.BORDER_WIDTH_HEIGHT;
             i_y = i_y / p_FormComponent.getScale() - JRrgFormContainer.BORDER_WIDTH_HEIGHT;
             AbstractFormComponent p_component = p_FormCollection.getSelectedForm().getComponentAt(i_x, i_y);
@@ -1601,7 +1642,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         if (p_focusedFormRuler != null)
         {
-            // Отрабатываем смену позиции у перетаскиваемой линейки
+            // РћС‚СЂР°Р±Р°С‚С‹РІР°РµРј СЃРјРµРЅСѓ РїРѕР·РёС†РёРё Сѓ РїРµСЂРµС‚Р°СЃРєРёРІР°РµРјРѕР№ Р»РёРЅРµР№РєРё
             switch (p_focusedFormRuler.getType())
             {
                 case FormRuler.TYPE_VERT:
@@ -1661,7 +1702,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
             int i_x = e.getX() / p_FormComponent.getScale() - JRrgFormContainer.BORDER_WIDTH_HEIGHT;
             int i_y = e.getY() / p_FormComponent.getScale() - JRrgFormContainer.BORDER_WIDTH_HEIGHT;
 
-            // Отрабатываем смену позиции у перетаскиваемой линейки
+            // РћС‚СЂР°Р±Р°С‚С‹РІР°РµРј СЃРјРµРЅСѓ РїРѕР·РёС†РёРё Сѓ РїРµСЂРµС‚Р°СЃРєРёРІР°РµРјРѕР№ Р»РёРЅРµР№РєРё
             switch (p_focusedFormRuler.getType())
             {
                 case FormRuler.TYPE_VERT:
@@ -1834,8 +1875,11 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
             case JRrgFormContainer.FILTER_NTSC:
                 p_View_Filter_NTSC.setSelected(true);
                 break;
-            case JRrgFormContainer.FILTER_PHONELCD:
-                p_View_Filter_PhoneLCD.setSelected(true);
+            case JRrgFormContainer.FILTER_LCD444:
+                p_View_Filter_LCD444.setSelected(true);
+                break;
+            case JRrgFormContainer.FILTER_LCD332:
+                p_View_Filter_LCD332.setSelected(true);
                 break;
         }
 
@@ -1887,7 +1931,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         p_MainFrame.getJMenuBar().validate();
 
-        // Кнопки отвечающие за добавление, удаление форм
+        // РљРЅРѕРїРєРё РѕС‚РІРµС‡Р°СЋС‰РёРµ Р·Р° РґРѕР±Р°РІР»РµРЅРёРµ, СѓРґР°Р»РµРЅРёРµ С„РѕСЂРј
         if (p_FormCollection.getFormsNumber() == 1)
         {
             p_Item_RemoveForm.setEnabled(false);
@@ -1934,7 +1978,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         }
         FileOutputStream p_fos = new FileOutputStream(_name);
         PrintStream p_PrintStream = new PrintStream(p_fos);
-        p_PrintStream.println("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+        p_PrintStream.println("<?xml version=\"1.0\" encoding=\"windows-1251\" ?>");
         p_PrintStream.println("<" + XML_RRGFRM + ">");
         if (_resources != null)
         {
@@ -2049,7 +2093,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
         }
     }
 
-    private class TreeDataRenderer extends JLabel implements TreeCellRenderer
+    private class TreeDataRenderer implements TreeCellRenderer
     {
         private ImageIcon p_Tree_ResourceImageIcon;
         private ImageIcon p_Tree_ResourceSoundIcon;
@@ -2086,7 +2130,6 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
             p_Tree_FormHidden = Utilities.loadIconFromResource("cmp_hdn_ico.gif");
             p_Tree_FormPinned = Utilities.loadIconFromResource("cmp_pnd_ico.gif");
 
-            setOpaque(true);
         }
 
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
@@ -2112,20 +2155,23 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                             break;
                     }
 
-                    setIcon(p_icon);
-                    setText(value.toString());
+                    JLabel p_result = new JLabel(value.toString(),p_icon,JLabel.LEFT);
+
+                    p_result.setToolTipText(value.toString());
+
 
                     if (!selected)
                     {
-                        setBackground(Color.white);
-                        setForeground(Color.black);
+                        p_result.setBackground(Color.white);
+                        p_result.setForeground(Color.black);
                     }
                     else
                     {
-                        setBackground(Color.blue);
-                        setForeground(Color.white);
+                        p_result.setBackground(Color.blue);
+                        p_result.setForeground(Color.white);
                     }
-                    return this;
+                    p_result.setOpaque(true);
+                    return p_result;
                 }
                 else
                 {
@@ -2160,9 +2206,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                             break;
                     }
 
-                    setIcon(p_icon);
-                    String s_string = value.toString();
-                    setText(s_string);
+                    ImageIcon p_ic = p_icon;
 
                     int i_iconWidth = p_icon.getIconWidth();
 
@@ -2171,7 +2215,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
                     if (i_iconWidth == p_icon.getIconWidth())
                     {
-                        setIcon(p_icon);
+                        p_ic = p_icon;
                     }
                     else
                     {
@@ -2190,21 +2234,26 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
                             i_iw += p_Tree_FormPinned.getIconWidth();
                         }
 
-                        setIcon(new ImageIcon(p_newIcon));
+                        p_ic = new ImageIcon(p_newIcon);
                     }
-                    validate();
+
+                    String s_string = value.toString();
+
+                    JLabel p_result = new JLabel(s_string,p_ic,JLabel.LEFT);
+                    p_result.setToolTipText(s_string);
 
                     if (!selected)
                     {
-                        setBackground(Color.white);
-                        setForeground(Color.black);
+                        p_result.setBackground(Color.white);
+                        p_result.setForeground(Color.black);
                     }
                     else
                     {
-                        setBackground(Color.red);
-                        setForeground(Color.white);
+                        p_result.setBackground(Color.red);
+                        p_result.setForeground(Color.white);
                     }
-                    return this;
+                    p_result.setOpaque(true);
+                    return p_result;
                 }
                 else
                 {

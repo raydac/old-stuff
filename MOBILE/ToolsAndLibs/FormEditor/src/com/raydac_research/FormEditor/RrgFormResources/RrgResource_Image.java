@@ -15,12 +15,12 @@ public class RrgResource_Image extends AbstractRrgResource
 {
     protected int i_width;
     protected int i_height;
-    protected Image p_image;
+    protected BufferedImage p_image;
     protected File p_imageFile;
 
     protected int i_width_trans;
     protected int i_height_trans;
-    protected Image p_image_trans;
+    protected BufferedImage p_image_trans;
     protected File p_imageFile_trans;
 
     protected static final String XML_IMAGE = "image";
@@ -63,7 +63,7 @@ public class RrgResource_Image extends AbstractRrgResource
         setImageFile(_imageFile);
     }
 
-    public Image getImage()
+    public BufferedImage getImage()
     {
         return p_image;
     }
