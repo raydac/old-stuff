@@ -19,7 +19,7 @@ public class GIFFont extends AbstractFont
 
     public int i_CharsNumber;
 
-    public static final String CHARSET = "\n 0123456789:.,!?+-/\'\"()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
+    public static final String CHARSET = "\n 0123456789:.,!?+-/\'\"()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzРђР‘Р’Р“Р”Р•Р–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇР°Р±РІРіРґРµР¶Р·РёР№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЉС‹СЊСЌСЋСЏ";
 
     public int getHeight()
     {
@@ -68,7 +68,7 @@ public class GIFFont extends AbstractFont
             p_graphics.setClip(i_clipX,_y,i_charWidth,i_charHeight);
             if (i_index<0)
             {
-                // Рисуем квадрат с крестиком, в знак что символа нет
+                // Р РёСЃСѓРµРј РєРІР°РґСЂР°С‚ СЃ РєСЂРµСЃС‚РёРєРѕРј, РІ Р·РЅР°Рє С‡С‚Рѕ СЃРёРјРІРѕР»Р° РЅРµС‚
                 Color p_color = p_graphics.getColor();
                 p_graphics.fillRect(i_clipX,0,i_charWidth,i_charHeight);
 
@@ -79,7 +79,7 @@ public class GIFFont extends AbstractFont
             }
             else
             {
-                // Выводим букву
+                // Р’С‹РІРѕРґРёРј Р±СѓРєРІСѓ
                 p_graphics.drawImage(p_FontImage,i_clipX-(i_charWidth*i_index),_y,null);
             }
 
@@ -130,7 +130,7 @@ public class GIFFont extends AbstractFont
         int i_y1=i_charHeight-1;
         int i_y2=0;
 
-        // Вычисляем интервал между символами
+        // Р’С‹С‡РёСЃР»СЏРµРј РёРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ СЃРёРјРІРѕР»Р°РјРё
         for(int i_char=0;i_char<p_image.getWidth();i_char+=i_charWidth)
         {
              for(int lx=0;lx<i_charWidth;lx++)

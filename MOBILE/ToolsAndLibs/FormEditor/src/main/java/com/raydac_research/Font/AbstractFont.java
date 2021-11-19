@@ -38,7 +38,7 @@ public abstract class AbstractFont
         int i_y1=_argb.getHeight()-1;
         int i_y2=0;
 
-        // Вычисляем интервал между символами
+        // Р’С‹С‡РёСЃР»СЏРµРј РёРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ СЃРёРјРІРѕР»Р°РјРё
              for(int lx=0;lx<_argb.getWidth();lx++)
              {
                  int i_pntr = lx;

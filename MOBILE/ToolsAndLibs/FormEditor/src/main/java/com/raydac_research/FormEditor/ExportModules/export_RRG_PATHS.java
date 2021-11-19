@@ -139,7 +139,7 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
 
                         p_PathDataStore.i_Offset = i_offset;
 
-                        // Количество точек-1
+                        // РљРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕС‡РµРє-1
                         int i_points = p_pathComponent.p_PointVector.size();
                         if (i_points == 0) throw new IOException("Path " + s_pathID + " doesn't have any point");
                         p_StrBuffer.append("(short)");
@@ -147,7 +147,7 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
                         i_offset++;
                         p_StrBuffer.append(',');
 
-                        // Тип пути
+                        // РўРёРї РїСѓС‚Рё
                         p_StrBuffer.append("(short)");
                         int i_type = 0;
                         switch (p_pathComponent.i_PathType)
@@ -166,7 +166,7 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
                                 break;
                         }
 
-                        // Флаги
+                        // Р¤Р»Р°РіРё
                         i_type |= p_pathComponent.lg_NotifyOnEndPoint ? NOTIFY_ENDPOINT : 0;
                         i_type |= p_pathComponent.lg_NotifyOnEveryPoint ? NOTIFY_EVERYPOINT : 0;
 
@@ -256,7 +256,7 @@ public class export_RRG_PATHS extends FileFilter implements AbstractFormExportMo
 
             i_offset = 0;
 
-            // Экспорт кастом компонентов
+            // Р­РєСЃРїРѕСЂС‚ РєР°СЃС‚РѕРј РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
             for (int li = 0; li < p_exportedForm.getSize(); li++)
             {
                 AbstractFormComponent p_component = p_exportedForm.getComponentAt(li);
