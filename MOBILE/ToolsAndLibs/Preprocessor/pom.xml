@@ -13,11 +13,19 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+    <embedded.jdk.provider>BELLSOFT</embedded.jdk.provider>
+    <embedded.jdk.type>jre</embedded.jdk.type>
+    <embedded.jdk.version>8u312+7</embedded.jdk.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>forms_rt</artifactId>
+      <version>5.0</version>
+    </dependency>
     <dependency>
       <groupId>org.microemu</groupId>
       <artifactId>microemu-siemensapi</artifactId>
@@ -46,6 +54,67 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>ideauidesigner-maven-plugin</artifactId>
+        <version>1.0-beta-1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>javac2</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <configuration>
+          <fork>true</fork>
+          <debug>true</debug>
+          <failOnError>true</failOnError>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>com.igormaznitsa.j2me_wtk.Main</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.igormaznitsa</groupId>
+        <artifactId>mvn-jlink-wrapper</artifactId>
+        <version>1.1.0</version>
+        <executions>
+          <execution>
+            <id>cache-windows-jdk-x86</id>
+            <goals>
+              <goal>cache-jdk</goal>
+            </goals>
+            <configuration>
+              <jdkPathProperty>mvnjlink.jdk.windows.x86.path</jdkPathProperty>
+              <provider>${embedded.jdk.provider}</provider>
+              <providerConfig>
+                <type>${embedded.jdk.type}</type>
+                <version>${embedded.jdk.version}</version>
+                <os>windows</os>
+                <arch>i586</arch>
+              </providerConfig>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>3.3.0</version>

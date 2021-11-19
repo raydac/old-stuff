@@ -13,7 +13,7 @@
   <files>
     <file>
       <source>${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar</source>
-      <destName>preprocesor.jar</destName>
+      <destName>preprocessor.jar</destName>
       <outputDirectory>${project.build.finalName}${file.separator}</outputDirectory>
     </file>
   </files>
@@ -21,6 +21,13 @@
     <fileSet>
       <directory>${project.basedir}${file.separator}src${file.separator}assembly${file.separator}windows</directory>
       <outputDirectory>${project.build.finalName}</outputDirectory>
+      <includes>
+        <include>*/**</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${mvnjlink.jdk.windows.x86.path}</directory>
+      <outputDirectory>${project.build.finalName}${file.separator}jre</outputDirectory>
       <includes>
         <include>*/**</include>
       </includes>

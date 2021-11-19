@@ -16,7 +16,7 @@ public class SplashForm extends Thread
     {
         p_DialogFrame = new JDialog(_frame,true);
         p_DialogFrame.setUndecorated(true);
-        p_DialogFrame.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+        p_DialogFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         p_DialogFrame.setResizable(false);
 
         int i_ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
