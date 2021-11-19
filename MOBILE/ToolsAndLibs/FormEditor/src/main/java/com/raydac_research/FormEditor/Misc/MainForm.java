@@ -445,7 +445,7 @@ public class MainForm extends FileFilter implements WindowListener, ActionListen
 
         initResourcesAndForm();
 
-        Utilities.toFullScreen(p_MainFrame);
+        //Utilities.toFullScreen(p_MainFrame);
 
         updatePropertiesPanel(false);
         updateMenuState();

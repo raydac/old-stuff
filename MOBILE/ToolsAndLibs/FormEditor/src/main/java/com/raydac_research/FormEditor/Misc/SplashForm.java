@@ -16,11 +16,11 @@ public class SplashForm extends Thread
     {
         p_DialogFrame = new JDialog(_frame,true);
         p_DialogFrame.setUndecorated(true);
-        p_DialogFrame.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+        p_DialogFrame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         p_DialogFrame.setResizable(false);
 
-        int i_ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int i_ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int i_ScreenWidth = _frame.getWidth();
+        int i_ScreenHeight = _frame.getHeight();
 
         ImageIcon p_ImageIcon = Utilities.loadIconFromResource("splash.gif");
 
@@ -32,8 +32,8 @@ public class SplashForm extends Thread
         int i_WindowWidth = p_DialogFrame.getWidth();
         int i_WindowHeight = p_DialogFrame.getHeight();
 
-        int i_ScreenX = (i_ScreenWidth - i_WindowWidth)>>1;
-        int i_ScreenY = (i_ScreenHeight - i_WindowHeight)>>1;
+        int i_ScreenX = _frame.getX() + ((i_ScreenWidth - i_WindowWidth)>>1);
+        int i_ScreenY = _frame.getY() + ((i_ScreenHeight - i_WindowHeight)>>1);
 
         p_DialogFrame.setLocation(i_ScreenX,i_ScreenY);
 
