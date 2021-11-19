@@ -9,6 +9,11 @@ public class Main
 {
     public static void main(String[] _args)
     {
+        if (_args.length == 0) {
+            System.err.println("file name required");
+            System.exit(1);
+        }
+
         String s_fileName = _args[0];
         FileInputStream p_fis = null;
         FileOutputStream p_fos = null;
