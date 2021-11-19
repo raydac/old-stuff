@@ -86,7 +86,7 @@ public class ImportBitmapDialog extends JDialog implements ActionListener
 
         if (p_src.equals(p_SelectFileButton))
         {
-            // выбран файл
+            // РІС‹Р±СЂР°РЅ С„Р°Р№Р»
             try
             {
                 BufferedImage p_icoImg = ImageIO.read(p_SelectFileButton.getFile());
@@ -115,7 +115,7 @@ public class ImportBitmapDialog extends JDialog implements ActionListener
         else
         if (p_src.equals(p_OkButton))
         {
-            // проверяем данные
+            // РїСЂРѕРІРµСЂСЏРµРј РґР°РЅРЅС‹Рµ
             BufferedImage p_bi = (BufferedImage)((ImageIcon) p_PreviewImageLabel.getIcon()).getImage();
             int i_charW = ((Integer)p_CharWidth.getValue()).intValue();
             int i_charH = ((Integer)p_CharHeight.getValue()).intValue();

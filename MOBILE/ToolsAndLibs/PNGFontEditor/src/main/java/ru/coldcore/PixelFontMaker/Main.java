@@ -15,7 +15,6 @@ public class Main extends JDialog implements Runnable
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-
         JPanel p_panel = new JPanel(new BorderLayout(0,0));
         JLabel p_label = new JLabel(Utils.loadIconFromResource("splash.gif"));
         p_panel.add(p_label,BorderLayout.CENTER);
