@@ -1,0 +1,1 @@
+start javaw.exe -jar preprocessor.jar
