@@ -1,5 +1,0 @@
--libraryjars C:\WTK2.5.2_01\lib\midpapi10.jar;C:\WTK2.5.2_01\lib\cldcapi10.jar;C:\WTK2.5.2_01\lib\cldcapi10.jar
--injars C:\Documents and Settings\Igor\j2mewtk\2.5.2\apps\ChopChop\bin\ChopChop.jar
--outjar C:\DOCUME~1\Igor\LOCALS~1\Temp\ChopChop.jar
--keep public class * extends javax.microedition.midlet.MIDlet 
--dontusemixedcaseclassnames

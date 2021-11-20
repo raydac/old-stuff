@@ -1,6 +1,0 @@
-MIDlet-1: Chop Chop, aku.png, startup
-MIDlet-Name: Chop chop
-MIDlet-Vendor: Akumiitti CC
-MIDlet-Version: 1.0
-MicroEdition-Configuration: CLDC-1.0
-MicroEdition-Profile: MIDP-1.0

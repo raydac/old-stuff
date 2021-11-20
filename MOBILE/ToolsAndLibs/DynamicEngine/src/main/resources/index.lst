@@ -1,7 +1,0 @@
-# # -  a commented string
-# image_name,image_index,[pack_level],[link_image]
-# 0 - a sprite without any compression
-# 1 - a RLE compressed sprite 
-# 2 - a screen without compression
-# 3 - a RLE compressed screen
-title,0,3
