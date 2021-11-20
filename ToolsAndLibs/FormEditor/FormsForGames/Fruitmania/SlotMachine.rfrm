@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+<resource id="Bottom_Bar_Left" type="1">
+<resource_info>
+<image file="Bottom_Bar.gif"/>
+</resource_info>
+</resource>
+<resource id="Top_Bar" type="1">
+<resource_info>
+<image file="Top_Bar.gif"/>
+</resource_info>
+</resource>
+<resource id="DrumCell" type="1">
+<resource_info>
+<image file="DrumCell.gif"/>
+</resource_info>
+</resource>
+<resource id="Credit_Indicator" type="1">
+<resource_info>
+<image file="Credit_Indicator.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Bet_Down" type="1">
+<resource_info>
+<image file="Button_Bet_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Bet_Up" type="1">
+<resource_info>
+<image file="Button_Bet_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Start_Up" type="1">
+<resource_info>
+<image file="Button_Start_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Start_Down" type="1">
+<resource_info>
+<image file="Button_Start_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Menu_Up" type="1">
+<resource_info>
+<image file="Button_Menu_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Menu_Down" type="1">
+<resource_info>
+<image file="Button_Menu_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Bet_Disabled" type="1">
+<resource_info>
+<image file="Button_Bet_Disabled.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Start_Disabled" type="1">
+<resource_info>
+<image file="Button_Start_Disabled.gif"/>
+</resource_info>
+</resource>
+<resource id="Bet_Indicator" type="1">
+<resource_info>
+<image file="Bet_Indicator.gif"/>
+</resource_info>
+</resource>
+<resource id="Left_Decore" type="1">
+<resource_info>
+<image file="Decore_Left.gif"/>
+</resource_info>
+</resource>
+<resource id="Right_Decore" type="1">
+<resource_info>
+<image file="Decore_Right.gif"/>
+</resource_info>
+</resource>
+<resource id="Button_Menu_Disabled" type="1">
+<resource_info>
+<image file="Button_Menu_Disabled.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit02" type="1">
+<resource_info>
+<image file="Fruit02.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit03" type="1">
+<resource_info>
+<image file="Fruit03.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit04" type="1">
+<resource_info>
+<image file="Fruit04.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit05" type="1">
+<resource_info>
+<image file="Fruit05.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit06" type="1">
+<resource_info>
+<image file="Fruit06.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit07" type="1">
+<resource_info>
+<image file="Fruit07.gif"/>
+</resource_info>
+</resource>
+<resource id="Drum01" type="1">
+<resource_info>
+<image file="Drum01.gif"/>
+</resource_info>
+</resource>
+<resource id="Drum00" type="1">
+<resource_info>
+<image file="Drum00.gif"/>
+</resource_info>
+</resource>
+<resource id="Drum02" type="1">
+<resource_info>
+<image file="Drum02.gif"/>
+</resource_info>
+</resource>
+<resource id="Fruit01" type="1">
+<resource_info>
+<image file="Fruit01.gif"/>
+</resource_info>
+</resource>
+<resource id="num0" type="1">
+<resource_info>
+<image file="num0.gif"/>
+</resource_info>
+</resource>
+<resource id="num1" type="1">
+<resource_info>
+<image file="num1.gif"/>
+</resource_info>
+</resource>
+<resource id="num2" type="1">
+<resource_info>
+<image file="num2.gif"/>
+</resource_info>
+</resource>
+<resource id="num3" type="1">
+<resource_info>
+<image file="num3.gif"/>
+</resource_info>
+</resource>
+<resource id="num4" type="1">
+<resource_info>
+<image file="num4.gif"/>
+</resource_info>
+</resource>
+<resource id="num5" type="1">
+<resource_info>
+<image file="num5.gif"/>
+</resource_info>
+</resource>
+<resource id="num6" type="1">
+<resource_info>
+<image file="num6.gif"/>
+</resource_info>
+</resource>
+<resource id="num7" type="1">
+<resource_info>
+<image file="num7.gif"/>
+</resource_info>
+</resource>
+<resource id="num8" type="1">
+<resource_info>
+<image file="num8.gif"/>
+</resource_info>
+</resource>
+<resource id="num9" type="1">
+<resource_info>
+<image file="num9.gif"/>
+</resource_info>
+</resource>
+<resource id="ibBG" type="1">
+<resource_info>
+<image file="InfoBar.gif"/>
+</resource_info>
+</resource>
+<resource id="ibEqual" type="1">
+<resource_info>
+<image file="ibEqual.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum0" type="1">
+<resource_info>
+<image file="ibNum0.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum1" type="1">
+<resource_info>
+<image file="ibNum1.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum2" type="1">
+<resource_info>
+<image file="ibNum2.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum3" type="1">
+<resource_info>
+<image file="ibNum3.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum4" type="1">
+<resource_info>
+<image file="ibNum4.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum5" type="1">
+<resource_info>
+<image file="ibNum5.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum6" type="1">
+<resource_info>
+<image file="ibNum6.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum7" type="1">
+<resource_info>
+<image file="ibNum7.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum8" type="1">
+<resource_info>
+<image file="ibNum8.gif"/>
+</resource_info>
+</resource>
+<resource id="ibNum9" type="1">
+<resource_info>
+<image file="ibNum9.gif"/>
+</resource_info>
+</resource>
+<resource id="Dollar" type="1">
+<resource_info>
+<image file="Dollar.gif"/>
+</resource_info>
+</resource>
+<resource id="Cent" type="1">
+<resource_info>
+<image file="Cent.gif"/>
+</resource_info>
+</resource>
+<resource id="ibDollar" type="1">
+<resource_info>
+<image file="ibDollar.gif"/>
+</resource_info>
+</resource>
+<resource id="ibCent" type="1">
+<resource_info>
+<image file="ibCent.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_OK_Down" type="1">
+<resource_info>
+<image file="bt_OK_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_OK_Up" type="1">
+<resource_info>
+<image file="bt_OK_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Cancel_Down" type="1">
+<resource_info>
+<image file="bt_Cancel_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Cancel_Up" type="1">
+<resource_info>
+<image file="bt_Cancel_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Left_Down" type="1">
+<resource_info>
+<image file="bt_Left_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Left_Up" type="1">
+<resource_info>
+<image file="bt_Left_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Right_Down" type="1">
+<resource_info>
+<image file="bt_Right_Down.gif"/>
+</resource_info>
+</resource>
+<resource id="bt_Right_Up" type="1">
+<resource_info>
+<image file="bt_Right_Up.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit1" type="1">
+<resource_info>
+<image file="icn_Fruit1.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit2" type="1">
+<resource_info>
+<image file="icn_Fruit2.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit3" type="1">
+<resource_info>
+<image file="icn_Fruit3.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit4" type="1">
+<resource_info>
+<image file="icn_Fruit4.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit5" type="1">
+<resource_info>
+<image file="icn_Fruit5.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit6" type="1">
+<resource_info>
+<image file="icn_Fruit6.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Fruit7" type="1">
+<resource_info>
+<image file="icn_Fruit7.gif"/>
+</resource_info>
+</resource>
+<resource id="icn_Arrow" type="1">
+<resource_info>
+<image file="icn_Arrow.gif"/>
+</resource_info>
+</resource>
+<resource id="payline_img" type="1">
+<resource_info>
+<image file="payline.gif"/>
+</resource_info>
+</resource>
+<resource id="ukazatel_v" type="1">
+<resource_info>
+<image file="ukazatel_vyigr.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GamePanel" width="128" height="128" background_color="-16724975" disabled_color="-8355712" selected_color="-65536" normal_color="-16463598" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="Bottom_Bar_Left" x="0" y="87" width="64" height="41"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Bottom_Bar_Left" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Bottom_Bar_Right" x="64" y="0" width="64" height="6"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Top_Bar" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="Top_Bar_Left" x="0" y="0" width="64" height="6"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Top_Bar" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Top_Bar_Right" x="64" y="87" width="64" height="41"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Bottom_Bar_Left" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Left1" x="10" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Right1" x="26" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Right2" x="57" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Left2" x="41" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Left3" x="72" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="DrumCell_Right3" x="88" y="8" width="16" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="DrumCell" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="Credit_Indicator" x="58" y="65" width="44" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Credit_Indicator" scale="1"  />
+</component_info>
+</component>
+<component type="1" id="Button_Bet" x="2" y="95" width="43" height="21"  pinned="yes"  channel="0">
+<component_info halign="1" valign="1">
+<normal_image id="Button_Bet_Up"/>
+<disabled_image id="Button_Bet_Disabled"/>
+<pressed_image id="Button_Bet_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="Button_Start" x="44" y="95" width="39" height="21"  pinned="yes"  channel="1">
+<component_info halign="1" valign="1">
+<normal_image id="Button_Start_Up"/>
+<disabled_image id="Button_Start_Disabled"/>
+<pressed_image id="Button_Start_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="Button_Menu" x="83" y="95" width="42" height="21"  pinned="yes"  channel="2">
+<component_info halign="1" valign="1">
+<normal_image id="Button_Menu_Up"/>
+<disabled_image id="Button_Menu_Disabled"/>
+<pressed_image id="Button_Menu_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="0" id="Bet_Indicator" x="10" y="65" width="44" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Bet_Indicator" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Left_Decore" x="0" y="6" width="9" height="81"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Left_Decore" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Right_Decore" x="104" y="6" width="24" height="81"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Right_Decore" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="CA_Credit" x="59" y="73" width="42" height="11"  pinned="yes"  channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="CA_Bet" x="11" y="73" width="42" height="11"  pinned="yes"  channel="1">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="CA_Drum00" x="14" y="10" width="24" height="50"  pinned="yes"  channel="2">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="CA_Drum01" x="45" y="10" width="24" height="51"  pinned="yes"  channel="3">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="CA_Drum02" x="76" y="10" width="24" height="50"  pinned="yes"  channel="4">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit00" x="13" y="22" width="25" height="27"  pinned="yes"  channel="5">
+<component_info>
+<properties areavalue="0" color="-65434"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit01" x="44" y="22" width="25" height="27"  pinned="yes"  channel="6">
+<component_info>
+<properties areavalue="0" color="-65536"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit02" x="75" y="22" width="25" height="27"  pinned="yes"  channel="7">
+<component_info>
+<properties areavalue="0" color="-65434"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Up02" x="76" y="10" width="24" height="11"  pinned="yes"  channel="8">
+<component_info>
+<properties areavalue="0" color="-13369600"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Up01" x="45" y="10" width="24" height="11"  pinned="yes"  channel="9">
+<component_info>
+<properties areavalue="0" color="-13369600"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Up00" x="14" y="10" width="24" height="11"  pinned="yes"  channel="10">
+<component_info>
+<properties areavalue="0" color="-10027264"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Down00" x="14" y="50" width="24" height="10"  pinned="yes"  channel="11">
+<component_info>
+<properties areavalue="0" color="-16737793"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Down01" x="45" y="50" width="24" height="10"  pinned="yes"  channel="12">
+<component_info>
+<properties areavalue="0" color="-16737793"/>
+</component_info>
+</component>
+<component type="7" id="CA_Fruit_Down02" x="76" y="50" width="24" height="10"  pinned="yes"  channel="13">
+<component_info>
+<properties areavalue="0" color="-16737793"/>
+</component_info>
+</component>
+<component type="0" id="ukazatel_v" x="8" y="26" width="6" height="21"    channel="0">
+<component_info>
+<image_resource id="ukazatel_v" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="payline_label" x="5" y="19" width="5" height="36"    channel="0">
+<component_info>
+<image_resource id="payline_img" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="vyigrline" x="14" y="36" width="88" height="1"  pinned="yes" locked="yes" channel="74">
+<component_info>
+<properties areavalue="0" color="-6710785"/>
+</component_info>
+</component>
+</form>
+<form id="Sprites" width="128" height="128" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="Fruit05" x="102" y="1" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit05" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit06" x="1" y="29" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit06" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit02" x="25" y="0" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit02" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit07" x="26" y="29" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit07" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit01" x="50" y="30" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit01" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit03" x="50" y="0" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit03" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Fruit04" x="76" y="0" width="25" height="27" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Fruit04" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Drum02" x="56" y="63" width="24" height="50" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Drum02" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Drum01" x="29" y="63" width="24" height="50" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Drum01" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Drum00" x="2" y="63" width="24" height="50" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Drum00" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Dollar" x="5" y="4" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Dollar" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cent" x="10" y="4" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="Cent" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit7" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit6" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit5" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit4" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit3" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit2" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Fruit1" x="0" y="0" width="17" height="10" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="icn_Fruit1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Arrow_Right" x="0" y="0" width="10" height="10" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="icn_Arrow" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icn_Arrow_Left" x="15" y="29" width="10" height="10" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="icn_Arrow" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="num9" x="63" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num8" x="57" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num7" x="50" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num6" x="43" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num5" x="37" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num4" x="31" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num3" x="24" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num2" x="16" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num1" x="10" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="num0" x="3" y="19" width="5" height="8" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="num0" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="Info" width="128" height="41" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="bg" x="0" y="1" width="64" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibBG" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="bg1" x="64" y="1" width="64" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibBG" scale="1" fliph="true" />
+</component_info>
+</component>
+<component type="0" id="bg2" x="0" y="21" width="64" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibBG" scale="1"  flipv="true"/>
+</component_info>
+</component>
+<component type="0" id="bg3" x="64" y="21" width="64" height="20"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibBG" scale="1" fliph="true" flipv="true"/>
+</component_info>
+</component>
+<component type="7" id="CA_Icon1" x="3" y="5" width="25" height="27"  pinned="yes"  channel="0">
+<component_info>
+<properties areavalue="0" color="-65536"/>
+</component_info>
+</component>
+<component type="7" id="CA_Icon2" x="29" y="5" width="25" height="27"  pinned="yes"  channel="1">
+<component_info>
+<properties areavalue="0" color="-65485"/>
+</component_info>
+</component>
+<component type="7" id="CA_Icon3" x="55" y="5" width="25" height="27"  pinned="yes"  channel="2">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="ibNum9" x="0" y="0" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum8" x="1" y="1" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum7" x="0" y="1" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum6" x="1" y="1" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum5" x="0" y="1" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum4" x="116" y="13" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum3" x="109" y="13" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum2" x="102" y="13" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum1" x="95" y="13" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibNum0" x="88" y="13" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibNum0" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibEqual" x="78" y="13" width="8" height="16"    channel="0">
+<component_info>
+<image_resource id="ibEqual" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="NumberArea" x="86" y="12" width="40" height="16"    channel="4">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="ibCent" x="0" y="0" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibCent" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ibDollar" x="0" y="0" width="8" height="16" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="ibDollar" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="BetTable" width="128" height="128" background_color="-3407821" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="CA_Table" x="0" y="0" width="128" height="120"  pinned="yes"  channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="1" id="btOK" x="0" y="120" width="32" height="8"  pinned="yes"  channel="0">
+<component_info halign="1" valign="1">
+<normal_image id="bt_OK_Up"/>
+<disabled_image id=""/>
+<pressed_image id="bt_OK_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="btCancel" x="96" y="120" width="32" height="8"  pinned="yes"  channel="3">
+<component_info halign="1" valign="1">
+<normal_image id="bt_Cancel_Up"/>
+<disabled_image id=""/>
+<pressed_image id="bt_Cancel_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="btLeft" x="32" y="120" width="32" height="8"  pinned="yes"  channel="1">
+<component_info halign="1" valign="1">
+<normal_image id="bt_Left_Up"/>
+<disabled_image id=""/>
+<pressed_image id="bt_Left_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="btRight" x="64" y="120" width="32" height="8"  pinned="yes"  channel="2">
+<component_info halign="1" valign="1">
+<normal_image id="bt_Right_Up"/>
+<disabled_image id=""/>
+<pressed_image id="bt_Right_Down"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+</form>
+</RRGFRM>

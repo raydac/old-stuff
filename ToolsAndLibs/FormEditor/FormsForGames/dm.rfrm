@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+</Resources>
+<form id="Untitled_form" width="132" height="150" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="6" id="ticket_path" x="45" y="30" width="80" height="102"    channel="0">
+<component_info color="-16711936" PathType="0">
+<MAINPOINT X="60" Y="27"/>
+<Points SHOWPOINTS="yes">
+<point X="-1" Y="1" S="10"/>
+<point X="-9" Y="18" S="10"/>
+<point X="-25" Y="14" S="10"/>
+<point X="-17" Y="-4" S="10"/>
+<point X="-1" Y="4" S="10"/>
+<point X="1" Y="33" S="10"/>
+<point X="-24" Y="48" S="10"/>
+<point X="-50" Y="27" S="10"/>
+<point X="-56" Y="1" S="10"/>
+<point X="-42" Y="-20" S="10"/>
+<point X="-14" Y="-23" S="10"/>
+<point X="9" Y="-9" S="10"/>
+<point X="16" Y="30" S="10"/>
+<point X="-7" Y="59" S="10"/>
+<point X="-39" Y="71" S="10"/>
+</Points>
+</component_info>
+</component>
+</form>
+</RRGFRM>

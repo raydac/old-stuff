@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+<resource id="eng_level" type="1">
+<resource_info>
+<image file="eng_level.gif"/>
+</resource_info>
+</resource>
+<resource id="rus_level" type="1">
+<resource_info>
+<image file="rus_level.gif"/>
+</resource_info>
+</resource>
+<resource id="eng_score" type="1">
+<resource_info>
+<image file="eng_score.gif"/>
+</resource_info>
+</resource>
+<resource id="rus_score" type="1">
+<resource_info>
+<image file="rus_score.gif"/>
+</resource_info>
+</resource>
+<resource id="menu_btn" type="1">
+<resource_info>
+<image file="menu_btn.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GameArea128x128" width="128" height="128" background_color="-13421569" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="GameArea" x="0" y="0" width="128" height="128"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="LifesArea" x="90" y="8" width="33" height="10"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-6750208"/>
+</component_info>
+</component>
+<component type="7" id="ShellsArea" x="4" y="6" width="30" height="13"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="FighterArea" x="50" y="7" width="25" height="12"  pinned="yes" locked="yes" channel="3">
+<component_info>
+<properties areavalue="0" color="-16777063"/>
+</component_info>
+</component>
+<component type="7" id="AreaNextLevel" x="27" y="49" width="75" height="26"  pinned="yes" locked="yes" channel="4">
+<component_info>
+<properties areavalue="0" color="-13421773"/>
+</component_info>
+</component>
+<component type="0" id="menu_button" x="7" y="119" width="11" height="7"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="menu_btn" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="NextLevel_eng" width="75" height="26" background_color="-6710785" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="StrLevel" x="13" y="1" width="32" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="eng_level" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="StrScore" x="3" y="14" width="37" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="eng_score" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="AreaLevelNumber" x="46" y="1" width="14" height="10"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="AreaScore" x="44" y="14" width="28" height="10"  pinned="yes"  channel="1">
+<component_info>
+<properties areavalue="0" color="-10027264"/>
+</component_info>
+</component>
+</form>
+<form id="NextLevel_rus" width="75" height="26" background_color="-6710785" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="StrLevel" x="7" y="1" width="46" height="10"    channel="0">
+<component_info>
+<image_resource id="rus_level" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="StrScore" x="7" y="14" width="32" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="rus_score" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="AreaLevelNumber" x="54" y="1" width="14" height="10"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="AreaScore" x="41" y="14" width="28" height="10"  pinned="yes"  channel="1">
+<component_info>
+<properties areavalue="0" color="-10027264"/>
+</component_info>
+</component>
+</form>
+</RRGFRM>
