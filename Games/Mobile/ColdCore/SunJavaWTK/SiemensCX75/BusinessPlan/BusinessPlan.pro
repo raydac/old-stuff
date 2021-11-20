@@ -1,0 +1,4 @@
+-libraryjars C:\WTK22\lib\midpapi20.jar;C:\WTK22\lib\wma11.jar;C:\WTK22\lib\cldcapi11.jar
+-injars C:\WTK22\apps\BusinessPlan\bin\BusinessPlan.jar
+-outjar C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\BusinessPlan.jar
+-keep public class * extends javax.microedition.midlet.MIDlet 
