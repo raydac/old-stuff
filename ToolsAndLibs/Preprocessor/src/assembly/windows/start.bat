@@ -1,0 +1,1 @@
+start %~dp0\jre\bin\javaw.exe -jar preprocessor.jar

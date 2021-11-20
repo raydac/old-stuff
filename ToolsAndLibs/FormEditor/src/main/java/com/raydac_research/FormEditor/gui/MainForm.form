@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.raydac_research.FormEditor.Misc.MainForm">
+  <splitpane id="ad1ee" binding="p_SplitPanel">
+    <constraints>
+      <xy x="70" y="15" width="1203" height="494"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties>
+      <oneTouchExpandable value="true"/>
+      <continuousLayout value="true"/>
+      <dividerLocation value="350"/>
+      <dividerSize value="10"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="5b75" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <splitpane position="left"/>
+        </constraints>
+        <properties>
+          <autoscrolls value="true"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <splitpane id="8649e">
+            <constraints>
+              <xy x="0" y="0" width="350" height="494"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+            </constraints>
+            <properties>
+              <oneTouchExpandable value="true"/>
+              <continuousLayout value="true"/>
+              <autoscrolls value="true"/>
+              <dividerLocation value="170"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="42adf" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <splitpane position="left"/>
+                </constraints>
+                <properties/>
+                <border type="etched" title="Resources"/>
+                <children>
+                  <grid id="ffd44" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <xy x="6" y="464" width="158" height="24"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="eb643" class="javax.swing.JButton" binding="Button_AddResource">
+                        <constraints>
+                          <xy x="0" y="0" width="64" height="24"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Add"/>
+                          <toolTipText value="Add new resource"/>
+                        </properties>
+                      </component>
+                      <component id="15d44" class="javax.swing.JButton" binding="Button_RemoveResource">
+                        <constraints>
+                          <xy x="74" y="0" width="84" height="24"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Remove"/>
+                          <toolTipText value="Remove selected resource"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <scrollpane id="5262e">
+                    <constraints>
+                      <xy x="6" y="20" width="158" height="439"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="f669e" class="javax.swing.JTree" binding="ResourcesTree">
+                        <constraints/>
+                        <properties>
+                          <toolTipText value="Resources pool"/>
+                          <rootVisible value="false"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
+              <grid id="6495d" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <splitpane position="right"/>
+                </constraints>
+                <properties/>
+                <border type="etched" title="Form"/>
+                <children>
+                  <grid id="82174" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <xy x="6" y="381" width="158" height="107"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="d367d" class="javax.swing.JButton" binding="Button_FormUp">
+                        <constraints>
+                          <xy x="0" y="54" width="67" height="24"/>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Up"/>
+                          <toolTipText value="Selected component one level up"/>
+                        </properties>
+                      </component>
+                      <component id="394fc" class="javax.swing.JButton" binding="Button_FormDown">
+                        <constraints>
+                          <xy x="77" y="54" width="81" height="24"/>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Down"/>
+                          <toolTipText value="Selected component one level down"/>
+                        </properties>
+                      </component>
+                      <component id="d17a6" class="javax.swing.JButton" binding="Button_FormResourceAdd">
+                        <constraints>
+                          <xy x="0" y="83" width="67" height="24"/>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Add"/>
+                          <toolTipText value="Add new form component"/>
+                        </properties>
+                      </component>
+                      <component id="dde1f" class="javax.swing.JButton" binding="Button_FormResourceRemove">
+                        <constraints>
+                          <xy x="77" y="83" width="81" height="24"/>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <text value="Remove"/>
+                          <toolTipText value="Remove selected form component"/>
+                        </properties>
+                      </component>
+                      <component id="69d7c" class="javax.swing.JCheckBox" binding="p_HiddenFlagButton">
+                        <constraints>
+                          <xy x="0" y="0" width="58" height="22"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                        </constraints>
+                        <properties>
+                          <text value="Hidden"/>
+                          <toolTipText value="a hidden component is invisible and can't be selected"/>
+                        </properties>
+                      </component>
+                      <component id="984ab" class="javax.swing.JCheckBox" binding="p_PinnedFlagButton">
+                        <constraints>
+                          <xy x="77" y="0" width="57" height="22"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                        </constraints>
+                        <properties>
+                          <text value="Pinned"/>
+                          <toolTipText value="A pinned component is not dragged"/>
+                        </properties>
+                      </component>
+                      <component id="10aaf" class="javax.swing.JCheckBox" binding="p_LockedFlagButton">
+                        <constraints>
+                          <xy x="0" y="27" width="58" height="22"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                        </constraints>
+                        <properties>
+                          <text value="Locked"/>
+                          <toolTipText value="To lock all subcomponents of the component"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <scrollpane id="86e92">
+                    <constraints>
+                      <xy x="6" y="48" width="158" height="328"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="2ad65" class="javax.swing.JTree" binding="FormTree">
+                        <constraints/>
+                        <properties>
+                          <toolTipText value="Form components"/>
+                          <largeModel value="false"/>
+                          <expandsSelectedPaths value="true"/>
+                          <showsRootHandles value="true"/>
+                          <rootVisible value="true"/>
+                          <enabled value="true"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <grid id="9a333" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <xy x="6" y="20" width="158" height="23"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="42537" class="javax.swing.JComboBox" binding="p_FormsList">
+                        <constraints>
+                          <xy x="0" y="0" width="158" height="23"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
+                        </constraints>
+                        <properties>
+                          <opaque value="false"/>
+                          <toolTipText value="The list of forms"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </splitpane>
+        </children>
+      </grid>
+      <tabbedpane id="297ea" binding="p_TabbedPane">
+        <constraints>
+          <splitpane position="right"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="cac5f" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Properties"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <xy id="a788d" binding="p_PropertiesPanel" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <xy x="0" y="75" width="841" height="304"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </xy>
+              <grid id="8063a" binding="p_UpPropPanel" row-count="3" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <xy x="0" y="0" width="841" height="70"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="63b18" class="javax.swing.JTextField" binding="p_ResourceIDEditLabel">
+                    <constraints>
+                      <xy x="61" y="0" width="699" height="20"/>
+                      <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <toolTipText value="You can enter new resource or component name here"/>
+                    </properties>
+                  </component>
+                  <component id="eb3c9" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="0" y="0" width="51" height="20"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="   Name: "/>
+                    </properties>
+                  </component>
+                  <component id="afbbf" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="0" y="25" width="51" height="20"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Channel: "/>
+                    </properties>
+                  </component>
+                  <hspacer id="c9b14">
+                    <constraints>
+                      <xy x="673" y="29" width="87" height="11"/>
+                      <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                    </constraints>
+                  </hspacer>
+                  <component id="f01e5" class="javax.swing.JTextField" binding="p_ComponentChannelID">
+                    <constraints>
+                      <xy x="61" y="25" width="602" height="20"/>
+                      <grid row="1" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                      <toolTipText value="The number of auxiliary channel what can be used by third-party software and an export module"/>
+                    </properties>
+                  </component>
+                  <component id="c1d29" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="0" y="50" width="51" height="20"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Top-left X:"/>
+                    </properties>
+                  </component>
+                  <hspacer id="fcf8a">
+                    <constraints>
+                      <xy x="576" y="54" width="184" height="11"/>
+                      <grid row="2" column="4" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                    </constraints>
+                  </hspacer>
+                  <component id="dada2" class="javax.swing.JTextField" binding="p_ComponentXcoord">
+                    <constraints>
+                      <xy x="61" y="50" width="217" height="20"/>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="b9764" class="javax.swing.JTextField" binding="p_ComponentYcoord">
+                    <constraints>
+                      <xy x="349" y="50" width="217" height="20"/>
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="c3e56" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="288" y="50" width="51" height="20"/>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Top-left Y:"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="d5468" binding="p_DownPropPanel" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <xy x="0" y="384" width="841" height="88"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="f610e" class="javax.swing.JButton" binding="p_AppendChangesButton">
+                    <constraints>
+                      <xy x="364" y="0" width="114" height="24"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1"/>
+                    </constraints>
+                    <properties>
+                      <text value="Append changes"/>
+                      <toolTipText value="Append new properties to selected resource or component"/>
+                    </properties>
+                  </component>
+                  <hspacer id="f269a">
+                    <constraints>
+                      <xy x="0" y="38" width="364" height="11"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="53c53">
+                    <constraints>
+                      <xy x="478" y="38" width="363" height="11"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                    </constraints>
+                  </hspacer>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="94ae4" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Form"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="d3028" row-count="1" column-count="16" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <xy x="0" y="0" width="841" height="20"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="d3ea6" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="0" y="0" width="39" height="20"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="MX:"/>
+                      <toolTipText value="Mouse X"/>
+                      <horizontalTextPosition value="4"/>
+                      <requestFocusEnabled value="false"/>
+                    </properties>
+                  </component>
+                  <component id="ddae5" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="98" y="0" width="39" height="20"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="MY:"/>
+                      <toolTipText value="Mouse Y"/>
+                      <horizontalTextPosition value="4"/>
+                      <requestFocusEnabled value="true"/>
+                    </properties>
+                  </component>
+                  <component id="a4cfd" class="javax.swing.JLabel" binding="LabelX">
+                    <constraints>
+                      <xy x="49" y="0" width="39" height="20"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                      <horizontalTextPosition value="2"/>
+                    </properties>
+                  </component>
+                  <component id="a85f6" class="javax.swing.JLabel" binding="LabelY">
+                    <constraints>
+                      <xy x="147" y="0" width="39" height="20"/>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                      <horizontalTextPosition value="2"/>
+                    </properties>
+                  </component>
+                  <component id="7594c" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="410" y="0" width="51" height="20"/>
+                      <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Width:"/>
+                      <toolTipText value="Selected component width"/>
+                      <horizontalTextPosition value="4"/>
+                      <requestFocusEnabled value="false"/>
+                    </properties>
+                  </component>
+                  <component id="cf793" class="javax.swing.JLabel" binding="LabelWidth">
+                    <constraints>
+                      <xy x="471" y="0" width="39" height="20"/>
+                      <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                      <horizontalTextPosition value="2"/>
+                    </properties>
+                  </component>
+                  <component id="21e18" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="520" y="0" width="54" height="20"/>
+                      <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Height:"/>
+                      <toolTipText value="Selected component height"/>
+                      <horizontalTextPosition value="4"/>
+                      <requestFocusEnabled value="true"/>
+                    </properties>
+                  </component>
+                  <component id="41c4a" class="javax.swing.JLabel" binding="LabelHeight">
+                    <constraints>
+                      <xy x="584" y="0" width="39" height="20"/>
+                      <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                      <horizontalTextPosition value="2"/>
+                    </properties>
+                  </component>
+                  <component id="84697" class="javax.swing.JLabel" binding="ScaleLabel">
+                    <constraints>
+                      <xy x="691" y="0" width="38" height="20"/>
+                      <grid row="0" column="13" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value="x1"/>
+                      <horizontalTextPosition value="2"/>
+                    </properties>
+                  </component>
+                  <component id="6ecec" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="633" y="0" width="48" height="20"/>
+                      <grid row="0" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="Scale:"/>
+                      <toolTipText value="Current scale factor"/>
+                      <horizontalTextPosition value="4"/>
+                    </properties>
+                  </component>
+                  <component id="b7090" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="739" y="0" width="44" height="20"/>
+                      <grid row="0" column="14" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="View:"/>
+                      <toolTipText value="Current view mode"/>
+                      <horizontalTextPosition value="4"/>
+                    </properties>
+                  </component>
+                  <component id="20741" class="javax.swing.JLabel" binding="ViewStatusLabel">
+                    <constraints>
+                      <xy x="793" y="0" width="48" height="20"/>
+                      <grid row="0" column="15" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <text value="Active"/>
+                    </properties>
+                  </component>
+                  <component id="615a6" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="196" y="3" width="48" height="14"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="   CX: "/>
+                      <toolTipText value="Coordinate X of top lef corner of the selected component"/>
+                    </properties>
+                  </component>
+                  <component id="7c945" class="javax.swing.JLabel">
+                    <constraints>
+                      <xy x="303" y="3" width="48" height="14"/>
+                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="4"/>
+                      <text value="   CY: "/>
+                      <toolTipText value="Coordinate Y of top lef corner of the selected component"/>
+                    </properties>
+                  </component>
+                  <component id="9e216" class="javax.swing.JLabel" binding="LabelCX">
+                    <constraints>
+                      <xy x="254" y="0" width="39" height="20"/>
+                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="7627" class="javax.swing.JLabel" binding="LabelCY">
+                    <constraints>
+                      <xy x="361" y="0" width="39" height="20"/>
+                      <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <scrollpane id="22778" binding="ScrollPanel">
+                <constraints>
+                  <xy x="0" y="25" width="841" height="447"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                </constraints>
+                <properties>
+                  <verticalScrollBarPolicy value="20"/>
+                  <autoscrolls value="false"/>
+                  <horizontalScrollBarPolicy value="30"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </scrollpane>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </splitpane>
+</form>

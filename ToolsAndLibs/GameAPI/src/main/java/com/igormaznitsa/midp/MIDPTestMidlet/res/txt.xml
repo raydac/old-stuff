@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextBlock>
+    <Languages>
+        <language id="en" name="English" resource="res/english.bin"/>
+    </Languages>
+    <Strings>
+        <string id="BackCMD">
+            <value langId="en" value="Back"/>
+        </string>
+        <string id="MainScreenTitle">
+            <value langId="en" value="MIDP Tests"/>
+        </string>
+        <string id="CommonTestItemText">
+            <value langId="en" value="Common tests"/>
+        </string>
+        <string id="NokiaTestItemText">
+            <value langId="en" value="Nokia tests"/>
+        </string>
+        <string id="SiemensTestItemText">
+            <value langId="en" value="Siemens tests"/>
+        </string>
+        <string id="ExitItemText">
+            <value langId="en" value="Exit"/>
+        </string>
+        <string id="ArithmeticTestText">
+            <value langId="en" value="Arithmetic"/>
+        </string>
+        <string id="StringTestText">
+            <value langId="en" value="String"/>
+        </string>
+        <string id="RNDTestText">
+            <value langId="en" value="Rnd"/>
+        </string>
+        <string id="WaitPleaseStr">
+            <value langId="en" value="Wait, please"/>
+        </string>
+        <string id="CancelStr">
+            <value langId="en" value="Cancel"/>
+        </string>
+    </Strings>
+</TextBlock>

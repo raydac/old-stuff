@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.raydac_research.FormEditor.ExportModules.RrgScene.export_RRG_SCENE">
+  <grid id="c67f1" binding="p_MainPanel" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="175" y="18" width="389" height="403"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="37d6a" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="225" width="389" height="87"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="etched" title="Images"/>
+        <children>
+          <component id="c2dfd" class="javax.swing.JLabel">
+            <constraints>
+              <xy x="6" y="27" width="78" height="14"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="   Image format:"/>
+            </properties>
+          </component>
+          <component id="d0705" class="javax.swing.JComboBox" binding="p_SupportedImageFormatsList">
+            <constraints>
+              <xy x="94" y="23" width="289" height="23"/>
+              <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="50b8f" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveModifiedImagesAsImages">
+            <constraints>
+              <xy x="6" y="56" width="230" height="22"/>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="Save modified images as separated images"/>
+            </properties>
+          </component>
+          <component id="6a23e" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveImages">
+            <constraints>
+              <xy x="272" y="56" width="85" height="22"/>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save images"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="90741" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="317" width="389" height="86"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="etched" title="Texts"/>
+        <children>
+          <component id="423ce" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveTextAsImages">
+            <constraints>
+              <xy x="6" y="23" width="127" height="22"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="Save texts as images"/>
+            </properties>
+          </component>
+          <component id="f94e6" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveFontsData">
+            <constraints>
+              <xy x="6" y="55" width="77" height="22"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save fonts"/>
+            </properties>
+          </component>
+          <component id="3ba6a" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveButtonTextAsImages">
+            <constraints>
+              <xy x="182" y="23" width="162" height="22"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="Save button texts as images"/>
+            </properties>
+          </component>
+          <component id="116f9" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveTexts">
+            <constraints>
+              <xy x="182" y="55" width="77" height="22"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save texts"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="7912f" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="0" width="389" height="220"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="etched" title="Common"/>
+        <children>
+          <component id="d6463" class="javax.swing.JCheckBox" binding="p_CheckBox_SaveChannelData">
+            <constraints>
+              <xy x="6" y="21" width="114" height="22"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save channel data"/>
+            </properties>
+          </component>
+          <component id="dacdb" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveOffsetsToResources">
+            <constraints>
+              <xy x="183" y="21" width="149" height="22"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save offsets to resources"/>
+            </properties>
+          </component>
+          <component id="3e38" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveSounds">
+            <constraints>
+              <xy x="6" y="51" width="86" height="22"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save sounds"/>
+            </properties>
+          </component>
+          <component id="7d8e0" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveImageTypes">
+            <constraints>
+              <xy x="183" y="51" width="110" height="22"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save image types"/>
+            </properties>
+          </component>
+          <component id="a7cf4" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveSoundTypes">
+            <constraints>
+              <xy x="6" y="80" width="111" height="22"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save sound types"/>
+            </properties>
+          </component>
+          <component id="940f" class="javax.swing.JCheckBox" binding="p_CheckBoxSaveFontTypes">
+            <constraints>
+              <xy x="183" y="80" width="102" height="22"/>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Save font types"/>
+            </properties>
+          </component>
+          <grid id="974dd" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <xy x="6" y="164" width="377" height="50"/>
+              <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+            </constraints>
+            <properties/>
+            <border type="etched" title="Component types"/>
+            <children>
+              <component id="ff496" class="javax.swing.JCheckBox" binding="p_CheckBox_Support_Images">
+                <constraints>
+                  <xy x="6" y="21" width="55" height="22"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                </constraints>
+                <properties>
+                  <selected value="true"/>
+                  <text value="Image"/>
+                </properties>
+              </component>
+              <component id="17e88" class="javax.swing.JCheckBox" binding="p_CheckBox_Support_Buttons">
+                <constraints>
+                  <xy x="93" y="21" width="57" height="22"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                </constraints>
+                <properties>
+                  <selected value="true"/>
+                  <text value="Button"/>
+                </properties>
+              </component>
+              <component id="5ad43" class="javax.swing.JCheckBox" binding="p_CheckBox_Support_Labels">
+                <constraints>
+                  <xy x="182" y="21" width="50" height="22"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                </constraints>
+                <properties>
+                  <selected value="true"/>
+                  <text value="Label"/>
+                </properties>
+              </component>
+              <component id="1e0c8" class="javax.swing.JCheckBox" binding="p_CheckBox_Support_CustomAreas">
+                <constraints>
+                  <xy x="264" y="21" width="86" height="22"/>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+                </constraints>
+                <properties>
+                  <selected value="true"/>
+                  <text value="Custom area"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="425fe" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <xy x="6" y="108" width="377" height="51"/>
+              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+            </constraints>
+            <properties/>
+            <border type="etched" title="Generation of sources"/>
+            <children>
+              <component id="39f64" class="javax.swing.JLabel">
+                <constraints>
+                  <xy x="6" y="20" width="116" height="25"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="3"/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="4"/>
+                  <text value="Programming language: "/>
+                </properties>
+              </component>
+              <component id="6b85d" class="javax.swing.JComboBox" binding="p_ProgrammingLanguageList">
+                <constraints>
+                  <xy x="132" y="21" width="239" height="23"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

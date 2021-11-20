@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.raydac_research.FormEditor.RrgFormComponents.NewComponent_Form.SelectComponentTypePanel">
+  <grid id="b51ee" binding="p_SelectPanel" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="81" y="26" width="98" height="156"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="etched" title="Component type"/>
+    <children>
+      <component id="dafdf" class="javax.swing.JRadioButton" binding="p_RadioButton_Image">
+        <constraints>
+          <xy x="6" y="20" width="55" height="22"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Image"/>
+        </properties>
+      </component>
+      <component id="ea59" class="javax.swing.JRadioButton" binding="p_RadioButton_Button">
+        <constraints>
+          <xy x="6" y="47" width="57" height="22"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Button"/>
+        </properties>
+      </component>
+      <component id="f7009" class="javax.swing.JRadioButton" binding="p_RadioButton_Label">
+        <constraints>
+          <xy x="6" y="74" width="50" height="22"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="de9fb" class="javax.swing.JRadioButton" binding="p_RadioButton_Path">
+        <constraints>
+          <xy x="6" y="101" width="47" height="22"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Path"/>
+        </properties>
+      </component>
+      <component id="59d23" class="javax.swing.JRadioButton" binding="p_RadioButton_CustomArea">
+        <constraints>
+          <xy x="6" y="128" width="86" height="22"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Custom area"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
