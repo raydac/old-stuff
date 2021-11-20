@@ -2,8 +2,8 @@ MIDlet-Name: MobileChase
 MIDlet-Vendor: Cold Core(R)
 MIDlet-1: MobileChase_7650,/ico.png,startup
 MIDlet-Jar-URL: MobileChase_7650.jar
-MIDlet-Jar-Size: 180125
-MIDlet-Version: 1.0.3
+MIDlet-Jar-Size: 180126
+MIDlet-Version: 1.0.4
 MicroEdition-Configuration: CLDC-1.0
 MicroEdition-Profile: MIDP-1.0
 Created-By: RRGWTK10

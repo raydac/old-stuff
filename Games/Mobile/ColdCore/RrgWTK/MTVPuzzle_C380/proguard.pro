@@ -1,0 +1,1 @@
+-keep class mtv.puzzle.startup

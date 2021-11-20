@@ -1,0 +1,2343 @@
+package mtv.scene;
+
+import javax.microedition.midlet.MIDlet;
+import javax.microedition.midlet.MIDletStateChangeException;
+import javax.microedition.lcdui.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+
+/**
+ * Шаблон для изготовления игровых визуализированных модулей
+ *
+ * @author Igor A. Maznitsa
+ *         (C) 2005 Raydac Research Group Ltd.
+ * @version 1.9
+ */
+public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, Gamelet.GameActionListener, CommandListener
+{
+    private static final Object SYNCHRO_OBJECT = new Object();
+
+    /**
+     * Состояние неинициализированного или деинициализированного приложения
+     */
+    private static final int MODE_UNKNOWN = 0;
+    /**
+     * Состояние инициализированного приложения
+     */
+    private static final int MODE_INITED = 1;
+    /**
+     * Состояние загрузки данных приложения
+     */
+    private static final int MODE_LOADING = 2;
+    /**
+     * Состояние отображения главного меню
+     */
+    private static final int MODE_MAINMENU = 3;
+    /**
+     * Состояние отображения номера игрового уровня
+     */
+    private static final int MODE_SHOWSTAGE = 4;
+    /**
+     * Состояние отображения игрового процесса
+     */
+    private static final int MODE_GAMEPLAY = 6;
+    /**
+     * Состояние отображения игрового меню
+     */
+    private static final int MODE_GAMEMENU = 7;
+    /**
+     * Состояние отображения финала игрового процесса
+     */
+    private static final int MODE_GAMEFINAL = 8;
+    /**
+     * Состояние отображения формы ввода имени игрока для записи в таблицу рекордов
+     */
+    private static final int MODE_RECORDNAME = 9;
+    /**
+     * Состояние выгрузки приложения
+     */
+    private static final int MODE_RELEASING = 10;
+    /**
+     * Состояние ошибки приложения
+     */
+    private static final int MODE_ERROR = 11;
+
+    /**
+     * Задержка на реакцию на клавиши при переводе в режим окончания игры
+     */
+    private static final int REACTIONDELAY_GAMEFINAL = 3;
+
+    /**
+     * Задержка на реакцию на клавиши при переводе в режим ввода рекорда
+     */
+    private static final int REACTIONDELAY_RECORD = 3;
+
+    //====================Коды клавиш======================
+    //#if VENDOR=="SUN"
+    private static final int JOY_СODE_UP = -1;
+    private static final int JOY_CODE_LEFT = -3;
+    private static final int JOY_CODE_RIGHT = -4;
+    private static final int JOY_CODE_DOWN = -2;
+    private static final int JOY_CODE_FIRE = -5;
+
+    private static final int KEY_CODE_UP = 50;//Canvas.KEY_NUM2
+    private static final int KEY_CODE_LEFT = 52;//Canvas.KEY_NUM4;
+    private static final int KEY_CODE_RIGHT = 54;//Canvas.KEY_NUM6;
+    private static final int KEY_CODE_DOWN = 56;//Canvas.KEY_NUM8;
+    private static final int KEY_CODE_FIRE = 53;//Canvas.KEY_NUM5;
+
+    private static final int KEY_CODE_KEY1 = 55;//Canvas.KEY_NUM7;
+    private static final int KEY_CODE_KEY2 = 57;//Canvas.KEY_NUM9;
+
+    private static final int KEY_CODE_SOFT_LEFT = -6;// Левая софт кнопка
+    private static final int KEY_CODE_SOFT_RIGHT = -7;// Правая софт кнопка
+    //#else
+    //#if VENDOR=="MOTOROLA"
+    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_CODE_LEFT = -2;
+    //$private static final int JOY_CODE_RIGHT = -5;
+    //$private static final int JOY_CODE_DOWN = -6;
+    //$private static final int JOY_CODE_FIRE = -20;
+    //$private static final int KEY_CODE_UP = 50;
+    //$private static final int KEY_CODE_LEFT = 52;
+    //$private static final int KEY_CODE_RIGHT = 54;
+    //$private static final int KEY_CODE_DOWN = 56;
+    //$private static final int KEY_CODE_FIRE = 53;
+    //$private static final int KEY_CODE_KEY1 = 55;
+    //$private static final int KEY_CODE_KEY2 = 57;
+    //$private static final int KEY_CODE_SOFT_LEFT = -21;
+    //$private static final int KEY_CODE_SOFT_RIGHT = -22;
+    //#endif
+    //#endif
+    //======================================================
+
+    //#if VENDOR=="MOTOROLA" && MODEL=="C380"
+    private static final int SCREEN_WIDTH = 128;
+    private static final int SCREEN_HEIGHT = 116;
+    //#else
+    //#if VENDOR=="MOTOROLA" && MODEL=="E398"
+    //$private static final int SCREEN_WIDTH = 176;
+    //$private static final int SCREEN_HEIGHT = 204;
+    //#endif
+
+    //#endif
+
+    private static final int COLOR_MAIN_BACKGROUND = 0x990000;
+
+    private static final int COLOR_LOADING_BACKGROUND = 0xFFB533;
+    private static final int COLOR_LOADING_BAR_BACKGROUND = 0x32B5FA;
+    private static final int COLOR_LOADING_BAR = 0xFF338A;
+
+    private static final int COLOR_BORDER = 0x000055;
+
+    private static final int COLOR_RECORD_BACKGROUND = 0xFF9733;
+    private static final int COLOR_RECORD_TEXT = 0xCC0033;
+    private static final int COLOR_RECORD_CHAR = 0xFFF733;
+    private static final int COLOR_RECORD_BCKGNDCHAR = 0x307BEF;
+
+    private static final int LOADING_BAR_HEIGHT = 5;
+    private static final int LOADING_BAR_WIDTH = 60;
+    private static final int LOADING_BAR_OFFSET_FROM_LOGO = 5;
+    private static final int I8_LOADING_BAR_PERCENT = (LOADING_BAR_WIDTH << 8) / 100;
+
+    private static final String RESOURCE_LOADING_LOGO = "/loading.png";
+    private static final String RESOURCE_SPLASH = "/splash.jpg";
+
+    private static final String RESOURCE_LANGUAGES = "/langs.bin";
+    private static final String RESOURCE_MENU = "/gmenu.bin";
+
+    private static final int DELAY_STAGESCREEN = 100;
+    private static final int DELAY_FINALSCREEN = 400;
+
+    private static final int LETTER_RECORDNAME_FIRSTCODE = 0x40;
+    private static final int LETTER_RECORDNAME_LASTCODE = 0x59;
+
+    private static class InsideCanvas extends Canvas
+    {
+        private int i_screenOffsetX = 0;
+        private int i_screenOffsetY = 0;
+        private boolean lg_drawBorder;
+        private int i_screenWidth;
+        private int i_screenHeight;
+
+        private static startup p_parent;
+
+        public InsideCanvas()
+        {
+            super();
+
+            //#if MIDP=="2.0"
+            //$setFullScreenMode(true);
+            //#endif
+
+            i_screenHeight = getHeight();
+            i_screenWidth = getWidth();
+
+            i_screenWidth = i_screenWidth < SCREEN_WIDTH ? SCREEN_WIDTH : i_screenWidth;
+            i_screenHeight = i_screenHeight < SCREEN_HEIGHT ? SCREEN_HEIGHT : i_screenHeight;
+
+            i_screenOffsetX = (i_screenWidth - SCREEN_WIDTH) >> 1;
+            i_screenOffsetY = (i_screenHeight - SCREEN_HEIGHT) >> 1;
+            lg_drawBorder = (i_screenOffsetX | i_screenOffsetY) != 0;
+        }
+
+        private void paintRecordNamePanel(Graphics _graphics)
+        {
+            _graphics.setColor(COLOR_RECORD_BACKGROUND);
+            _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            Font p_chFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_LARGE);
+
+            final int i_point = Graphics.TOP | Graphics.LEFT;
+
+            _graphics.setFont(p_chFont);
+            String s_title = LangBlock.getStringForIndex(RecordNameTXT);
+            int i_x = (SCREEN_WIDTH - p_chFont.stringWidth(s_title)) >> 1;
+            int i_y = 2;
+            _graphics.setColor(COLOR_RECORD_TEXT);
+            _graphics.drawString(s_title, i_x, i_y, i_point);
+            i_y += p_chFont.getHeight() + 3;
+
+
+            _graphics.setFont(GameMenu.p_MenuFont);
+            s_title = LangBlock.getStringForIndex(ScoreTXT) + ": " + Gamelet.getPlayerScore();
+            i_x = (SCREEN_WIDTH - GameMenu.p_MenuFont.stringWidth(s_title)) >> 1;
+            _graphics.drawString(s_title, i_x, i_y, i_point);
+            i_y += GameMenu.p_MenuFont.getHeight() + 8;
+
+            _graphics.setFont(p_chFont);
+
+            final int CHAR_INTERVAL = 3;
+            final int RECT_WIDTH = p_chFont.stringWidth("WW");
+            final int RECT_HEIGHT = p_chFont.getHeight() + (CHAR_INTERVAL << 1);
+
+            i_x = (SCREEN_WIDTH - (RECT_WIDTH * 3 + (CHAR_INTERVAL << 1))) >> 1;
+            int i_chY = i_y + CHAR_INTERVAL;
+
+            for (int li = 0; li < 3; li++)
+            {
+                int i_bckgcolor = COLOR_RECORD_BCKGNDCHAR;
+                int i_chrcolor = COLOR_RECORD_CHAR;
+                if (i_RecordCharPosition == li)
+                {
+                    i_bckgcolor = COLOR_RECORD_CHAR;
+                    i_chrcolor = COLOR_RECORD_BCKGNDCHAR;
+                    _graphics.setColor(i_bckgcolor);
+                    _graphics.fillRect(i_x - 1, i_y - 1, RECT_WIDTH + 2, RECT_HEIGHT + 2);
+                }
+                else
+                {
+                    _graphics.setColor(i_bckgcolor);
+                    _graphics.fillRect(i_x, i_y, RECT_WIDTH, RECT_HEIGHT);
+                }
+
+                _graphics.setColor(i_chrcolor);
+
+                String s_str = "" + LangBlock.CHARSETS[ai_RecordNameChars[li] >>> 6].charAt(ai_RecordNameChars[li] & 0x3F);
+                int i_w = p_chFont.stringWidth(s_str);
+                _graphics.drawString(s_str, i_x + ((RECT_WIDTH - i_w) >> 1), i_chY, i_point);
+
+                i_x += CHAR_INTERVAL + RECT_WIDTH;
+            }
+
+            _graphics.setFont(GameMenu.p_MenuFont);
+            // Отрисовываем ВВОД ОТМЕНА в правом и левом нижнем углу
+            final int OFFSET_HORZ = 1;
+            final int OFFSET_VERT = 1;
+
+            String s_strEnter = LangBlock.getStringForIndex(SaveTXT);
+            String s_strCancel = LangBlock.getStringForIndex(CancelTXT);
+            i_y = SCREEN_HEIGHT - GameMenu.p_MenuFont.getHeight() - OFFSET_VERT;
+
+            if (i_lastPressedKey == KEY_CODE_SOFT_LEFT)
+                _graphics.setColor(COLOR_RECORD_TEXT);
+            else
+                _graphics.setColor(~COLOR_RECORD_TEXT);
+            _graphics.drawString(s_strCancel, OFFSET_HORZ, i_y, i_point);
+
+            if (i_lastPressedKey == KEY_CODE_SOFT_RIGHT)
+                _graphics.setColor(COLOR_RECORD_TEXT);
+            else
+                _graphics.setColor(~COLOR_RECORD_TEXT);
+            _graphics.drawString(s_strEnter, SCREEN_WIDTH - OFFSET_HORZ - GameMenu.p_MenuFont.stringWidth(s_strEnter), i_y, i_point);
+        }
+
+        protected void paint(Graphics _graphics)
+        {
+            _graphics.translate(i_screenOffsetX, i_screenOffsetY);
+
+            _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            switch (i_MidletMode)
+            {
+            case MODE_INITED:
+            case MODE_UNKNOWN:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_LOADING:
+                 {
+                     _graphics.setColor(COLOR_LOADING_BACKGROUND);
+                     _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+                     int i_splImgX = 0;
+                     int i_splImgY = 0;
+
+                     if (p_Image_LoadingLogo != null)
+                     {
+                         int i_logoWidth = 50;
+                         int i_logoHeight = 54;
+
+                         i_splImgX = (SCREEN_WIDTH - i_logoWidth) >> 1;
+                         i_splImgY = (SCREEN_HEIGHT - (i_logoHeight + LOADING_BAR_HEIGHT + LOADING_BAR_OFFSET_FROM_LOGO)) >> 1;
+                         _graphics.drawImage(p_Image_LoadingLogo, i_splImgX, i_splImgY, 0);
+                         _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                         i_splImgY += i_logoHeight + LOADING_BAR_OFFSET_FROM_LOGO;
+                     }
+                     else
+                     {
+                         i_splImgY = SCREEN_HEIGHT >> 1;
+                     }
+                     i_splImgY = i_splImgY > SCREEN_HEIGHT - LOADING_BAR_HEIGHT - 1 ? SCREEN_HEIGHT - LOADING_BAR_HEIGHT - 1 : i_splImgY;
+
+                     i_splImgX = (SCREEN_WIDTH - LOADING_BAR_WIDTH) >> 1;
+                     _graphics.setColor(COLOR_LOADING_BAR_BACKGROUND);
+                     _graphics.fillRect(i_splImgX, i_splImgY, LOADING_BAR_WIDTH, LOADING_BAR_HEIGHT);
+                     _graphics.setColor(COLOR_LOADING_BAR);
+                     _graphics.fillRect(i_splImgX, i_splImgY, (i_LoadingProgress * I8_LOADING_BAR_PERCENT) >> 8, LOADING_BAR_HEIGHT);
+                 }
+            ;
+                 break;
+            case MODE_MAINMENU:
+                 {
+                     _graphics.setColor(COLOR_MAIN_BACKGROUND);
+                     _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+                     if (p_Image_Splash != null)
+                     {
+                         _graphics.drawImage(p_Image_Splash, 0, 0, 0);
+                     }
+                     GameMenu.paintMenu(_graphics, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                 }
+            ;
+                 break;
+            case MODE_RECORDNAME:
+                 {
+                     paintRecordNamePanel(_graphics);
+                 }
+            ;
+                 break;
+            case MODE_GAMEMENU:
+                 {
+                     paintGameProcess(_graphics);
+
+                     _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                     GameMenu.paintMenu(_graphics, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                 }
+            ;
+                 break;
+            case MODE_GAMEFINAL:
+                 {
+                     paintGameOver(_graphics);
+                 }
+            ;
+                 break;
+            case MODE_GAMEPLAY:
+                 {
+                     paintGameProcess(_graphics);
+                 }
+            ;
+                 break;
+            case MODE_SHOWSTAGE:
+                 {
+                     paintGameStage(_graphics);
+                 }
+            ;
+                 break;
+            case MODE_RELEASING:
+                 {
+                     _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                 }
+            ;
+                 break;
+            case MODE_ERROR:
+                 {
+                     _graphics.setColor(0xA00000);
+                     _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                     _graphics.setColor(0xFFFFFF);
+
+                     Font p_fnt = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE);
+                     _graphics.setFont(p_fnt);
+                     _graphics.drawString("FATAL ERROR", 0, 0, 0);
+                     int i_y = p_fnt.getHeight() + 3;
+                     p_fnt = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+                     _graphics.setFont(p_fnt);
+                     _graphics.drawString(s_errorString == null ? "NULL" : s_errorString, 0, i_y, 0);
+                 }
+            ;
+                 break;
+            }
+
+            _graphics.translate(-i_screenOffsetX, -i_screenOffsetY);
+            // Отрисовываем бордюры
+            if (lg_drawBorder)
+            {
+                _graphics.setClip(0, 0, i_screenWidth, i_screenHeight);
+                _graphics.setColor(COLOR_BORDER);
+                // Верхний бордюр
+                _graphics.fillRect(0, 0, i_screenWidth, i_screenOffsetY);
+                // Нижний бордюр
+                int i_hght = i_screenOffsetY + SCREEN_HEIGHT;
+                _graphics.fillRect(0, i_hght, i_screenWidth, i_screenHeight - i_hght);
+                // Левый бордюр
+                _graphics.fillRect(0, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
+                // Правый бордюр
+                _graphics.fillRect(i_screenOffsetX + SCREEN_WIDTH, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
+            }
+        }
+
+        protected synchronized void keyPressed(int _keyCode)
+        {
+            i_lastPressedKey = _keyCode;
+
+            switch (i_MidletMode)
+            {
+            case MODE_UNKNOWN:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_LOADING:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_INITED:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_GAMEPLAY:
+                 {
+                     p_parent.keyPressed(_keyCode);
+                 }
+            ;
+                 break;
+            case MODE_RECORDNAME:
+                 {
+                     p_InsideCanvas.repaint();
+                 }
+            ;
+                 break;
+            case MODE_GAMEFINAL:
+                 {
+
+                 }
+            ;
+                 break;
+            case MODE_GAMEMENU:
+            case MODE_MAINMENU:
+                 {
+                     switch (_keyCode)
+                     {
+                     case KEY_CODE_UP:
+                     case JOY_СODE_UP:
+                          GameMenu.pressMenuKey(GameMenu.MENUKEY_UP);
+                          break;
+                     case KEY_CODE_SOFT_LEFT:
+                     case KEY_CODE_LEFT:
+                     case JOY_CODE_LEFT:
+                          GameMenu.pressMenuKey(GameMenu.MENUKEY_LEFT);
+                          break;
+                     case KEY_CODE_SOFT_RIGHT:
+                     case KEY_CODE_RIGHT:
+                     case JOY_CODE_RIGHT:
+                          GameMenu.pressMenuKey(GameMenu.MENUKEY_RIGHT);
+                          break;
+                     case KEY_CODE_DOWN:
+                     case JOY_CODE_DOWN:
+                          GameMenu.pressMenuKey(GameMenu.MENUKEY_DOWN);
+                          break;
+                     case KEY_CODE_FIRE:
+                     case JOY_CODE_FIRE:
+                          GameMenu.pressMenuKey(GameMenu.MENUKEY_SELECT);
+                          break;
+                     }
+                     repaint();
+                 }
+            ;
+                 break;
+            }
+        }
+
+        protected synchronized void keyReleased(int _keyCode)
+        {
+            switch (i_MidletMode)
+            {
+            case MODE_UNKNOWN:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_LOADING:
+                 {
+                     if (_keyCode == KEY_CODE_SOFT_RIGHT)
+                         if (i_lastPressedKey == KEY_CODE_SOFT_RIGHT)
+                         {
+                             // Останавливаем загрузку
+                             lg_Working = false;
+                         }
+                 }
+            ;
+                 break;
+            case MODE_INITED:
+                 {
+                 }
+            ;
+                 break;
+            case MODE_RECORDNAME:
+                 {
+                     if (i_KeyReactionDelayCounter > 0) i_KeyReactionDelayCounter--;
+                     else
+                     {
+                         switch (_keyCode)
+                         {
+                         case KEY_CODE_UP:
+                         case JOY_СODE_UP:
+                              {
+                                  int i_code = ai_RecordNameChars[i_RecordCharPosition];
+                                  if (i_code == LETTER_RECORDNAME_LASTCODE)
+                                  {
+                                      i_code = LETTER_RECORDNAME_FIRSTCODE;
+                                  }
+                                  else
+                                  {
+                                      i_code++;
+                                  }
+                                  ai_RecordNameChars[i_RecordCharPosition] = i_code;
+                              }
+                         ;
+                              break;
+                         case KEY_CODE_LEFT:
+                         case JOY_CODE_LEFT:
+                              {
+                                  if (i_RecordCharPosition == 0)
+                                  {
+                                      i_RecordCharPosition = ai_RecordNameChars.length - 1;
+                                  }
+                                  else
+                                  {
+                                      i_RecordCharPosition--;
+                                  }
+                              }
+                         ;
+                              break;
+                         case KEY_CODE_RIGHT:
+                         case JOY_CODE_RIGHT:
+                              {
+                                  if (i_RecordCharPosition == (ai_RecordNameChars.length - 1))
+                                  {
+                                      i_RecordCharPosition = 0;
+                                  }
+                                  else
+                                  {
+                                      i_RecordCharPosition++;
+                                  }
+                              }
+                         ;
+                              break;
+                         case KEY_CODE_DOWN:
+                         case JOY_CODE_DOWN:
+                              {
+                                  int i_code = ai_RecordNameChars[i_RecordCharPosition];
+                                  if (i_code == LETTER_RECORDNAME_FIRSTCODE)
+                                  {
+                                      i_code = LETTER_RECORDNAME_LASTCODE;
+                                  }
+                                  else
+                                  {
+                                      i_code--;
+                                  }
+                                  ai_RecordNameChars[i_RecordCharPosition] = i_code;
+                              }
+                         ;
+                              break;
+                         case KEY_CODE_SOFT_RIGHT:
+                              {
+                                  DataStorage.addScoreInTable(ab_ScoreTable, (byte) ai_RecordNameChars[0], (byte) ai_RecordNameChars[1], (byte) ai_RecordNameChars[2], Gamelet.getPlayerScore());
+                                  try
+                                        {
+                                      DataStorage.saveScores(ab_ScoreTable);
+                                  }
+                                  catch (Exception e)
+                                  {
+                                      s_errorString = e.getMessage();
+                                      p_parent.setMode(MODE_ERROR);
+                                      return;
+                                  }
+                              }
+                         case KEY_CODE_SOFT_LEFT:
+                              {
+                                  p_parent.setMode(MODE_MAINMENU);
+                                  return;
+                              }
+                         }
+                         p_InsideCanvas.repaint();
+                     }
+                 }
+            ;
+                 break;
+            case MODE_GAMEFINAL:
+                 {
+                     if (i_KeyReactionDelayCounter == 0 && i_lastPressedKey == _keyCode)
+                     {
+                         p_parent.setMode(MODE_RECORDNAME);
+                     }
+                 }
+            ;
+                 break;
+            case MODE_GAMEPLAY:
+                 {
+                     p_parent.keyReleased(_keyCode);
+                 }
+            ;
+                 break;
+            case MODE_GAMEMENU:
+            case MODE_MAINMENU:
+                 {
+                     switch (_keyCode)
+                     {
+                     case KEY_CODE_UP:
+                     case JOY_СODE_UP:
+                          GameMenu.releaseMenuKey(GameMenu.MENUKEY_UP);
+                          break;
+                     case KEY_CODE_SOFT_LEFT:
+                     case KEY_CODE_LEFT:
+                     case JOY_CODE_LEFT:
+                          GameMenu.releaseMenuKey(GameMenu.MENUKEY_LEFT);
+                          break;
+                     case KEY_CODE_SOFT_RIGHT:
+                     case KEY_CODE_RIGHT:
+                     case JOY_CODE_RIGHT:
+                          GameMenu.releaseMenuKey(GameMenu.MENUKEY_RIGHT);
+                          break;
+                     case KEY_CODE_DOWN:
+                     case JOY_CODE_DOWN:
+                          GameMenu.releaseMenuKey(GameMenu.MENUKEY_DOWN);
+                          break;
+                     case KEY_CODE_FIRE:
+                     case JOY_CODE_FIRE:
+                          GameMenu.releaseMenuKey(GameMenu.MENUKEY_SELECT);
+                          break;
+                     }
+                     repaint();
+                 }
+            ;
+                 break;
+            }
+        }
+    }
+
+    public startup()
+    {
+        InsideCanvas.p_parent = this;
+    }
+
+    private static int i_lastPressedKey = -1;
+
+    private static int i_MidletMode = -1;
+    private static int i_PrevMidletMode;
+    private static boolean lg_Working;
+
+    private static int i_KeyReactionDelayCounter;
+
+    private static int i_LoadingProgress;
+
+    private static final InsideCanvas p_InsideCanvas = new InsideCanvas();
+    private static Display p_Display;
+
+    private static Image p_Image_LoadingLogo;
+    private static Image p_Image_Splash;
+
+    private static boolean lg_Option_Sound;
+    private static boolean lg_Option_Vibra;
+    private static boolean lg_Option_Light;
+    private static int i_LanguageIndex;
+
+    private static int i_KeyFlags;
+    private static int i_selectedGameLevel;
+    private static int i_selectedGameStage;
+    private static int i_DelayTickCounter;
+
+    private static byte[] ab_ScoreTable;
+    private static final int[] ai_RecordNameChars = new int [3];
+
+    private static int i_RecordCharPosition;
+
+    private static String s_errorString;
+
+    private final void initRecordName()
+    {
+        ai_RecordNameChars[0] = LETTER_RECORDNAME_FIRSTCODE;
+        ai_RecordNameChars[1] = LETTER_RECORDNAME_FIRSTCODE;
+        ai_RecordNameChars[2] = LETTER_RECORDNAME_FIRSTCODE;
+        i_RecordCharPosition = 0;
+    }
+
+    private final void setMode(int _newMode)
+    {
+        if (i_MidletMode == _newMode) return;
+        if (i_MidletMode == MODE_ERROR) return;
+
+        i_lastPressedKey = -1;
+
+        i_DelayTickCounter = 0;
+
+        i_PrevMidletMode = i_MidletMode;
+        i_MidletMode = _newMode;
+
+        boolean lg_cycle = true;
+        while (lg_cycle)
+        {
+            switch (i_MidletMode)
+            {
+            case MODE_UNKNOWN:
+                   {
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_INITED:
+                   {
+                       p_Display.setCurrent(p_InsideCanvas);
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_LOADING:
+                   {
+                       if (i_PrevMidletMode != MODE_LOADING)
+                       {
+                           i_LoadingProgress = 0;
+                           try
+                           {
+                               p_Image_LoadingLogo = Image.createImage(RESOURCE_LOADING_LOGO);
+                           }
+                           catch (Exception e)
+                           {
+                           }
+                       }
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_SHOWSTAGE:
+                   {
+                       if ((Gamelet.getSupportedModes() & Gamelet.FLAG_STAGESUPPORT) == 0)
+                       {
+                           i_MidletMode = MODE_GAMEPLAY;
+                       continue;
+                       }
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_GAMEPLAY:
+                   {
+                       p_Image_Splash = null;
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_GAMEMENU:
+                   {
+                       Gamelet.pauseGame();
+                       GameMenu.focusToItem(ITEM_ID_ResumeGame);
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_RELEASING:
+                   {
+                       try
+                             {
+                           if (Gamelet.i_GameState == Gamelet.STATE_INITED)
+                           {
+                               Gamelet.releaseGame();
+                           }
+                           Gamelet.release();
+                       }
+                       catch (Exception e)
+                       {
+                       }
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_ERROR:
+            case MODE_GAMEFINAL:
+                   {
+                       i_KeyReactionDelayCounter = REACTIONDELAY_GAMEFINAL;
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_RECORDNAME:
+                   {
+                       initRecordName();
+                       try
+                       {
+                           ab_ScoreTable = DataStorage.getTopScores();
+                           if (Gamelet.getPlayerScore()<0 || !DataStorage.checkScores(ab_ScoreTable, Gamelet.getPlayerScore()))
+                           {
+                               ab_ScoreTable = null;
+                               i_MidletMode = MODE_MAINMENU;
+                           continue;
+                           }
+                           i_KeyReactionDelayCounter = REACTIONDELAY_RECORD;
+                       }
+                       catch (Exception e)
+                       {
+                           s_errorString = e.getMessage();
+                           i_MidletMode = MODE_ERROR;
+                       }
+                       lg_cycle = false;
+                   }
+            ;
+                   break;
+            case MODE_MAINMENU:
+                   {
+                       Gamelet.releaseGame();
+                       p_Image_LoadingLogo = null;
+                       i_selectedGameLevel = -1;
+                       ab_ScoreTable = null;
+                       try
+                       {
+                           p_Image_Splash = Image.createImage(RESOURCE_SPLASH);
+                       }
+                       catch (Exception e)
+                       {
+                       }
+                       lg_cycle = false;
+                       if (DataStorage.hasSavedData())
+                       {
+                           GameMenu.focusToItem(ITEM_ID_ResumeGame);
+                       }
+                       else
+                       {
+                           GameMenu.focusToItem(ITEM_ID_NewGame);
+                       }
+                   }
+            ;
+                   break;
+            default:
+                   {
+                       //#if DEBUG
+                       System.out.println("Unknown mode [" + i_MidletMode + "]");
+                       //#endif
+                   }
+            }
+        }
+
+        i_lastPressedKey = -1;
+
+        midletModeChanged(i_MidletMode, i_PrevMidletMode);
+
+        if (p_InsideCanvas.isShown())
+            p_InsideCanvas.repaint();
+        Runtime.getRuntime().gc();
+    }
+
+    /**
+     * Сгенерировать форму таблицы игровых рекордов
+     *
+     * @param _scoreTable массив, содержащий таблицу
+     * @return форму, содержащую список рекордов
+     */
+    private final List makeScoreTableForm(byte[] _scoreTable)
+    {
+        List p_form = new List(LangBlock.getStringForIndex(TopTXT), List.IMPLICIT);
+        for (int li = 0; li < DataStorage.MAX_SCORE_RECORDS; li++)
+        {
+            String s_name = DataStorage.getNameInPosition(_scoreTable, li);
+            if (s_name == null) break;
+            int i_scores = DataStorage.getTopScoresInPosition(_scoreTable, li);
+            String s_str = (li + 1) + ". " + s_name + "..." + Integer.toString(i_scores);
+            p_form.append(s_str, null);
+        }
+
+        p_form.addCommand(new Command(LangBlock.getStringForIndex(BackTXT), Command.SCREEN, 1));
+        p_form.setCommandListener(this);
+        return p_form;
+    }
+
+    /**
+     * Сгенерировать форму помощи по игре или информацию по игре
+     *
+     * @param _help флаг, показывающий что надо генерировать помощь по игре, если false то about
+     * @return форму, содержащую текст помощи или информацию
+     */
+    private final Form makeHelpOrAboutBox(boolean _help)
+    {
+        String s_str = null;
+        String s_titl = null;
+        if (_help)
+        {
+            s_str = LangBlock.getStringForIndex(HelpTextTXT);
+            s_titl = LangBlock.getStringForIndex(HelpTXT);
+        }
+        else
+        {
+            s_str = LangBlock.getStringForIndex(AboutTextTXT);
+            s_titl = LangBlock.getStringForIndex(AboutTXT);
+        }
+
+        s_str = s_str.replace('~', '\n');
+        Form p_tbox = new Form(s_titl);
+        StringItem p_str = new StringItem(null, s_str);
+        p_tbox.append(p_str);
+        p_tbox.addCommand(new Command(LangBlock.getStringForIndex(BackTXT), Command.SCREEN, 1));
+        p_tbox.setCommandListener(this);
+        return p_tbox;
+    }
+
+    public void commandAction(Command command, Displayable displayable)
+    {
+        p_Display.setCurrent(p_InsideCanvas);
+    }
+
+    protected void startApp() throws MIDletStateChangeException
+    {
+        if (i_MidletMode < 0)
+        {
+            if (!processStartApp(this))
+            {
+                throw new MIDletStateChangeException("processStartApp");
+            }
+
+            setMode(MODE_UNKNOWN);
+            p_Display = Display.getDisplay(this);
+
+            lg_Working = true;
+
+            setMode(MODE_INITED);
+
+            new Thread(this).start();
+        }
+    }
+
+    protected void pauseApp()
+    {
+        switch (i_MidletMode)
+        {
+        case MODE_SHOWSTAGE:
+        case MODE_GAMEPLAY:
+             {
+                 setMode(MODE_GAMEMENU);
+             }
+        ;
+             break;
+        }
+    }
+
+    private final void saveCurrentGame()
+    {
+        try
+       {
+            Gamelet.pauseGame();
+            byte[] ab_array = Gamelet.saveGameStateToByteArray();
+            DataStorage.saveDataBlock(ab_array);
+            ab_array = null;
+            Runtime.getRuntime().gc();
+        }
+        catch (Exception e)
+        {
+            s_errorString = e.getMessage();
+            setMode(MODE_ERROR);
+        }
+    }
+
+    private final void loadGame()
+    {
+        try
+              {
+            byte[] ab_array = DataStorage.loadDataBlock();
+            Gamelet.loadGameStateFromByteArray(ab_array, this);
+            i_selectedGameStage = Gamelet.i_GameStage;
+            i_selectedGameLevel = Gamelet.i_GameLevel;
+            if (!initNewGame(i_selectedGameLevel)) throw new Exception("E0");
+            if (!initNewGameStage(i_selectedGameStage)) throw new Exception("E1");
+            ab_array = null;
+            Runtime.getRuntime().gc();
+        }
+        catch (Exception e)
+        {
+            s_errorString = e.getMessage();
+            setMode(MODE_ERROR);
+        }
+    }
+
+    private void increaseLoadingProgress(int _deltaPercents)
+    {
+        i_LoadingProgress += _deltaPercents;
+        p_InsideCanvas.repaint();
+    }
+
+    protected void destroyApp(boolean b) throws MIDletStateChangeException
+    {
+        switch (i_MidletMode)
+        {
+        case MODE_SHOWSTAGE:
+        case MODE_GAMEPLAY:
+        case MODE_GAMEMENU:
+             {
+                 onDestroyApp();
+                 synchronized(SYNCHRO_OBJECT)
+                 {
+                    saveCurrentGame();
+                 }
+             }
+        ;
+             break;
+        }
+        setMode(MODE_RELEASING);
+        lg_Working = false;
+    }
+
+    public boolean onEnable(int _itemId, int _subitemId)
+    {
+        if (_subitemId < 0)
+        {
+            switch (_itemId)
+            {
+            case ITEM_ID_Exit:
+                 if (i_MidletMode == MODE_MAINMENU) return true;
+                 else return false;
+            case ITEM_ID_EndGame:
+                 if (i_MidletMode == MODE_GAMEMENU) return true;
+                 else return false;
+            case ITEM_ID_ResumeGame:
+                 {
+                     switch (i_MidletMode)
+                     {
+                     case MODE_GAMEMENU:
+                          {
+                              return true;
+                          }
+                     case MODE_MAINMENU:
+                          {
+                              if (DataStorage.hasSavedData()) return true;
+                              else return false;
+                          }
+                     }
+                 }
+            ;
+                 break;
+            case ITEM_ID_RestartLevel:
+                 {
+                     if (i_MidletMode != MODE_GAMEMENU) return false;
+                     if ((Gamelet.getSupportedModes() & Gamelet.FLAG_SUPPORTRESTART) == 0) return false;
+                     return true;
+                 }
+            case ITEM_ID_NewGame:
+            case ITEM_ID_Top:
+            case ITEM_ID_Language:
+                 {
+                     if (i_MidletMode == MODE_GAMEMENU) return false;
+                     else return true;
+                 }
+            }
+        }
+        else
+        {
+            if (_itemId == ITEM_ID_Options)
+            {
+                switch (_subitemId)
+                {
+                case SUBITEM_ID_Sound:
+                     return true;
+                case SUBITEM_ID_Vibra:
+                case SUBITEM_ID_Light:
+                     return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void onEnter(int _itemId)
+    {
+
+    }
+
+    public void onExit(int _itemId)
+    {
+
+    }
+
+    public void onState(int _itemId, int _subitemId, boolean _newState)
+    {
+        if (_subitemId < 0 && _newState)
+        {
+            switch (_itemId)
+            {
+            case ITEM_ID_Exit:
+                 {
+                     lg_Working = false;
+                 }
+            ;
+                 break;
+            case ITEM_ID_EndGame:
+                 {
+                     synchronized(SYNCHRO_OBJECT)
+                     {
+                         saveCurrentGame();
+                         setMode(MODE_MAINMENU);
+                 }   }
+            ;
+                 break;
+            case ITEM_ID_ResumeGame:
+                 {
+                     if (i_MidletMode == MODE_MAINMENU)
+                     {
+                         loadGame();
+                     }
+                     Gamelet.i_GameState = Gamelet.STATE_PAUSED;
+                     Gamelet.resumeGameAfterPauseOrPlayerLost();
+                     setMode(MODE_GAMEPLAY);
+                 }
+            ;
+                 break;
+            case ITEM_ID_About:
+                 {
+                     Form p_abForm = makeHelpOrAboutBox(false);
+                     p_Display.setCurrent(p_abForm);
+                 }
+            ;
+                 break;
+            case ITEM_ID_Help:
+                 {
+                     Form p_helpForm = makeHelpOrAboutBox(true);
+                     p_Display.setCurrent(p_helpForm);
+                 }
+            ;
+                 break;
+            case ITEM_ID_Top:
+                 {
+                     try
+                           {
+                         byte[] ab_sTable = DataStorage.getTopScores();
+                         List p_listScores = makeScoreTableForm(ab_sTable);
+                         ab_sTable = null;
+                         p_Display.setCurrent(p_listScores);
+                     }
+                     catch (Exception e)
+                     {
+                         s_errorString = e.getMessage();
+                         setMode(MODE_ERROR);
+                         return;
+                     }
+                 }
+            ;
+                 break;
+            }
+        }
+        else
+        {
+            switch (_itemId)
+            {
+            case ITEM_ID_NewGame:
+                 {
+                     i_selectedGameStage = STAGENUMBER_FIRST;
+                     switch (_subitemId)
+                     {
+                     case SUBITEM_ID_Easy:
+                          {
+                              i_selectedGameLevel = Gamelet.GAMELEVEL_EASY;
+                          }
+                     ;
+                          break;
+                     case SUBITEM_ID_Normal:
+                          {
+                              i_selectedGameLevel = Gamelet.GAMELEVEL_NORMAL;
+                          }
+                     ;
+                          break;
+                     case SUBITEM_ID_Hard:
+                          {
+                              i_selectedGameLevel = Gamelet.GAMELEVEL_HARD;
+                          }
+                     ;
+                          break;
+                     }
+                 }
+            ;
+                 break;
+            case ITEM_ID_Options:
+                 {
+                     switch (_subitemId)
+                     {
+                     case SUBITEM_ID_Light:
+                          {
+                              lg_Option_Light = _newState;
+                          }
+                     ;
+                          break;
+                     case SUBITEM_ID_Sound:
+                          {
+                              lg_Option_Sound = _newState;
+
+                              if (lg_Option_Sound)
+                              {
+                                  if (i_MidletMode == MODE_MAINMENU)
+                                  {
+                                      SoundManager.playSound(SoundManager.SOUND_THEME, 1);
+                                  }
+                              }
+                              else
+                                  SoundManager.stopAllSound();
+                          }
+                     ;
+                          break;
+                     case SUBITEM_ID_Vibra:
+                          {
+                              lg_Option_Vibra = _newState;
+                          }
+                     ;
+                          break;
+                     }
+
+                     packAndSaveOptions();
+                 }
+            ;
+                 break;
+            case ITEM_ID_Language:
+                 {
+                     if (_newState)
+                     {
+                         int i_currentLanguage = LangBlock.i_CurrentLanguageIndex;
+                         int i_newLanguage = _subitemId;
+                         try
+                               {
+                             LangBlock.setLanguage(this.getClass(), i_newLanguage);
+                         }
+                         catch (Exception e)
+                         {
+                             i_newLanguage = i_currentLanguage;
+                             try
+                                   {
+                                 LangBlock.setLanguage(this.getClass(), i_newLanguage);
+                             }
+                             catch (Exception e1)
+                             {
+                                 lg_Working = false;
+                             }
+                         }
+                         i_LanguageIndex = i_newLanguage;
+                         packAndSaveOptions();
+
+                         GameMenu.focusToItem(ITEM_ID_Language);
+                         p_InsideCanvas.repaint();
+                     }
+                 }
+            ;
+                 break;
+            }
+        }
+    }
+
+    private static final void packAndSaveOptions()
+    {
+        try
+              {
+            DataStorage.ab_OptionsArray[0] = (byte) i_LanguageIndex;
+            int i_packValue = (lg_Option_Light ? 1 : 0) | (lg_Option_Sound ? 2 : 0) | (lg_Option_Vibra ? 4 : 0);
+            DataStorage.ab_OptionsArray[1] = (byte) i_packValue;
+            DataStorage.saveOptions();
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    public boolean isSelected(int _itemId, int _subitemId)
+    {
+        switch (_itemId)
+        {
+        case ITEM_ID_Options:
+             {
+                 switch (_subitemId)
+                 {
+                 case SUBITEM_ID_Sound:
+                      return lg_Option_Sound;
+                 case SUBITEM_ID_Vibra:
+                      return lg_Option_Vibra;
+                 case SUBITEM_ID_Light:
+                      return lg_Option_Light;
+                 }
+             }
+        ;
+             break;
+        }
+        return false;
+    }
+
+    public int onCustom(int _itemId, int _subitemIndex)
+    {
+        switch (_itemId)
+        {
+        case ITEM_ID_Language:
+             {
+                 if (_subitemIndex >= LangBlock.i_LanguageNumber) return 0;
+
+                 int i_selected = 0;
+
+                 if (LangBlock.i_CurrentLanguageIndex == _subitemIndex)
+                 {
+                     i_selected = 0xFF;
+                 }
+
+                 int i_textid = LangBlock.i_FirstLanguageIndex + _subitemIndex;
+                 int i_flags = 0;
+
+                 int i_result = (i_flags << OFFSET_FLAGS) | (_subitemIndex << OFFSET_ID) | (i_selected << OFFSET_SELECTED) | (i_textid << OFFSET_TEXT);
+                 return i_result;
+             }
+        }
+        return 0;
+    }
+
+    public void run()
+    {
+        setMode(MODE_LOADING);
+
+        boolean lg_firstStart = false;
+
+        try
+              {
+            if (DataStorage.init(Gamelet.getID()))
+            {
+                i_LanguageIndex = -1;
+                lg_Option_Light = true;
+                lg_Option_Sound = true;
+                lg_Option_Vibra = true;
+                lg_firstStart = true;
+            }
+            else
+            {
+                i_LanguageIndex = DataStorage.ab_OptionsArray[0] & 0xFF;
+                int i_options = DataStorage.ab_OptionsArray[1];
+                lg_Option_Light = (i_options & 0x1) != 0;
+                lg_Option_Sound = (i_options & 0x2) != 0;
+                lg_Option_Vibra = (i_options & 0x4) != 0;
+            }
+
+            increaseLoadingProgress(25);
+
+            i_LanguageIndex = LangBlock.initLanguageBlock(this.getClass(), null, 1, 1, 1, RESOURCE_LANGUAGES, i_LanguageIndex);
+
+            GameMenu.initMenuBlock(this.getClass(), this, RESOURCE_MENU, Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+
+            if (lg_firstStart)
+            {
+                packAndSaveOptions();
+            }
+
+            increaseLoadingProgress(25);
+            loadPersonalGameResources(this);
+            increaseLoadingProgress(25);
+        }
+        catch (Exception e)
+        {
+            s_errorString = e.getMessage();
+            setMode(MODE_ERROR);
+            try
+                  {
+                Thread.sleep(3000);
+            }
+            catch (InterruptedException e1)
+            {
+            }
+
+            notifyDestroyed();
+            return;
+        }
+
+        try
+              {
+            Thread.sleep(500);
+        }
+        catch (Exception e)
+        {
+        }
+
+        Gamelet.init();
+
+        increaseLoadingProgress(25);
+        try
+              {
+            Thread.sleep(250);
+        }
+        catch (Exception e)
+        {
+        }
+
+        setMode(MODE_MAINMENU);
+
+        while (lg_Working)
+        {
+            int i_timedelay = 100;
+            switch (i_MidletMode)
+            {
+            case MODE_MAINMENU:
+                 {
+                     if (i_selectedGameLevel >= 0)
+                     {
+                         if (!Gamelet.initNewGame(SCREEN_WIDTH, SCREEN_HEIGHT, i_selectedGameLevel, this) || !initNewGame(i_selectedGameLevel))
+                         {
+                             s_errorString = "Can't init game";
+                             setMode(MODE_ERROR);
+                         continue;
+                         }
+                         setMode(MODE_SHOWSTAGE);
+                         i_KeyFlags = 0;
+                     }
+                     else
+                     {
+                         i_timedelay = 50;
+                         if (GameMenu.processMenu()) p_InsideCanvas.repaint();
+                     }
+                 }
+            ;
+                 break;
+            case MODE_RECORDNAME:
+                 {
+                     if (i_KeyReactionDelayCounter > 0) i_KeyReactionDelayCounter--;
+                 }
+            ;
+                 break;
+            case MODE_GAMEMENU:
+                 {
+                     i_timedelay = 50;
+                     if (GameMenu.processMenu()) p_InsideCanvas.repaint();
+                 }
+            ;
+                 break;
+            case MODE_SHOWSTAGE:
+                 {
+                     if (i_DelayTickCounter >= DELAY_STAGESCREEN)
+                     {
+                         setMode(MODE_GAMEPLAY);
+                     }
+                 }
+            ;
+                 break;
+            case MODE_GAMEFINAL:
+                 {
+                     if (i_KeyReactionDelayCounter > 0) i_KeyReactionDelayCounter--;
+                     if (i_DelayTickCounter >= DELAY_FINALSCREEN)
+                     {
+                         setMode(MODE_RECORDNAME);
+                     }
+                 }
+            ;
+                 break;
+            case MODE_GAMEPLAY:
+                 {
+                     synchronized(SYNCHRO_OBJECT)
+                     {
+                     int i_gameDelay = Gamelet.i_GameStepDelay;
+                     long l_startTime = System.currentTimeMillis();
+                     int i_gameletState = Gamelet.nextGameStep(i_KeyFlags);
+
+                     //i_KeyFlags = Gamelet.KEY_NONE;
+
+                     if (i_gameletState == Gamelet.STATE_OVER)
+                     {
+                         DataStorage.resetSavedDataFlag();
+                         switch (Gamelet.i_PlayerState)
+                         {
+                         case Gamelet.PLAYER_LOST:
+                              {
+                                  setMode(MODE_GAMEFINAL);
+                              }
+                         ;
+                              break;
+                         case Gamelet.PLAYER_WIN:
+                              {
+                                  if ((Gamelet.getSupportedModes() & Gamelet.FLAG_STAGESUPPORT) != 0 && i_selectedGameStage < STAGENUMBER_LAST)
+                                  {
+                                      i_selectedGameStage++;
+                                      setMode(MODE_SHOWSTAGE);
+                                      if (!Gamelet.initGameStage(i_selectedGameStage) || !initNewGameStage(i_selectedGameStage))
+                                      {
+                                          s_errorString = "Can't init stage";
+                                          setMode(MODE_ERROR);
+                                      }
+                                  }
+                                  else
+                                      setMode(MODE_GAMEFINAL);
+                              }
+                         ;
+                              break;
+                         }
+                     }
+                     else
+                     {
+                         p_InsideCanvas.repaint();
+
+                         // Блок вычисления оставшейся задержки времени
+                         long l_endTime = System.currentTimeMillis();
+                         l_endTime -= l_startTime;
+                         if (l_endTime > i_gameDelay || l_endTime < 0)
+                             i_timedelay = 10;
+                         else if (l_endTime <= i_gameDelay) i_timedelay = i_gameDelay - (int) l_endTime;
+                     }
+                 }
+                 }
+            ;
+                 break;
+            }
+            try
+                  {
+                Thread.sleep(i_timedelay);
+            }
+            catch (InterruptedException e)
+            {
+            }
+
+            i_DelayTickCounter++;
+        }
+        this.notifyDestroyed();
+    }
+
+    private static final int STAGENUMBER_FIRST = 0;
+    private static final int STAGENUMBER_LAST = 0;
+
+    //================================Обработка игровых событий=========================
+    public int processGameAction(int _arg)
+    {
+        if (!lg_Option_Sound) return 0;
+        switch(_arg)
+        {
+            case Gamelet.ACTION_SOUND_ACTOR_DEATH :
+                {
+                    SoundManager.playSound(SoundManager.SOUND_DEATH,1);
+                };break;
+            case Gamelet.ACTION_SOUND_BREAKED_BOTTLE:
+                {
+                    if (!SoundManager.isStarted(SoundManager.SOUND_DEATH)) SoundManager.playSound(SoundManager.SOUND_GLASS,1);
+                };break;
+            case Gamelet.ACTION_SOUND_ACTOR_HIT:
+                {
+                    if (!SoundManager.isStarted(SoundManager.SOUND_DEATH)) SoundManager.playSound(SoundManager.SOUND_HIT,1);
+                };break;
+            case Gamelet.ACTION_SOUND_BREAKED_CAN:
+            case Gamelet.ACTION_SOUND_BREAKED_EGG:
+            case Gamelet.ACTION_SOUND_BREAKED_TOMATO:
+            case Gamelet.ACTION_SOUND_BREAKED_FLOWERS:
+                {
+                    if (!SoundManager.isStarted(SoundManager.SOUND_DEATH)) SoundManager.playSound(SoundManager.SOUND_DROP,1);
+                };break;
+        }
+
+        return 0;
+    }
+
+    //================================Переменные и массивы==============================
+    private static Image p_gameGraphicsImage;
+    private static Image p_backgroundImage;
+    private static Image p_gameWinImage;
+    private static int[] ai_mapImage;
+
+    private static final int MAP_BOTTLEMAX0001 = 0;
+    private static final int MAP_BOTTLEMAX0002 = 6;
+    private static final int MAP_BOTTLEMAX0003 = 12;
+    private static final int MAP_BOTTLEMAX0004 = 18;
+    private static final int MAP_BOTTLEMAX0005 = 24;
+    private static final int MAP_BOTTLEMAX0006 = 30;
+    private static final int MAP_BOTTLEMAX0007 = 36;
+    private static final int MAP_BOTTLEMAX0008 = 42;
+    private static final int MAP_BOTTLEMAX0009 = 48;
+    private static final int MAP_BOTTLEMAX0010 = 54;
+    private static final int MAP_BOTTLEMAX0011 = 60;
+    private static final int MAP_BOTTLEMID0001 = 66;
+    private static final int MAP_BOTTLEMID0002 = 72;
+    private static final int MAP_BOTTLEMID0003 = 78;
+    private static final int MAP_BOTTLEMID0004 = 84;
+    private static final int MAP_BOTTLEMID0005 = 90;
+    private static final int MAP_BOTTLEMID0006 = 96;
+    private static final int MAP_BOTTLEMID0007 = 102;
+    private static final int MAP_BOTTLEMID0008 = 108;
+    private static final int MAP_BOTTLEMID0009 = 114;
+    private static final int MAP_BOTTLEMID0010 = 120;
+    private static final int MAP_BOTTLEMIN0001 = 126;
+    private static final int MAP_BOTTLEMIN0002 = 132;
+    private static final int MAP_BOTTLEMIN0003 = 138;
+    private static final int MAP_BOTTLEMIN0004 = 144;
+    private static final int MAP_BOTTLEMIN0005 = 150;
+    private static final int MAP_BOTTLEMIN0006 = 156;
+    private static final int MAP_BOTTLEMIN0007 = 162;
+    private static final int MAP_BOTTLEMIN0008 = 168;
+    private static final int MAP_BOTTLEMIN0009 = 174;
+    private static final int MAP_BOTTLEMIN0010 = 180;
+    private static final int MAP_CANMAX0001 = 186;
+    private static final int MAP_CANMAX0002 = 192;
+    private static final int MAP_CANMAX0003 = 198;
+    private static final int MAP_CANMAX0004 = 204;
+    private static final int MAP_CANMAX0005 = 210;
+    private static final int MAP_CANMAX0006 = 216;
+    private static final int MAP_CANMID0001 = 222;
+    private static final int MAP_CANMID0002 = 228;
+    private static final int MAP_CANMID0003 = 234;
+    private static final int MAP_CANMID0004 = 240;
+    private static final int MAP_CANMID0005 = 246;
+    private static final int MAP_CANMIN0001 = 252;
+    private static final int MAP_CANMIN0002 = 258;
+    private static final int MAP_CANMIN0003 = 264;
+    private static final int MAP_CANMIN0004 = 270;
+    private static final int MAP_CANMIN0005 = 276;
+    private static final int MAP_DIGITS = 282;
+    private static final int MAP_EGGMAX0001 = 288;
+    private static final int MAP_EGGMAX0002 = 294;
+    private static final int MAP_EGGMAX0003 = 300;
+    private static final int MAP_EGGMAX0004 = 306;
+    private static final int MAP_EGGMAX0005 = 312;
+    private static final int MAP_EGGMAX0006 = 318;
+    private static final int MAP_EGGMAX0007 = 324;
+    private static final int MAP_EGGMAX0008 = 330;
+    private static final int MAP_EGGMAX0009 = 336;
+    private static final int MAP_EGGMAX0010 = 342;
+    private static final int MAP_EGGMID0001 = 348;
+    private static final int MAP_EGGMID0002 = 354;
+    private static final int MAP_EGGMID0003 = 360;
+    private static final int MAP_EGGMID0004 = 366;
+    private static final int MAP_EGGMID0005 = 372;
+    private static final int MAP_EGGMID0006 = 378;
+    private static final int MAP_EGGMID0007 = 384;
+    private static final int MAP_EGGMID0008 = 390;
+    private static final int MAP_EGGMID0009 = 396;
+    private static final int MAP_EGGMIN0001 = 402;
+    private static final int MAP_EGGMIN0002 = 408;
+    private static final int MAP_EGGMIN0003 = 414;
+    private static final int MAP_EGGMIN0004 = 420;
+    private static final int MAP_EGGMIN0005 = 426;
+    private static final int MAP_EGGMIN0006 = 432;
+    private static final int MAP_EGGMIN0007 = 438;
+    private static final int MAP_EGGMIN0008 = 444;
+    private static final int MAP_EGGMIN0009 = 450;
+    private static final int MAP_FLOWERSMAX0001 = 456;
+    private static final int MAP_FLOWERSMAX0002 = 462;
+    private static final int MAP_FLOWERSMAX0003 = 468;
+    private static final int MAP_FLOWERSMAX0004 = 474;
+    private static final int MAP_FLOWERSMAX0005 = 480;
+    private static final int MAP_FLOWERSMAX0006 = 486;
+    private static final int MAP_FLOWERSMAX0007 = 492;
+    private static final int MAP_FLOWERSMAX0008 = 498;
+    private static final int MAP_FLOWERSMAX0009 = 504;
+    private static final int MAP_FLOWERSMAX0010 = 510;
+    private static final int MAP_FLOWERSMAX0011 = 516;
+    private static final int MAP_FLOWERSMID0001 = 522;
+    private static final int MAP_FLOWERSMID0002 = 528;
+    private static final int MAP_FLOWERSMID0003 = 534;
+    private static final int MAP_FLOWERSMID0004 = 540;
+    private static final int MAP_FLOWERSMID0005 = 546;
+    private static final int MAP_FLOWERSMID0006 = 552;
+    private static final int MAP_FLOWERSMID0007 = 558;
+    private static final int MAP_FLOWERSMID0008 = 564;
+    private static final int MAP_FLOWERSMID0009 = 570;
+    private static final int MAP_FLOWERSMID0010 = 576;
+    private static final int MAP_FLOWERSMIN0001 = 582;
+    private static final int MAP_FLOWERSMIN0002 = 588;
+    private static final int MAP_FLOWERSMIN0003 = 594;
+    private static final int MAP_FLOWERSMIN0004 = 600;
+    private static final int MAP_FLOWERSMIN0005 = 606;
+    private static final int MAP_FLOWERSMIN0006 = 612;
+    private static final int MAP_FLOWERSMIN0007 = 618;
+    private static final int MAP_FLOWERSMIN0008 = 624;
+    private static final int MAP_FLOWERSMIN0009 = 630;
+    private static final int MAP_FLOWERSMIN0010 = 636;
+    private static final int MAP_HEROBOW0001 = 642;
+    private static final int MAP_HEROBOW0002 = 648;
+    private static final int MAP_HEROBOW0003 = 654;
+    private static final int MAP_HEROFALL0001 = 660;
+    private static final int MAP_HEROFALL0002 = 666;
+    private static final int MAP_HEROFALL0003 = 672;
+    private static final int MAP_HEROFALL0004 = 678;
+    private static final int MAP_HEROFALL0005 = 684;
+    private static final int MAP_HEROFALL0006 = 690;
+    private static final int MAP_HEROSQUIRM = 696;
+    private static final int MAP_HEROSTAND = 702;
+    private static final int MAP_HEROTURNLEFT0001 = 708;
+    private static final int MAP_HEROTURNLEFT0002 = 714;
+    private static final int MAP_HEROTURNRIGHT0001 = 720;
+    private static final int MAP_HEROTURNRIGHT0002 = 726;
+    private static final int MAP_HEROWALKLEFT0001 = 732;
+    private static final int MAP_HEROWALKLEFT0002 = 738;
+    private static final int MAP_HEROWALKLEFT0003 = 744;
+    private static final int MAP_HEROWALKLEFT0004 = 750;
+    private static final int MAP_HEROWALKLEFT0005 = 756;
+    private static final int MAP_HEROWALKLEFT0006 = 762;
+    private static final int MAP_HEROWALKLEFT0007 = 768;
+    private static final int MAP_HEROWALKLEFT0008 = 774;
+    private static final int MAP_HEROWALKRIGHT0001 = 780;
+    private static final int MAP_HEROWALKRIGHT0002 = 786;
+    private static final int MAP_HEROWALKRIGHT0003 = 792;
+    private static final int MAP_HEROWALKRIGHT0004 = 798;
+    private static final int MAP_HEROWALKRIGHT0005 = 804;
+    private static final int MAP_HEROWALKRIGHT0006 = 810;
+    private static final int MAP_HEROWALKRIGHT0007 = 816;
+    private static final int MAP_HEROWALKRIGHT0008 = 822;
+    private static final int MAP_HEROWAVEHAND0001 = 828;
+    private static final int MAP_HEROWAVEHAND0002 = 834;
+    private static final int MAP_HEROWAVEHAND0003 = 840;
+    private static final int MAP_LIFEICON = 846;
+    private static final int MAP_LOGO_ICO01 = 852;
+    private static final int MAP_LOGO_ICO02 = 858;
+    private static final int MAP_TIMERICON = 864;
+    private static final int MAP_TOMATOMAX0001 = 870;
+    private static final int MAP_TOMATOMAX0002 = 876;
+    private static final int MAP_TOMATOMAX0003 = 882;
+    private static final int MAP_TOMATOMAX0004 = 888;
+    private static final int MAP_TOMATOMAX0005 = 894;
+    private static final int MAP_TOMATOMAX0006 = 900;
+    private static final int MAP_TOMATOMAX0007 = 906;
+    private static final int MAP_TOMATOMAX0008 = 912;
+    private static final int MAP_TOMATOMID0001 = 918;
+    private static final int MAP_TOMATOMID0002 = 924;
+    private static final int MAP_TOMATOMID0003 = 930;
+    private static final int MAP_TOMATOMID0004 = 936;
+    private static final int MAP_TOMATOMID0005 = 942;
+    private static final int MAP_TOMATOMID0006 = 948;
+    private static final int MAP_TOMATOMID0007 = 954;
+    private static final int MAP_TOMATOMIN0001 = 960;
+    private static final int MAP_TOMATOMIN0002 = 966;
+    private static final int MAP_TOMATOMIN0003 = 972;
+    private static final int MAP_TOMATOMIN0004 = 978;
+    private static final int MAP_TOMATOMIN0005 = 984;
+    private static final int MAP_TOMATOMIN0006 = 990;
+    private static final int MAP_TOMATOMIN0007 = 996;
+
+    //================================Игровые функции===================================
+    private static final void drawScores(Graphics _g, int _x, int _y, int _zeroNumber, int _value)
+    {
+        Image p_Image = p_gameGraphicsImage;
+        int FONT_OFFSET = MAP_DIGITS;
+        final int NUMBER_CHAR_WIDTH = 8;
+
+        final int[] ai_kkk = ai_mapImage;
+        int i_xMap = ai_kkk[FONT_OFFSET++];
+        int i_yMap = ai_kkk[FONT_OFFSET++];
+        int i_xOffst = ai_kkk[FONT_OFFSET++];
+        int i_yOffst = ai_kkk[FONT_OFFSET++];
+        int i_wCrop = ai_kkk[FONT_OFFSET++];
+        int i_hCrop = ai_kkk[FONT_OFFSET++];
+
+        _x += i_xOffst;
+        _y += i_yOffst;
+
+        int i_antiAcc = 0;
+        while (_zeroNumber > 0)
+        {
+            int i_acc = _value / _zeroNumber - i_antiAcc;
+
+            _g.setClip(_x, _y, NUMBER_CHAR_WIDTH, i_hCrop);
+            _g.drawImage(p_Image, _x - i_xMap - (i_acc * NUMBER_CHAR_WIDTH), _y - i_yMap, 0);
+
+            i_antiAcc = (i_antiAcc + i_acc) * 10;
+
+            _x += NUMBER_CHAR_WIDTH;
+            _zeroNumber /= 10;
+        }
+    }
+
+    private static final int[] loadImageMapResource(startup _this, String _resource) throws Exception
+    {
+        DataInputStream p_inStream = new DataInputStream(_this.getClass().getResourceAsStream(_resource));
+
+        int i_imagesNumber = p_inStream.readUnsignedShort();
+
+        final int DATA_LENGTH = 6;
+
+        int i_len = i_imagesNumber * DATA_LENGTH;
+        int[] ai_array = new int[i_len];
+
+        for (int li = 0; li < i_len;)
+        {
+            // Координата X на картинке
+            ai_array[li++] = p_inStream.readShort();
+            // Координата Y на картинке
+            ai_array[li++] = p_inStream.readShort();
+            // Смещение X
+            ai_array[li++] = p_inStream.readShort();
+            // Смещение Y
+            ai_array[li++] = p_inStream.readShort();
+            // Ширина области
+            ai_array[li++] = p_inStream.readShort();
+            // Высота области
+            ai_array[li++] = p_inStream.readShort();
+        }
+
+        p_inStream.close();
+        return ai_array;
+    }
+
+    private static final void drawImage(int _imageOffset, Graphics _g, int _x, int _y)
+    {
+        int[] ai_map = ai_mapImage;
+        int i_xMap = ai_map[_imageOffset++];
+        int i_yMap = ai_map[_imageOffset++];
+        _x += ai_map[_imageOffset++];
+        _y += ai_map[_imageOffset++];
+        int i_cW = ai_map[_imageOffset++];
+        int i_cH = ai_map[_imageOffset];
+
+        _g.setClip(_x, _y, i_cW, i_cH);
+        _g.drawImage(p_gameGraphicsImage, _x - i_xMap, _y - i_yMap, 0);
+    }
+
+    private static final void loadPersonalGameResources(startup _this) throws Exception
+    {
+        ai_mapImage = loadImageMapResource(_this, "/map.bin");
+        p_gameGraphicsImage = Image.createImage("/mapimgs.png");
+        Runtime.getRuntime().gc();
+        Runtime.getRuntime().gc();
+        SoundManager.initBlock(_this.getClass(), 50);
+        Runtime.getRuntime().gc();
+    }
+
+    private static final void midletModeChanged(int _newMode, int _oldMode)
+    {
+        switch (_newMode)
+        {
+        case MODE_RECORDNAME:
+             {
+                 SoundManager.stopAllSound();
+             }
+        ;
+             break;
+        case MODE_MAINMENU:
+             {
+                 p_backgroundImage = null;
+                 p_gameWinImage = null;
+                 SoundManager.stopAllSound();
+                 Runtime.getRuntime().gc();
+                 if (lg_Option_Sound)
+                 {
+                     SoundManager.playSound(SoundManager.SOUND_THEME, 1);
+                 }
+             }
+        ;
+             break;
+        case MODE_GAMEFINAL:
+             {
+                 p_backgroundImage = null;
+                 Runtime.getRuntime().gc();
+                 try
+                 {
+                     if (Gamelet.i_PlayerState == Gamelet.PLAYER_WIN)
+                         p_gameWinImage = Image.createImage("/win.jpg");
+                     else
+                         p_gameWinImage = Image.createImage("/lost.jpg");
+                 }
+                 catch (IOException e)
+                 {
+                 }
+                 if (lg_Option_Sound)
+                 {
+                     if (Gamelet.i_PlayerState == Gamelet.PLAYER_WIN)
+                         SoundManager.playSound(SoundManager.SOUND_WIN, 1);
+                     else
+                         SoundManager.playSound(SoundManager.SOUND_LOST, 1);
+                 }
+             }
+        ;
+             break;
+        case MODE_GAMEPLAY:
+        case MODE_GAMEMENU:
+             {
+                 SoundManager.stopAllSound();
+             }
+        ;
+             break;
+        }
+    }
+
+    private static final boolean initNewGameStage(int _gameStage)
+    {
+        return true;
+    }
+
+    private static final boolean initNewGame(int _selectedGameLevel)
+    {
+        try
+        {
+            p_backgroundImage = Image.createImage("/bckgnd.jpg");
+        }
+        catch (IOException e)
+        {
+        }
+
+        return true;
+    }
+
+    private static final void onDestroyApp()
+    {
+        p_gameWinImage = null;
+        p_backgroundImage = null;
+        p_Image_Splash = null;
+        p_gameGraphicsImage = null;
+        Runtime.getRuntime();
+    }
+
+    private static final boolean processStartApp(startup _this)
+    {
+        return true;
+    }
+
+    private static final int[] ai_actorBow = new int []{MAP_HEROSTAND, MAP_HEROBOW0001, MAP_HEROBOW0002, MAP_HEROBOW0001, MAP_HEROBOW0003, MAP_HEROSTAND};
+    private static final int[] ai_actorThanks = new int []{MAP_HEROWAVEHAND0001, MAP_HEROWAVEHAND0002, MAP_HEROWAVEHAND0003, MAP_HEROWAVEHAND0002, MAP_HEROWAVEHAND0001};
+
+    private static final int[] ai_ZArray = new int [Gamelet.MAX_SPRITES * 3];
+
+    private static final void paintGameProcess(Graphics _graphics)
+    {
+        _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        _graphics.drawImage(p_backgroundImage, 0, 0, 0);
+
+        // Сортируем массивы отображения
+        Sprite[] ap_spr = Gamelet.ap_Objects;
+
+        int i_indexFar = 0;
+        int i_indexMid = Gamelet.MAX_SPRITES;
+        int i_indexNear = Gamelet.MAX_SPRITES << 1;
+
+        for (int li = 0; li < Gamelet.MAX_SPRITES; li++)
+        {
+            Sprite p_spr = ap_spr[li];
+            if (p_spr.lg_SpriteActive)
+            {
+                switch (p_spr.i_ObjectType)
+                {
+                case Gamelet.SPRITE_CAN_MIN:
+                case Gamelet.SPRITE_EGG_MIN:
+                case Gamelet.SPRITE_BOTTLE_MIN:
+                case Gamelet.SPRITE_TOMATO_MIN:
+                case Gamelet.SPRITE_FLOWERS_MIN:
+                     {
+                         ai_ZArray[i_indexFar] = p_spr.i_spriteID;
+                         ai_ZArray[i_indexMid] = -1;
+                         ai_ZArray[i_indexNear] = -1;
+                     }
+                ;
+                     break;
+                case Gamelet.SPRITE_BOTTLE_MID:
+                case Gamelet.SPRITE_CAN_MID:
+                case Gamelet.SPRITE_EGG_MID:
+                case Gamelet.SPRITE_TOMATO_MID:
+                case Gamelet.SPRITE_FLOWERS_MID:
+                     {
+                         ai_ZArray[i_indexMid] = p_spr.i_spriteID;
+                         ai_ZArray[i_indexFar] = -1;
+                         ai_ZArray[i_indexNear] = -1;
+                     }
+                ;
+                     break;
+                case Gamelet.SPRITE_BOTTLE_MAX:
+                case Gamelet.SPRITE_BOTTLE_BREAKED:
+                case Gamelet.SPRITE_CAN_MAX:
+                case Gamelet.SPRITE_CAN_BREAKED:
+                case Gamelet.SPRITE_EGG_MAX:
+                case Gamelet.SPRITE_EGG_BREAKED:
+                case Gamelet.SPRITE_TOMATO_MAX:
+                case Gamelet.SPRITE_TOMATO_BREAKED:
+                case Gamelet.SPRITE_FLOWERS_MAX:
+                case Gamelet.SPRITE_FLOWERS_BREAKED:
+                     {
+                         ai_ZArray[i_indexNear] = p_spr.i_spriteID;
+                         ai_ZArray[i_indexMid] = -1;
+                         ai_ZArray[i_indexFar] = -1;
+                     }
+                ;
+                     break;
+                }
+            }
+            else
+            {
+                ai_ZArray[i_indexNear] = -1;
+                ai_ZArray[i_indexMid] = -1;
+                ai_ZArray[i_indexFar] = -1;
+            }
+            i_indexFar++;
+            i_indexMid++;
+            i_indexNear++;
+        }
+
+        int i_actorIndex = (Gamelet.MAX_SPRITES << 1) - 1;
+
+        Sprite p_spr = null;
+        int i_x = 0;
+        int i_y = 0;
+        int i_sprite = 0;
+
+        for (int li = 0; li < ai_ZArray.length; li++)
+        {
+            int i_id = ai_ZArray[li];
+            if (i_id >= 0)
+            {
+                Sprite p_sprite = ap_spr[i_id];
+
+                int i_index = p_sprite.i_Frame * 6;
+                int i_spr = 0;
+
+                switch (p_sprite.i_ObjectType)
+                {
+                case Gamelet.SPRITE_BOTTLE_BREAKED:
+                     i_spr = MAP_BOTTLEMAX0011;
+                     break;
+                case Gamelet.SPRITE_BOTTLE_MAX:
+                     i_spr = MAP_BOTTLEMAX0001;
+                     break;
+                case Gamelet.SPRITE_BOTTLE_MID:
+                     i_spr = MAP_BOTTLEMID0001;
+                     break;
+                case Gamelet.SPRITE_BOTTLE_MIN:
+                     i_spr = MAP_BOTTLEMIN0001;
+                     break;
+                case Gamelet.SPRITE_CAN_BREAKED:
+                     i_spr = MAP_CANMAX0006;
+                     break;
+                case Gamelet.SPRITE_CAN_MAX:
+                     i_spr = MAP_CANMAX0001;
+                     break;
+                case Gamelet.SPRITE_CAN_MID:
+                     i_spr = MAP_CANMID0001;
+                     break;
+                case Gamelet.SPRITE_CAN_MIN:
+                     i_spr = MAP_CANMIN0001;
+                     break;
+                case Gamelet.SPRITE_TOMATO_BREAKED:
+                     i_spr = MAP_TOMATOMAX0008;
+                     break;
+                case Gamelet.SPRITE_TOMATO_MAX:
+                     i_spr = MAP_TOMATOMAX0001;
+                     break;
+                case Gamelet.SPRITE_TOMATO_MID:
+                     i_spr = MAP_TOMATOMID0001;
+                     break;
+                case Gamelet.SPRITE_TOMATO_MIN:
+                     i_spr = MAP_TOMATOMIN0001;
+                     break;
+                case Gamelet.SPRITE_EGG_BREAKED:
+                     i_spr = MAP_EGGMAX0010;
+                     break;
+                case Gamelet.SPRITE_EGG_MAX:
+                     i_spr = MAP_EGGMAX0001;
+                     break;
+                case Gamelet.SPRITE_EGG_MID:
+                     i_spr = MAP_EGGMID0001;
+                     break;
+                case Gamelet.SPRITE_EGG_MIN:
+                     i_spr = MAP_EGGMIN0001;
+                     break;
+                case Gamelet.SPRITE_FLOWERS_MAX:
+                     i_spr = MAP_FLOWERSMAX0001;
+                     break;
+                case Gamelet.SPRITE_FLOWERS_MID:
+                     i_spr = MAP_FLOWERSMID0001;
+                     break;
+                case Gamelet.SPRITE_FLOWERS_MIN:
+                     i_spr = MAP_FLOWERSMIN0001;
+                     break;
+                case Gamelet.SPRITE_FLOWERS_BREAKED:
+                     i_spr = MAP_FLOWERSMAX0011;
+                     break;
+                }
+
+                i_index += i_spr;
+
+                i_x = p_sprite.i_ScreenX >> 8;
+                i_y = p_sprite.i_ScreenY >> 8;
+
+                drawImage(i_index, _graphics, i_x, i_y);
+
+                //#if DEBUG
+                int i_cxoff = i_x + (p_sprite.i_col_offsetX>>8);
+                int i_cyoff = i_y + (p_sprite.i_col_offsetY>>8);
+                int i_cw = p_sprite.i_col_width>>8;
+                int i_ch = p_sprite.i_col_height>>8;
+                _graphics.setClip(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+                _graphics.setColor(0xFF00FF);
+                _graphics.drawRect(i_cxoff,i_cyoff,i_cw,i_ch);
+                //#endif
+            }
+
+            if (li == i_actorIndex)
+            {
+                // Отрисовка игрока
+                p_spr = Gamelet.p_ActorSprite;
+                i_x = p_spr.i_ScreenX >> 8;
+                i_y = p_spr.i_ScreenY >> 8;
+                i_sprite = p_spr.i_Frame;
+
+                int i_actorImageIndex = i_sprite * 6;
+
+                switch (p_spr.i_ObjectType)
+                {
+                case Gamelet.SPRITE_ACTOR_BOW:
+                     i_actorImageIndex = ai_actorBow[p_spr.i_Frame];
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_DEATH:
+                     i_actorImageIndex += MAP_HEROFALL0001;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_HIT:
+                     i_actorImageIndex += MAP_HEROSQUIRM;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_MOVELEFT:
+                     {
+                         i_actorImageIndex += MAP_HEROWALKLEFT0001;
+                     }
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_MOVELEFT2STAND:
+                     i_actorImageIndex += MAP_HEROTURNRIGHT0001;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_MOVERIGHT:
+                     i_actorImageIndex += MAP_HEROWALKRIGHT0001;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_MOVERIGHT2STAND:
+                     i_actorImageIndex += MAP_HEROTURNLEFT0001;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_STAND:
+                     i_actorImageIndex += MAP_HEROSTAND;
+                     break;
+                case Gamelet.SPRITE_ACTOR_STAND2MOVELEFT:
+                     i_actorImageIndex = MAP_HEROTURNRIGHT0002 - i_actorImageIndex;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_STAND2MOVERIGHT:
+                     i_actorImageIndex = MAP_HEROTURNLEFT0002 - i_actorImageIndex;
+                ;
+                     break;
+                case Gamelet.SPRITE_ACTOR_THANKS:
+                     i_actorImageIndex = ai_actorThanks[p_spr.i_Frame];
+                ;
+                     break;
+                }
+
+                drawImage(i_actorImageIndex, _graphics, i_x, i_y);
+
+                //#if DEBUG
+                int i_cxoff = i_x + (p_spr.i_col_offsetX>>8);
+                int i_cyoff = i_y + (p_spr.i_col_offsetY>>8);
+                int i_cw = p_spr.i_col_width>>8;
+                int i_ch = p_spr.i_col_height>>8;
+                _graphics.setClip(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+                _graphics.setColor(0xFF00FF);
+                _graphics.drawRect(i_cxoff,i_cyoff,i_cw,i_ch);
+                //#endif
+            }
+        }
+
+        // Отрисовка объектов летящих в игрока
+
+        // Рисуем нижнюю полоску
+        _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+
+        final int YSTART = SCREEN_HEIGHT - 12;
+
+        final int HEIGHT = SCREEN_HEIGHT - YSTART;
+        _graphics.setColor(0xAAAAFF);
+        _graphics.fillRect(0, YSTART, SCREEN_WIDTH, HEIGHT);
+
+        //Рисуем иконку
+        if (i_lastPressedKey == KEY_CODE_SOFT_LEFT)
+            drawImage(MAP_LOGO_ICO02, _graphics, 1, YSTART - 5);
+        else
+            drawImage(MAP_LOGO_ICO01, _graphics, 1, YSTART - 5);
+
+        // Рисуем показатель жизни
+        drawImage(MAP_LIFEICON, _graphics, 25, YSTART + 1);
+        int i_widthBar = (15 * (Gamelet.i_PlayerPower << 8) / Gamelet.PLAYER_INIT_POWER) >> 8;
+        drawBar(_graphics, 0xFF0000, 37, YSTART + 3, i_widthBar, 6);
+        // Рисуем показатель времени
+        drawImage(MAP_TIMERICON, _graphics, 55, YSTART + 1);
+        i_widthBar = (15 * ((int) ((Gamelet.l_FinalTime - System.currentTimeMillis()) << 8) / Gamelet.i_levelTime)) >> 8;
+        drawBar(_graphics, 0x0000FF, 67, YSTART + 3, i_widthBar, 6);
+
+        // Выводим количество очков
+        drawScores(_graphics, SCREEN_WIDTH - 41, YSTART + 1, 10000, Gamelet.getPlayerScore());
+    }
+
+    private static final void drawBar(Graphics _g, int _color, int _x, int _y, int _width, int _height)
+    {
+        _g.setClip(_x, _y, _width, _height);
+        _g.setColor(_color);
+        _g.fillRect(_x, _y, _width, _height);
+    }
+
+    private static final void paintGameStage(Graphics _graphics)
+    {
+        _graphics.setColor(0xFFFF00);
+        _graphics.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        _graphics.setColor(0x0000FF);
+        _graphics.drawString(LangBlock.getStringForIndex(StageTXT) + " " + (i_selectedGameStage + 1), 0, 20, 0);
+    }
+
+    private static final void paintGameOver(Graphics _graphics)
+    {
+        _graphics.drawImage(p_gameWinImage,0,0,0);
+    }
+
+    private final void keyPressed(int _keyCode)
+    {
+        switch (_keyCode)
+        {
+        case KEY_CODE_UP:
+        case JOY_СODE_UP:
+             {
+             }
+        ;
+             break;
+        case KEY_CODE_LEFT:
+        case JOY_CODE_LEFT:
+             {
+                 i_KeyFlags |= Gamelet.KEY_LEFT;
+             }
+        ;
+             break;
+        case KEY_CODE_RIGHT:
+        case JOY_CODE_RIGHT:
+             {
+                 i_KeyFlags |= Gamelet.KEY_RIGHT;
+             }
+        ;
+             break;
+        case KEY_CODE_DOWN:
+        case JOY_CODE_DOWN:
+             {
+             }
+        ;
+             break;
+        case KEY_CODE_FIRE:
+        case JOY_CODE_FIRE:
+             break;
+        case KEY_CODE_KEY1:
+             break;
+        case KEY_CODE_KEY2:
+             break;
+        case KEY_CODE_SOFT_LEFT:
+             break;
+        }
+    }
+
+    private final void keyReleased(int _keyCode)
+    {
+        switch (_keyCode)
+        {
+        case KEY_CODE_UP:
+        case JOY_СODE_UP:
+             {
+             }
+        ;
+             break;
+        case KEY_CODE_LEFT:
+        case JOY_CODE_LEFT:
+             {
+                 i_KeyFlags &= ~Gamelet.KEY_LEFT;
+             }
+        ;
+             break;
+        case KEY_CODE_RIGHT:
+        case JOY_CODE_RIGHT:
+             {
+                 i_KeyFlags &= ~Gamelet.KEY_RIGHT;
+             }
+        ;
+             break;
+        case KEY_CODE_DOWN:
+        case JOY_CODE_DOWN:
+             {
+             }
+        ;
+             break;
+        case KEY_CODE_FIRE:
+        case JOY_CODE_FIRE:
+             break;
+        case KEY_CODE_KEY1:
+             break;
+        case KEY_CODE_KEY2:
+             break;
+        case KEY_CODE_SOFT_LEFT:
+             {
+                 if (i_lastPressedKey == _keyCode) setMode(MODE_GAMEMENU);
+             }
+        ;
+             break;
+        }
+    }
+
+    //==================================================================================
+
+    // Menu item offsets
+    private static final int ITEM_NewGame_OFFSET = 3;
+    private static final int ITEM_RestartLevel_OFFSET = 17;
+    private static final int ITEM_ResumeGame_OFFSET = 22;
+    private static final int ITEM_Help_OFFSET = 27;
+    private static final int ITEM_Top_OFFSET = 32;
+    private static final int ITEM_Options_OFFSET = 37;
+    private static final int ITEM_Language_OFFSET = 51;
+    private static final int ITEM_About_OFFSET = 56;
+    private static final int ITEM_EndGame_OFFSET = 61;
+    private static final int ITEM_Exit_OFFSET = 66;
+    // Identifiers
+    private static final int ITEM_ID_NewGame = 0;
+    private static final int SUBITEM_ID_Easy = 1;
+    private static final int SUBITEM_ID_Normal = 2;
+    private static final int SUBITEM_ID_Hard = 3;
+    private static final int ITEM_ID_RestartLevel = 4;
+    private static final int ITEM_ID_ResumeGame = 5;
+    private static final int ITEM_ID_Help = 6;
+    private static final int ITEM_ID_Top = 7;
+    private static final int ITEM_ID_Options = 8;
+    private static final int SUBITEM_ID_Sound = 9;
+    private static final int SUBITEM_ID_Vibra = 10;
+    private static final int SUBITEM_ID_Light = 11;
+    private static final int ITEM_ID_Language = 12;
+    private static final int ITEM_ID_About = 13;
+    private static final int ITEM_ID_EndGame = 14;
+    private static final int ITEM_ID_Exit = 15;
+    // Offset array
+    private static final short[] MENU_OFFSETS = new short[]{(short) 3, (short) 17, (short) 22, (short) 27, (short) 32, (short) 37, (short) 51, (short) 56, (short) 61, (short) 66};
+
+    private static final int NewGameTXT = 0;
+    private static final int HelpTXT = 1;
+    private static final int CancelTXT = 2;
+    private static final int TopTXT = 3;
+    private static final int NormalGameTXT = 4;
+    private static final int EasyGameTXT = 5;
+    private static final int AboutTextTXT = 6;
+    private static final int OptionsTXT = 7;
+    private static final int SaveTXT = 8;
+    private static final int ScoreTXT = 9;
+    private static final int ExitTXT = 10;
+    private static final int LanguageTXT = 11;
+    private static final int LightTXT = 12;
+    private static final int VibraTXT = 13;
+    private static final int BackTXT = 14;
+    private static final int HelpTextTXT = 15;
+    private static final int StageTXT = 16;
+    private static final int RecordNameTXT = 17;
+    private static final int HardGameTXT = 18;
+    private static final int AboutTXT = 19;
+    private static final int SoundTXT = 20;
+    private static final int ResumeGameTXT = 21;
+    private static final int RestartLevelTXT = 22;
+    private static final int EndGameTXT = 23;
+}

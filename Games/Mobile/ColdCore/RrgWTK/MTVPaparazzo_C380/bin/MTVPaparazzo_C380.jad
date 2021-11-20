@@ -1,0 +1,10 @@
+MIDlet-Name: MTV Paparazzo
+MIDlet-Vendor: INFON
+MIDlet-1: MTV Paparazzo, /ico.png, mtv.paparazzo.startup
+MIDlet-Jar-URL: MTVPaparazzo_C380.jar
+MIDlet-Jar-Size: 89585
+MIDlet-Version: 1.0.3
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-2.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

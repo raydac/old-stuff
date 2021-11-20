@@ -1,0 +1,10 @@
+MIDlet-Name: AirBoil
+MIDlet-Vendor: Cold Core(TM)
+MIDlet-1: AirBoil,/ico.png, startup
+MIDlet-Jar-URL: AirBoil_cx65.jar
+MIDlet-Jar-Size: 79388
+MIDlet-Version: 1.0.3
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

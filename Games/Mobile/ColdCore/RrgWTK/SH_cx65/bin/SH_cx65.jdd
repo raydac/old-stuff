@@ -1,10 +1,10 @@
 [SECTION_PARAMETERS]
 MIDlet-1=Star Harbor,/ico.png, startup
-MIDlet-Jar-Size=90270
+MIDlet-Jar-Size=91066
 MIDlet-Jar-URL=SH_cx65.jar
 MIDlet-Name=Star Harbor
 MIDlet-Vendor=Cold Core(TM)
-MIDlet-Version=1.0.32
+MIDlet-Version=1.0.33
 MicroEdition-Configuration=CLDC-1.1
 MicroEdition-Profile=MIDP-2.0
 Created-By=RRGWTK10
