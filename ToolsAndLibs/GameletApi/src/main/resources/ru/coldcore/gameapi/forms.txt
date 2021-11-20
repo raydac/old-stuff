@@ -1,0 +1,8 @@
+form,mainform,300,300,6667,255
+rect,10,10,30,30,5120
+frect,30,30,40,50,12221
+label,5,5,2334,"hello"
+image,45,45,font
+form,forma,300,300,6222,255
+image,45,45,tile
+label,0,0,#ff00ff,"HELLO"
