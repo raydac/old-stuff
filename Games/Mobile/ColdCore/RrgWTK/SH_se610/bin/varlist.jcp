@@ -1,0 +1,9 @@
+VENDOR="SE"
+MODEL="T610"
+SHOWSYS=false
+TILE=true
+DBUFFER=true
+VIBRA=false
+LIGHT=false
+SOUND=true
+DEALERDELAY=0

@@ -1,0 +1,25 @@
+[SECTION_PARAMETERS]
+MIDlet-1=ChoiceHitCatalog,/ico.png,Main
+MIDlet-Jar-Size=90908
+MIDlet-Jar-URL=choicehitcatalog.jar
+MIDlet-Name=ChoiceHitCatalog
+MIDlet-Vendor=CHOICE
+MIDlet-Version=2.1.25
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
+Created-By=RRGWTK10
+MIDlet-Icon=/ico.png
+MIDlet-Description=CHOICE hit catalog
+[END]
+[SECTION_ORDER_JAD]
+MIDlet-Name
+MIDlet-Vendor
+MIDlet-1
+MIDlet-Jar-URL
+MIDlet-Jar-Size
+MIDlet-Version
+MicroEdition-Configuration
+MicroEdition-Profile
+[END]
+[SECTION_ORDER_MF]
+[END]

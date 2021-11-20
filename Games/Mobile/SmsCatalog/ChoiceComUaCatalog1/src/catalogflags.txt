@@ -1,0 +1,12 @@
+//#excludeif true
+//#global RSRC_HTTP = false
+//#global RSRC_JAR = false
+//#global RSRC_FILE = true
+//#global STR_UTF8 = false
+//#global SEND2FRIEND = true
+//#global MAINADVERTISMENT = false
+//#global SMSSERVICEPARSER = false
+//#global GAMEMODE="VideoBall"
+//#global SMSENGINE=true
+//#global UPDATEURL=false
+//#global AGREEMENT=false

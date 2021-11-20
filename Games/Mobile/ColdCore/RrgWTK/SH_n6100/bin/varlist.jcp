@@ -1,0 +1,9 @@
+VENDOR="NOKIA"
+MODEL="6100"
+SHOWSYS=false
+TILE=true
+DBUFFER=false
+SOUND=true
+VIBRA=true
+LIGHT=true
+DEALERDELAY=0

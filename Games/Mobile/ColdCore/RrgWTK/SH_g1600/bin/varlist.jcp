@@ -1,0 +1,9 @@
+VENDOR="LG"
+MODEL="G1600"
+SHOWSYS=false
+TILE=true
+DBUFFER=false
+SOUND=true
+LIGHT=false
+VIBRA=true
+DEALERDELAY=0

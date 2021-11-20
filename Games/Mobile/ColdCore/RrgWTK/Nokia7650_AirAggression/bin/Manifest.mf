@@ -1,0 +1,9 @@
+MIDlet-1: AirAggression_7650,/ico.png,startup
+MIDlet-Name: AirAggression
+MIDlet-Vendor: Cold Core(R)
+MIDlet-Version: 1.0.3
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png
+Nokia-MIDlet-Category: Games

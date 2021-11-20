@@ -1,0 +1,25 @@
+[SECTION_PARAMETERS]
+MIDlet-1=ALMECatalog,/ico.png, Main
+MIDlet-Jar-Size=53664
+MIDlet-Jar-URL=almecatalog.jar
+MIDlet-Name=ALMECatalog
+MIDlet-Vendor=ALME
+MIDlet-Version=1.0.11
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
+Created-By=RRGWTK10
+MIDlet-Icon=/ico.png
+MIDlet-Description=ALME catalog
+[END]
+[SECTION_ORDER_JAD]
+MIDlet-Name
+MIDlet-Vendor
+MIDlet-1
+MIDlet-Jar-URL
+MIDlet-Jar-Size
+MIDlet-Version
+MicroEdition-Configuration
+MicroEdition-Profile
+[END]
+[SECTION_ORDER_MF]
+[END]

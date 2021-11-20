@@ -1,0 +1,9 @@
+VENDOR="NOKIA"
+MODEL="7650"
+SHOWSYS=false
+TILE=true
+DBUFFER=false
+LIGHT=true
+SOUND=true
+VIBRA=true
+DEALERDELAY=0
