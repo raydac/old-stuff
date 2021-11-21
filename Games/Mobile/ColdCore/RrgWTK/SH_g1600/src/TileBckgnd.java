@@ -18,7 +18,7 @@ import javax.microedition.lcdui.Graphics;
 //#local SCROLLY=false
 
 /**
- * Класс реализует тайловый рендер
+ * РљР»Р°СЃСЃ СЂРµР°Р»РёР·СѓРµС‚ С‚Р°Р№Р»РѕРІС‹Р№ СЂРµРЅРґРµСЂ
  *
  * @author Igor Maznitsa
  * @version 3.0
@@ -223,7 +223,7 @@ public class TileBckgnd
     //#endif
 
     /**
-     * Освобождает ресурсы, взятые блоком
+     * РћСЃРІРѕР±РѕР¶РґР°РµС‚ СЂРµСЃСѓСЂСЃС‹, РІР·СЏС‚С‹Рµ Р±Р»РѕРєРѕРј
      */
     //#if STATIC
     //$public static final void release()
@@ -256,12 +256,12 @@ public class TileBckgnd
     }
 
     /**
-     * Инициализация блока
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р»РѕРєР°
      *
-     * @param _width            ширина видимой части
-     * @param _height           высота видимой части
-     * @param _cellWidth        ширина ячейки
-     * @param _cellHeight       высота ячейки
+     * @param _width            С€РёСЂРёРЅР° РІРёРґРёРјРѕР№ С‡Р°СЃС‚Рё
+     * @param _height           РІС‹СЃРѕС‚Р° РІРёРґРёРјРѕР№ С‡Р°СЃС‚Рё
+     * @param _cellWidth        С€РёСЂРёРЅР° СЏС‡РµР№РєРё
+     * @param _cellHeight       РІС‹СЃРѕС‚Р° СЏС‡РµР№РєРё
      */
     //#if STATIC
     //$public static final void initTileBackground(int _width, int _height, int _cellWidth, int _cellHeight)
@@ -320,11 +320,11 @@ public class TileBckgnd
 
     //#if DBLBUFFER
     /**
-     * Отрисовать фон
+     * РћС‚СЂРёСЃРѕРІР°С‚СЊ С„РѕРЅ
      *
-     * @param _g Graphics объект
-     * @param _x Координата X верхнего левого угла
-     * @param _y Координата Y верхнего левого угла
+     * @param _g Graphics РѕР±СЉРµРєС‚
+     * @param _x РљРѕРѕСЂРґРёРЅР°С‚Р° X РІРµСЂС…РЅРµРіРѕ Р»РµРІРѕРіРѕ СѓРіР»Р°
+     * @param _y РљРѕРѕСЂРґРёРЅР°С‚Р° Y РІРµСЂС…РЅРµРіРѕ Р»РµРІРѕРіРѕ СѓРіР»Р°
      */
     //#if STATIC
     //$public static final void drawBufferToGraphics(Graphics _g, int _x, int _y)
@@ -342,10 +342,10 @@ public class TileBckgnd
     //#endif
 
     /**
-     * Задает массив, содержащий указатили на тайлы
+     * Р—Р°РґР°РµС‚ РјР°СЃСЃРёРІ, СЃРѕРґРµСЂР¶Р°С‰РёР№ СѓРєР°Р·Р°С‚РёР»Рё РЅР° С‚Р°Р№Р»С‹
      *
-     * @param _roomWidth ширина массива
-     * @param _roomArray массив
+     * @param _roomWidth С€РёСЂРёРЅР° РјР°СЃСЃРёРІР°
+     * @param _roomArray РјР°СЃСЃРёРІ
      */
     //#if STATIC
     //$public static final void setGameRoomArray(final int _roomWidth, final byte[] _roomArray)
@@ -370,9 +370,9 @@ public class TileBckgnd
     }
 
     /**
-     * Задает блок изображений, содержащих тайлы. При аппаратной поддержке MIDP 2.0, функция должна вызываться последней перед выводом.
+     * Р—Р°РґР°РµС‚ Р±Р»РѕРє РёР·РѕР±СЂР°Р¶РµРЅРёР№, СЃРѕРґРµСЂР¶Р°С‰РёС… С‚Р°Р№Р»С‹. РџСЂРё Р°РїРїР°СЂР°С‚РЅРѕР№ РїРѕРґРґРµСЂР¶РєРµ MIDP 2.0, С„СѓРЅРєС†РёСЏ РґРѕР»Р¶РЅР° РІС‹Р·С‹РІР°С‚СЊСЃСЏ РїРѕСЃР»РµРґРЅРµР№ РїРµСЂРµРґ РІС‹РІРѕРґРѕРј.
      *
-     * @param _image указатель на изображение
+     * @param _image СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РёР·РѕР±СЂР°Р¶РµРЅРёРµ
      */
     //#if STATIC
     //$public static final void setBlockImage(final Image _image)
@@ -430,10 +430,10 @@ public class TileBckgnd
     }
 
     /**
-     * Задает координаты смещения буффера
+     * Р—Р°РґР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРјРµС‰РµРЅРёСЏ Р±СѓС„С„РµСЂР°
      *
-     * @param _x координата X
-     * @param _y координата Y
+     * @param _x РєРѕРѕСЂРґРёРЅР°С‚Р° X
+     * @param _y РєРѕРѕСЂРґРёРЅР°С‚Р° Y
      */
     //#if STATIC
     //$public static final void setXY(final int _x, final int _y)
@@ -486,7 +486,7 @@ public class TileBckgnd
             p_HardTile.move(0-i_deltaX,0-i_deltaY);
             //#else
                 //#if DBLBUFFER
-                //$    // Необходимо не забывать про проблему связанную с изображением при переходе границы тайла за шаг
+                //$    // РќРµРѕР±С…РѕРґРёРјРѕ РЅРµ Р·Р°Р±С‹РІР°С‚СЊ РїСЂРѕ РїСЂРѕР±Р»РµРјСѓ СЃРІСЏР·Р°РЅРЅСѓСЋ СЃ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј РїСЂРё РїРµСЂРµС…РѕРґРµ РіСЂР°РЅРёС†С‹ С‚Р°Р№Р»Р° Р·Р° С€Р°Рі
                 //$    boolean lg_overCellX = i_cellTopXold != i_cellTopX;
                 //$    boolean lg_overCellY = i_cellTopYold != i_cellTopY;
                 //$    scrollHiddenBuffer(i_deltaX, i_deltaY, lg_overCellX, lg_overCellY);
@@ -519,7 +519,7 @@ public class TileBckgnd
 
         //$p_HBufferGraphics.setClip(0, 0, i_hiddenBufferWidth, i_hiddenBufferHeight);
 
-        //$// Осуществляем перемещение контента буффера на выбранное количество шагов
+        //$// РћСЃСѓС‰РµСЃС‚РІР»СЏРµРј РїРµСЂРµРјРµС‰РµРЅРёРµ РєРѕРЅС‚РµРЅС‚Р° Р±СѓС„С„РµСЂР° РЅР° РІС‹Р±СЂР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С€Р°РіРѕРІ
         //$int i_initX;
         //$int i_stepX;
         //$int i_initY;
@@ -553,9 +553,9 @@ public class TileBckgnd
         //$    int i_xp = i_initX;
         //$    for (int lx = 2; lx != 0; lx--)
         //$    {
-        //$        // Копируем контент буффера в теневой буффер
+        //$        // РљРѕРїРёСЂСѓРµРј РєРѕРЅС‚РµРЅС‚ Р±СѓС„С„РµСЂР° РІ С‚РµРЅРµРІРѕР№ Р±СѓС„С„РµСЂ
         //$        p_HPartGraphics.drawImage(p_HBuffer, 0 - i_xp, 0 - i_yp, 0);
-        //$        // Копируем обратно
+        //$        // РљРѕРїРёСЂСѓРµРј РѕР±СЂР°С‚РЅРѕ
         //$        p_HBufferGraphics.drawImage(p_HPart, i_xp - _stepX, i_yp - _stepY, 0);
         //$        i_xp += i_stepX;
         //$    }
@@ -622,7 +622,7 @@ public class TileBckgnd
         //$        boolean lg_xoutofbound = false;
         //$        if (i_cellX < 0 || i_cellX >= i_roomArrayW) lg_xoutofbound = true;
 
-                // Восстанавливаем столбец
+                // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃС‚РѕР»Р±РµС†
         //$        for (int ly = i_startYCellBlock; ly <= i_limitY; ly++)
         //$        {
         //$            boolean lg_YoutOfBounds = false;
@@ -789,11 +789,11 @@ public class TileBckgnd
     //#if !STILEM50
 
     /**
-     * Отрисовка на канвас текущего положения картинки
+     * РћС‚СЂРёСЃРѕРІРєР° РЅР° РєР°РЅРІР°СЃ С‚РµРєСѓС‰РµРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ РєР°СЂС‚РёРЅРєРё
      *
-     * @param _g канвас
-     * @param _x X координата начала вывода
-     * @param _y Y координата начала вывода
+     * @param _g РєР°РЅРІР°СЃ
+     * @param _x X РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР°С‡Р°Р»Р° РІС‹РІРѕРґР°
+     * @param _y Y РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР°С‡Р°Р»Р° РІС‹РІРѕРґР°
      */
     //#if STATIC
     //$public static final void directPaint(final Graphics _g,final int _x,final int _y)

@@ -20,28 +20,28 @@ public class GameMenu
     //$protected static final int COLOR_SUBITEM_TEXT = 0x000000;
     //#else
     /**
-     * Цвет заднего фона для полоски пунктов меню
+     * Р¦РІРµС‚ Р·Р°РґРЅРµРіРѕ С„РѕРЅР° РґР»СЏ РїРѕР»РѕСЃРєРё РїСѓРЅРєС‚РѕРІ РјРµРЅСЋ
      */
     protected static final int COLOR_ITEM_BACKGROUND = 0x0000CC;
     /**
-     * Цвет текста невыбранного пункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РЅРµРІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_ITEM_NONSELECTED = 0xFFFFFF;
     /**
-     * Цвет текста выбранного пункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_ITEM_SELECTED = 0xE5FF00;
 
     /**
-     * Цвет границы бокса
+     * Р¦РІРµС‚ РіСЂР°РЅРёС†С‹ Р±РѕРєСЃР°
      */
     protected static final int COLOR_BOX_OUTLINE = 0xFFBA00;
     /**
-     * Цвет контента бокса
+     * Р¦РІРµС‚ РєРѕРЅС‚РµРЅС‚Р° Р±РѕРєСЃР°
      */
     protected static final int COLOR_BOX_CHEKED = 0x8AE200;
     /**
-     * Цвет контента радиокнопки
+     * Р¦РІРµС‚ РєРѕРЅС‚РµРЅС‚Р° СЂР°РґРёРѕРєРЅРѕРїРєРё
      */
     protected static final int COLOR_RADIO_CHEKED = 0x18C800;
 
@@ -51,11 +51,11 @@ public class GameMenu
     //$protected static final int COLOR_SUBITEM_TEXT = 0x002FCE;
     //#else
     /**
-     * Цвет заднего фона подпунктов
+     * Р¦РІРµС‚ Р·Р°РґРЅРµРіРѕ С„РѕРЅР° РїРѕРґРїСѓРЅРєС‚РѕРІ
      */
     protected static final int COLOR_SUBITEM_BACKGROUND = 0x0079D8;
     /**
-     * Цвет текста подпункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РїРѕРґРїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_SUBITEM_TEXT = 0xFFFFFF;
     //#endif
@@ -232,7 +232,7 @@ public class GameMenu
 
         if ((i_flag & ITEM_FLAGS_CUSTOM) == 0)
         {
-            // Нормальный пункт
+            // РќРѕСЂРјР°Р»СЊРЅС‹Р№ РїСѓРЅРєС‚
             for (int li = 0; li < i_subitemsNumber; li++)
             {
                 int i_sid = ab_menuArray[i_curOffset++] & 0xFF;
@@ -271,7 +271,7 @@ public class GameMenu
         }
         else
         {
-            // Настраиваемый пункт
+            // РќР°СЃС‚СЂР°РёРІР°РµРјС‹Р№ РїСѓРЅРєС‚
             if (i_typeID == ITEM_TYPE_CHECKLIST || i_typeID == ITEM_TYPE_RADIOLIST)
             {
                 int i_subitem = 0;
@@ -455,7 +455,7 @@ public class GameMenu
         int i_areaWidth = _screenWidth;
         int i_areaHeight = _screenHeight;
 
-        // ================== Обычное текстовое меню ========================
+        // ================== РћР±С‹С‡РЅРѕРµ С‚РµРєСЃС‚РѕРІРѕРµ РјРµРЅСЋ ========================
         //#if VENDOR=="SAMSUNG"
 
         //$int i_leftWidth = LangBlock.i_FontImage_CharWidth;
@@ -486,7 +486,7 @@ public class GameMenu
 
         //#endif
 
-        // Отрисовываем фоновую линию для пунктов
+        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј С„РѕРЅРѕРІСѓСЋ Р»РёРЅРёСЋ РґР»СЏ РїСѓРЅРєС‚РѕРІ
         _graphics.setColor(COLOR_ITEM_BACKGROUND);
         int i_lineHeight = (BORDER_WIDTH << 1) + i_SymbolSize;
         int i_lineY = i_areaY + i_areaHeight - i_lineHeight;
@@ -494,7 +494,7 @@ public class GameMenu
 
         int i_subItemBlockWidth = 0;
 
-        // Отрисовываем подложку под подпункты
+        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РїРѕРґР»РѕР¶РєСѓ РїРѕРґ РїРѕРґРїСѓРЅРєС‚С‹
         if (lg_Pressed)
         {
             switch (i_CurrentItemType)
@@ -509,7 +509,7 @@ public class GameMenu
                         _graphics.setColor(COLOR_SUBITEM_BACKGROUND);
                         _graphics.fillRect(i_xoffset, i_lineY - i_bckHeight, i_subItemBlockWidth, i_bckHeight);
 
-                        // Выбранный пункт
+                        // Р’С‹Р±СЂР°РЅРЅС‹Р№ РїСѓРЅРєС‚
                         int i_yOffset = BORDER_WIDTH + (i_CurrentFocusedSubitem * (i_SymbolSize + SUBITEM_INTERVAL)) + i_SymbolSize;
                         _graphics.setColor(COLOR_SUBITEM_TEXT);
                         _graphics.fillRect(i_xoffset, i_lineY - i_yOffset - 1, i_subItemBlockWidth, i_SymbolSize + 2);
@@ -523,14 +523,14 @@ public class GameMenu
             _graphics.setColor(COLOR_ITEM_NONSELECTED);
 
 
-        // Отрисовываем пункт
+        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РїСѓРЅРєС‚
         //#if VENDOR=="SAMSUNG"
         //$LangBlock.drawStringForIndex(i_CurrentItemTextID,_graphics,i_itemX, i_itemY);
         //#else
         _graphics.drawString(s_itemText, i_itemX, i_itemY, TEXT_ALGIN);
         //#endif
 
-        // Отрисовка указателей
+        // РћС‚СЂРёСЃРѕРІРєР° СѓРєР°Р·Р°С‚РµР»РµР№
         //#if VENDOR=="SAMSUNG"
         //$final int ARROW_LEFT_CHAR = (8<<4)|12;
         //$final int ARROW_RIGHT_CHAR = (8<<4)|13;

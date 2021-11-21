@@ -4,140 +4,140 @@ import java.util.Random;
 import java.io.*;
 
 /**
- * Класс описывает минимальную игровую модель.
+ * РљР»Р°СЃСЃ РѕРїРёСЃС‹РІР°РµС‚ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РёРіСЂРѕРІСѓСЋ РјРѕРґРµР»СЊ.
  *
- * @author Игорь Мазница
+ * @author РРіРѕСЂСЊ РњР°Р·РЅРёС†Р°
  * @version 4.1
- *          (С) 2003-2005 Raydac Reserach Group Ltd.
+ *          (РЎ) 2003-2005 Raydac Reserach Group Ltd.
  */
 public class Gamelet
 {
     /**
-     * Интерфейс определяет функции слушателя игровых сообщений
+     * РРЅС‚РµСЂС„РµР№СЃ РѕРїСЂРµРґРµР»СЏРµС‚ С„СѓРЅРєС†РёРё СЃР»СѓС€Р°С‚РµР»СЏ РёРіСЂРѕРІС‹С… СЃРѕРѕР±С‰РµРЅРёР№
      */
     public interface GameActionListener
     {
         /**
-         * Отработка игрового события, с одним числовым параметром и числовым возвращаемым значением
+         * РћС‚СЂР°Р±РѕС‚РєР° РёРіСЂРѕРІРѕРіРѕ СЃРѕР±С‹С‚РёСЏ, СЃ РѕРґРЅРёРј С‡РёСЃР»РѕРІС‹Рј РїР°СЂР°РјРµС‚СЂРѕРј Рё С‡РёСЃР»РѕРІС‹Рј РІРѕР·РІСЂР°С‰Р°РµРјС‹Рј Р·РЅР°С‡РµРЅРёРµРј
          */
         public int processGameAction(int _arg);
     }
 
     /**
-     * Генератор случайных чисел
+     * Р“РµРЅРµСЂР°С‚РѕСЂ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
      */
     private static final Random p_RNDGenerator = new Random(System.currentTimeMillis());
 
     /**
-     * Константа, показывающая что игрок в игре
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ РёРіСЂРѕРє РІ РёРіСЂРµ
      */
     public static final int PLAYER_PLAYING = 0;
 
     /**
-     * Константа, показывающая что игрок выиграл
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ РёРіСЂРѕРє РІС‹РёРіСЂР°Р»
      */
     public static final int PLAYER_WIN = 1;
 
     /**
-     * Константа, показывающая что игрок проиграл
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ РёРіСЂРѕРє РїСЂРѕРёРіСЂР°Р»
      */
     public static final int PLAYER_LOST = 2;
 
     /**
-     * Константа, показывающая игра в неинициализированном состоянии или деинициализирована
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ РёРіСЂР° РІ РЅРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё РёР»Рё РґРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅР°
      */
     public static final int STATE_UNKNON = 0;
 
     /**
-     * Константа, показывающая игра в инициализированном состоянии
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ РёРіСЂР° РІ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
      */
     public static final int STATE_INITED = 1;
 
     /**
-     * Константа, показывающая игра в запущенном состоянии
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ РёРіСЂР° РІ Р·Р°РїСѓС‰РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
      */
     public static final int STATE_STARTED = 2;
 
     /**
-     * Константа, показывающая игра в приостановленном состоянии
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ РёРіСЂР° РІ РїСЂРёРѕСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
      */
     public static final int STATE_PAUSED = 3;
 
     /**
-     * Константа, показывающая игра в законченном состоянии
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ РёРіСЂР° РІ Р·Р°РєРѕРЅС‡РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
      */
     public static final int STATE_OVER = 4;
 
     /**
-     * Константа, показывающая что уровень игры "Простой"
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ СѓСЂРѕРІРµРЅСЊ РёРіСЂС‹ "РџСЂРѕСЃС‚РѕР№"
      */
     public static final int GAMELEVEL_EASY = 0;
 
     /**
-     * Константа, показывающая что уровень игры "Нормальный"
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ СѓСЂРѕРІРµРЅСЊ РёРіСЂС‹ "РќРѕСЂРјР°Р»СЊРЅС‹Р№"
      */
     public static final int GAMELEVEL_NORMAL = 1;
 
     /**
-     * Константа, показывающая что уровень игры "Сложный"
+     * РљРѕРЅСЃС‚Р°РЅС‚Р°, РїРѕРєР°Р·С‹РІР°СЋС‰Р°СЏ С‡С‚Рѕ СѓСЂРѕРІРµРЅСЊ РёРіСЂС‹ "РЎР»РѕР¶РЅС‹Р№"
      */
     public static final int GAMELEVEL_HARD = 2;
 
     /**
-     * Переменная содержит состояние игры
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹
      */
     public static int i_GameState = STATE_UNKNON;
 
     /**
-     * Переменная содержит предыдущее состояние игры
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ РїСЂРµРґС‹РґСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹
      */
     public static int i_PrevGameState = STATE_UNKNON;
 
     /**
-     * Переменная содержит текущий уровень игры
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ РёРіСЂС‹
      */
     public static int i_GameLevel;
 
     /**
-     * Переменная содержит текущую фазу игры
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ С‚РµРєСѓС‰СѓСЋ С„Р°Р·Сѓ РёРіСЂС‹
      */
     public static int i_GameStage;
 
     /**
-     * Переменная содержит указатель на слушатель игровых событий
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»СѓС€Р°С‚РµР»СЊ РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№
      */
     private static GameActionListener p_actionListener;
 
     /**
-     * Переменная содержит количество пикселей по ширине игровой зоны
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРёРєСЃРµР»РµР№ РїРѕ С€РёСЂРёРЅРµ РёРіСЂРѕРІРѕР№ Р·РѕРЅС‹
      */
     protected static int i_GameAreaWidth;
 
     /**
-     * Переменная содержит количество пикселей по высоте игровой зоны
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРёРєСЃРµР»РµР№ РїРѕ РІС‹СЃРѕС‚Рµ РёРіСЂРѕРІРѕР№ Р·РѕРЅС‹
      */
     protected static int i_GameAreaHeight;
 
     /**
-     * Переменная содержит состояние игрока
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂРѕРєР°
      */
     public static int i_PlayerState;
 
     /**
-     * Переменная содержит задержку в миллисекундах между игровыми ходами.
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ Р·Р°РґРµСЂР¶РєСѓ РІ РјРёР»Р»РёСЃРµРєСѓРЅРґР°С… РјРµР¶РґСѓ РёРіСЂРѕРІС‹РјРё С…РѕРґР°РјРё.
      */
     public static int i_GameStepDelay;
 
     /**
-     * Переменная содержит количество игровых попыток играющего
+     * РџРµСЂРµРјРµРЅРЅР°СЏ СЃРѕРґРµСЂР¶РёС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРІС‹С… РїРѕРїС‹С‚РѕРє РёРіСЂР°СЋС‰РµРіРѕ
      */
     public static int i_PlayerAttemptions;
 
     /**
-     * Функция отвечающая за инициализацию блока, до её вызова любые операции с блоком запрещены. Переводит блок в состояние INITED..
+     * Р¤СѓРЅРєС†РёСЏ РѕС‚РІРµС‡Р°СЋС‰Р°СЏ Р·Р° РёРЅРёС†РёР°Р»РёР·Р°С†РёСЋ Р±Р»РѕРєР°, РґРѕ РµС‘ РІС‹Р·РѕРІР° Р»СЋР±С‹Рµ РѕРїРµСЂР°С†РёРё СЃ Р±Р»РѕРєРѕРј Р·Р°РїСЂРµС‰РµРЅС‹. РџРµСЂРµРІРѕРґРёС‚ Р±Р»РѕРє РІ СЃРѕСЃС‚РѕСЏРЅРёРµ INITED..
      *
-     * @param _class параметр содержащий класс оболочки игры
-     * @return true если инициализация прошла успешно, иначе false.
+     * @param _class РїР°СЂР°РјРµС‚СЂ СЃРѕРґРµСЂР¶Р°С‰РёР№ РєР»Р°СЃСЃ РѕР±РѕР»РѕС‡РєРё РёРіСЂС‹
+     * @return true РµСЃР»Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ, РёРЅР°С‡Рµ false.
      */
     public static final boolean init(Class _class)
     {
@@ -146,7 +146,7 @@ public class Gamelet
         i_GameAreaHeight = -1;
         i_GameAreaWidth = -1;
 
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
         try
         {
             ash_Building = (short[]) loadArrayFromResource(_class, "/building.bin");
@@ -163,13 +163,13 @@ public class Gamelet
     }
 
     /**
-     * Функция отвечающая за деинициализацию блока, после её вызова любые операции с блоком запрещены
+     * Р¤СѓРЅРєС†РёСЏ РѕС‚РІРµС‡Р°СЋС‰Р°СЏ Р·Р° РґРµРёРЅРёС†РёР°Р»РёР·Р°С†РёСЋ Р±Р»РѕРєР°, РїРѕСЃР»Рµ РµС‘ РІС‹Р·РѕРІР° Р»СЋР±С‹Рµ РѕРїРµСЂР°С†РёРё СЃ Р±Р»РѕРєРѕРј Р·Р°РїСЂРµС‰РµРЅС‹
      */
     public static final void release()
     {
         if (i_GameState == STATE_UNKNON) return;
 
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
         //--------------------------------------------------
 
@@ -181,9 +181,9 @@ public class Gamelet
     }
 
     /**
-     * Функция устанавливает состояние игры.
+     * Р¤СѓРЅРєС†РёСЏ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹.
      *
-     * @param _state новое состояние игры.
+     * @param _state РЅРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹.
      */
     private static final void setState(int _state)
     {
@@ -192,10 +192,10 @@ public class Gamelet
     }
 
     /**
-     * Функция генерирует и возвращает псевдослучайное числовое значение в заданном пределе (включительно).
+     * Р¤СѓРЅРєС†РёСЏ РіРµРЅРµСЂРёСЂСѓРµС‚ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅРѕРµ С‡РёСЃР»РѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ Р·Р°РґР°РЅРЅРѕРј РїСЂРµРґРµР»Рµ (РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ).
      *
-     * @param _limit предел генерируемого числового значения (включительно)
-     * @return сгенерированное псевдослучайное значение в заданном пределе.
+     * @param _limit РїСЂРµРґРµР» РіРµРЅРµСЂРёСЂСѓРµРјРѕРіРѕ С‡РёСЃР»РѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ (РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ)
+     * @return СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅРѕРµ РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ Р·Р°РґР°РЅРЅРѕРј РїСЂРµРґРµР»Рµ.
      */
     private static final int getRandomInt(int _limit)
     {
@@ -205,13 +205,13 @@ public class Gamelet
     }
 
     /**
-     * Инициализация новой игровой сессии
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РЅРѕРІРѕР№ РёРіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё
      *
-     * @param _gameAreaWidth  величина ширины игровой зоны в пикселях
-     * @param _gameAreaHeight величина высоты игровой зоны в пикселях
-     * @param _gameLevel      сложность игровой сессии
-     * @param _actionListener слушатель игровых событий
-     * @return true если инициализация игровой сессии прошла успешно, иначе false.
+     * @param _gameAreaWidth  РІРµР»РёС‡РёРЅР° С€РёСЂРёРЅС‹ РёРіСЂРѕРІРѕР№ Р·РѕРЅС‹ РІ РїРёРєСЃРµР»СЏС…
+     * @param _gameAreaHeight РІРµР»РёС‡РёРЅР° РІС‹СЃРѕС‚С‹ РёРіСЂРѕРІРѕР№ Р·РѕРЅС‹ РІ РїРёРєСЃРµР»СЏС…
+     * @param _gameLevel      СЃР»РѕР¶РЅРѕСЃС‚СЊ РёРіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё
+     * @param _actionListener СЃР»СѓС€Р°С‚РµР»СЊ РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№
+     * @return true РµСЃР»Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ, РёРЅР°С‡Рµ false.
      */
     public static final boolean initNewGame(final int _gameAreaWidth, final int _gameAreaHeight, final int _gameLevel, final GameActionListener _actionListener)
     {
@@ -221,7 +221,7 @@ public class Gamelet
         i_GameAreaWidth = _gameAreaWidth;
         i_GameLevel = _gameLevel;
         initPlayerForGame(true);
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
         int i_guardians = 0;
         i_StartStackPointer = -1;
         switch (_gameLevel)
@@ -270,7 +270,7 @@ public class Gamelet
 
         initPlayer();
 
-        // Выставляем одного охранника идущим навстречу игроку перед лифтом
+        // Р’С‹СЃС‚Р°РІР»СЏРµРј РѕРґРЅРѕРіРѕ РѕС…СЂР°РЅРЅРёРєР° РёРґСѓС‰РёРј РЅР°РІСЃС‚СЂРµС‡Сѓ РёРіСЂРѕРєСѓ РїРµСЂРµРґ Р»РёС„С‚РѕРј
         final int FIRSTGUARDIAN_CELLX = 56;
         final int FIRSTGUARDIAN_CELLY = 23;
         Sprite p_grdspr = getFirstInactiveSprite();
@@ -316,7 +316,7 @@ public class Gamelet
     }
 
     /**
-     * Деинициализация гровой сессии
+     * Р”РµРёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё
      */
     public static final void releaseGame()
     {
@@ -325,7 +325,7 @@ public class Gamelet
         i_GameAreaHeight = -1;
         i_GameAreaWidth = -1;
 
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
         p_LiftSprite = null;
         p_PlayerSprite = null;
         p_ScoreSprite = null;
@@ -339,14 +339,14 @@ public class Gamelet
     }
 
     /**
-     * Постановка игрового процесса на паузу.
+     * РџРѕСЃС‚Р°РЅРѕРІРєР° РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР° РЅР° РїР°СѓР·Сѓ.
      */
     public static final void pauseGame()
     {
         if (i_GameState == STATE_STARTED)
         {
             setState(STATE_PAUSED);
-            //------------Вставьте свой код здесь--------------------
+            //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
             //--------------------------------------------------
         }
@@ -355,23 +355,23 @@ public class Gamelet
     }
 
     /**
-     * Продолжение игрового процесса после смерти игрока или после постановки на паузу
+     * РџСЂРѕРґРѕР»Р¶РµРЅРёРµ РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР° РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё РёРіСЂРѕРєР° РёР»Рё РїРѕСЃР»Рµ РїРѕСЃС‚Р°РЅРѕРІРєРё РЅР° РїР°СѓР·Сѓ
      */
     public static final void resumeGameAfterPauseOrPlayerLost()
     {
         if (i_GameState == STATE_STARTED)
         {
             initPlayerForGame(false);
-            //------------Вставьте свой код здесь-----------------------------
-            //------Код обрабатываемый при запуске после смерти игрока--------
+            //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ-----------------------------
+            //------РљРѕРґ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјС‹Р№ РїСЂРё Р·Р°РїСѓСЃРєРµ РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё РёРіСЂРѕРєР°--------
 
             //----------------------------------------------------------------
         }
         else if (i_GameState == STATE_PAUSED)
         {
             setState(STATE_STARTED);
-            //------------Вставьте свой код здесь--------------------
-            //------Код обрабатываемый при снятии с паузы--------
+            //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
+            //------РљРѕРґ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјС‹Р№ РїСЂРё СЃРЅСЏС‚РёРё СЃ РїР°СѓР·С‹--------
 
             //--------------------------------------------------
         }
@@ -380,40 +380,40 @@ public class Gamelet
     }
 
     /**
-     * Возвращает количество очков игрока по окончании игровой сессии
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС‡РєРѕРІ РёРіСЂРѕРєР° РїРѕ РѕРєРѕРЅС‡Р°РЅРёРё РёРіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё
      *
-     * @return значение количества очков игрока.
+     * @return Р·РЅР°С‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° РѕС‡РєРѕРІ РёРіСЂРѕРєР°.
      */
     public static final int getPlayerScore()
     {
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
         int i_score = i_PlayerScores * (i_GameLevel + 1);
         //--------------------------------------------------
         return i_score;
     }
 
     /**
-     * Инициализация игрока после смерти или при инициализации игровой сессии
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРіСЂРѕРєР° РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё РёР»Рё РїСЂРё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РёРіСЂРѕРІРѕР№ СЃРµСЃСЃРёРё
      *
-     * @param _initGame если true то инициализация игры, если false то после смерти игрока
+     * @param _initGame РµСЃР»Рё true С‚Рѕ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРіСЂС‹, РµСЃР»Рё false С‚Рѕ РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё РёРіСЂРѕРєР°
      */
     private static final void initPlayerForGame(boolean _initGame)
     {
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
         //--------------------------------------------------
         i_PlayerState = PLAYER_PLAYING;
     }
 
     /**
-     * Инициализация игрового уровня
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
      *
-     * @param _stage ID игрового уровня
-     * @return true если инициализация прошла удачно иначе false
+     * @param _stage ID РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
+     * @return true РµСЃР»Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРѕС€Р»Р° СѓРґР°С‡РЅРѕ РёРЅР°С‡Рµ false
      */
     public static final boolean initGameStage(int _stage)
     {
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
         //--------------------------------------------------
         setState(STATE_STARTED);
@@ -423,10 +423,10 @@ public class Gamelet
     }
 
     /**
-     * Загрузка игрового состояния из массива байт
+     * Р—Р°РіСЂСѓР·РєР° РёРіСЂРѕРІРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ РёР· РјР°СЃСЃРёРІР° Р±Р°Р№С‚
      *
-     * @param _data массив байт, описывающих состояние
-     * @throws Exception если произошла ошибка при загрузке состояния или игра находилась в состоянии несовместимом с загрузкой.
+     * @param _data РјР°СЃСЃРёРІ Р±Р°Р№С‚, РѕРїРёСЃС‹РІР°СЋС‰РёС… СЃРѕСЃС‚РѕСЏРЅРёРµ
+     * @throws Exception РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РёР»Рё РёРіСЂР° РЅР°С…РѕРґРёР»Р°СЃСЊ РІ СЃРѕСЃС‚РѕСЏРЅРёРё РЅРµСЃРѕРІРјРµСЃС‚РёРјРѕРј СЃ Р·Р°РіСЂСѓР·РєРѕР№.
      */
     public static final void loadGameStateFromByteArray(final byte[] _data, GameActionListener _actionListener) throws Exception
     {
@@ -440,7 +440,7 @@ public class Gamelet
         if (!initNewGame(i_gameScreenWidth, i_gameScreenHeight, i_gameLevel, _actionListener)) throw new Exception();
         if (!initGameStage(i_gameStage)) throw new Exception();
         i_PlayerAttemptions = p_inputStream.readInt();
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
         i_CurrentPlayMode = p_inputStream.readUnsignedByte();
         i_PlayerLifes = p_inputStream.readShort();
@@ -487,10 +487,10 @@ public class Gamelet
     }
 
     /**
-     * Функция формирует блок данных, описывающий текущее игровое состояние
+     * Р¤СѓРЅРєС†РёСЏ С„РѕСЂРјРёСЂСѓРµС‚ Р±Р»РѕРє РґР°РЅРЅС‹С…, РѕРїРёСЃС‹РІР°СЋС‰РёР№ С‚РµРєСѓС‰РµРµ РёРіСЂРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
      *
-     * @return байтовый массив, содержащий записанное состояние игрового процесса
-     * @throws Exception если игра или игрок находится в несовместимом состоянии, произошла ошибка сохранения или сформированный массив неправильного размера
+     * @return Р±Р°Р№С‚РѕРІС‹Р№ РјР°СЃСЃРёРІ, СЃРѕРґРµСЂР¶Р°С‰РёР№ Р·Р°РїРёСЃР°РЅРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
+     * @throws Exception РµСЃР»Рё РёРіСЂР° РёР»Рё РёРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РЅРµСЃРѕРІРјРµСЃС‚РёРјРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё, РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР»Рё СЃС„РѕСЂРјРёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
      */
     public static final byte[] saveGameStateToByteArray() throws Exception
     {
@@ -503,7 +503,7 @@ public class Gamelet
         p_outputStream.writeShort(i_GameAreaWidth);
         p_outputStream.writeShort(i_GameAreaHeight);
         p_outputStream.writeInt(i_PlayerAttemptions);
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
 
         p_outputStream.writeByte(i_CurrentPlayMode);
         p_outputStream.writeShort(i_PlayerLifes);
@@ -545,9 +545,9 @@ public class Gamelet
     }
 
     /**
-     * Функция возвращает размер, требуемый для сохранения блока игровых данных.
+     * Р¤СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ, С‚СЂРµР±СѓРµРјС‹Р№ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ Р±Р»РѕРєР° РёРіСЂРѕРІС‹С… РґР°РЅРЅС‹С….
      *
-     * @return требуемый размер блока данных.
+     * @return С‚СЂРµР±СѓРµРјС‹Р№ СЂР°Р·РјРµСЂ Р±Р»РѕРєР° РґР°РЅРЅС‹С….
      */
     public static final int getGameStateDataBlockSize()
     {
@@ -593,9 +593,9 @@ public class Gamelet
     }
 
     /**
-     * Возвращает текстовый идентификатор игры
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСЃС‚РѕРІС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёРіСЂС‹
      *
-     * @return строка, идентифицирующая игру.
+     * @return СЃС‚СЂРѕРєР°, РёРґРµРЅС‚РёС„РёС†РёСЂСѓСЋС‰Р°СЏ РёРіСЂСѓ.
      */
     public static final String getID()
     {
@@ -603,14 +603,14 @@ public class Gamelet
     }
 
     /**
-     * Функция отрабатывает игровой шаг
+     * Р¤СѓРЅРєС†РёСЏ РѕС‚СЂР°Р±Р°С‚С‹РІР°РµС‚ РёРіСЂРѕРІРѕР№ С€Р°Рі
      *
-     * @param _keyStateFlags флаги управления игроком.
-     * @return статус игры после отработки игровой интерации
+     * @param _keyStateFlags С„Р»Р°РіРё СѓРїСЂР°РІР»РµРЅРёСЏ РёРіСЂРѕРєРѕРј.
+     * @return СЃС‚Р°С‚СѓСЃ РёРіСЂС‹ РїРѕСЃР»Рµ РѕС‚СЂР°Р±РѕС‚РєРё РёРіСЂРѕРІРѕР№ РёРЅС‚РµСЂР°С†РёРё
      */
     public static final int nextGameStep(int _keyStateFlags)
     {
-        //------------Вставьте свой код здесь--------------------
+        //------------Р’СЃС‚Р°РІСЊС‚Рµ СЃРІРѕР№ РєРѕРґ Р·РґРµСЃСЊ--------------------
         _processGameStep(_keyStateFlags);
         if (i_PlayerState != PLAYER_PLAYING)
         {
@@ -621,11 +621,11 @@ public class Gamelet
     }
 
     /**
-     * Флаг, показывающий что игра поддерживает перезапуск игрового уровня (фазы)
+     * Р¤Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ РёРіСЂР° РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РїРµСЂРµР·Р°РїСѓСЃРє РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ (С„Р°Р·С‹)
      */
     public static final int FLAG_SUPPORTRESTART = 1;
     /**
-     * Флаг, показывающий что игра поддерживает игровые уровни (фазы)
+     * Р¤Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ РёРіСЂР° РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РёРіСЂРѕРІС‹Рµ СѓСЂРѕРІРЅРё (С„Р°Р·С‹)
      */
     public static final int FLAG_STAGESUPPORT = 2;
 
@@ -652,42 +652,42 @@ public class Gamelet
     protected static final int CELLSNUMBER_ROOM_HEIGHT = 8;
 
     /**
-     * Игрок находится в игре
+     * РРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РёРіСЂРµ
      */
     protected static final int INSIDE_MODE_PLAYING = 0;
 
     /**
-     * Игрок находится в едущем лифте и не может действовать
+     * РРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РµРґСѓС‰РµРј Р»РёС„С‚Рµ Рё РЅРµ РјРѕР¶РµС‚ РґРµР№СЃС‚РІРѕРІР°С‚СЊ
      */
     protected static final int INSIDE_MODE_LIFT = 1;
 
     /**
-     * Игрок находится в одной из комнат
+     * РРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РѕРґРЅРѕР№ РёР· РєРѕРјРЅР°С‚
      */
     protected static final int INSIDE_MODE_ROOM = 2;
 
     /**
-     * Игрок находится в комнате смерти
+     * РРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РєРѕРјРЅР°С‚Рµ СЃРјРµСЂС‚Рё
      */
     protected static final int INSIDE_MODE_DEADROOM = 3;
 
     /**
-     * Игрок перемещается между локациями
+     * РРіСЂРѕРє РїРµСЂРµРјРµС‰Р°РµС‚СЃСЏ РјРµР¶РґСѓ Р»РѕРєР°С†РёСЏРјРё
      */
     protected static final int INSIDE_MODE_LOCATIONMOVE = 4;
 
     /**
-     * Приезд звезд
+     * РџСЂРёРµР·Рґ Р·РІРµР·Рґ
      */
     protected static final int INSIDE_MODE_STARINCOMING = 5;
 
     /**
-     * Приезд звезд
+     * РџСЂРёРµР·Рґ Р·РІРµР·Рґ
      */
     protected static final int INSIDE_MODE_ANGRYSTARINCOMING = 6;
 
     /**
-     * Смерть игрока от ударов
+     * РЎРјРµСЂС‚СЊ РёРіСЂРѕРєР° РѕС‚ СѓРґР°СЂРѕРІ
      */
     protected static final int INSIDE_MODE_PLAYERDEATH = 7;
 
@@ -726,7 +726,7 @@ public class Gamelet
     protected static final int MAX_DOORS = 13;
     private static final int TICKS_ROOM_DO = 40;
 
-    //TODO перенести сюда
+    //TODO РїРµСЂРµРЅРµСЃС‚Рё СЃСЋРґР°
     private static final int HIT_STEPS = 3;
     private static final int HIT_SPEED = 0x900;
 
@@ -781,21 +781,21 @@ public class Gamelet
     protected static final int SPRITE_DOOR = 13;
     protected static final int SPRITE_LIFT = 14;
 
-    // Охранник
+    // РћС…СЂР°РЅРЅРёРє
     protected static final int FIRSTINDEX_GUARDIAN = 15;
     protected static final int SPRITE_GUARDIAN_LEFT_MOVE = 15;
     protected static final int SPRITE_GUARDIAN_RIGHT_MOVE = 16;
     protected static final int SPRITE_GUARDIAN_LEFT_BEAT = 17;
     protected static final int SPRITE_GUARDIAN_RIGHT_BEAT = 18;
 
-    // Секьюрити
+    // РЎРµРєСЊСЋСЂРёС‚Рё
     protected static final int FIRSTINDEX_BODYGUARD = 19;
     protected static final int SPRITE_BODYGUARD_LEFT_MOVE = 19;
     protected static final int SPRITE_BODYGUARD_RIGHT_MOVE = 20;
     protected static final int SPRITE_BODYGUARD_LEFT_BEAT = 21;
     protected static final int SPRITE_BODYGUARD_RIGHT_BEAT = 22;
 
-    // Маленькие звезды
+    // РњР°Р»РµРЅСЊРєРёРµ Р·РІРµР·РґС‹
     protected static final int FIRSTINDEX_SMALLSTARS = 23;
     protected static final int SPRITE_SMALLSTAR_BOY_WHITEHAIR_SUIT_MOVELEFT = 23;
     protected static final int SPRITE_SMALLSTAR_BOY_WHITEHAIR_SUIT_MOVERIGHT = 24;
@@ -808,7 +808,7 @@ public class Gamelet
     //protected static final int SPRITE_SMALLSTAR_GIRL_SKIRT_MOVELEFT = 31;
     //protected static final int SPRITE_SMALLSTAR_GIRL_SKIRT_MOVERIGHT = 32;
 
-    // Большие звезды
+    // Р‘РѕР»СЊС€РёРµ Р·РІРµР·РґС‹
     protected static final int FIRSTINDEX_BIGSTARS = 33;
     protected static final int SPRITE_BIGSTAR_GIRL_RED_BIKINI_MOVELEFT = 33;
     protected static final int SPRITE_BIGSTAR_GIRL_RED_BIKINI_MOVERIGHT = 34;
@@ -819,7 +819,7 @@ public class Gamelet
     protected static final int SPRITE_BIGSTAR_BOY_GRAY_SHIRT_MOVELEFT = 39;
     protected static final int SPRITE_BIGSTAR_BOY_GRAY_SHIRT_MOVERIGHT = 40;
 
-    // Крутые звезды
+    // РљСЂСѓС‚С‹Рµ Р·РІРµР·РґС‹
     protected static final int FIRSTINDEX_ANGRYSTARS = 41;
     protected static final int SPRITE_ANGRYSTAR_LEFT_MOVE = 41;
     protected static final int SPRITE_ANGRYSTAR_RIGHT_MOVE = 42;
@@ -957,7 +957,7 @@ public class Gamelet
 
         boolean lg_playerStrike = false;
 
-        // Осуществляем перемещение игрока
+        // РћСЃСѓС‰РµСЃС‚РІР»СЏРµРј РїРµСЂРµРјРµС‰РµРЅРёРµ РёРіСЂРѕРєР°
         switch (i_CurrentPlayMode)
         {
             case INSIDE_MODE_DEADROOM:
@@ -1087,7 +1087,7 @@ public class Gamelet
 
                     if (p_LiftSprite.lg_SpriteActive)
                     {
-                        // Проверка пользователя в лифте
+                        // РџСЂРѕРІРµСЂРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ Р»РёС„С‚Рµ
                         if (isPlayerInLift())
                         {
                             p_PlayerSprite.lg_SpriteInvisible = true;
@@ -1127,7 +1127,7 @@ public class Gamelet
                     if (processStarEntering())
                     {
                         i_CurrentPlayMode = INSIDE_MODE_PLAYING;
-                        // Переносим
+                        // РџРµСЂРµРЅРѕСЃРёРј
                         for (int li = 0; li < MAX_SPRITES; li++)
                         {
                             Sprite p_spr = ap_Sprites[li];
@@ -1148,7 +1148,7 @@ public class Gamelet
                     if (processStarEntering())
                     {
                         i_CurrentPlayMode = INSIDE_MODE_PLAYING;
-                        // Переносим
+                        // РџРµСЂРµРЅРѕСЃРёРј
                         for (int li = 0; li < MAX_SPRITES; li++)
                         {
                             Sprite p_spr = ap_Sprites[li];
@@ -1215,7 +1215,7 @@ public class Gamelet
         {
             case INSIDE_MODE_STARINCOMING:
                 {
-                    // Идут справа налево
+                    // РРґСѓС‚ СЃРїСЂР°РІР° РЅР°Р»РµРІРѕ
                     for (int li = 0; li < MAX_SPRITES; li++)
                     {
                         Sprite p_spr = ap_Sprites[li];
@@ -1233,7 +1233,7 @@ public class Gamelet
                 break;
             case INSIDE_MODE_ANGRYSTARINCOMING:
                 {
-                    // Идут слева направо
+                    // РРґСѓС‚ СЃР»РµРІР° РЅР°РїСЂР°РІРѕ
                     for (int li = 0; li < MAX_SPRITES; li++)
                     {
                         Sprite p_spr = ap_Sprites[li];
@@ -1269,7 +1269,7 @@ public class Gamelet
         {
             case 0:
                 {
-                    // Девица в красном бикини
+                    // Р”РµРІРёС†Р° РІ РєСЂР°СЃРЅРѕРј Р±РёРєРёРЅРё
                     i_number = 3;
                     i_sprType = SPRITE_BIGSTAR_GIRL_RED_BIKINI_MOVELEFT;
                 }
@@ -1277,7 +1277,7 @@ public class Gamelet
                 break;
             case 1:
                 {
-                    // Парень в серой футболке
+                    // РџР°СЂРµРЅСЊ РІ СЃРµСЂРѕР№ С„СѓС‚Р±РѕР»РєРµ
                     i_number = 3;
                     i_sprType = SPRITE_BIGSTAR_BOY_GRAY_SHIRT_MOVELEFT;
                 }
@@ -1285,7 +1285,7 @@ public class Gamelet
                 break;
             case 2:
                 {
-                    // Пять персонажей
+                    // РџСЏС‚СЊ РїРµСЂСЃРѕРЅР°Р¶РµР№
                     i_number = 7;
                     i_sprType = SPRITE_BIGSTAR_BOY_GROUP_MOVELEFT;
                 }
@@ -1293,7 +1293,7 @@ public class Gamelet
                 break;
             case 3:
                 {
-                    // Два персонажа
+                    // Р”РІР° РїРµСЂСЃРѕРЅР°Р¶Р°
                     i_number = 4;
                     i_sprType = SPRITE_BIGSTAR_GIRL_TATU_MOVELEFT;
                 }
@@ -1303,7 +1303,7 @@ public class Gamelet
         if (i_LastSuperStarType != i_sprType) break;
         }
 
-        // Набираем спрайты
+        // РќР°Р±РёСЂР°РµРј СЃРїСЂР°Р№С‚С‹
         for (int li = 0; li < i_number; li++)
         {
             Sprite p_spr = getFirstInactiveSprite();
@@ -1321,7 +1321,7 @@ public class Gamelet
             ap_starGenArray[li] = p_spr;
         }
 
-        // Формируем спрайты
+        // Р¤РѕСЂРјРёСЂСѓРµРј СЃРїСЂР°Р№С‚С‹
         int i_Ycoord = (i_GameAreaHeight << 8);
         int i_Xcoord = (i_GameAreaWidth << 8) - 0x2000;
 
@@ -1334,12 +1334,12 @@ public class Gamelet
 
             if (li == 0 || li == (i_number - 1))
             {
-                // Охранник
+                // РћС…СЂР°РЅРЅРёРє
                 activateSprite(p_spr, SPRITE_BODYGUARD_LEFT_MOVE);
             }
             else
             {
-                // Звезды
+                // Р—РІРµР·РґС‹
                 activateSprite(p_spr, i_sprType);
                 p_spr.i_ObjectHitSteps = i_headNumber;
                 i_headNumber++;
@@ -1366,7 +1366,7 @@ public class Gamelet
         {
             case 0:
                 {
-                    // Парень в красной куртке
+                    // РџР°СЂРµРЅСЊ РІ РєСЂР°СЃРЅРѕР№ РєСѓСЂС‚РєРµ
                     i_number = 3;
                     i_sprType = SPRITE_ANGRYSTAR_RIGHT_MOVE;
                 }
@@ -1374,7 +1374,7 @@ public class Gamelet
                 break;
         }
 
-        // Набираем спрайты
+        // РќР°Р±РёСЂР°РµРј СЃРїСЂР°Р№С‚С‹
         for (int li = 0; li < i_number; li++)
         {
             Sprite p_spr = getFirstInactiveSprite();
@@ -1391,7 +1391,7 @@ public class Gamelet
             ap_starGenArray[li] = p_spr;
         }
 
-        // Формируем спрайты
+        // Р¤РѕСЂРјРёСЂСѓРµРј СЃРїСЂР°Р№С‚С‹
         int i_Ycoord = (i_GameAreaHeight << 8) - 0x200;
         int i_Xcoord = 0x2000;
 
@@ -1404,12 +1404,12 @@ public class Gamelet
 
             if (li == 0 || li == (i_number - 1))
             {
-                // Охранник
+                // РћС…СЂР°РЅРЅРёРє
                 activateSprite(p_spr, SPRITE_BODYGUARD_RIGHT_MOVE);
             }
             else
             {
-                // Звезды
+                // Р—РІРµР·РґС‹
                 activateSprite(p_spr, i_sprType);
                 p_spr.i_ObjectHitSteps = i_headNumber;
                 i_headNumber++;
@@ -1571,13 +1571,13 @@ public class Gamelet
 
         if (i_type < FIRSTINDEX_BODYGUARD)
         {
-            // Охранник
+            // РћС…СЂР°РЅРЅРёРє
             i_score = lg_lastBeat ? 10 : 5;
             if (lg_lastBeat) pushStarToStackAsLast(i_type);
         }
         else if (i_type < FIRSTINDEX_SMALLSTARS)
         {
-            // Телохранитель
+            // РўРµР»РѕС…СЂР°РЅРёС‚РµР»СЊ
             if (lg_lastBeat)
             {
                 i_score = 10;
@@ -1590,7 +1590,7 @@ public class Gamelet
         }
         else if (i_type < FIRSTINDEX_BIGSTARS)
         {
-            // Малые звезды
+            // РњР°Р»С‹Рµ Р·РІРµР·РґС‹
             if (lg_lastBeat)
             {
                 i_score = 20;
@@ -1605,7 +1605,7 @@ public class Gamelet
         }
         else if (i_type < FIRSTINDEX_ANGRYSTARS)
         {
-            // Большие звезды
+            // Р‘РѕР»СЊС€РёРµ Р·РІРµР·РґС‹
             if (lg_lastBeat)
             {
                 i_score = 50;
@@ -1619,7 +1619,7 @@ public class Gamelet
         }
         else
         {
-            // Сердитые звезды
+            // РЎРµСЂРґРёС‚С‹Рµ Р·РІРµР·РґС‹
             if (lg_lastBeat)
             {
                 i_score = 50;
@@ -1637,7 +1637,7 @@ public class Gamelet
         {
             if ((getRandomInt(FREQ_HEART_GEN) == (FREQ_HEART_GEN >> 1)))
             {
-                // Генерируем сердце
+                // Р“РµРЅРµСЂРёСЂСѓРµРј СЃРµСЂРґС†Рµ
                 activateSprite(_star, SPRITE_BONUS_HEART);
             }
             else
@@ -1646,7 +1646,7 @@ public class Gamelet
             }
         }
 
-        // Генерируем очки
+        // Р“РµРЅРµСЂРёСЂСѓРµРј РѕС‡РєРё
         int i_sprType = 0;
         switch (i_score)
         {
@@ -1694,13 +1694,13 @@ public class Gamelet
         {
             if (p_PlayerSprite.i_ObjectType == SPRITE_PLAYER_LEFT_BEAT)
             {
-                // Бьет влево
+                // Р‘СЊРµС‚ РІР»РµРІРѕ
                 i_x0 = p_PlayerSprite.i_ScreenX + PILLOW_ZONE_OFFSET;
                 i_x1 = i_x0 + PILLOW_WIDTH;
             }
             else
             {
-                // Бьет вправо
+                // Р‘СЊРµС‚ РІРїСЂР°РІРѕ
                 i_x1 = p_PlayerSprite.i_ScreenX + p_PlayerSprite.i_width - PILLOW_ZONE_OFFSET;
                 i_x0 = i_x1 - PILLOW_WIDTH;
             }
@@ -1942,8 +1942,8 @@ public class Gamelet
                             }
                             else if (lg_onTheLevel)
                             {
-                                // На одном уровне и экране
-                                // Поворачиваем охранника если идет в другую сторону
+                                // РќР° РѕРґРЅРѕРј СѓСЂРѕРІРЅРµ Рё СЌРєСЂР°РЅРµ
+                                // РџРѕРІРѕСЂР°С‡РёРІР°РµРј РѕС…СЂР°РЅРЅРёРєР° РµСЃР»Рё РёРґРµС‚ РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
                                 int i_pX = p_PlayerSprite.i_mainX;
 
                                 if (i_sprX > i_pX)
@@ -1953,7 +1953,7 @@ public class Gamelet
                                 else
                                 {
                                     p_spr.i_ObjectSpeed = GUARDIAN_NORMAL_SPEED;
-                                    // Проверяем на возможность удара
+                                    // РџСЂРѕРІРµСЂСЏРµРј РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓРґР°СЂР°
                                     int i_dist = i_pX - i_sprX;
                                     if (!lg_playerUnderAttack && (i_dist < GUARDIAN_DISTANCE_BEAT && i_dist > 0))
                                     {
@@ -2009,8 +2009,8 @@ public class Gamelet
                             }
                             else if (lg_onTheLevel)
                             {
-                                // На одном уровне и экране
-                                // Поворачиваем охранника если идет в другую сторону
+                                // РќР° РѕРґРЅРѕРј СѓСЂРѕРІРЅРµ Рё СЌРєСЂР°РЅРµ
+                                // РџРѕРІРѕСЂР°С‡РёРІР°РµРј РѕС…СЂР°РЅРЅРёРєР° РµСЃР»Рё РёРґРµС‚ РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
                                 int i_pX = p_PlayerSprite.i_mainX;
 
                                 if (i_sprX < i_pX)
@@ -2020,7 +2020,7 @@ public class Gamelet
                                 else
                                 {
                                     p_spr.i_ObjectSpeed = GUARDIAN_NORMAL_SPEED;
-                                    // Проверяем на возможность удара
+                                    // РџСЂРѕРІРµСЂСЏРµРј РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓРґР°СЂР°
                                     int i_dist = i_sprX - i_pX;
                                     if (!lg_playerUnderAttack && (i_dist < GUARDIAN_DISTANCE_BEAT && i_dist > 0))
                                     {
@@ -2078,8 +2078,8 @@ public class Gamelet
                             }
                             else if (lg_onTheLevel)
                             {
-                                // На одном уровне и экране
-                                // Поворачиваем если идет в другую сторону
+                                // РќР° РѕРґРЅРѕРј СѓСЂРѕРІРЅРµ Рё СЌРєСЂР°РЅРµ
+                                // РџРѕРІРѕСЂР°С‡РёРІР°РµРј РµСЃР»Рё РёРґРµС‚ РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
                                 int i_pX = p_PlayerSprite.i_mainX;
 
                                 if (i_sprX > i_pX)
@@ -2089,9 +2089,9 @@ public class Gamelet
                                 else
                                 {
                                     p_spr.i_ObjectSpeed = GUARDIAN_NORMAL_SPEED;
-                                    // Проверяем на возможность удара
+                                    // РџСЂРѕРІРµСЂСЏРµРј РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓРґР°СЂР°
                                     p_spr.i_ObjectSpeed = GUARDIAN_NORMAL_SPEED;
-                                    // Проверяем на возможность удара
+                                    // РџСЂРѕРІРµСЂСЏРµРј РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓРґР°СЂР°
                                     int i_dist = i_pX - i_sprX;
                                     if (!lg_playerUnderAttack && (i_dist < GUARDIAN_DISTANCE_BEAT && i_dist > 0))
                                     {
@@ -2138,8 +2138,8 @@ public class Gamelet
                             }
                             else if (lg_onTheLevel)
                             {
-                                // На одном уровне и экране
-                                // Поворачиваем охранника если идет в другую сторону
+                                // РќР° РѕРґРЅРѕРј СѓСЂРѕРІРЅРµ Рё СЌРєСЂР°РЅРµ
+                                // РџРѕРІРѕСЂР°С‡РёРІР°РµРј РѕС…СЂР°РЅРЅРёРєР° РµСЃР»Рё РёРґРµС‚ РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
                                 int i_pX = p_PlayerSprite.i_mainX;
 
                                 if (i_sprX < i_pX)
@@ -2149,7 +2149,7 @@ public class Gamelet
                                 else
                                 {
                                     p_spr.i_ObjectSpeed = GUARDIAN_NORMAL_SPEED;
-                                    // Проверяем на возможность удара
+                                    // РџСЂРѕРІРµСЂСЏРµРј РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓРґР°СЂР°
                                     int i_dist = i_sprX - i_pX;
                                     if (!lg_playerUnderAttack && (i_dist < GUARDIAN_DISTANCE_BEAT && i_dist > 0))
                                     {
@@ -2531,10 +2531,10 @@ public class Gamelet
                                                 Sprite p_dest = getDestinationForLocation(p_src);
                                                 if (p_dest == null)
                                                 {
-                                                    // Попали в комнату
+                                                    // РџРѕРїР°Р»Рё РІ РєРѕРјРЅР°С‚Сѓ
                                                     p_PlayerSprite.lg_SpriteInvisible = true;
 
-                                                    // Проверка на комнату смерти
+                                                    // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРјРЅР°С‚Сѓ СЃРјРµСЂС‚Рё
                                                     int i_roomID = (p_src.i_ObjectState >>> 16);
                                                     i_RoomDoCounter = TICKS_ROOM_DO;
                                                     switch (i_roomID)
@@ -2563,7 +2563,7 @@ public class Gamelet
                                                                 {
                                                                     if (getRandomInt(10000) > 9000)
                                                                     {
-                                                                        // Супернаволочка
+                                                                        // РЎСѓРїРµСЂРЅР°РІРѕР»РѕС‡РєР°
                                                                         i_CurrentPlayMode = INSIDE_MODE_ROOM;
                                                                         i_RoomShowCounter = SHOW_ROOM_DELAY;
                                                                         i_ActiveRoomType = ROOMTYPE_SUPERPILLOW;
@@ -2626,7 +2626,7 @@ public class Gamelet
                                                 }
                                                 else
                                                 {
-                                                    // Переход
+                                                    // РџРµСЂРµС…РѕРґ
                                                     p_PlayerSprite.i_ObjectHitSteps = 0;
                                                     p_PlayerSprite.i_ObjectState = 0;
                                                     i_CurrentPlayMode = INSIDE_MODE_LOCATIONMOVE;
@@ -2656,7 +2656,7 @@ public class Gamelet
                     }
             }
 
-        // Проверка на пересечение с вертикальной стеной и выравнивание
+        // РџСЂРѕРІРµСЂРєР° РЅР° РїРµСЂРµСЃРµС‡РµРЅРёРµ СЃ РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ СЃС‚РµРЅРѕР№ Рё РІС‹СЂР°РІРЅРёРІР°РЅРёРµ
         switch (p_PlayerSprite.i_ObjectType)
         {
             case SPRITE_PLAYER_LEFT_BEAT:
@@ -2757,11 +2757,11 @@ public class Gamelet
         int i8_screenW = i_GameAreaWidth << 8;
         int i8_screenH = i_GameAreaHeight << 8;
 
-        // Выравниваем экранс рассчетом что бы игрок был по центру
+        // Р’С‹СЂР°РІРЅРёРІР°РµРј СЌРєСЂР°РЅСЃ СЂР°СЃСЃС‡РµС‚РѕРј С‡С‚Рѕ Р±С‹ РёРіСЂРѕРє Р±С‹Р» РїРѕ С†РµРЅС‚СЂСѓ
         i8_ViewAreaX = i8_playerX - ((i8_screenW - i8_playerW) >> 1);
         i8_ViewAreaY = i8_playerY - (i8_screenH - i8_playerH);
 
-        // Проверяем координаты отображаемой области и выравниваем их в пределах экрана
+        // РџСЂРѕРІРµСЂСЏРµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕС‚РѕР±СЂР°Р¶Р°РµРјРѕР№ РѕР±Р»Р°СЃС‚Рё Рё РІС‹СЂР°РІРЅРёРІР°РµРј РёС… РІ РїСЂРµРґРµР»Р°С… СЌРєСЂР°РЅР°
         if (i8_ViewAreaX < 0)
             i8_ViewAreaX = 0;
         else if (i8_ViewAreaX + i8_screenW > (CELL_WIDTH * CELLSNUMBER_WIDTH << 8))
@@ -2780,15 +2780,15 @@ public class Gamelet
     }
 
     /**
-     * Количество ячеек, описывающих один спрайт в массиве
+     * РљРѕР»РёС‡РµСЃС‚РІРѕ СЏС‡РµРµРє, РѕРїРёСЃС‹РІР°СЋС‰РёС… РѕРґРёРЅ СЃРїСЂР°Р№С‚ РІ РјР°СЃСЃРёРІРµ
      */
     private static final int SPRITEDATALENGTH = 10;
 
     /**
-     * Функция активизирует заданный спрайт, загружая данными из массива спрайтов
+     * Р¤СѓРЅРєС†РёСЏ Р°РєС‚РёРІРёР·РёСЂСѓРµС‚ Р·Р°РґР°РЅРЅС‹Р№ СЃРїСЂР°Р№С‚, Р·Р°РіСЂСѓР¶Р°СЏ РґР°РЅРЅС‹РјРё РёР· РјР°СЃСЃРёРІР° СЃРїСЂР°Р№С‚РѕРІ
      *
-     * @param _sprite     активизируемый спрайт
-     * @param _actorIndex индекс загружаемых данных
+     * @param _sprite     Р°РєС‚РёРІРёР·РёСЂСѓРµРјС‹Р№ СЃРїСЂР°Р№С‚
+     * @param _actorIndex РёРЅРґРµРєСЃ Р·Р°РіСЂСѓР¶Р°РµРјС‹С… РґР°РЅРЅС‹С…
      */
     private static void activateSprite(Sprite _sprite, int _actorIndex)
     {
@@ -2816,7 +2816,7 @@ public class Gamelet
         _sprite.lg_SpriteActive = true;
     }
 
-    // Поиск первого неактивного спрайта
+    // РџРѕРёСЃРє РїРµСЂРІРѕРіРѕ РЅРµР°РєС‚РёРІРЅРѕРіРѕ СЃРїСЂР°Р№С‚Р°
     private static final Sprite getFirstInactiveSprite()
     {
         Sprite[] ap_spr = ap_Sprites;

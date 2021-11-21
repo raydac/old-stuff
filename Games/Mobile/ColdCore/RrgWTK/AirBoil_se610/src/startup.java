@@ -3,7 +3,7 @@ import javax.microedition.midlet.MIDletStateChangeException;
 import javax.microedition.lcdui.*;
 
 /**
- * Шаблон для изготовления игровых визуализированных модулей
+ * РЁР°Р±Р»РѕРЅ РґР»СЏ РёР·РіРѕС‚РѕРІР»РµРЅРёСЏ РёРіСЂРѕРІС‹С… РІРёР·СѓР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹С… РјРѕРґСѓР»РµР№
  *
  * @author Igor A. Maznitsa
  *         (C) 2005 Raydac Research Group Ltd.
@@ -97,19 +97,19 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
     //#-
     /**
-     * Константа определяет размер физического экрана по ширенк в пикселях
+     * РљРѕРЅСЃС‚Р°РЅС‚Р° РѕРїСЂРµРґРµР»СЏРµС‚ СЂР°Р·РјРµСЂ С„РёР·РёС‡РµСЃРєРѕРіРѕ СЌРєСЂР°РЅР° РїРѕ С€РёСЂРµРЅРє РІ РїРёРєСЃРµР»СЏС…
      */
     private static final int SCREEN_WIDTH = 176;
     /**
-     * Константа определяет размер физического экрана по высоте в пикселях
+     * РљРѕРЅСЃС‚Р°РЅС‚Р° РѕРїСЂРµРґРµР»СЏРµС‚ СЂР°Р·РјРµСЂ С„РёР·РёС‡РµСЃРєРѕРіРѕ СЌРєСЂР°РЅР° РїРѕ РІС‹СЃРѕС‚Рµ РІ РїРёРєСЃРµР»СЏС…
      */
     private static final int SCREEN_HEIGHT = 208;
     //#+
 
 
     /**
-     * Константы GAMESCREEN_OFFSETX, GAMESCREEN_OFFSETY, GAMESCREEN_WIDTH, GAMESCREEN_HEIGHT определяют положение и размер игрового экрана на экране физическом
-     * соответствую смещению относительно верхнего левого угла физического экрана по оси X, оси Y и ширине и высоте
+     * РљРѕРЅСЃС‚Р°РЅС‚С‹ GAMESCREEN_OFFSETX, GAMESCREEN_OFFSETY, GAMESCREEN_WIDTH, GAMESCREEN_HEIGHT РѕРїСЂРµРґРµР»СЏСЋС‚ РїРѕР»РѕР¶РµРЅРёРµ Рё СЂР°Р·РјРµСЂ РёРіСЂРѕРІРѕРіРѕ СЌРєСЂР°РЅР° РЅР° СЌРєСЂР°РЅРµ С„РёР·РёС‡РµСЃРєРѕРј
+     * СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋ СЃРјРµС‰РµРЅРёСЋ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РІРµСЂС…РЅРµРіРѕ Р»РµРІРѕРіРѕ СѓРіР»Р° С„РёР·РёС‡РµСЃРєРѕРіРѕ СЌРєСЂР°РЅР° РїРѕ РѕСЃРё X, РѕСЃРё Y Рё С€РёСЂРёРЅРµ Рё РІС‹СЃРѕС‚Рµ
      */
 
     //#if (VENDOR=="MOTOROLA" && MODEL=="E398")
@@ -162,7 +162,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //==============================================================
 
     //#if SHOWSYS
-    // Переменные для профилирования производительности
+    // РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РїСЂРѕС„РёР»РёСЂРѕРІР°РЅРёСЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё
     private static int i_Profil_TimeNextGameStep;
     private static int i_Profil_TimePaint;
     public static String s_CurrentExceptionMessage = null;
@@ -228,63 +228,63 @@ public class startup extends MIDlet implements Runnable, CommandListener
     private static final int EndGameTXT = 23;
 
     /**
-     * Состояние неинициализированного или деинициализированного приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РЅРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РёР»Рё РґРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_UNKNOWN = 0;
     /**
-     * Состояние инициализированного приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_INITED = 1;
     /**
-     * Состояние загрузки данных приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С… РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_LOADING = 2;
     /**
-     * Состояние отображения главного меню
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ
      */
     private static final int MODE_MAINMENU = 3;
     /**
-     * Состояние отображения номера игрового уровня
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅРѕРјРµСЂР° РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
      */
     private static final int MODE_SHOWSTAGE = 4;
     /**
-     * Состояние отображения игрового процесса
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
      */
     private static final int MODE_GAMEPLAY = 6;
     /**
-     * Состояние отображения игрового меню
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРіСЂРѕРІРѕРіРѕ РјРµРЅСЋ
      */
     private static final int MODE_GAMEMENU = 7;
     /**
-     * Состояние отображения финала игрового процесса
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С„РёРЅР°Р»Р° РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
      */
     private static final int MODE_GAMEFINAL = 8;
     /**
-     * Состояние отображения формы ввода имени игрока для записи в таблицу рекордов
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С„РѕСЂРјС‹ РІРІРѕРґР° РёРјРµРЅРё РёРіСЂРѕРєР° РґР»СЏ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ СЂРµРєРѕСЂРґРѕРІ
      */
     private static final int MODE_RECORDNAME = 9;
     /**
-     * Состояние выгрузки приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РІС‹РіСЂСѓР·РєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_RELEASING = 10;
     /**
-     * Состояние ошибки приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС€РёР±РєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_ERROR = 11;
 
     /**
-     * Задержка на реакцию на клавиши при переводе в режим окончания игры
+     * Р—Р°РґРµСЂР¶РєР° РЅР° СЂРµР°РєС†РёСЋ РЅР° РєР»Р°РІРёС€Рё РїСЂРё РїРµСЂРµРІРѕРґРµ РІ СЂРµР¶РёРј РѕРєРѕРЅС‡Р°РЅРёСЏ РёРіСЂС‹
      */
     private static final int REACTIONDELAY_GAMEFINAL = 3;
 
     /**
-     * Задержка на реакцию на клавиши при переводе в режим ввода рекорда
+     * Р—Р°РґРµСЂР¶РєР° РЅР° СЂРµР°РєС†РёСЋ РЅР° РєР»Р°РІРёС€Рё РїСЂРё РїРµСЂРµРІРѕРґРµ РІ СЂРµР¶РёРј РІРІРѕРґР° СЂРµРєРѕСЂРґР°
      */
     private static final int REACTIONDELAY_RECORD = 3;
 
-    //====================Коды клавиш======================
+    //====================РљРѕРґС‹ РєР»Р°РІРёС€======================
     //#if VENDOR=="SUN"
-    private static final int JOY_СODE_UP = -1;
+    private static final int JOY_РЎODE_UP = -1;
     private static final int JOY_CODE_LEFT = -3;
     private static final int JOY_CODE_RIGHT = -4;
     private static final int JOY_CODE_DOWN = -2;
@@ -299,11 +299,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
     private static final int KEY_CODE_KEY1 = 55;//Canvas.KEY_NUM7;
     private static final int KEY_CODE_KEY2 = 57;//Canvas.KEY_NUM9;
 
-    private static final int KEY_CODE_SOFT_LEFT = -6;// Левая софт кнопка
-    private static final int KEY_CODE_SOFT_RIGHT = -7;// Правая софт кнопка
+    private static final int KEY_CODE_SOFT_LEFT = -6;// Р›РµРІР°СЏ СЃРѕС„С‚ РєРЅРѕРїРєР°
+    private static final int KEY_CODE_SOFT_RIGHT = -7;// РџСЂР°РІР°СЏ СЃРѕС„С‚ РєРЅРѕРїРєР°
     //#endif
     //#if VENDOR=="MOTOROLA"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -2;
     //$private static final int JOY_CODE_RIGHT = -5;
     //$private static final int JOY_CODE_DOWN = -6;
@@ -320,7 +320,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     //#if VENDOR=="SIEMENS"
-    //$private static final int JOY_СODE_UP = -59;
+    //$private static final int JOY_РЎODE_UP = -59;
     //$private static final int JOY_CODE_LEFT = -61;
     //$private static final int JOY_CODE_RIGHT = -62;
     //$private static final int JOY_CODE_DOWN = -60;
@@ -338,7 +338,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     //#if VENDOR=="SE"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -3;
     //$private static final int JOY_CODE_RIGHT = -4;
     //$private static final int JOY_CODE_DOWN = -2;
@@ -356,7 +356,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     //#if VENDOR=="SAMSUNG"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -3;
     //$private static final int JOY_CODE_RIGHT = -4;
     //$private static final int JOY_CODE_DOWN = -2;
@@ -374,7 +374,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     //#if VENDOR=="LG"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -3;
     //$private static final int JOY_CODE_RIGHT = -4;
     //$private static final int JOY_CODE_DOWN = -2;
@@ -392,7 +392,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     //#if VENDOR=="NOKIA"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -3;
     //$private static final int JOY_CODE_RIGHT = -4;
     //$private static final int JOY_CODE_DOWN = -2;
@@ -430,22 +430,22 @@ public class startup extends MIDlet implements Runnable, CommandListener
     private static final int COLOR_BORDER = 0x000055;
 
     /**
-     * Задний фон панели рекордов
+     * Р—Р°РґРЅРёР№ С„РѕРЅ РїР°РЅРµР»Рё СЂРµРєРѕСЂРґРѕРІ
      */
     private static final int COLOR_RECORD_BACKGROUND = 0x008ED6;
 
     /**
-     * Цвет текста панели рекордов
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РїР°РЅРµР»Рё СЂРµРєРѕСЂРґРѕРІ
      */
     private static final int COLOR_RECORD_TEXT = 0xFFFFFF;
 
     /**
-     * Цвет символа имени рекорда
+     * Р¦РІРµС‚ СЃРёРјРІРѕР»Р° РёРјРµРЅРё СЂРµРєРѕСЂРґР°
      */
     private static final int COLOR_RECORD_CHAR = 0xFFE600;
 
     /**
-     * Цвет заднего фона символа имени рекорда
+     * Р¦РІРµС‚ Р·Р°РґРЅРµРіРѕ С„РѕРЅР° СЃРёРјРІРѕР»Р° РёРјРµРЅРё СЂРµРєРѕСЂРґР°
      */
     private static final int COLOR_RECORD_BCKGNDCHAR = 0x6800BA;
     //#endif
@@ -460,7 +460,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     private static final int I8_LOADING_BAR_PERCENT = (LOADING_BAR_WIDTH << 8) / 100;
 
     /**
-     * Имя файла, содержащего картинку логотипа
+     * РРјСЏ С„Р°Р№Р»Р°, СЃРѕРґРµСЂР¶Р°С‰РµРіРѕ РєР°СЂС‚РёРЅРєСѓ Р»РѕРіРѕС‚РёРїР°
      */
     private static final String RESOURCE_LOADING_LOGO = "/cc.png";
 
@@ -482,29 +482,29 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#endif
 
     /**
-     * Ресурс, содержащий изображение логотипа диллера
+     * Р РµСЃСѓСЂСЃ, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёР·РѕР±СЂР°Р¶РµРЅРёРµ Р»РѕРіРѕС‚РёРїР° РґРёР»Р»РµСЂР°
      */
     private static final String RESOURCE_DEALER = "/dealer.png";
 
     /**
-     * Конечно время показа номера уровня
+     * РљРѕРЅРµС‡РЅРѕ РІСЂРµРјСЏ РїРѕРєР°Р·Р° РЅРѕРјРµСЂР° СѓСЂРѕРІРЅСЏ
      */
     private static long l_EndTimeForScreen;
     /**
-     * Задержка на показ экрана с номером игрового уровня
+     * Р—Р°РґРµСЂР¶РєР° РЅР° РїРѕРєР°Р· СЌРєСЂР°РЅР° СЃ РЅРѕРјРµСЂРѕРј РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
      */
     private static final int DELAY_STAGESCREEN = 3000;
     /**
-     * Задержка на показ финального экрана
+     * Р—Р°РґРµСЂР¶РєР° РЅР° РїРѕРєР°Р· С„РёРЅР°Р»СЊРЅРѕРіРѕ СЌРєСЂР°РЅР°
      */
     private static final int DELAY_FINALSCREEN = 10000;
 
     /**
-     * Код первого символа при вводе имени рекорда
+     * РљРѕРґ РїРµСЂРІРѕРіРѕ СЃРёРјРІРѕР»Р° РїСЂРё РІРІРѕРґРµ РёРјРµРЅРё СЂРµРєРѕСЂРґР°
      */
     private static final int LETTER_RECORDNAME_FIRSTCODE = 0x40;
     /**
-     * Код последнего символа при вводе имени рекорда
+     * РљРѕРґ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРёРјРІРѕР»Р° РїСЂРё РІРІРѕРґРµ РёРјРµРЅРё СЂРµРєРѕСЂРґР°
      */
     private static final int LETTER_RECORDNAME_LASTCODE = 0x59;
 
@@ -520,7 +520,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //#if VENDOR=="SIEMENS" && (MODEL=="M55" || MODEL=="S55")
     //$private static class TextForm extends com.siemens.mp.color_game.GameCanvas
     //#else
-    private static class TextForm extends Canvas // Реализует форму с возможностью скролла и отображения длинного текста
+    private static class TextForm extends Canvas // Р РµР°Р»РёР·СѓРµС‚ С„РѕСЂРјСѓ СЃ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊСЋ СЃРєСЂРѕР»Р»Р° Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РґР»РёРЅРЅРѕРіРѕ С‚РµРєСЃС‚Р°
     //#endif
     //#endif
     //#endif
@@ -613,7 +613,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
             }
             else
             {
-                // Нарезаем по словам с максимально вписывающимися размерами
+                // РќР°СЂРµР·Р°РµРј РїРѕ СЃР»РѕРІР°Рј СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРїРёСЃС‹РІР°СЋС‰РёРјРёСЃСЏ СЂР°Р·РјРµСЂР°РјРё
                 int i_index = 0;
 
                 java.util.Vector p_vector = new java.util.Vector(64);
@@ -684,7 +684,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                     //#endif
                     case KEY_CODE_SOFT_RIGHT:
                     {
-                        // Выход из формы
+                        // Р’С‹С…РѕРґ РёР· С„РѕСЂРјС‹
                         p_Display.setCurrent(p_InsideCanvas);
                         s_Title = null;
                         s_Text = null;
@@ -694,7 +694,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                 case KEY_CODE_DOWN:
                 case JOY_CODE_DOWN:
                     {
-                        // Скролл вниз
+                        // РЎРєСЂРѕР»Р» РІРЅРёР·
                         int i_newPos = i_Position + i_step;
                         if (i_newPos + i_stringsOnScreen < as_stringArray.length)
                         {
@@ -711,9 +711,9 @@ public class startup extends MIDlet implements Runnable, CommandListener
             ;
                     break;
                 case KEY_CODE_UP:
-                case JOY_СODE_UP:
+                case JOY_РЎODE_UP:
                     {
-                        // Скролл вверх
+                        // РЎРєСЂРѕР»Р» РІРІРµСЂС…
                         int i_newPos = i_Position - i_step;
                         if (i_newPos >= 0)
                         {
@@ -747,14 +747,14 @@ public class startup extends MIDlet implements Runnable, CommandListener
             _g.drawRect(0, 0, i_Width - 1, i_Height - 1);
 
             _g.setFont(p_outFont);
-            // Заголовок
+            // Р—Р°РіРѕР»РѕРІРѕРє
             _g.setColor(COLOR_TEXT);
             _g.fillRect(0, 0, i_Width, i_FontHeight);
             _g.setColor(COLOR_BACKGROUND);
             int i_x = (i_Width - p_outFont.stringWidth(s_Title)) >> 1;
             _g.drawString(s_Title, i_x, 0, TXT);
 
-            // Кнопка
+            // РљРЅРѕРїРєР°
             int i_y = i_Height - i_FontHeight;
             _g.setColor(COLOR_TEXT);
             _g.fillRect(0, i_y, i_Width - 1, i_FontHeight);
@@ -764,7 +764,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
             if (lg_isVertScroll)
             {
-                // Скроллбар
+                // РЎРєСЂРѕР»Р»Р±Р°СЂ
                 _g.setColor(COLOR_BORDER);
                 if (i_stringsNumber <= i_stringsOnScreen)
                 {
@@ -773,20 +773,20 @@ public class startup extends MIDlet implements Runnable, CommandListener
                 }
                 else
                 {
-                    // Вертикальная линия
+                    // Р’РµСЂС‚РёРєР°Р»СЊРЅР°СЏ Р»РёРЅРёСЏ
                     i_x = i_Width - 1 - (SCROLLBAR_WIDTH >> 1);
                     _g.drawLine(i_x, i_FontHeight, i_x, i_Height - i_FontHeight);
-                    // Границы
+                    // Р“СЂР°РЅРёС†С‹
                     i_x = i_Width - 1 - SCROLLBAR_WIDTH;
                     _g.fillRect(i_x, i_FontHeight, SCROLLBAR_WIDTH, SCROLLBAR_WIDTH);
                     _g.fillRect(i_x, i_Height - i_FontHeight - SCROLLBAR_WIDTH, SCROLLBAR_WIDTH, SCROLLBAR_WIDTH);
-                    // Позиция
+                    // РџРѕР·РёС†РёСЏ
                     i_y = 1 + i_FontHeight + SCROLLBAR_WIDTH + ((i_Position * i_FontHeight * i8_perString + 0x7F) >> 8);
                     _g.fillRect(i_x, i_y, SCROLLBAR_WIDTH, i_ScrollBarHeight);
                 }
             }
 
-            // Текст
+            // РўРµРєСЃС‚
             i_y = i_FontHeight + 1;
             final int i_endY = i_y + i_ViewHeight;
             _g.setClip(STARTTEXT_X, i_FontHeight, i_ViewWidth - STARTTEXT_X, i_ViewHeight);
@@ -922,7 +922,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
             i_screenOffsetY = (i_screenHeight - SCREEN_HEIGHT) / 2;
 
             //#if VENDOR=="SAMSUNG" || VENDOR=="MOTOROLA"
-            // Сбрасываем в ноль смещение по вертикали если оно отрицательное, иначе проблема при выводе из-за ошибки возвращаемым значением вертикальной величины экрана
+            // РЎР±СЂР°СЃС‹РІР°РµРј РІ РЅРѕР»СЊ СЃРјРµС‰РµРЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»Рё РµСЃР»Рё РѕРЅРѕ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ, РёРЅР°С‡Рµ РїСЂРѕР±Р»РµРјР° РїСЂРё РІС‹РІРѕРґРµ РёР·-Р·Р° РѕС€РёР±РєРё РІРѕР·РІСЂР°С‰Р°РµРјС‹Рј Р·РЅР°С‡РµРЅРёРµРј РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ РІРµР»РёС‡РёРЅС‹ СЌРєСЂР°РЅР°
             //$if (i_screenOffsetY<0) i_screenOffsetY = 0;
             //#endif
             //#if SHOWSYS
@@ -947,26 +947,26 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
             //#if VENDOR=="SAMSUNG"
 
-            // Кнопки
+            // РљРЅРѕРїРєРё
             //$final int OTSTUP = 3;
             //$int i_strY = SCREEN_HEIGHT - LangBlock.i_FontImage_CharHeight - OTSTUP;
-            // кнопка "Отменить"
+            // РєРЅРѕРїРєР° "РћС‚РјРµРЅРёС‚СЊ"
             //$LangBlock.drawStringForIndex(CancelTXT,_graphics,OTSTUP,i_lastPressedKey == KEY_CODE_SOFT_LEFT ? i_strY + OTSTUP : i_strY);
-            // кнопка "Записать"
+            // РєРЅРѕРїРєР° "Р—Р°РїРёСЃР°С‚СЊ"
             //$LangBlock.drawStringForIndex(SaveTXT,_graphics,SCREEN_WIDTH-OTSTUP-LangBlock.getStringWidth(SaveTXT),i_lastPressedKey == KEY_CODE_SOFT_RIGHT ? i_strY + OTSTUP : i_strY);
 
-            // количество очков
+            // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС‡РєРѕРІ
             //$LangBlock.drawStringForIndex(ScoreTXT,_graphics,OTSTUP,OTSTUP);
             //$int i_scX = OTSTUP+LangBlock.getStringWidth(ScoreTXT)+LangBlock.i_FontImage_CharWidth;
             //$LangBlock.drawInteger(Gamelet.getPlayerScore(),_graphics,i_scX,OTSTUP);
 
-            // Надпись "Имя рекорда"
+            // РќР°РґРїРёСЃСЊ "РРјСЏ СЂРµРєРѕСЂРґР°"
             //$i_strY = LangBlock.i_FontImage_CharHeight*3;
             //$i_scX = (SCREEN_WIDTH-LangBlock.getStringWidth(RecordNameTXT))>>1;
             //$LangBlock.drawStringForIndex(RecordNameTXT,_graphics,i_scX,i_strY);
             //$i_strY += (LangBlock.i_FontImage_CharHeight<<1);
 
-            // Буквы имени
+            // Р‘СѓРєРІС‹ РёРјРµРЅРё
             //$final int CHAR_INTERVAL_S = 4;
             //$final int CHAR_WIDTH = 10;
             //$final int CHAR_HEIGHT = 11;
@@ -1089,7 +1089,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
             }
 
             _graphics.setFont(GameMenu.p_MenuFont);
-            // Отрисовываем ВВОД ОТМЕНА в правом и левом нижнем углу
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р’Р’РћР” РћРўРњР•РќРђ РІ РїСЂР°РІРѕРј Рё Р»РµРІРѕРј РЅРёР¶РЅРµРј СѓРіР»Сѓ
 
             //#if (VENDOR=="NOKIA") && (MODEL=="3410" || MODEL=="3510")
             //$final int OFFSET_HORZ = 3;
@@ -1153,7 +1153,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
             //$final Graphics p_mainGraphics = _graphics;
             //$_graphics = p_doubleGraphics;
 
-            // Увеличиваем размеры области если первый запуск
+            // РЈРІРµР»РёС‡РёРІР°РµРј СЂР°Р·РјРµСЂС‹ РѕР±Р»Р°СЃС‚Рё РµСЃР»Рё РїРµСЂРІС‹Р№ Р·Р°РїСѓСЃРє
             //$if (lg_firstPaint)
             //${
             //$    p_mainGraphics.setClip(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -1311,7 +1311,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                     break;
             }
 
-            // Отрисовываем бордюры
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р±РѕСЂРґСЋСЂС‹
             if (lg_drawBorder)
             {
                 //#if !DBUFFER
@@ -1320,31 +1320,31 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
                 //#if DBUFFER
                 //$p_mainGraphics.setColor(COLOR_BORDER);
-                // Верхний бордюр
+                // Р’РµСЂС…РЅРёР№ Р±РѕСЂРґСЋСЂ
                 //$p_mainGraphics.fillRect(0, 0, i_screenWidth, i_screenOffsetY);
 
-                // Нижний бордюр
+                // РќРёР¶РЅРёР№ Р±РѕСЂРґСЋСЂ
                 //$int i_hght = i_screenOffsetY + SCREEN_HEIGHT;
                 //$p_mainGraphics.fillRect(0, i_hght, i_screenWidth, i_screenOffsetY);
 
-                // Левый бордюр
+                // Р›РµРІС‹Р№ Р±РѕСЂРґСЋСЂ
                 //$p_mainGraphics.fillRect(0, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
 
-                // Правый бордюр
+                // РџСЂР°РІС‹Р№ Р±РѕСЂРґСЋСЂ
                 //$p_mainGraphics.fillRect(i_screenOffsetX + SCREEN_WIDTH, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
 
                 //#else
 
                 _graphics.setClip(0, 0, i_screenWidth, i_screenHeight);
                 _graphics.setColor(COLOR_BORDER);
-                // Верхний бордюр
+                // Р’РµСЂС…РЅРёР№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(0, 0, i_screenWidth, i_screenOffsetY);
-                // Нижний бордюр
+                // РќРёР¶РЅРёР№ Р±РѕСЂРґСЋСЂ
                 int i_hght = i_screenOffsetY + SCREEN_HEIGHT;
                 _graphics.fillRect(0, i_hght, i_screenWidth, i_screenOffsetY);
-                // Левый бордюр
+                // Р›РµРІС‹Р№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(0, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
-                // Правый бордюр
+                // РџСЂР°РІС‹Р№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(i_screenOffsetX + SCREEN_WIDTH, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
                 //#endif
             }
@@ -1352,11 +1352,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
             //#ifdefined DEMO_STRING
             //#if !SHOWSYS
 
-            // Выводим строку о том что это демоверсия в левом верхнем углу
+            // Р’С‹РІРѕРґРёРј СЃС‚СЂРѕРєСѓ Рѕ С‚РѕРј С‡С‚Рѕ СЌС‚Рѕ РґРµРјРѕРІРµСЂСЃРёСЏ РІ Р»РµРІРѕРј РІРµСЂС…РЅРµРј СѓРіР»Сѓ
 
             //$final int GTL = Graphics.TOP | Graphics.LEFT;
             //$_graphics.setClip(0, 0, i_screenWidth, i_screenHeight);
-            // Отрисовываем объем занятой и свободной памяти
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РѕР±СЉРµРј Р·Р°РЅСЏС‚РѕР№ Рё СЃРІРѕР±РѕРґРЅРѕР№ РїР°РјСЏС‚Рё
             //$Font p_fnt = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
             //$_graphics.setFont(p_fnt);
             //$_graphics.setColor(0);
@@ -1368,7 +1368,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
             //#if SHOWSYS
             _graphics.setClip(0, 0, i_screenWidth, i_screenHeight);
-            // Отрисовываем объем занятой и свободной памяти
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РѕР±СЉРµРј Р·Р°РЅСЏС‚РѕР№ Рё СЃРІРѕР±РѕРґРЅРѕР№ РїР°РјСЏС‚Рё
             Font p_fnt = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
             _graphics.setFont(p_fnt);
             int i_y = 0;
@@ -1388,7 +1388,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
             if (i_MidletMode == MODE_GAMEPLAY)
             {
-                // Профилирование игрового шага и отрисовки
+                // РџСЂРѕС„РёР»РёСЂРѕРІР°РЅРёРµ РёРіСЂРѕРІРѕРіРѕ С€Р°РіР° Рё РѕС‚СЂРёСЃРѕРІРєРё
                 p_strBuf = new StringBuffer("S/P:");
                 p_strBuf.append(i_Profil_TimeNextGameStep);
                 p_strBuf.append('/');
@@ -1401,7 +1401,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                 i_y += p_fnt.getHeight();
             }
 
-            // Код нажатой клавиши
+            // РљРѕРґ РЅР°Р¶Р°С‚РѕР№ РєР»Р°РІРёС€Рё
             p_strBuf = new StringBuffer("K:");
             p_strBuf.append(i_lastPressedKey);
             s_out = p_strBuf.toString();
@@ -1411,7 +1411,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
             _graphics.drawString(s_out, 0, i_y, GTL);
             i_y += p_fnt.getHeight();
 
-            // Выводим сообщение исключения если есть
+            // Р’С‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ РёСЃРєР»СЋС‡РµРЅРёСЏ РµСЃР»Рё РµСЃС‚СЊ
             if (s_CurrentExceptionMessage != null)
             {
                 s_out = s_CurrentExceptionMessage;
@@ -1476,7 +1476,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                 case MODE_RECORDNAME:
                     {
                         //#if VENDOR=="LG" || VENDOR=="SE"
-                        // У LG отрабатывается только нажатие софт клавиш, поэтому отработаем их сразу
+                        // РЈ LG РѕС‚СЂР°Р±Р°С‚С‹РІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РЅР°Р¶Р°С‚РёРµ СЃРѕС„С‚ РєР»Р°РІРёС€, РїРѕСЌС‚РѕРјСѓ РѕС‚СЂР°Р±РѕС‚Р°РµРј РёС… СЃСЂР°Р·Сѓ
                         //$switch(_keyCode)
                         //${
                         //$    case -7:
@@ -1536,7 +1536,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                         switch (_keyCode)
                         {
                                 //#if VENDOR=="LG" || VENDOR=="SE"
-                                //$// Отработка на телефонах LG бага не дающего событие отпускания софт кнопки
+                                //$// РћС‚СЂР°Р±РѕС‚РєР° РЅР° С‚РµР»РµС„РѕРЅР°С… LG Р±Р°РіР° РЅРµ РґР°СЋС‰РµРіРѕ СЃРѕР±С‹С‚РёРµ РѕС‚РїСѓСЃРєР°РЅРёСЏ СЃРѕС„С‚ РєРЅРѕРїРєРё
                                 //$case -6 :
                                 //$    {
                                 //$        GameMenu.pressMenuKey(GameMenu.MENUKEY_LEFT);
@@ -1566,7 +1566,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                 //#endif
 
                                 case KEY_CODE_UP:
-                            case JOY_СODE_UP:
+                            case JOY_РЎODE_UP:
                                 GameMenu.pressMenuKey(GameMenu.MENUKEY_UP);
                                 break;
                             case KEY_CODE_SOFT_LEFT:
@@ -1619,7 +1619,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                         if (_keyCode == KEY_CODE_SOFT_RIGHT)
                             if (i_lastPressedKey == KEY_CODE_SOFT_RIGHT)
                             {
-                                // Останавливаем загрузку
+                                // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·Р°РіСЂСѓР·РєСѓ
                                 lg_Working = false;
                             }
                     }
@@ -1638,7 +1638,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                             switch (_keyCode)
                             {
                                 case KEY_CODE_UP:
-                                case JOY_СODE_UP:
+                                case JOY_РЎODE_UP:
                                     {
                                         int i_code = ai_RecordNameChars[i_RecordCharPosition];
                                         if (i_code == LETTER_RECORDNAME_LASTCODE)
@@ -1748,7 +1748,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                         switch (_keyCode)
                         {
                             case KEY_CODE_UP:
-                            case JOY_СODE_UP:
+                            case JOY_РЎODE_UP:
                                 GameMenu.releaseMenuKey(GameMenu.MENUKEY_UP);
                                 break;
                             case KEY_CODE_SOFT_LEFT:
@@ -2096,10 +2096,10 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Сгенерировать форму таблицы игровых рекордов
+     * РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С„РѕСЂРјСѓ С‚Р°Р±Р»РёС†С‹ РёРіСЂРѕРІС‹С… СЂРµРєРѕСЂРґРѕРІ
      *
-     * @param _scoreTable массив, содержащий таблицу
-     * @return форму, содержащую список рекордов
+     * @param _scoreTable РјР°СЃСЃРёРІ, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚Р°Р±Р»РёС†Сѓ
+     * @return С„РѕСЂРјСѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ СЃРїРёСЃРѕРє СЂРµРєРѕСЂРґРѕРІ
      */
     private static final Displayable makeScoreTableForm(byte[] _scoreTable)
     {
@@ -2132,7 +2132,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         //$    StringBuffer p_strBuff = new StringBuffer();
 
         //#if !(VENDOR=="SAMSUNG" && MODEL=="X100")
-        // На Samsung X100 строки в списке автоматически нумеруются
+        // РќР° Samsung X100 СЃС‚СЂРѕРєРё РІ СЃРїРёСЃРєРµ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РЅСѓРјРµСЂСѓСЋС‚СЃСЏ
         //$p_strBuff.append("" + (li + 1));
         //$p_strBuff.append('.');
         //#endif
@@ -2144,7 +2144,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         //$    p_form.append(s_str, null);
         //$}
 
-        //$if (p_form.size() == 0) p_form.append(" ", null); // Вставлено из-за неотображения пустой формы на X100
+        //$if (p_form.size() == 0) p_form.append(" ", null); // Р’СЃС‚Р°РІР»РµРЅРѕ РёР·-Р·Р° РЅРµРѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїСѓСЃС‚РѕР№ С„РѕСЂРјС‹ РЅР° X100
 
         //$p_form.addCommand(new Command(LangBlock.getStringForIndex(BackTXT), Command.SCREEN, 1));
         //$p_form.setCommandListener(p_ThisClass);
@@ -2153,10 +2153,10 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Сгенерировать форму помощи по игре или информацию по игре
+     * РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С„РѕСЂРјСѓ РїРѕРјРѕС‰Рё РїРѕ РёРіСЂРµ РёР»Рё РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ РёРіСЂРµ
      *
-     * @param _help флаг, показывающий что надо генерировать помощь по игре, если false то about
-     * @return форму, содержащую текст помощи или информацию
+     * @param _help С„Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ РЅР°РґРѕ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РїРѕРјРѕС‰СЊ РїРѕ РёРіСЂРµ, РµСЃР»Рё false С‚Рѕ about
+     * @return С„РѕСЂРјСѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ С‚РµРєСЃС‚ РїРѕРјРѕС‰Рё РёР»Рё РёРЅС„РѕСЂРјР°С†РёСЋ
      */
     private static final Displayable makeHelpOrAboutBox(boolean _help)
     {
@@ -2401,11 +2401,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Функция разрешения отображения пункта и подпункта меню
+     * Р¤СѓРЅРєС†РёСЏ СЂР°Р·СЂРµС€РµРЅРёСЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїСѓРЅРєС‚Р° Рё РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
      *
-     * @param _itemId    идентификатор пункта меню
-     * @param _subitemId идентификатор подпункта меню, если пункт меню то -1
-     * @return true если разрешен и false если запрещен
+     * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+     * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ, РµСЃР»Рё РїСѓРЅРєС‚ РјРµРЅСЋ С‚Рѕ -1
+     * @return true РµСЃР»Рё СЂР°Р·СЂРµС€РµРЅ Рё false РµСЃР»Рё Р·Р°РїСЂРµС‰РµРЅ
      */
     public static final boolean onEnable(int _itemId, int _subitemId)
     {
@@ -2488,9 +2488,9 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Отработка активизации пункта меню
+     * РћС‚СЂР°Р±РѕС‚РєР° Р°РєС‚РёРІРёР·Р°С†РёРё РїСѓРЅРєС‚Р° РјРµРЅСЋ
      *
-     * @param _itemId идентификатор пункта меню
+     * @param _itemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
      */
     public static final void onEnter(int _itemId)
     {
@@ -2498,9 +2498,9 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Отработка деактивизации пункта меню
+     * РћС‚СЂР°Р±РѕС‚РєР° РґРµР°РєС‚РёРІРёР·Р°С†РёРё РїСѓРЅРєС‚Р° РјРµРЅСЋ
      *
-     * @param _itemId идентификатор пункта меню
+     * @param _itemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
      */
     public static final void onExit(int _itemId)
     {
@@ -2508,11 +2508,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Отработка изменения состояния подпункта или пункта
+     * РћС‚СЂР°Р±РѕС‚РєР° РёР·РјРµРЅРµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРѕРґРїСѓРЅРєС‚Р° РёР»Рё РїСѓРЅРєС‚Р°
      *
-     * @param _itemId    идентификатор пункта
-     * @param _subitemId идентификатор подпункта, если только пункт то -1
-     * @param _newState  новое состояние пункта, true если выбран и false если не выбран
+     * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р°
+     * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р°, РµСЃР»Рё С‚РѕР»СЊРєРѕ РїСѓРЅРєС‚ С‚Рѕ -1
+     * @param _newState  РЅРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїСѓРЅРєС‚Р°, true РµСЃР»Рё РІС‹Р±СЂР°РЅ Рё false РµСЃР»Рё РЅРµ РІС‹Р±СЂР°РЅ
      */
     public static final void onState(int _itemId, int _subitemId, boolean _newState)
     {
@@ -2722,11 +2722,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Запрашивает состояние выводимого подпункта для CHECKBOX, RADIOLIST
+     * Р—Р°РїСЂР°С€РёРІР°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РІС‹РІРѕРґРёРјРѕРіРѕ РїРѕРґРїСѓРЅРєС‚Р° РґР»СЏ CHECKBOX, RADIOLIST
      *
-     * @param _itemId    идентификатор пункта меню
-     * @param _subitemId идентификатор подпункта меню
-     * @return false если не выбран и true если выбран
+     * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+     * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
+     * @return false РµСЃР»Рё РЅРµ РІС‹Р±СЂР°РЅ Рё true РµСЃР»Рё РІС‹Р±СЂР°РЅ
      */
     public static final boolean isSelected(int _itemId, int _subitemId)
     {
@@ -2751,11 +2751,11 @@ public class startup extends MIDlet implements Runnable, CommandListener
     }
 
     /**
-     * Заполнение сабитемов для настраемового пункта
+     * Р—Р°РїРѕР»РЅРµРЅРёРµ СЃР°Р±РёС‚РµРјРѕРІ РґР»СЏ РЅР°СЃС‚СЂР°РµРјРѕРІРѕРіРѕ РїСѓРЅРєС‚Р°
      *
-     * @param _itemId       идентификатор пункта меню
-     * @param _subitemIndex номер подпункта меню
-     * @return возвращает запакованное значение подпункта
+     * @param _itemId       РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+     * @param _subitemIndex РЅРѕРјРµСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
+     * @return РІРѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїР°РєРѕРІР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїРѕРґРїСѓРЅРєС‚Р°
      */
     public static final int onCustom(int _itemId, int _subitemIndex)
     {
@@ -2791,7 +2791,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         LoadingThread.go();
         if (p_Image_LoadingLogo == null)
         {
-            // Отображаем иконку дилера
+            // РћС‚РѕР±СЂР°Р¶Р°РµРј РёРєРѕРЅРєСѓ РґРёР»РµСЂР°
             //#if MIDP=="2.0" || VENDOR=="SIEMENS"
             //$p_InsideCanvas.paintFlush();
             //#else
@@ -2815,7 +2815,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         //$LoadingThread.go();
         //#endif
 
-        // Если загрузка прошла быстрее чем был показан логотип дистрибутора, то выставляем принудительный показ нашего логотипа на 3 секунды
+        // Р•СЃР»Рё Р·Р°РіСЂСѓР·РєР° РїСЂРѕС€Р»Р° Р±С‹СЃС‚СЂРµРµ С‡РµРј Р±С‹Р» РїРѕРєР°Р·Р°РЅ Р»РѕРіРѕС‚РёРї РґРёСЃС‚СЂРёР±СѓС‚РѕСЂР°, С‚Рѕ РІС‹СЃС‚Р°РІР»СЏРµРј РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅС‹Р№ РїРѕРєР°Р· РЅР°С€РµРіРѕ Р»РѕРіРѕС‚РёРїР° РЅР° 3 СЃРµРєСѓРЅРґС‹
         int i_waitDelay = LoadingThread.lg_isCompleted ? 3000 : 300;
 
         try
@@ -3064,7 +3064,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                             //#endif
                             //#endif
                             //#endif
-                            // Блок вычисления оставшейся задержки времени
+                            // Р‘Р»РѕРє РІС‹С‡РёСЃР»РµРЅРёСЏ РѕСЃС‚Р°РІС€РµР№СЃСЏ Р·Р°РґРµСЂР¶РєРё РІСЂРµРјРµРЅРё
                             long l_endTime = System.currentTimeMillis();
                             //#if SHOWSYS
                             i_Profil_TimePaint = ((int) l_endTime & 0xFFFFFF) - i_tempProfValue;
@@ -3150,7 +3150,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
     //$private static final int STAGENUMBER_FIRST = /*$STARTLEVEL$*/;
     private static final int STAGENUMBER_LAST = 20;
 
-    //================================Обработка игровых событий=========================
+    //================================РћР±СЂР°Р±РѕС‚РєР° РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№=========================
     public static final int processGameAction(int _arg)
     {
         //#if SHOWSYS
@@ -3203,7 +3203,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         return 0;
     }
 
-    //================================Игровые функции===================================
+    //================================РРіСЂРѕРІС‹Рµ С„СѓРЅРєС†РёРё===================================
     private static final void drawScores(int _x, int _y, int _zeroNumbers, int _value)
     {
         String s_str = Integer.toString(_value);
@@ -3397,7 +3397,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
 
     private static final void onAppDestroyed() //ONEVENT onAppDestroyed
     {
-        // Для SonyEricssona не надо делать принудительную очистку картиинок, так как иначе выход затяется
+        // Р”Р»СЏ SonyEricssona РЅРµ РЅР°РґРѕ РґРµР»Р°С‚СЊ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅСѓСЋ РѕС‡РёСЃС‚РєСѓ РєР°СЂС‚РёРёРЅРѕРє, С‚Р°Рє РєР°Рє РёРЅР°С‡Рµ РІС‹С…РѕРґ Р·Р°С‚СЏРµС‚СЃСЏ
         //==========================
 
         //==========================
@@ -3415,7 +3415,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                 {
                     switch (_channel)
                     {
-                            // Игровое поле
+                            // РРіСЂРѕРІРѕРµ РїРѕР»Рµ
                             case 0:
                             {
                                 final int GS_W = GAMESCREEN_WIDTH;
@@ -3462,7 +3462,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                     Sprite p_Sprite;
                                     final int [] ai_sdt = SPRITE_DECODE_TABLE;
 
-                                    // Рисуем нашу вертушку
+                                    // Р РёСЃСѓРµРј РЅР°С€Сѓ РІРµСЂС‚СѓС€РєСѓ
                                     p_Sprite = Gamelet.p_MyCopterSprite;
 
                                     if (p_Sprite.lg_SpriteActive)
@@ -3478,7 +3478,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Рисуем ящик
+                                    // Р РёСЃСѓРµРј СЏС‰РёРє
                                     p_Sprite = Gamelet.p_AmmoSprite;
                                     if (p_Sprite.lg_SpriteActive)
                                     {
@@ -3488,7 +3488,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         ImageManager.drawImage(MAP_SHELLS, i_x, i_y);
                                     }
 
-                                    // Рисуем истребитель
+                                    // Р РёСЃСѓРµРј РёСЃС‚СЂРµР±РёС‚РµР»СЊ
                                     p_Sprite = Gamelet.p_FighterSprite;
                                     if (p_Sprite.lg_SpriteActive)
                                     {
@@ -3503,7 +3503,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         if (i_x2 >= 0 && i_x < GAMESCREEN_WIDTH) ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Рисуем вертушки
+                                    // Р РёСЃСѓРµРј РІРµСЂС‚СѓС€РєРё
                                     Sprite [] ap_sprts = Gamelet.ap_CopterSprites;
                                     for (int li = 0; li < Gamelet.MAX_SCREEN_COPTERS_NUMBER; li++)
                                     {
@@ -3520,7 +3520,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         if (i_x2 >= 0 && i_x < GAMESCREEN_WIDTH) ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Рисуем взрывы
+                                    // Р РёСЃСѓРµРј РІР·СЂС‹РІС‹
                                     ap_sprts = Gamelet.ap_ExplosionSprites;
                                     for (int li = 0; li < Gamelet.MAX_EXPLOSIONS_NUMBER; li++)
                                     {
@@ -3537,7 +3537,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         if (i_x2 >= 0 && i_x < GAMESCREEN_WIDTH) ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Рисуем выстрелы и метеориты
+                                    // Р РёСЃСѓРµРј РІС‹СЃС‚СЂРµР»С‹ Рё РјРµС‚РµРѕСЂРёС‚С‹
                                     ap_sprts = Gamelet.ap_ShellAndFireballSprites;
                                     for (int li = 0; li < Gamelet.MAX_SHELLS_NUMBER; li++)
                                     {
@@ -3554,7 +3554,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         if (i_x2 >= 0 && i_x < GAMESCREEN_WIDTH) ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Рисуем Жизнь
+                                    // Р РёСЃСѓРµРј Р–РёР·РЅСЊ
                                     p_Sprite = Gamelet.p_LifeSprite;
                                     if (p_Sprite.lg_SpriteActive)
                                     {
@@ -3566,7 +3566,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                                         ImageManager.drawImage(i_index, i_x, i_y);
                                     }
 
-                                    // Очки за объект
+                                    // РћС‡РєРё Р·Р° РѕР±СЉРµРєС‚
                                     ap_sprts = Gamelet.ap_BonusSprites;
                                     for (int li = 0; li < Gamelet.MAX_BONUS_NUMBER; li++)
                                     {
@@ -3586,7 +3586,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                             break;
                         case 1:
                             {
-                                // Жизни игрока
+                                // Р–РёР·РЅРё РёРіСЂРѕРєР°
                                 boolean lg_show = true;
                                 if (i_Flash_Life_Counter > 0)
                                 {
@@ -3635,7 +3635,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                             {
                                 if (Gamelet.iFighterFlightCounter > 0)
                                 {
-                                    // Иконка истребителя
+                                    // РРєРѕРЅРєР° РёСЃС‚СЂРµР±РёС‚РµР»СЏ
                                     if (i_CurrentModeTickCounter % 6 > 3) ImageManager.drawImage(MAP_FIGHTERICON, _x, _y);
                                 }
                             }
@@ -3643,7 +3643,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
                             break;
                         case 4:
                             {
-                                // Область вывода номера уровня
+                                // РћР±Р»Р°СЃС‚СЊ РІС‹РІРѕРґР° РЅРѕРјРµСЂР° СѓСЂРѕРІРЅСЏ
                                 i_nextLevelAreaX = _x;
                                 i_nextLevelAreaY = _y;
                             }
@@ -3657,19 +3657,19 @@ public class startup extends MIDlet implements Runnable, CommandListener
             case 1:
             case 2:
                 {
-                    // Форма номера уровня и очков
+                    // Р¤РѕСЂРјР° РЅРѕРјРµСЂР° СѓСЂРѕРІРЅСЏ Рё РѕС‡РєРѕРІ
                     switch (_channel)
                     {
                         case 0:
                             {
-                                // Номер уровня
+                                // РќРѕРјРµСЂ СѓСЂРѕРІРЅСЏ
                                 drawScores(_x, _y, 2, i_selectedGameStage);
                             }
                     ;
                             break;
                         case 1:
                             {
-                                // Количество очков
+                                // РљРѕР»РёС‡РµСЃС‚РІРѕ РѕС‡РєРѕРІ
                                 drawScores(_x, _y, 4, Gamelet.getPlayerScore());
                             }
                     ;
@@ -3732,7 +3732,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         switch (_keyCode)
         {
                 //#if VENDOR=="LG" || VENDOR=="SE"
-                //У телефонов LG нет события отжатия софт клавиши поэтому отрабатываем выход в меню на нажатие
+                //РЈ С‚РµР»РµС„РѕРЅРѕРІ LG РЅРµС‚ СЃРѕР±С‹С‚РёСЏ РѕС‚Р¶Р°С‚РёСЏ СЃРѕС„С‚ РєР»Р°РІРёС€Рё РїРѕСЌС‚РѕРјСѓ РѕС‚СЂР°Р±Р°С‚С‹РІР°РµРј РІС‹С…РѕРґ РІ РјРµРЅСЋ РЅР° РЅР°Р¶Р°С‚РёРµ
                 //$case -6:
                 //$    {
                 //$    setMode(MODE_GAMEMENU);
@@ -3745,7 +3745,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         ;
                 break;
             case KEY_CODE_UP:
-            case JOY_СODE_UP:
+            case JOY_РЎODE_UP:
                 {
                     //#if VENDOR=="SIEMENS"
                     //$i_KeyFlags = Gamelet.BUTTON_UP;
@@ -3820,7 +3820,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         switch (_keyCode)
         {
             case KEY_CODE_UP:
-            case JOY_СODE_UP:
+            case JOY_РЎODE_UP:
                 {
                     //#if VENDOR=="SIEMENS"
                     //$i_KeyFlags = Gamelet.BUTTON_NONE;
@@ -3882,19 +3882,19 @@ public class startup extends MIDlet implements Runnable, CommandListener
         ;
                 break;
                 //#if VENDOR=="SIEMENS"
-                // кнопка "положить трубку" - выход в меню
+                // РєРЅРѕРїРєР° "РїРѕР»РѕР¶РёС‚СЊ С‚СЂСѓР±РєСѓ" - РІС‹С…РѕРґ РІ РјРµРЅСЋ
                 case -12:
                 //#endif
                 //#if VENDOR=="MOTOROLA"
-                // кнопка "выход в меню" - выход в меню
+                // РєРЅРѕРїРєР° "РІС‹С…РѕРґ РІ РјРµРЅСЋ" - РІС‹С…РѕРґ РІ РјРµРЅСЋ
                 case -23:
                 //#endif
                 //#if VENDOR=="SE" || VENDOR=="SAMSUNG" || VENDOR=="LG"
-                // кнопка "C" - выход в меню
+                // РєРЅРѕРїРєР° "C" - РІС‹С…РѕРґ РІ РјРµРЅСЋ
                 case -8:
                 //#endif
                 //#if VENDOR=="NOKIA"
-                // кнопка "снять трубку" - выход в меню
+                // РєРЅРѕРїРєР° "СЃРЅСЏС‚СЊ С‚СЂСѓР±РєСѓ" - РІС‹С…РѕРґ РІ РјРµРЅСЋ
                 case -10:
                 //#endif
                 case KEY_CODE_SOFT_LEFT:
@@ -3906,7 +3906,7 @@ public class startup extends MIDlet implements Runnable, CommandListener
         }
     }
 
-    //==================Игровые переменные и объекты========================
+    //==================РРіСЂРѕРІС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ Рё РѕР±СЉРµРєС‚С‹========================
     //#if (VENDOR=="NOKIA" && MODEL=="7650") || (VENDOR=="SIEMENS" && MODEL=="CX65") || (VENDOR=="MOTOROLA" && MODEL=="E398")
     private static Image p_FakedPanel;
     //#endif

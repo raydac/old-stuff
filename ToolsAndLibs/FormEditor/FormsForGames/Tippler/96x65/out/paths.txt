@@ -1,0 +1,9 @@
+$SHORT
+          // PATH_PLAYERHEAP
+          (short)1,(short)32,(short)48,(short)30,(short)10,(short)11,(short)55,(short)10,
+          // PATH_OPPONENTCARD
+          (short)1,(short)32,(short)10,(short)9,(short)10,(short)43,(short)39,(short)10,
+          // PATH_OPPONENTHEAP
+          (short)1,(short)32,(short)48,(short)30,(short)10,(short)87,(short)9,(short)10,
+          // PATH_PLAYERCARD
+          (short)1,(short)32,(short)89,(short)56,(short)10,(short)49,(short)22,(short)10,

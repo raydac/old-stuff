@@ -1,4 +1,0 @@
--libraryjars C:\WTK22\lib\midpapi20.jar;C:\WTK22\lib\wma11.jar;C:\WTK22\lib\cldcapi10.jar
--injars C:\WTK22\apps\RussianDandy\bin\RussianDandy.jar
--outjar C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RussianDandy.jar
--keep public class * extends javax.microedition.midlet.MIDlet 

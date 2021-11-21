@@ -7,7 +7,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * Шаблон для изготовления игровых визуализированных модулей
+ * РЁР°Р±Р»РѕРЅ РґР»СЏ РёР·РіРѕС‚РѕРІР»РµРЅРёСЏ РёРіСЂРѕРІС‹С… РІРёР·СѓР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹С… РјРѕРґСѓР»РµР№
  *
  * @author Igor A. Maznitsa
  *         (C) 2005 Raydac Research Group Ltd.
@@ -18,63 +18,63 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     private static final Object SYNCHRO_OBJECT = new Object();
 
     /**
-     * Состояние неинициализированного или деинициализированного приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РЅРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РёР»Рё РґРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_UNKNOWN = 0;
     /**
-     * Состояние инициализированного приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_INITED = 1;
     /**
-     * Состояние загрузки данных приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С… РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_LOADING = 2;
     /**
-     * Состояние отображения главного меню
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ
      */
     private static final int MODE_MAINMENU = 3;
     /**
-     * Состояние отображения номера игрового уровня
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅРѕРјРµСЂР° РёРіСЂРѕРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
      */
     private static final int MODE_SHOWSTAGE = 4;
     /**
-     * Состояние отображения игрового процесса
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
      */
     private static final int MODE_GAMEPLAY = 6;
     /**
-     * Состояние отображения игрового меню
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРіСЂРѕРІРѕРіРѕ РјРµРЅСЋ
      */
     private static final int MODE_GAMEMENU = 7;
     /**
-     * Состояние отображения финала игрового процесса
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С„РёРЅР°Р»Р° РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
      */
     private static final int MODE_GAMEFINAL = 8;
     /**
-     * Состояние отображения формы ввода имени игрока для записи в таблицу рекордов
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С„РѕСЂРјС‹ РІРІРѕРґР° РёРјРµРЅРё РёРіСЂРѕРєР° РґР»СЏ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ СЂРµРєРѕСЂРґРѕРІ
      */
     private static final int MODE_RECORDNAME = 9;
     /**
-     * Состояние выгрузки приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РІС‹РіСЂСѓР·РєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_RELEASING = 10;
     /**
-     * Состояние ошибки приложения
+     * РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС€РёР±РєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
      */
     private static final int MODE_ERROR = 11;
 
     /**
-     * Задержка на реакцию на клавиши при переводе в режим окончания игры
+     * Р—Р°РґРµСЂР¶РєР° РЅР° СЂРµР°РєС†РёСЋ РЅР° РєР»Р°РІРёС€Рё РїСЂРё РїРµСЂРµРІРѕРґРµ РІ СЂРµР¶РёРј РѕРєРѕРЅС‡Р°РЅРёСЏ РёРіСЂС‹
      */
     private static final int REACTIONDELAY_GAMEFINAL = 3;
 
     /**
-     * Задержка на реакцию на клавиши при переводе в режим ввода рекорда
+     * Р—Р°РґРµСЂР¶РєР° РЅР° СЂРµР°РєС†РёСЋ РЅР° РєР»Р°РІРёС€Рё РїСЂРё РїРµСЂРµРІРѕРґРµ РІ СЂРµР¶РёРј РІРІРѕРґР° СЂРµРєРѕСЂРґР°
      */
     private static final int REACTIONDELAY_RECORD = 3;
 
-    //====================Коды клавиш======================
+    //====================РљРѕРґС‹ РєР»Р°РІРёС€======================
     //#if VENDOR=="SUN"
-    private static final int JOY_СODE_UP = -1;
+    private static final int JOY_РЎODE_UP = -1;
     private static final int JOY_CODE_LEFT = -3;
     private static final int JOY_CODE_RIGHT = -4;
     private static final int JOY_CODE_DOWN = -2;
@@ -89,11 +89,11 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     private static final int KEY_CODE_KEY1 = 55;//Canvas.KEY_NUM7;
     private static final int KEY_CODE_KEY2 = 57;//Canvas.KEY_NUM9;
 
-    private static final int KEY_CODE_SOFT_LEFT = -6;// Левая софт кнопка
-    private static final int KEY_CODE_SOFT_RIGHT = -7;// Правая софт кнопка
+    private static final int KEY_CODE_SOFT_LEFT = -6;// Р›РµРІР°СЏ СЃРѕС„С‚ РєРЅРѕРїРєР°
+    private static final int KEY_CODE_SOFT_RIGHT = -7;// РџСЂР°РІР°СЏ СЃРѕС„С‚ РєРЅРѕРїРєР°
     //#else
     //#if VENDOR=="MOTOROLA"
-    //$private static final int JOY_СODE_UP = -1;
+    //$private static final int JOY_РЎODE_UP = -1;
     //$private static final int JOY_CODE_LEFT = -2;
     //$private static final int JOY_CODE_RIGHT = -5;
     //$private static final int JOY_CODE_DOWN = -6;
@@ -240,7 +240,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
             }
 
             _graphics.setFont(GameMenu.p_MenuFont);
-            // Отрисовываем ВВОД ОТМЕНА в правом и левом нижнем углу
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р’Р’РћР” РћРўРњР•РќРђ РІ РїСЂР°РІРѕРј Рё Р»РµРІРѕРј РЅРёР¶РЅРµРј СѓРіР»Сѓ
             final int OFFSET_HORZ = 1;
             final int OFFSET_VERT = 1;
 
@@ -378,19 +378,19 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
             }
 
             _graphics.translate(-i_screenOffsetX, -i_screenOffsetY);
-            // Отрисовываем бордюры
+            // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р±РѕСЂРґСЋСЂС‹
             if (lg_drawBorder)
             {
                 _graphics.setClip(0, 0, i_screenWidth, i_screenHeight);
                 _graphics.setColor(COLOR_BORDER);
-                // Верхний бордюр
+                // Р’РµСЂС…РЅРёР№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(0, 0, i_screenWidth, i_screenOffsetY);
-                // Нижний бордюр
+                // РќРёР¶РЅРёР№ Р±РѕСЂРґСЋСЂ
                 int i_hght = i_screenOffsetY + SCREEN_HEIGHT;
                 _graphics.fillRect(0, i_hght, i_screenWidth, i_screenHeight - i_hght);
-                // Левый бордюр
+                // Р›РµРІС‹Р№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(0, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
-                // Правый бордюр
+                // РџСЂР°РІС‹Р№ Р±РѕСЂРґСЋСЂ
                 _graphics.fillRect(i_screenOffsetX + SCREEN_WIDTH, i_screenOffsetY, i_screenOffsetX, SCREEN_HEIGHT);
             }
         }
@@ -440,7 +440,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
                      switch (_keyCode)
                      {
                      case KEY_CODE_UP:
-                     case JOY_СODE_UP:
+                     case JOY_РЎODE_UP:
                           GameMenu.pressMenuKey(GameMenu.MENUKEY_UP);
                           break;
                      case KEY_CODE_SOFT_LEFT:
@@ -483,7 +483,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
                      if (_keyCode == KEY_CODE_SOFT_RIGHT)
                          if (i_lastPressedKey == KEY_CODE_SOFT_RIGHT)
                          {
-                             // Останавливаем загрузку
+                             // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·Р°РіСЂСѓР·РєСѓ
                              lg_Working = false;
                          }
                  }
@@ -502,7 +502,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
                          switch (_keyCode)
                          {
                          case KEY_CODE_UP:
-                         case JOY_СODE_UP:
+                         case JOY_РЎODE_UP:
                               {
                                   int i_code = ai_RecordNameChars[i_RecordCharPosition];
                                   if (i_code == LETTER_RECORDNAME_LASTCODE)
@@ -607,7 +607,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
                      switch (_keyCode)
                      {
                      case KEY_CODE_UP:
-                     case JOY_СODE_UP:
+                     case JOY_РЎODE_UP:
                           GameMenu.releaseMenuKey(GameMenu.MENUKEY_UP);
                           break;
                      case KEY_CODE_SOFT_LEFT:
@@ -848,10 +848,10 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     }
 
     /**
-     * Сгенерировать форму таблицы игровых рекордов
+     * РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С„РѕСЂРјСѓ С‚Р°Р±Р»РёС†С‹ РёРіСЂРѕРІС‹С… СЂРµРєРѕСЂРґРѕРІ
      *
-     * @param _scoreTable массив, содержащий таблицу
-     * @return форму, содержащую список рекордов
+     * @param _scoreTable РјР°СЃСЃРёРІ, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚Р°Р±Р»РёС†Сѓ
+     * @return С„РѕСЂРјСѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ СЃРїРёСЃРѕРє СЂРµРєРѕСЂРґРѕРІ
      */
     private final List makeScoreTableForm(byte[] _scoreTable)
     {
@@ -871,10 +871,10 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     }
 
     /**
-     * Сгенерировать форму помощи по игре или информацию по игре
+     * РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С„РѕСЂРјСѓ РїРѕРјРѕС‰Рё РїРѕ РёРіСЂРµ РёР»Рё РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ РёРіСЂРµ
      *
-     * @param _help флаг, показывающий что надо генерировать помощь по игре, если false то about
-     * @return форму, содержащую текст помощи или информацию
+     * @param _help С„Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ РЅР°РґРѕ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РїРѕРјРѕС‰СЊ РїРѕ РёРіСЂРµ, РµСЃР»Рё false С‚Рѕ about
+     * @return С„РѕСЂРјСѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ С‚РµРєСЃС‚ РїРѕРјРѕС‰Рё РёР»Рё РёРЅС„РѕСЂРјР°С†РёСЋ
      */
     private final Form makeHelpOrAboutBox(boolean _help)
     {
@@ -1485,7 +1485,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
                      {
                          p_InsideCanvas.repaint();
 
-                         // Блок вычисления оставшейся задержки времени
+                         // Р‘Р»РѕРє РІС‹С‡РёСЃР»РµРЅРёСЏ РѕСЃС‚Р°РІС€РµР№СЃСЏ Р·Р°РґРµСЂР¶РєРё РІСЂРµРјРµРЅРё
                          long l_endTime = System.currentTimeMillis();
                          l_endTime -= l_startTime;
                          if (l_endTime > i_gameDelay || l_endTime < 0)
@@ -1513,7 +1513,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     private static final int STAGENUMBER_FIRST = 0;
     private static final int STAGENUMBER_LAST = 0;
 
-    //================================Обработка игровых событий=========================
+    //================================РћР±СЂР°Р±РѕС‚РєР° РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№=========================
     public int processGameAction(int _arg)
     {
         if (!lg_Option_Sound) return 0;
@@ -1543,7 +1543,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
         return 0;
     }
 
-    //================================Переменные и массивы==============================
+    //================================РџРµСЂРµРјРµРЅРЅС‹Рµ Рё РјР°СЃСЃРёРІС‹==============================
     private static Image p_gameGraphicsImage;
     private static Image p_backgroundImage;
     private static Image p_gameWinImage;
@@ -1717,7 +1717,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
     private static final int MAP_TOMATOMIN0006 = 990;
     private static final int MAP_TOMATOMIN0007 = 996;
 
-    //================================Игровые функции===================================
+    //================================РРіСЂРѕРІС‹Рµ С„СѓРЅРєС†РёРё===================================
     private static final void drawScores(Graphics _g, int _x, int _y, int _zeroNumber, int _value)
     {
         Image p_Image = p_gameGraphicsImage;
@@ -1763,17 +1763,17 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
 
         for (int li = 0; li < i_len;)
         {
-            // Координата X на картинке
+            // РљРѕРѕСЂРґРёРЅР°С‚Р° X РЅР° РєР°СЂС‚РёРЅРєРµ
             ai_array[li++] = p_inStream.readShort();
-            // Координата Y на картинке
+            // РљРѕРѕСЂРґРёРЅР°С‚Р° Y РЅР° РєР°СЂС‚РёРЅРєРµ
             ai_array[li++] = p_inStream.readShort();
-            // Смещение X
+            // РЎРјРµС‰РµРЅРёРµ X
             ai_array[li++] = p_inStream.readShort();
-            // Смещение Y
+            // РЎРјРµС‰РµРЅРёРµ Y
             ai_array[li++] = p_inStream.readShort();
-            // Ширина области
+            // РЁРёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
             ai_array[li++] = p_inStream.readShort();
-            // Высота области
+            // Р’С‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
             ai_array[li++] = p_inStream.readShort();
         }
 
@@ -1904,7 +1904,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
         _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         _graphics.drawImage(p_backgroundImage, 0, 0, 0);
 
-        // Сортируем массивы отображения
+        // РЎРѕСЂС‚РёСЂСѓРµРј РјР°СЃСЃРёРІС‹ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
         Sprite[] ap_spr = Gamelet.ap_Objects;
 
         int i_indexFar = 0;
@@ -2073,7 +2073,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
 
             if (li == i_actorIndex)
             {
-                // Отрисовка игрока
+                // РћС‚СЂРёСЃРѕРІРєР° РёРіСЂРѕРєР°
                 p_spr = Gamelet.p_ActorSprite;
                 i_x = p_spr.i_ScreenX >> 8;
                 i_y = p_spr.i_ScreenY >> 8;
@@ -2144,9 +2144,9 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
             }
         }
 
-        // Отрисовка объектов летящих в игрока
+        // РћС‚СЂРёСЃРѕРІРєР° РѕР±СЉРµРєС‚РѕРІ Р»РµС‚СЏС‰РёС… РІ РёРіСЂРѕРєР°
 
-        // Рисуем нижнюю полоску
+        // Р РёСЃСѓРµРј РЅРёР¶РЅСЋСЋ РїРѕР»РѕСЃРєСѓ
         _graphics.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
@@ -2156,22 +2156,22 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
         _graphics.setColor(0xAAAAFF);
         _graphics.fillRect(0, YSTART, SCREEN_WIDTH, HEIGHT);
 
-        //Рисуем иконку
+        //Р РёСЃСѓРµРј РёРєРѕРЅРєСѓ
         if (i_lastPressedKey == KEY_CODE_SOFT_LEFT)
             drawImage(MAP_LOGO_ICO02, _graphics, 1, YSTART - 5);
         else
             drawImage(MAP_LOGO_ICO01, _graphics, 1, YSTART - 5);
 
-        // Рисуем показатель жизни
+        // Р РёСЃСѓРµРј РїРѕРєР°Р·Р°С‚РµР»СЊ Р¶РёР·РЅРё
         drawImage(MAP_LIFEICON, _graphics, 25, YSTART + 1);
         int i_widthBar = (15 * (Gamelet.i_PlayerPower << 8) / Gamelet.PLAYER_INIT_POWER) >> 8;
         drawBar(_graphics, 0xFF0000, 37, YSTART + 3, i_widthBar, 6);
-        // Рисуем показатель времени
+        // Р РёСЃСѓРµРј РїРѕРєР°Р·Р°С‚РµР»СЊ РІСЂРµРјРµРЅРё
         drawImage(MAP_TIMERICON, _graphics, 55, YSTART + 1);
         i_widthBar = (15 * ((int) ((Gamelet.l_FinalTime - System.currentTimeMillis()) << 8) / Gamelet.i_levelTime)) >> 8;
         drawBar(_graphics, 0x0000FF, 67, YSTART + 3, i_widthBar, 6);
 
-        // Выводим количество очков
+        // Р’С‹РІРѕРґРёРј РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС‡РєРѕРІ
         drawScores(_graphics, SCREEN_WIDTH - 41, YSTART + 1, 10000, Gamelet.getPlayerScore());
     }
 
@@ -2200,7 +2200,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
         switch (_keyCode)
         {
         case KEY_CODE_UP:
-        case JOY_СODE_UP:
+        case JOY_РЎODE_UP:
              {
              }
         ;
@@ -2242,7 +2242,7 @@ public class startup extends MIDlet implements Runnable, GameMenu.MenuListener, 
         switch (_keyCode)
         {
         case KEY_CODE_UP:
-        case JOY_СODE_UP:
+        case JOY_РЎODE_UP:
              {
              }
         ;

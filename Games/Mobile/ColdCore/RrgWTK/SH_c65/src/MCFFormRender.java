@@ -9,8 +9,8 @@ import java.io.InputStream;
 //#local STATIC = true
 
 /**
- * Класс реализует рендер MCF файлов (по спецификации 2.0)
- * @author Игорь Мазница
+ * РљР»Р°СЃСЃ СЂРµР°Р»РёР·СѓРµС‚ СЂРµРЅРґРµСЂ MCF С„Р°Р№Р»РѕРІ (РїРѕ СЃРїРµС†РёС„РёРєР°С†РёРё 2.0)
+ * @author РРіРѕСЂСЊ РњР°Р·РЅРёС†Р°
  * @version 1.01
  */
 public class MCFFormRender
@@ -61,9 +61,9 @@ public class MCFFormRender
         //#endif
     //#endif
 
-    private static final int FLAG_HASMODIFIEDIMAGES = 1;// флаг наличия модифицируемых изображений
-    private static final int FLAG_IMAGES_ONLY = 2; // флаг, что хранятся только изображения
-    private static final int FLAG_CHANNELDATA = 4; // флаг, что присутствует информация о канале
+    private static final int FLAG_HASMODIFIEDIMAGES = 1;// С„Р»Р°Рі РЅР°Р»РёС‡РёСЏ РјРѕРґРёС„РёС†РёСЂСѓРµРјС‹С… РёР·РѕР±СЂР°Р¶РµРЅРёР№
+    private static final int FLAG_IMAGES_ONLY = 2; // С„Р»Р°Рі, С‡С‚Рѕ С…СЂР°РЅСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+    private static final int FLAG_CHANNELDATA = 4; // С„Р»Р°Рі, С‡С‚Рѕ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РєР°РЅР°Р»Рµ
 
     //#if !IMAGESONLY
     private static final int COMPONENT_IMAGE = 0;
@@ -71,39 +71,39 @@ public class MCFFormRender
     private static final int COMPONENT_BUTTON = 2;
 
     //
-    // Интерфейс описывает класс, способный взаимодействовать с рендером форм через определенные функции
+    // РРЅС‚РµСЂС„РµР№СЃ РѕРїРёСЃС‹РІР°РµС‚ РєР»Р°СЃСЃ, СЃРїРѕСЃРѕР±РЅС‹Р№ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРѕРІР°С‚СЊ СЃ СЂРµРЅРґРµСЂРѕРј С„РѕСЂРј С‡РµСЂРµР· РѕРїСЂРµРґРµР»РµРЅРЅС‹Рµ С„СѓРЅРєС†РёРё
     //
     //public static interface MCFListener
     //{
-        //Кнопка в состоянии NORMAL
+        //РљРЅРѕРїРєР° РІ СЃРѕСЃС‚РѕСЏРЅРёРё NORMAL
         public static final int BUTTON_NORMAL = 0;
 
-        //Кнопка в состоянии PRESSED
+        //РљРЅРѕРїРєР° РІ СЃРѕСЃС‚РѕСЏРЅРёРё PRESSED
         public static final int BUTTON_PRESSED = 1;
 
-        //Кнопка в состоянии FOCUSED
+        //РљРЅРѕРїРєР° РІ СЃРѕСЃС‚РѕСЏРЅРёРё FOCUSED
         public static final int BUTTON_FOCUSED = 2;
 
-        //Кнопка в состоянии DISABLED
+        //РљРЅРѕРїРєР° РІ СЃРѕСЃС‚РѕСЏРЅРёРё DISABLED
         public static final int BUTTON_DISABLED = 3;
 
         /*
-         * Функция отрисовывает прямоугольную зону в заданных координатах
-         * @param _gr канвас
-         * @param _componentIndex индекс компонента
-         * @param _x X координата верхнего левого края
-         * @param _y Y координата верхнего левого края
-         * @param _width ширина зоны
-         * @param _height высота зоны
-         * @param _channel канал компонента
+         * Р¤СѓРЅРєС†РёСЏ РѕС‚СЂРёСЃРѕРІС‹РІР°РµС‚ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅСѓСЋ Р·РѕРЅСѓ РІ Р·Р°РґР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
+         * @param _gr РєР°РЅРІР°СЃ
+         * @param _componentIndex РёРЅРґРµРєСЃ РєРѕРјРїРѕРЅРµРЅС‚Р°
+         * @param _x X РєРѕРѕСЂРґРёРЅР°С‚Р° РІРµСЂС…РЅРµРіРѕ Р»РµРІРѕРіРѕ РєСЂР°СЏ
+         * @param _y Y РєРѕРѕСЂРґРёРЅР°С‚Р° РІРµСЂС…РЅРµРіРѕ Р»РµРІРѕРіРѕ РєСЂР°СЏ
+         * @param _width С€РёСЂРёРЅР° Р·РѕРЅС‹
+         * @param _height РІС‹СЃРѕС‚Р° Р·РѕРЅС‹
+         * @param _channel РєР°РЅР°Р» РєРѕРјРїРѕРЅРµРЅС‚Р°
          */
         //public void areaComponentPaint(Graphics _gr,int _componentIndex,int _x,int _y,int _width,int _height,int _channel);
 
         /*
-         * Функция возвращает состояние кнопки на форме
-         * @param _componentIndex индекс компонента
-         * @param _channel канал компонента
-         * @return целочисленное значение состояния кнопки
+         * Р¤СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РєРЅРѕРїРєРё РЅР° С„РѕСЂРјРµ
+         * @param _componentIndex РёРЅРґРµРєСЃ РєРѕРјРїРѕРЅРµРЅС‚Р°
+         * @param _channel РєР°РЅР°Р» РєРѕРјРїРѕРЅРµРЅС‚Р°
+         * @return С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРєРё
          */
         //public int getButtonState(int _componentIndex, int _channel);
     //}
@@ -138,7 +138,7 @@ public class MCFFormRender
         ab_formsData = new byte[i_formsData];
         p_inStream.read(ab_formsData);
 
-        // Вычисляем смещения форм
+        // Р’С‹С‡РёСЃР»СЏРµРј СЃРјРµС‰РµРЅРёСЏ С„РѕСЂРј
         int i_pos = 0;
         final int i_len = i_formsData;
 
@@ -167,9 +167,9 @@ public class MCFFormRender
 
                     // anchor
                     i_pos ++;
-                    // модификатор
+                    // РјРѕРґРёС„РёРєР°С‚РѕСЂ
                     if (lg_hasModified) i_pos ++;
-                    // индекс
+                    // РёРЅРґРµРєСЃ
                     i_pos++;
                 //#if !IMAGESONLY
                 }
@@ -290,7 +290,7 @@ public class MCFFormRender
 
         for(int i_componentIndex =0;i_componentIndex < i_components;i_componentIndex ++)
         {
-                // тип компонента
+                // С‚РёРї РєРѕРјРїРѕРЅРµРЅС‚Р°
                 //#if !IMAGESONLY
                 int i_compoType = COMPONENT_IMAGE;
                 if (!lg_imagesOnly) i_compoType = ab_formData[i_pos++];

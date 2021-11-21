@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.DataInputStream;
 
 /**
- * Класс управляет выводом, загрузкой и хранением изображений
+ * РљР»Р°СЃСЃ СѓРїСЂР°РІР»СЏРµС‚ РІС‹РІРѕРґРѕРј, Р·Р°РіСЂСѓР·РєРѕР№ Рё С…СЂР°РЅРµРЅРёРµРј РёР·РѕР±СЂР°Р¶РµРЅРёР№
  * @author Igor Maznitsa
  * @version 2.97 (13 aug 2005)
  */
@@ -13,7 +13,7 @@ public class ImageManager
 {
     //#local WILLBEMODIFIED = false || IMAGES_FLIPPEDLINK
 
-    // Клипкомпенсация на телефонах, неправильно выводящих изображение при выходе зоны за пределы экрана
+    // РљР»РёРїРєРѕРјРїРµРЅСЃР°С†РёСЏ РЅР° С‚РµР»РµС„РѕРЅР°С…, РЅРµРїСЂР°РІРёР»СЊРЅРѕ РІС‹РІРѕРґСЏС‰РёС… РёР·РѕР±СЂР°Р¶РµРЅРёРµ РїСЂРё РІС‹С…РѕРґРµ Р·РѕРЅС‹ Р·Р° РїСЂРµРґРµР»С‹ СЌРєСЂР°РЅР°
 
     //#if VENDOR=="MOTOROLA"
         //#local CLIPCOMPENSATION=false
@@ -70,17 +70,17 @@ public class ImageManager
 
     //#if CHECK_MEMORY
     private static final int OBJECT_SIZE = 800;
-    private static final int TTL_IMAGEINCACHE = 100; // Длительность хранения картинки в кэше в миллимсекундах
+    private static final int TTL_IMAGEINCACHE = 100; // Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ С…СЂР°РЅРµРЅРёСЏ РєР°СЂС‚РёРЅРєРё РІ РєСЌС€Рµ РІ РјРёР»Р»РёРјСЃРµРєСѓРЅРґР°С…
     //#endif
 
     //#if VENDOR=="SIEMENS"
     //#if MODEL=="C55" || MODEL=="M55" || MODEL=="S55" || MODEL=="C60"
-    //$private static final int BPP = 0; // Байт на пиксель (1 - 2 байта, 0 - 1 байт , 2 - 4 байта) в картинке
+    //$private static final int BPP = 0; // Р‘Р°Р№С‚ РЅР° РїРёРєСЃРµР»СЊ (1 - 2 Р±Р°Р№С‚Р°, 0 - 1 Р±Р°Р№С‚ , 2 - 4 Р±Р°Р№С‚Р°) РІ РєР°СЂС‚РёРЅРєРµ
     //#else
-    //$private static final int BPP = 1; // Байт на пиксель (1 - 2 байта, 0 - 1 байт , 2 - 4 байта) в картинке
+    //$private static final int BPP = 1; // Р‘Р°Р№С‚ РЅР° РїРёРєСЃРµР»СЊ (1 - 2 Р±Р°Р№С‚Р°, 0 - 1 Р±Р°Р№С‚ , 2 - 4 Р±Р°Р№С‚Р°) РІ РєР°СЂС‚РёРЅРєРµ
     //#endif
     //#else
-    private static final int BPP = 1; // Байт на пиксель (1 - 2 байта, 0 - 1 байт , 2 - 4 байта) в картинке
+    private static final int BPP = 1; // Р‘Р°Р№С‚ РЅР° РїРёРєСЃРµР»СЊ (1 - 2 Р±Р°Р№С‚Р°, 0 - 1 Р±Р°Р№С‚ , 2 - 4 Р±Р°Р№С‚Р°) РІ РєР°СЂС‚РёРЅРєРµ
     //#endif
     //#endif
 
@@ -122,52 +122,52 @@ public class ImageManager
     private static Class p_This;
 
     /**
-     * Флаг, показывающий что линк должен быть флипнут по вертикали
+     * Р¤Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ Р»РёРЅРє РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С„Р»РёРїРЅСѓС‚ РїРѕ РІРµСЂС‚РёРєР°Р»Рё
      */
     public static final int FLIP_VERT = 1;
 
     /**
-     * Флаг, показывающий что линк должен быть флипнут по горизонтали
+     * Р¤Р»Р°Рі, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‡С‚Рѕ Р»РёРЅРє РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С„Р»РёРїРЅСѓС‚ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
      */
     public static final int FLIP_HORZ = 2;
 
     /**
-     * Пакуется в общее изображение
+     * РџР°РєСѓРµС‚СЃСЏ РІ РѕР±С‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
      */
     public static final int FLAG_NORMAL = 0;
 
     /**
-     * Хранится во внешнем файле
+     * РҐСЂР°РЅРёС‚СЃСЏ РІРѕ РІРЅРµС€РЅРµРј С„Р°Р№Р»Рµ
      */
     public static final int FLAG_EXTERNAL = 1;
 
     /**
-     * Динамически распаковывается
+     * Р”РёРЅР°РјРёС‡РµСЃРєРё СЂР°СЃРїР°РєРѕРІС‹РІР°РµС‚СЃСЏ
      */
     public static final int FLAG_DYNAMIC = 2;
 
     /**
-     * Ссылка
+     * РЎСЃС‹Р»РєР°
      */
     public static final int FLAG_LINK = 3;
 
     /**
-     * Макрокартинка
+     * РњР°РєСЂРѕРєР°СЂС‚РёРЅРєР°
      */
     public static final int FLAG_MACRO = 4;
 
     /**
-     * Все внешние файлы в одном бинарном
+     * Р’СЃРµ РІРЅРµС€РЅРёРµ С„Р°Р№Р»С‹ РІ РѕРґРЅРѕРј Р±РёРЅР°СЂРЅРѕРј
      */
     private static final int SERVICEFLAG_EXT2ONE = 2;
 
     /**
-     * Файл содержит полную информацию об изображении, т.е. хранит инфо об исходном размере картинок
+     * Р¤Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ РїРѕР»РЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РёР·РѕР±СЂР°Р¶РµРЅРёРё, С‚.Рµ. С…СЂР°РЅРёС‚ РёРЅС„Рѕ РѕР± РёСЃС…РѕРґРЅРѕРј СЂР°Р·РјРµСЂРµ РєР°СЂС‚РёРЅРѕРє
      */
     private static final int SERVICEFLAG_FULLIMAGEINFO = 2;
 
     /**
-     * Указатель на графический контент, сделано для ускорения групповых операций
+     * РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РіСЂР°С„РёС‡РµСЃРєРёР№ РєРѕРЅС‚РµРЅС‚, СЃРґРµР»Р°РЅРѕ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РіСЂСѓРїРїРѕРІС‹С… РѕРїРµСЂР°С†РёР№
      */
     public static Graphics p_DestinationGraphics;
 
@@ -214,7 +214,7 @@ public class ImageManager
             else
             if (i_val != 0)
             {
-                // Проверка просроченности
+                // РџСЂРѕРІРµСЂРєР° РїСЂРѕСЃСЂРѕС‡РµРЅРЅРѕСЃС‚Рё
                 final int i_imageTime = i_val & 0x7FFFFFFF;
                 if (i_time - i_imageTime > TTL_IMAGEINCACHE)
                 {
@@ -348,19 +348,19 @@ public class ImageManager
                         try
                         {
                             //#if CHECK_MEMORY
-                            // Проверка наличия памяти
+                            // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РїР°РјСЏС‚Рё
                             int i_neededMemory = ((i_cW * i_cH) << BPP) + OBJECT_SIZE;
                             if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                             {
-                                // Пробуем гарбадж коллектор
+                                // РџСЂРѕР±СѓРµРј РіР°СЂР±Р°РґР¶ РєРѕР»Р»РµРєС‚РѕСЂ
                                 Runtime.getRuntime().gc();
                                 if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                                 {
-                                    // Пытаемся освободить место в памяти, освобождая кэш
+                                    // РџС‹С‚Р°РµРјСЃСЏ РѕСЃРІРѕР±РѕРґРёС‚СЊ РјРµСЃС‚Рѕ РІ РїР°РјСЏС‚Рё, РѕСЃРІРѕР±РѕР¶РґР°СЏ РєСЌС€
                                     clearTTLImageCache();
                                     if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                                     {
-                                        // Если нет памяти то выходим
+                                        // Р•СЃР»Рё РЅРµС‚ РїР°РјСЏС‚Рё С‚Рѕ РІС‹С…РѕРґРёРј
                                         return;
                                     }
                                 }
@@ -707,19 +707,19 @@ public class ImageManager
                         try
                         {
                             //#if CHECK_MEMORY
-                            // Проверка наличия памяти
+                            // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РїР°РјСЏС‚Рё
                             int i_neededMemory = i_cW * i_cH * BPP + OBJECT_SIZE;
                             if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                             {
-                                // Пробуем гарбадж коллектор
+                                // РџСЂРѕР±СѓРµРј РіР°СЂР±Р°РґР¶ РєРѕР»Р»РµРєС‚РѕСЂ
                                 Runtime.getRuntime().gc();
                                 if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                                 {
-                                    // Пытаемся освободить место в памяти, освобождая кэш
+                                    // РџС‹С‚Р°РµРјСЃСЏ РѕСЃРІРѕР±РѕРґРёС‚СЊ РјРµСЃС‚Рѕ РІ РїР°РјСЏС‚Рё, РѕСЃРІРѕР±РѕР¶РґР°СЏ РєСЌС€
                                     clearTTLImageCache();
                                     if (Runtime.getRuntime().freeMemory() <= i_neededMemory)
                                     {
-                                        // Если нет памяти то выходим
+                                        // Р•СЃР»Рё РЅРµС‚ РїР°РјСЏС‚Рё С‚Рѕ РІС‹С…РѕРґРёРј
                                         return;
                                     }
                                 }
@@ -943,26 +943,26 @@ public class ImageManager
             int i_offset = 0;
             for (int li = 0; li < i_imagesNum; li++)
             {
-                // Тип хранения
+                // РўРёРї С…СЂР°РЅРµРЅРёСЏ
                 ash_array[i_offset++] = (short) p_dis.readUnsignedByte();
-                // Координата X на картинке
+                // РљРѕРѕСЂРґРёРЅР°С‚Р° X РЅР° РєР°СЂС‚РёРЅРєРµ
                 ash_array[i_offset++] = p_dis.readShort();
-                // Координата Y на картинке
+                // РљРѕРѕСЂРґРёРЅР°С‚Р° Y РЅР° РєР°СЂС‚РёРЅРєРµ
                 ash_array[i_offset++] = p_dis.readShort();
-                // Смещение X
+                // РЎРјРµС‰РµРЅРёРµ X
                 ash_array[i_offset++] = p_dis.readShort();
-                // Смещение Y
+                // РЎРјРµС‰РµРЅРёРµ Y
                 ash_array[i_offset++] = p_dis.readShort();
-                // Ширина области
+                // РЁРёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
-                // Высота области
+                // Р’С‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
 
                 if (IMAGEINFO_LENGTH == 9)
                 {
-                    // Полная ширина области
+                    // РџРѕР»РЅР°СЏ С€РёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
                     ash_array[i_offset++] = p_dis.readShort();
-                    // Полная высота области
+                    // РџРѕР»РЅР°СЏ РІС‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
                     ash_array[i_offset++] = p_dis.readShort();
                 }
             }
@@ -1015,20 +1015,20 @@ public class ImageManager
     public static final void init(Class _this, Image[] _images, boolean _loadExternal) throws Exception
     {
         p_This = _this;
-        // Грузим карту изображений
+        // Р“СЂСѓР·РёРј РєР°СЂС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         System.out.println("load map");
 
         loadMapResource(_this);
         System.out.println("__load map");
 
         //#if IMAGES_NORMAL
-        // Грузим большую картинку
+        // Р“СЂСѓР·РёРј Р±РѕР»СЊС€СѓСЋ РєР°СЂС‚РёРЅРєСѓ
         ap_Images = _images;
         Runtime.getRuntime().gc();
         //#endif
 
         //#if IMAGES_DYNAMIC
-        // Грузим динамический массив
+        // Р“СЂСѓР·РёРј РґРёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
         InputStream p_in = _this.getResourceAsStream(DYNIMAGES);
         if (p_in != null)
         {
@@ -1142,10 +1142,10 @@ public class ImageManager
     {
         p_This = _this;
 
-        // Грузим карту изображений
+        // Р“СЂСѓР·РёРј РєР°СЂС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         loadMapResource(_this);
 
-        // Грузим картинки
+        // Р“СЂСѓР·РёРј РєР°СЂС‚РёРЅРєРё
         //#if IMAGES_NORMAL
         try
         {
@@ -1180,7 +1180,7 @@ public class ImageManager
         //#endif
 
         //#if IMAGES_DYNAMIC
-        // Грузим динамический массив
+        // Р“СЂСѓР·РёРј РґРёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
         InputStream p_in = _this.getResourceAsStream(DYNIMAGES);
         if (p_in != null)
         {

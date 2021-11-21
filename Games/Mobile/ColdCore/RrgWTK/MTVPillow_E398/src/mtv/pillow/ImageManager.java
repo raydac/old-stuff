@@ -22,22 +22,22 @@ public class ImageManager
     public static final int IMAGEINFO_LENGTH = 9;
 
     /**
-     * Пакуется в общее изображение
+     * РџР°РєСѓРµС‚СЃСЏ РІ РѕР±С‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
      */
     public static final int FLAG_NORMAL = 0;
 
     /**
-     * Хранится во внешнем файле
+     * РҐСЂР°РЅРёС‚СЃСЏ РІРѕ РІРЅРµС€РЅРµРј С„Р°Р№Р»Рµ
      */
     public static final int FLAG_EXTERNAL = 1;
 
     /**
-     * Динамически распаковывается
+     * Р”РёРЅР°РјРёС‡РµСЃРєРё СЂР°СЃРїР°РєРѕРІС‹РІР°РµС‚СЃСЏ
      */
     public static final int FLAG_DYNAMIC = 2;
 
     /**
-     * Ссылка
+     * РЎСЃС‹Р»РєР°
      */
     public static final int FLAG_LINK = 3;
 
@@ -213,24 +213,24 @@ public class ImageManager
             int i_offset = 0;
             for (int li = 0; li < i_imagesNum;li++)
             {
-                // Тип хранения
+                // РўРёРї С…СЂР°РЅРµРЅРёСЏ
                 ash_array[i_offset++] = (short) p_dis.readUnsignedByte();
-                // Координата X на картинке
+                // РљРѕРѕСЂРґРёРЅР°С‚Р° X РЅР° РєР°СЂС‚РёРЅРєРµ
                 ash_array[i_offset++] = p_dis.readShort();
-                // Координата Y на картинке
+                // РљРѕРѕСЂРґРёРЅР°С‚Р° Y РЅР° РєР°СЂС‚РёРЅРєРµ
                 ash_array[i_offset++] = p_dis.readShort();
-                // Смещение X
+                // РЎРјРµС‰РµРЅРёРµ X
                 ash_array[i_offset++] = p_dis.readShort();
-                // Смещение Y
+                // РЎРјРµС‰РµРЅРёРµ Y
                 ash_array[i_offset++] = p_dis.readShort();
-                // Ширина области
+                // РЁРёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
-                // Высота области
+                // Р’С‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
 
-                // Полная ширина области
+                // РџРѕР»РЅР°СЏ С€РёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
-                // Полная высота области
+                // РџРѕР»РЅР°СЏ РІС‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
                 ash_array[i_offset++] = p_dis.readShort();
             }
             p_dis.close();
@@ -253,13 +253,13 @@ public class ImageManager
 
     public static final void init(Class _this, Image[] _images) throws Exception
     {
-        // Грузим карту изображений
+        // Р“СЂСѓР·РёРј РєР°СЂС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         loadMapResource(_this);
 
-        // Грузим большую картинку
+        // Р“СЂСѓР·РёРј Р±РѕР»СЊС€СѓСЋ РєР°СЂС‚РёРЅРєСѓ
         ap_Images = _images;
         Runtime.getRuntime().gc();
-        // Грузим динамический массив
+        // Р“СЂСѓР·РёРј РґРёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
         InputStream p_in = _this.getResourceAsStream(DYNIMAGES);
         if (p_in != null)
         {
@@ -284,10 +284,10 @@ public class ImageManager
 
     public static final void init(Class _this) throws Exception
     {
-        // Грузим карту изображений
+        // Р“СЂСѓР·РёРј РєР°СЂС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         loadMapResource(_this);
 
-        // Грузим картинки
+        // Р“СЂСѓР·РёРј РєР°СЂС‚РёРЅРєРё
         try
         {
             int i_flag = 1;
@@ -314,7 +314,7 @@ public class ImageManager
             //#endif
         }
         Runtime.getRuntime().gc();
-        // Грузим динамический массив
+        // Р“СЂСѓР·РёРј РґРёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
         InputStream p_in = _this.getResourceAsStream(DYNIMAGES);
         if (p_in != null)
         {

@@ -91,11 +91,6 @@
 <image file="updown_pressed.gif"/>
 </resource_info>
 </resource>
-<resource id="panel" type="1">
-<resource_info>
-<image file="vp_panel.gif"/>
-</resource_info>
-</resource>
 <resource id="betupline" type="1">
 <resource_info>
 <image file="bet_upline.gif"/>
@@ -141,82 +136,62 @@
 <image file="winnote.gif"/>
 </resource_info>
 </resource>
+<resource id="vppanel1" type="1">
+<resource_info>
+<image file="vppanel1.gif"/>
+</resource_info>
+</resource>
+<resource id="vpanel2" type="1">
+<resource_info>
+<image file="vppanel2.gif"/>
+</resource_info>
+</resource>
+<resource id="vpanel3" type="1">
+<resource_info>
+<image file="vppanel3.gif"/>
+</resource_info>
+</resource>
+<resource id="vpanel4" type="1">
+<resource_info>
+<image file="vppanel4.gif"/>
+</resource_info>
+</resource>
+<resource id="smallupdown" type="1">
+<resource_info>
+<image file="smallupdown.gif"/>
+</resource_info>
+</resource>
+<resource id="exitico" type="1">
+<resource_info>
+<image file="exit.gif"/>
+</resource_info>
+</resource>
 </Resources>
-<form id="GameTable" width="128" height="128" background_color="-13369345" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<form id="GameTable" width="128" height="128" background_color="-16754086" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
 <rulers>
+<ruler type="0" coord="93"/>
 </rulers>
-<component type="0" id="background" x="0" y="0" width="128" height="128"    channel="0">
+<component type="0" id="vpanel1" x="0" y="0" width="128" height="37"  pinned="yes"  channel="0">
 <component_info>
-<image_resource id="panel" scale="1"  />
+<image_resource id="vppanel1" scale="1"  />
 </component_info>
 </component>
-<component type="1" id="HOLD1" x="16" y="109" width="20" height="19"  pinned="yes"  channel="60">
-<component_info halign="1" valign="1">
-<normal_image id="hold_normal"/>
-<disabled_image id="hold_disabled"/>
-<pressed_image id="hold_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
+<component type="0" id="vpanel2" x="0" y="37" width="3" height="50"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="vpanel2" scale="1"  />
 </component_info>
 </component>
-<component type="1" id="HOLD2" x="36" y="109" width="20" height="19"  pinned="yes"  channel="61">
-<component_info halign="1" valign="1">
-<normal_image id="hold_normal"/>
-<disabled_image id="hold_disabled"/>
-<pressed_image id="hold_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
+<component type="0" id="vpanel3" x="125" y="37" width="3" height="50"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="vpanel3" scale="1"  />
 </component_info>
 </component>
-<component type="1" id="HOLD3" x="55" y="109" width="20" height="19"  pinned="yes"  channel="62">
-<component_info halign="1" valign="1">
-<normal_image id="hold_normal"/>
-<disabled_image id="hold_disabled"/>
-<pressed_image id="hold_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
+<component type="0" id="vpanel4" x="0" y="87" width="128" height="41"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="vpanel4" scale="1"  />
 </component_info>
 </component>
-<component type="1" id="HOLD4" x="74" y="109" width="20" height="19"  pinned="yes"  channel="63">
-<component_info halign="1" valign="1">
-<normal_image id="hold_normal"/>
-<disabled_image id="hold_disabled"/>
-<pressed_image id="hold_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
-</component_info>
-</component>
-<component type="1" id="HOLD5" x="93" y="109" width="20" height="19"  pinned="yes"  channel="64">
-<component_info halign="1" valign="1">
-<normal_image id="hold_normal"/>
-<disabled_image id="hold_disabled"/>
-<pressed_image id="hold_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
-</component_info>
-</component>
-<component type="1" id="BET" x="0" y="93" width="16" height="35"  pinned="yes"  channel="1">
-<component_info halign="1" valign="1">
-<normal_image id="bet_normal"/>
-<disabled_image id="bet_disabled"/>
-<pressed_image id="bet_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
-</component_info>
-</component>
-<component type="1" id="MENU" x="34" y="93" width="61" height="16"  pinned="yes"  channel="3">
+<component type="1" id="MENU" x="36" y="93" width="55" height="12"    channel="3">
 <component_info halign="1" valign="1">
 <normal_image id="menu_normal"/>
 <disabled_image id="menu_disabled"/>
@@ -227,11 +202,77 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="START" x="112" y="93" width="16" height="35"  pinned="yes"  channel="2">
+<component type="1" id="START" x="113" y="93" width="14" height="30"    channel="2">
 <component_info halign="1" valign="1">
 <normal_image id="start_normal"/>
 <disabled_image id="start_disabled"/>
 <pressed_image id="start_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="BET" x="1" y="93" width="14" height="30"    channel="1">
+<component_info halign="1" valign="1">
+<normal_image id="bet_normal"/>
+<disabled_image id="bet_disabled"/>
+<pressed_image id="bet_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="HOLD1" x="16" y="109" width="18" height="15"  pinned="yes"  channel="60">
+<component_info halign="1" valign="1">
+<normal_image id="hold_normal"/>
+<disabled_image id="hold_disabled"/>
+<pressed_image id="hold_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="HOLD2" x="36" y="109" width="18" height="15"  pinned="yes"  channel="61">
+<component_info halign="1" valign="1">
+<normal_image id="hold_normal"/>
+<disabled_image id="hold_disabled"/>
+<pressed_image id="hold_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="HOLD3" x="55" y="109" width="18" height="15"    channel="62">
+<component_info halign="1" valign="1">
+<normal_image id="hold_normal"/>
+<disabled_image id="hold_disabled"/>
+<pressed_image id="hold_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="HOLD4" x="74" y="109" width="18" height="15"    channel="63">
+<component_info halign="1" valign="1">
+<normal_image id="hold_normal"/>
+<disabled_image id="hold_disabled"/>
+<pressed_image id="hold_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="1" id="HOLD5" x="94" y="109" width="18" height="15"    channel="64">
+<component_info halign="1" valign="1">
+<normal_image id="hold_normal"/>
+<disabled_image id="hold_disabled"/>
+<pressed_image id="hold_pressed"/>
 <selected_image id=""/>
 <text id=""/>
 <font id=""/>
@@ -243,7 +284,7 @@
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="CLOCKZONE" x="99" y="2" width="25" height="25"  pinned="yes"  channel="0">
+<component type="7" id="CLOCKZONE" x="100" y="3" width="25" height="25"  pinned="yes"  channel="0">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
@@ -322,12 +363,12 @@
 <image_resource id="winleft" scale="1" fliph="true" />
 </component_info>
 </component>
-<component type="0" id="note" x="16" y="20" width="35" height="12"  pinned="yes"  channel="0">
+<component type="0" id="note" x="10" y="20" width="35" height="12"  pinned="yes"  channel="0">
 <component_info>
 <image_resource id="winnote" scale="1"  />
 </component_info>
 </component>
-<component type="7" id="winarea" x="54" y="20" width="60" height="12"  pinned="yes"  channel="0">
+<component type="7" id="winarea" x="48" y="20" width="60" height="12"  pinned="yes"  channel="0">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
@@ -401,27 +442,32 @@
 </component_info>
 </component>
 </form>
-<form id="WINTABLE" width="128" height="255" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="WINTABLE" width="128" height="128" background_color="-16754086" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="0" id="img1" x="15" y="19" width="16" height="35"    channel="0">
+<component type="0" id="exitico" x="108" y="117" width="15" height="9"  pinned="yes"  channel="0">
 <component_info>
-<image_resource id="bet_normal" scale="1"  />
+<image_resource id="exitico" scale="1"  />
 </component_info>
 </component>
-<component type="0" id="img2" x="27" y="60" width="61" height="16"    channel="0">
+<component type="0" id="smallupdown" x="58" y="110" width="8" height="16"  pinned="yes"  channel="0">
 <component_info>
-<image_resource id="menu_normal" scale="1"  />
+<image_resource id="smallupdown" scale="1"  />
 </component_info>
 </component>
-<component type="0" id="img3" x="50" y="124" width="20" height="19"    channel="0">
+<component type="7" id="combname" x="0" y="3" width="128" height="19"  pinned="yes" locked="yes" channel="0">
 <component_info>
-<image_resource id="hold_normal" scale="1"  />
+<properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="0" id="img4" x="22" y="223" width="20" height="20"    channel="0">
+<component type="7" id="wintext" x="8" y="29" width="88" height="20"  pinned="yes"  channel="1">
 <component_info>
-<image_resource id="betcancel_pressed" scale="1"  />
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="comb1" x="1" y="61" width="125" height="37"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
 </form>

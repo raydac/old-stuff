@@ -338,7 +338,7 @@ public class Sprite
     }
 
     /**
-     * количество байт, требуемое для записи объекта
+     * РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚, С‚СЂРµР±СѓРµРјРѕРµ РґР»СЏ Р·Р°РїРёСЃРё РѕР±СЉРµРєС‚Р°
      */
     //#if SPRITE_ANIM_TYPE_PENDULUM
     public static final int DATASIZE_BYTES = 18;

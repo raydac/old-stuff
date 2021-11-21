@@ -1,0 +1,16 @@
+[SECTION_PARAMETERS]
+MIDlet-1=WildRoad,/ico.png, startup
+MIDlet-Jar-Size=79689
+MIDlet-Jar-URL=wildroad_e398.jar
+MIDlet-Name=WildRoad
+MIDlet-Vendor=Ringtime(R)
+MIDlet-Version=1.0.19
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-2.0
+Created-By=RRGWTK10
+MIDlet-Icon=/ico.png
+[END]
+[SECTION_ORDER_JAD]
+[END]
+[SECTION_ORDER_MF]
+[END]

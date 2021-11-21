@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<RRGFRM>
+<Resources>
+<resource id="menupointer" type="1">
+<resource_info>
+<image file="menupointer.gif"/>
+</resource_info>
+</resource>
+<resource id="dig0" type="1">
+<resource_info>
+<image file="dig0.gif"/>
+</resource_info>
+</resource>
+<resource id="dig1" type="1">
+<resource_info>
+<image file="dig1.gif"/>
+</resource_info>
+</resource>
+<resource id="dig2" type="1">
+<resource_info>
+<image file="dig2.gif"/>
+</resource_info>
+</resource>
+<resource id="dig3" type="1">
+<resource_info>
+<image file="dig3.gif"/>
+</resource_info>
+</resource>
+<resource id="dig4" type="1">
+<resource_info>
+<image file="dig4.gif"/>
+</resource_info>
+</resource>
+<resource id="dig5" type="1">
+<resource_info>
+<image file="dig5.gif"/>
+</resource_info>
+</resource>
+<resource id="dig6" type="1">
+<resource_info>
+<image file="dig6.gif"/>
+</resource_info>
+</resource>
+<resource id="dig7" type="1">
+<resource_info>
+<image file="dig7.gif"/>
+</resource_info>
+</resource>
+<resource id="dig8" type="1">
+<resource_info>
+<image file="dig8.gif"/>
+</resource_info>
+</resource>
+<resource id="dig9" type="1">
+<resource_info>
+<image file="dig9.gif"/>
+</resource_info>
+</resource>
+<resource id="NUM1" type="1">
+<resource_info>
+<image file="LEV1.gif"/>
+</resource_info>
+</resource>
+<resource id="NUM2" type="1">
+<resource_info>
+<image file="LEV2.gif"/>
+</resource_info>
+</resource>
+<resource id="NUM3" type="1">
+<resource_info>
+<image file="LEV3.gif"/>
+</resource_info>
+</resource>
+<resource id="LEVEL" type="1">
+<resource_info>
+<image file="LEVEL.gif"/>
+</resource_info>
+</resource>
+<resource id="RIGHT_PANEL" type="1">
+<resource_info>
+<image file="Bar_right.gif"/>
+</resource_info>
+</resource>
+<resource id="LEFT_PANEL" type="1">
+<resource_info>
+<image file="Bar_left.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GAMEFORM" width="101" height="80" background_color="-11883009" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="gamearea" x="0" y="0" width="101" height="80"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-39322"/>
+</component_info>
+</component>
+<component type="0" id="dig0" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig0" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig1" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig2" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig3" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig4" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig5" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig6" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig7" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig8" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig9" x="0" y="0" width="5" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="ATTPANEL" x="6" y="32" width="24" height="9" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="RIGHT_PANEL" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="BASKETPANEL" x="8" y="61" width="28" height="9" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="LEFT_PANEL" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="menu" x="0" y="74" width="25" height="6"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="menupointer" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="BASKET_PANEL" x="0" y="0" width="28" height="9"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="ATT_PANEL" x="77" y="0" width="24" height="9"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-13434625"/>
+</component_info>
+</component>
+</form>
+<form id="LEVEL1" width="101" height="80" background_color="-3342592" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="LEVEL" x="22" y="32" width="45" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="LEVEL" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="NUM1" x="67" y="32" width="9" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="NUM1" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="LEVEL2" width="101" height="80" background_color="-16711936" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="LEVEL" x="22" y="32" width="45" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="LEVEL" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="NUM2" x="67" y="32" width="9" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="NUM2" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="LEVEL3" width="101" height="80" background_color="-10079233" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="LEVEL" x="22" y="32" width="45" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="LEVEL" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="NUM3" x="67" y="32" width="9" height="8"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="NUM3" scale="1"  />
+</component_info>
+</component>
+</form>
+</RRGFRM>

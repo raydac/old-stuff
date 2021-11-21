@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<RRGFRM>
+<Resources>
+<resource id="live_ico" type="1">
+<resource_info>
+<image file="Star.gif"/>
+</resource_info>
+</resource>
+<resource id="menupointer" type="1">
+<resource_info>
+<image file="menupointer.gif"/>
+</resource_info>
+</resource>
+<resource id="dig0" type="1">
+<resource_info>
+<image file="dig0.gif"/>
+</resource_info>
+</resource>
+<resource id="dig1" type="1">
+<resource_info>
+<image file="dig1.gif"/>
+</resource_info>
+</resource>
+<resource id="dig2" type="1">
+<resource_info>
+<image file="dig2.gif"/>
+</resource_info>
+</resource>
+<resource id="dig3" type="1">
+<resource_info>
+<image file="dig3.gif"/>
+</resource_info>
+</resource>
+<resource id="dig4" type="1">
+<resource_info>
+<image file="dig4.gif"/>
+</resource_info>
+</resource>
+<resource id="dig5" type="1">
+<resource_info>
+<image file="dig5.gif"/>
+</resource_info>
+</resource>
+<resource id="dig6" type="1">
+<resource_info>
+<image file="dig6.gif"/>
+</resource_info>
+</resource>
+<resource id="dig7" type="1">
+<resource_info>
+<image file="dig7.gif"/>
+</resource_info>
+</resource>
+<resource id="dig8" type="1">
+<resource_info>
+<image file="dig8.gif"/>
+</resource_info>
+</resource>
+<resource id="dig9" type="1">
+<resource_info>
+<image file="dig9.gif"/>
+</resource_info>
+</resource>
+<resource id="background" type="1">
+<resource_info>
+<image file="Background.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GAMEFORM" width="128" height="128" background_color="-11883009" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="background" x="0" y="0" width="128" height="73"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="background" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="tilearea" x="0" y="73" width="128" height="55"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="gamearea" x="0" y="0" width="128" height="128"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-39322"/>
+</component_info>
+</component>
+<component type="7" id="attarea" x="84" y="118" width="44" height="10"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-13369549"/>
+</component_info>
+</component>
+<component type="7" id="scores" x="45" y="1" width="35" height="7"  pinned="yes" locked="yes" channel="3">
+<component_info>
+<properties areavalue="0" color="-16776961"/>
+</component_info>
+</component>
+<component type="0" id="dig0" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig0" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig1" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig2" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig3" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig4" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig5" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig6" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig7" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig8" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig9" x="0" y="0" width="7" height="7" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="icoattemption" x="51" y="47" width="11" height="10" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="live_ico" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="menu" x="0" y="122" width="25" height="6"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="menupointer" scale="1"  />
+</component_info>
+</component>
+</form>
+</RRGFRM>

@@ -1,0 +1,20 @@
+[SECTION_PARAMETERS]
+MIDlet-1=startup, , startup
+MIDlet-Jar-URL=Fowling_N3410.jar
+MIDlet-Name=Fowling
+MIDlet-Vendor=INFON
+MIDlet-Version=1.0
+Created-By=RRGWTK10
+[END]
+[SECTION_ORDER_JAD]
+MIDlet-Name
+MIDlet-Vendor
+MIDlet-1
+MIDlet-Jar-URL
+MIDlet-Jar-Size
+MIDlet-Version
+MicroEdition-Configuration
+MicroEdition-Profile
+[END]
+[SECTION_ORDER_MF]
+[END]

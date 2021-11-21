@@ -51,11 +51,6 @@
 <image file="font4x6.gif"/>
 </resource_info>
 </resource>
-<resource id="bigfont" type="1">
-<resource_info>
-<image file="font10x12.gif"/>
-</resource_info>
-</resource>
 <resource id="btn_cancel_normal" type="1">
 <resource_info>
 <image file="btn_cancel_normal.gif"/>
@@ -146,76 +141,121 @@
 <image file="btn_updown_disabled.gif"/>
 </resource_info>
 </resource>
+<resource id="background" type="1">
+<resource_info>
+<image file="background.gif"/>
+</resource_info>
+</resource>
+<resource id="bigfont_bj" type="1">
+<resource_info>
+<image file="font8x15.gif"/>
+</resource_info>
+</resource>
+<resource id="double_txt" type="1">
+<resource_info>
+<image file="txt_double.gif"/>
+</resource_info>
+</resource>
+<resource id="insurance_txt" type="1">
+<resource_info>
+<image file="txt_insurance.gif"/>
+</resource_info>
+</resource>
+<resource id="split_txt" type="1">
+<resource_info>
+<image file="txt_split.gif"/>
+</resource_info>
+</resource>
+<resource id="evenmoney_txt" type="1">
+<resource_info>
+<image file="txt_evenmoney.gif"/>
+</resource_info>
+</resource>
+<resource id="border" type="1">
+<resource_info>
+<image file="border.gif"/>
+</resource_info>
+</resource>
+<resource id="border2" type="1">
+<resource_info>
+<image file="border2.gif"/>
+</resource_info>
+</resource>
+<resource id="win" type="1">
+<resource_info>
+<image file="win.gif"/>
+</resource_info>
+</resource>
 </Resources>
 <form id="GAMEFIELD" width="128" height="128" background_color="-16724788" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
 <rulers>
 </rulers>
+<component type="0" id="BCKG" x="0" y="0" width="128" height="128"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<image_resource id="background" scale="1"  />
+</component_info>
+</component>
 <component type="0" id="SMALLFONT" x="4" y="4" width="56" height="6" hidden="yes" pinned="yes"  channel="0">
 <component_info>
 <image_resource id="smallfont" scale="1"  />
 </component_info>
 </component>
-<component type="7" id="COLODAAREA" x="99" y="3" width="25" height="37"  pinned="yes" locked="yes" channel="0">
-<component_info>
-<properties areavalue="0" color="-14336"/>
-</component_info>
-</component>
-<component type="7" id="LEFTHANDAREA" x="1" y="90" width="50" height="37"  pinned="yes"  channel="1">
+<component type="7" id="LEFTHANDAREA" x="-1" y="90" width="45" height="37"  pinned="yes" locked="yes" channel="0">
 <component_info>
 <properties areavalue="0" color="-10092289"/>
 </component_info>
 </component>
-<component type="7" id="RIGHTHANDAREA" x="77" y="90" width="50" height="37"  pinned="yes"  channel="2">
+<component type="7" id="RIGHTHANDAREA" x="85" y="90" width="45" height="37"  pinned="yes" locked="yes" channel="1">
 <component_info>
 <properties areavalue="0" color="-3407770"/>
 </component_info>
 </component>
-<component type="7" id="DEALERAREA" x="37" y="1" width="50" height="37"  pinned="yes"  channel="3">
+<component type="7" id="DEALERAREA" x="39" y="1" width="50" height="37"  pinned="yes" locked="yes" channel="2">
 <component_info>
 <properties areavalue="0" color="-16751002"/>
 </component_info>
 </component>
-<component type="7" id="DEALERSCORES" x="52" y="40" width="20" height="6"  pinned="yes" locked="yes" channel="4">
+<component type="7" id="DEALERSCORES" x="54" y="41" width="20" height="6"  pinned="yes" locked="yes" channel="3">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="LEFTHANDSCORES" x="15" y="82" width="20" height="6"  pinned="yes" locked="yes" channel="5">
+<component type="7" id="LEFTHANDSCORES" x="8" y="79" width="20" height="6"  pinned="yes" locked="yes" channel="4">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="RIGHTHANDSCORES" x="94" y="82" width="20" height="6"  pinned="yes" locked="yes" channel="6">
+<component type="7" id="RIGHTHANDSCORES" x="97" y="79" width="20" height="6"  pinned="yes" locked="yes" channel="5">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="LEFTHANDINSURANCE" x="15" y="49" width="20" height="6"  pinned="yes" locked="yes" channel="7">
+<component type="7" id="LEFTHANDINSURANCE" x="9" y="45" width="20" height="6"  pinned="yes" locked="yes" channel="6">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="RIGHTHANDINSURANCE" x="93" y="48" width="20" height="6"  pinned="yes" locked="yes" channel="8">
+<component type="7" id="RIGHTHANDINSURANCE" x="100" y="45" width="20" height="6"  pinned="yes" locked="yes" channel="7">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="LEFTBETAREA" x="23" y="67" width="40" height="12"  pinned="yes"  channel="9">
+<component type="7" id="LEFTBETAREA" x="5" y="60" width="30" height="15"  pinned="yes" locked="yes" channel="8">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="RIGHTBETAREA" x="64" y="67" width="40" height="12"  pinned="yes"  channel="10">
+<component type="7" id="RIGHTBETAREA" x="94" y="59" width="30" height="15"  pinned="yes" locked="yes" channel="9">
 <component_info>
 <properties areavalue="0" color="-6687693"/>
 </component_info>
 </component>
-<component type="7" id="NETCLOCKAREA" x="103" y="0" width="25" height="25"  pinned="yes" locked="yes" channel="11">
+<component type="7" id="NETCLOCKAREA" x="4" y="3" width="25" height="25"  pinned="yes" locked="yes" channel="10">
 <component_info>
 <properties areavalue="0" color="-16777216"/>
 </component_info>
 </component>
-<component type="7" id="ACCOUNTINFO" x="46" y="53" width="28" height="6"  pinned="yes" locked="yes" channel="12">
+<component type="7" id="ACCOUNTINFO" x="50" y="63" width="28" height="6"  pinned="yes" locked="yes" channel="11">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
@@ -226,110 +266,110 @@
 <MAINPOINT X="4" Y="0"/>
 <Points SHOWPOINTS="no">
 <point X="112" Y="21" S="10"/>
-<point X="63" Y="18" S="10"/>
+<point X="65" Y="18" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="PATHTOLEFTHAND" x="-4" y="-4" width="120" height="116"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="PATHTOLEFTHAND" x="-4" y="-4" width="120" height="117"  pinned="yes" locked="yes" channel="0">
 <component_info color="-39322" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
 <point X="112" Y="21" S="10"/>
-<point X="25" Y="108" S="10"/>
+<point X="21" Y="109" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="PATHTORIGHTHAND" x="-4" y="-4" width="120" height="116"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="PATHTORIGHTHAND" x="-4" y="-4" width="120" height="117"  pinned="yes" locked="yes" channel="0">
 <component_info color="-16724992" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
 <point X="112" Y="21" S="10"/>
-<point X="102" Y="108" S="10"/>
+<point X="110" Y="109" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="PATHSPLIT" x="-4" y="-4" width="110" height="116"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="PATHSPLIT" x="-4" y="-4" width="117" height="116"  pinned="yes" locked="yes" channel="0">
 <component_info color="-256" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
-<point X="27" Y="108" S="10"/>
-<point X="102" Y="108" S="10"/>
+<point X="21" Y="108" S="10"/>
+<point X="109" Y="108" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="LEFTINSURANCEPATHOUT" x="0" y="-4" width="32" height="148"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="LEFTINSURANCEPATHOUT" x="0" y="-4" width="32" height="147"  pinned="yes" locked="yes" channel="0">
 <component_info color="-65281" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="0" Y="4"/>
 <Points SHOWPOINTS="no">
-<point X="25" Y="52" S="10"/>
-<point X="25" Y="140" S="10"/>
+<point X="19" Y="48" S="10"/>
+<point X="19" Y="139" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="RIGHTINSURANCEPATHOUT" x="-4" y="-4" width="111" height="147"  pinned="yes"  channel="0">
+<component type="6" id="RIGHTINSURANCEPATHOUT" x="-4" y="-4" width="119" height="147"  pinned="yes" locked="yes" channel="0">
 <component_info color="-65281" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
-<point X="103" Y="52" S="10"/>
-<point X="103" Y="139" S="10"/>
+<point X="111" Y="48" S="10"/>
+<point X="110" Y="139" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="LEFTINSURANCEIN" x="-4" y="-4" width="52" height="81"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="LEFTINSURANCEIN" x="-4" y="-4" width="68" height="145"  pinned="yes" locked="yes" channel="0">
 <component_info color="-65281" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
-<point X="44" Y="73" S="10"/>
-<point X="25" Y="52" S="10"/>
+<point X="60" Y="137" S="10"/>
+<point X="19" Y="48" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="RIGHTINSURANCEIN" x="-4" y="-4" width="111" height="81"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="RIGHTINSURANCEIN" x="-4" y="-4" width="118" height="147"  pinned="yes" locked="yes" channel="0">
 <component_info color="-13108" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="4"/>
 <Points SHOWPOINTS="no">
-<point X="83" Y="73" S="10"/>
-<point X="103" Y="51" S="10"/>
+<point X="69" Y="139" S="10"/>
+<point X="110" Y="48" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="LEFTBETOUT" x="-4" y="-10" width="66" height="87"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="LEFTBETOUT" x="-4" y="-10" width="66" height="82"  pinned="yes" locked="yes" channel="0">
 <component_info color="-13108" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="10"/>
 <Points SHOWPOINTS="no">
-<point X="41" Y="73" S="10"/>
+<point X="13" Y="68" S="10"/>
 <point X="58" Y="-6" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="6" id="RIGHTBETOUT" x="-4" y="-10" width="87" height="87"  pinned="yes" locked="yes" channel="0">
+<component type="6" id="RIGHTBETOUT" x="-4" y="-10" width="110" height="81"  pinned="yes" locked="yes" channel="0">
 <component_info color="-3407770" PathType="0">
 <sf_savestepsinfo/>
 <MAINPOINT X="4" Y="10"/>
 <Points SHOWPOINTS="no">
-<point X="79" Y="73" S="10"/>
+<point X="102" Y="67" S="10"/>
 <point X="58" Y="-6" S="10"/>
 </Points>
 </component_info>
 </component>
-<component type="0" id="BIGFONT" x="0" y="0" width="135" height="24" hidden="yes" pinned="yes"  channel="0">
+<component type="0" id="BIGFONT" x="0" y="0" width="104" height="30" hidden="yes" pinned="yes"  channel="0">
 <component_info>
-<image_resource id="bigfont" scale="1"  />
+<image_resource id="bigfont_bj" scale="1"  />
 </component_info>
 </component>
 </form>
-<form id="LEFTHANDBUTTONS" width="40" height="60" background_color="-13421569" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="LEFTHANDBUTTONS" width="54" height="55" background_color="-16751053" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_HIT" x="2" y="2" width="35" height="17"    channel="0">
+<component type="1" id="BUTTON_HIT" x="1" y="5" width="48" height="13"    channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_hit_normal"/>
 <disabled_image id="btn_hit_disabled"/>
@@ -340,7 +380,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_STAND" x="2" y="21" width="35" height="17"    channel="1">
+<component type="1" id="BUTTON_STAND" x="1" y="21" width="48" height="13"    channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_stand_normal"/>
 <disabled_image id="btn_stand_disabled"/>
@@ -351,7 +391,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_SURRENDER" x="2" y="40" width="35" height="17"    channel="2">
+<component type="1" id="BUTTON_SURRENDER" x="1" y="37" width="48" height="13"    channel="2">
 <component_info halign="1" valign="1">
 <normal_image id="btn_surrender_normal"/>
 <disabled_image id="btn_surrender_disabled"/>
@@ -362,11 +402,31 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="border_0" x="-88" y="57" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0_0" x="-74" y="0" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0_0_0" x="-74" y="52" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border2" x="51" y="-1" width="3" height="55"    channel="0">
+<component_info>
+<image_resource id="border2" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="RIGHTHANDBUTTONS" width="40" height="60" background_color="-52378" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="RIGHTHANDBUTTONS" width="54" height="55" background_color="-16751053" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_HIT" x="2" y="2" width="35" height="17"    channel="0">
+<component type="1" id="BUTTON_HIT" x="5" y="5" width="48" height="13"    channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_hit_normal"/>
 <disabled_image id="btn_hit_disabled"/>
@@ -377,7 +437,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_STAND" x="2" y="21" width="35" height="17"    channel="1">
+<component type="1" id="BUTTON_STAND" x="5" y="21" width="48" height="13"    channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_stand_normal"/>
 <disabled_image id="btn_stand_disabled"/>
@@ -388,7 +448,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_SURRENDER" x="2" y="40" width="35" height="17"    channel="2">
+<component type="1" id="BUTTON_SURRENDER" x="5" y="37" width="48" height="13"    channel="2">
 <component_info halign="1" valign="1">
 <normal_image id="btn_surrender_normal"/>
 <disabled_image id="btn_surrender_disabled"/>
@@ -399,11 +459,26 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="border_0_0_0" x="0" y="0" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0_0_0_0" x="0" y="52" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border2_0" x="0" y="0" width="3" height="55"    channel="0">
+<component_info>
+<image_resource id="border2" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="STARTGAMEPANEL" width="128" height="30" background_color="-10027162" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="STARTGAMEPANEL" width="128" height="23" background_color="-16737895" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BET" x="4" y="2" width="28" height="26"    channel="0">
+<component type="1" id="BET" x="1" y="4" width="40" height="16"    channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_bet_normal"/>
 <disabled_image id="btn_bet_disabled"/>
@@ -414,7 +489,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="START" x="43" y="2" width="44" height="26"    channel="1">
+<component type="1" id="START" x="44" y="4" width="40" height="16"    channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_start_normal"/>
 <disabled_image id="btn_start_disabled"/>
@@ -425,7 +500,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="MENU" x="96" y="2" width="28" height="26"    channel="2">
+<component type="1" id="MENU" x="87" y="4" width="40" height="16"    channel="2">
 <component_info halign="1" valign="1">
 <normal_image id="btn_menu_normal"/>
 <disabled_image id="btn_menu_disabled"/>
@@ -436,11 +511,16 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="border_0" x="0" y="0" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="BETPANEL" width="128" height="30" background_color="-52276" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="BETPANEL" width="128" height="23" background_color="-6750157" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_CANCEL" x="0" y="3" width="25" height="23"    channel="0">
+<component type="1" id="BUTTON_CANCEL" x="1" y="5" width="23" height="16"    channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_cancel_normal"/>
 <disabled_image id="btn_cancel_disabled"/>
@@ -451,7 +531,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_UPDOWN_COIN" x="48" y="3" width="16" height="24"    channel="1">
+<component type="1" id="BUTTON_UPDOWN_COIN" x="50" y="6" width="7" height="15"    channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_updown_normal"/>
 <disabled_image id="btn_updown_disabled"/>
@@ -462,7 +542,33 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_UPDOWN_NUM" x="86" y="3" width="16" height="24"    channel="2">
+<component type="1" id="BUTTON_OK" x="104" y="5" width="23" height="16"    channel="3">
+<component_info halign="1" valign="1">
+<normal_image id="btn_ok_normal"/>
+<disabled_image id="btn_ok_disabled"/>
+<pressed_image id="btn_ok_pressed"/>
+<selected_image id=""/>
+<text id=""/>
+<font id=""/>
+<click_sound id=""/>
+</component_info>
+</component>
+<component type="7" id="AREA_COIN" x="31" y="6" width="15" height="15"    channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="AREA_NUM" x="77" y="6" width="7" height="15"    channel="1">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="border" x="0" y="0" width="128" height="3"    channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="1" id="BUTTON_UPDOWN_NUM" x="87" y="6" width="7" height="15"    channel="2">
 <component_info halign="1" valign="1">
 <normal_image id="btn_updown_normal"/>
 <disabled_image id="btn_updown_disabled"/>
@@ -473,50 +579,59 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_OK" x="103" y="3" width="25" height="23"    channel="3">
-<component_info halign="1" valign="1">
-<normal_image id="btn_ok_normal"/>
-<disabled_image id="btn_ok_disabled"/>
-<pressed_image id="btn_ok_pressed"/>
-<selected_image id=""/>
-<text id=""/>
-<font id=""/>
-<click_sound id=""/>
-</component_info>
-</component>
-<component type="7" id="AREA_COIN" x="27" y="5" width="20" height="20"    channel="0">
+</form>
+<form id="WINWINDOWLEFT" width="60" height="23" background_color="-16750797" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="OUTRESULT" x="3" y="6" width="40" height="15"  pinned="yes"  channel="0">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-<component type="7" id="AREA_NUM" x="65" y="5" width="20" height="20"    channel="1">
+<component type="0" id="border" x="-68" y="0" width="128" height="3"  pinned="yes"  channel="0">
 <component_info>
-<properties areavalue="0" color="-14336"/>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border2" x="57" y="-1" width="3" height="55"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="win_0" x="23" y="0" width="15" height="5"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="win" scale="1"  />
 </component_info>
 </component>
 </form>
-<form id="WINWINDOWLEFT" width="60" height="40" background_color="-154" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="WINWINDOWRIGHT" width="60" height="23" background_color="-16750797" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="7" id="OUTRESULT" x="10" y="9" width="40" height="20"    channel="0">
+<component type="7" id="OUTRESULT_0" x="5" y="6" width="40" height="15"    channel="0">
 <component_info>
 <properties areavalue="0" color="-14336"/>
 </component_info>
 </component>
-</form>
-<form id="WINWINDOWRIGHT" width="60" height="40" background_color="-6687693" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
-<rulers>
-</rulers>
-<component type="7" id="OUTRESULT_0" x="10" y="9" width="40" height="20"    channel="0">
+<component type="0" id="border2" x="0" y="0" width="3" height="55"  pinned="yes"  channel="0">
 <component_info>
-<properties areavalue="0" color="-14336"/>
+<image_resource id="border2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border" x="0" y="0" width="128" height="3"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="win" x="23" y="0" width="15" height="5"    channel="0">
+<component_info>
+<image_resource id="win" scale="1"  />
 </component_info>
 </component>
 </form>
-<form id="ASKDOUBLE" width="128" height="30" background_color="-16724890" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="ASKDOUBLE" width="128" height="23" background_color="-6750157" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_CANCEL" x="3" y="3" width="25" height="23"    channel="0">
+<component type="1" id="BUTTON_CANCEL" x="1" y="5" width="23" height="16"  pinned="yes"  channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_cancel_normal"/>
 <disabled_image id="btn_cancel_disabled"/>
@@ -527,7 +642,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_OK" x="100" y="3" width="25" height="23"    channel="1">
+<component type="1" id="BUTTON_OK" x="104" y="5" width="23" height="16"  pinned="yes"  channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_ok_normal"/>
 <disabled_image id="btn_ok_disabled"/>
@@ -538,11 +653,21 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="NOTE" x="36" y="5" width="56" height="15"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="double_txt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0" x="0" y="0" width="128" height="3"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="ASKSPLIT" width="128" height="30" background_color="-39424" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="ASKSPLIT" width="128" height="23" background_color="-6750157" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_CANCEL" x="3" y="3" width="25" height="23"    channel="0">
+<component type="1" id="BUTTON_CANCEL" x="1" y="5" width="23" height="16"  pinned="yes"  channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_cancel_normal"/>
 <disabled_image id="btn_cancel_disabled"/>
@@ -553,7 +678,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_OK" x="100" y="3" width="25" height="23"    channel="1">
+<component type="1" id="BUTTON_OK" x="104" y="5" width="23" height="16"  pinned="yes"  channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_ok_normal"/>
 <disabled_image id="btn_ok_disabled"/>
@@ -564,11 +689,21 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="NOTE" x="42" y="5" width="44" height="15"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="split_txt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0" x="0" y="0" width="128" height="3"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="ASKINSURANCE" width="128" height="30" background_color="-13108" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="ASKINSURANCE" width="128" height="23" background_color="-6750157" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_CANCEL" x="3" y="3" width="25" height="23"    channel="0">
+<component type="1" id="BUTTON_CANCEL" x="1" y="5" width="23" height="16"  pinned="yes"  channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_cancel_normal"/>
 <disabled_image id="btn_cancel_disabled"/>
@@ -579,7 +714,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_OK" x="100" y="3" width="25" height="23"    channel="1">
+<component type="1" id="BUTTON_OK" x="104" y="5" width="23" height="16"  pinned="yes"  channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_ok_normal"/>
 <disabled_image id="btn_ok_disabled"/>
@@ -590,11 +725,21 @@
 <click_sound id=""/>
 </component_info>
 </component>
+<component type="0" id="NOTE" x="28" y="6" width="71" height="13"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="insurance_txt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border" x="0" y="0" width="128" height="3"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
+</component_info>
+</component>
 </form>
-<form id="ASKEVENMONEY" width="128" height="30" background_color="-16751002" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<form id="ASKEVENMONEY" width="128" height="23" background_color="-6750157" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
 <rulers>
 </rulers>
-<component type="1" id="BUTTON_CANCEL" x="3" y="3" width="25" height="23"    channel="0">
+<component type="1" id="BUTTON_CANCEL" x="1" y="5" width="23" height="16"  pinned="yes"  channel="0">
 <component_info halign="1" valign="1">
 <normal_image id="btn_cancel_normal"/>
 <disabled_image id="btn_cancel_disabled"/>
@@ -605,7 +750,7 @@
 <click_sound id=""/>
 </component_info>
 </component>
-<component type="1" id="BUTTON_OK" x="100" y="3" width="25" height="23"    channel="1">
+<component type="1" id="BUTTON_OK" x="104" y="5" width="23" height="16"  pinned="yes"  channel="1">
 <component_info halign="1" valign="1">
 <normal_image id="btn_ok_normal"/>
 <disabled_image id="btn_ok_disabled"/>
@@ -614,6 +759,16 @@
 <text id=""/>
 <font id=""/>
 <click_sound id=""/>
+</component_info>
+</component>
+<component type="0" id="NOTE" x="26" y="6" width="76" height="13"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="evenmoney_txt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="border_0" x="0" y="0" width="128" height="3"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="border" scale="1"  />
 </component_info>
 </component>
 </form>

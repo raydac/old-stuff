@@ -167,17 +167,17 @@ public class SMSCatalog
 
         final byte [] ab_datablock = ab_DataBlock;
 
-        // Идентификатор текстовой строки
+        // РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚РµРєСЃС‚РѕРІРѕР№ СЃС‚СЂРѕРєРё
         int i_scrID = (ab_datablock[i_curIndex++] & 0xFF) << 8;
         i_scrID |= (ab_datablock[i_curIndex++] & 0xFF);
 
-        // Флаги
+        // Р¤Р»Р°РіРё
         int i_flags = ab_datablock[i_curIndex++] & 0xFF;
 
-        // Тип контента по умолчанию
+        // РўРёРї РєРѕРЅС‚РµРЅС‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
         i_CurrentScreenDefaultContentType = ab_datablock[i_curIndex++];
 
-        // Количество компонент
+        // РљРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРјРїРѕРЅРµРЅС‚
         int i_components = ab_datablock[i_curIndex++] & 0xFF;
 
         //System.out.println("ScrID = "+i_scrID);
@@ -197,7 +197,7 @@ public class SMSCatalog
         if ((i_flags & SCREENFLAG_LINKS) != 0)
         {
             //System.out.println("Links screen ");
-            // Экран линков
+            // Р­РєСЂР°РЅ Р»РёРЅРєРѕРІ
             p_iconImg = App.ap_Icons[1];
         }
 
@@ -236,29 +236,29 @@ public class SMSCatalog
                     if ((i_flags & SCREENFLAG_ITEMS) != 0)
                     {
                         //System.out.println("Content screen ");
-                        // Экран контента
+                        // Р­РєСЂР°РЅ РєРѕРЅС‚РµРЅС‚Р°
                         switch (getItemTypeForIndex(li))
                         {
                             case CONTENTTYPE_NONE :
                                 p_iconImg = App.ap_Icons[0];
                                 break;
-                                //игры
+                                //РёРіСЂС‹
                             case CONTENTTYPE_GAME :
                                 p_iconImg = App.ap_Icons[3];
                                 break;
-                                //звуки
+                                //Р·РІСѓРєРё
                             case CONTENTTYPE_SOUND :
                                 p_iconImg = App.ap_Icons[2];
                                 break;
-                                //картинки
+                                //РєР°СЂС‚РёРЅРєРё
                             case CONTENTTYPE_IMAGE :
                                 p_iconImg = App.ap_Icons[4];
                                 break;
-                                //SMS сервис
+                                //SMS СЃРµСЂРІРёСЃ
                             case CONTENTTYPE_SMSSERVICE :
                                 p_iconImg = App.ap_Icons[5];
                                 break;
-                                // инфо
+                                // РёРЅС„Рѕ
                             case CONTENTTYPE_INFO :
                                 p_iconImg = App.ap_Icons[6];
                                 break;
@@ -266,7 +266,7 @@ public class SMSCatalog
                         if (p_iconImg==null) p_iconImg = App.ap_Icons[0]; 
                     }
 
-                    // смещаем указатель
+                    // СЃРјРµС‰Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ
                     i_curIndex+=2; // res id
                     i_curIndex+=2; // reference
                     i_curIndex+=2; // cost
@@ -274,7 +274,7 @@ public class SMSCatalog
                     i_curIndex+=2; // preview
                     i_curIndex++; // content type
 
-                    // смещаем таблицу совместимости
+                    // СЃРјРµС‰Р°РµРј С‚Р°Р±Р»РёС†Сѓ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё
                     int i_num = ab_datablock [i_curIndex++]&0xFF;
                     i_curIndex+=(i_num*2);
                 }
@@ -391,7 +391,7 @@ public class SMSCatalog
 
             try
             {
-                // проверка на САМСУНГ для компенсации проблем с командой skip
+                // РїСЂРѕРІРµСЂРєР° РЅР° РЎРђРњРЎРЈРќР“ РґР»СЏ РєРѕРјРїРµРЅСЃР°С†РёРё РїСЂРѕР±Р»РµРј СЃ РєРѕРјР°РЅРґРѕР№ skip
                 Class p_class = Class.forName("com.samsung.util.AudioClip");
                 lg_useStandartScheme = p_class.isInterface();
                 if (lg_useStandartScheme) lg_useStandartScheme = false;
@@ -408,7 +408,7 @@ public class SMSCatalog
             }
             else
             {
-                // Проматываем файл блоками по 1000 байт
+                // РџСЂРѕРјР°С‚С‹РІР°РµРј С„Р°Р№Р» Р±Р»РѕРєР°РјРё РїРѕ 1000 Р±Р°Р№С‚
                 byte [] ab_buff = new byte[1000];
                 int i_datalen = 1000;
                 while(i_offset>0)
@@ -526,20 +526,20 @@ public class SMSCatalog
         {
             p_dis = new DataInputStream(p_instr);
 
-            // Читаем версию компилятора
+            // Р§РёС‚Р°РµРј РІРµСЂСЃРёСЋ РєРѕРјРїРёР»СЏС‚РѕСЂР°
             if (p_dis.readUnsignedByte() != COMPILER_VERSION) throw new Exception("Bad compiler version");
-            // Флаги
+            // Р¤Р»Р°РіРё
             i_Flags = p_dis.readUnsignedByte();
 
-            // Дата валидности каталога
+            // Р”Р°С‚Р° РІР°Р»РёРґРЅРѕСЃС‚Рё РєР°С‚Р°Р»РѕРіР°
             l_ValidityCatalogDate = p_dis.readLong();
 
             final boolean lg_StringsAsUTF = (i_Flags & FLAG_STRINGS_ASUTF8) != 0;
 
-            // Количество строк
+            // РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє
             final int i_StringsNumber = p_dis.readUnsignedShort();
 
-            // Клиент
+            // РљР»РёРµРЅС‚
             int i_clientid = p_dis.readUnsignedShort();
 
             // URL
@@ -583,7 +583,7 @@ public class SMSCatalog
 
             //----------------------------
 
-            // Читаем строки
+            // Р§РёС‚Р°РµРј СЃС‚СЂРѕРєРё
             ab_StringArray = new byte[i_stringsBlockSize];
             if (p_dis.read(ab_StringArray) != i_stringsBlockSize) throw new Exception("Wrong string block size");
             ash_StringLinks = new short[i_StringsNumber];
@@ -602,7 +602,7 @@ public class SMSCatalog
             }
             //#endif
 
-            // расставляем смещения
+            // СЂР°СЃСЃС‚Р°РІР»СЏРµРј СЃРјРµС‰РµРЅРёСЏ
             final short [] ash_links = ash_StringLinks;
             int i_offst = 0;
             for (int li = 0; li < i_StringsNumber; li++)
@@ -627,7 +627,7 @@ public class SMSCatalog
                 }
             }
 
-            // таблица совместимости
+            // С‚Р°Р±Р»РёС†Р° СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё
             short[] ash_compatibleTable = new short[i_CompatibleTableSize];
 
             for(int li=0;li<i_CompatibleTableSize;li++)
@@ -636,11 +636,11 @@ public class SMSCatalog
                 ash_compatibleTable[li] = sh_data;
             }
 
-            // данные форм
+            // РґР°РЅРЅС‹Рµ С„РѕСЂРј
             byte[] ab_formsData = new byte[i_FormsDataSize];
             if (p_dis.read(ab_formsData) != i_FormsDataSize) throw new Exception("Wrong forms block size");
 
-            // смещения ресурсов
+            // СЃРјРµС‰РµРЅРёСЏ СЂРµСЃСѓСЂСЃРѕРІ
             int i_sizeTable = p_dis.readShort();
             int [] ai_resourcesTable = new int[i_sizeTable];
             for(int li=0;li<i_sizeTable;li++) ai_resourcesTable[li] = p_dis.readInt();
@@ -702,220 +702,220 @@ public class SMSCatalog
         for (int li = 0; li < i_len; li++)
         {
             char ch_char = _russianString.charAt(li);
-            if ((ch_char < 'А' || ch_char > 'я') && !(ch_char == 'ё' || ch_char == 'Ё'))
+            if ((ch_char < 'Рђ' || ch_char > 'СЏ') && !(ch_char == 'С‘' || ch_char == 'РЃ'))
             {
                 p_strBuffer.append(ch_char);
                 continue;
             }
             boolean lg_capital = false;
-            if ((ch_char >= 'А' && ch_char <= 'Я') || ch_char == 'Ё')
+            if ((ch_char >= 'Рђ' && ch_char <= 'РЇ') || ch_char == 'РЃ')
             {
-                ch_char = ch_char == 'Ё' ? 'а' + 32 : (char) (ch_char - 'А' + 'а');
+                ch_char = ch_char == 'РЃ' ? 'Р°' + 32 : (char) (ch_char - 'Рђ' + 'Р°');
                 lg_capital = true;
             }
-            else if (ch_char == 'ё') ch_char = 'а' + 32;
+            else if (ch_char == 'С‘') ch_char = 'Р°' + 32;
 
             boolean lg_spec = false;
             char ch_resultChar = 0;
             String s_resultStr = null;
 
-            switch (ch_char - 'а')
+            switch (ch_char - 'Р°')
             {
-                case 0 : //а
+                case 0 : //Р°
                 {
                     ch_resultChar = 'a';
                 }
                 ;
                 break;
-                case 1 : //б
+                case 1 : //Р±
                 {
                     ch_resultChar = 'b';
                 }
                 ;
                 break;
-                case 2 : //в
+                case 2 : //РІ
                 {
                     ch_resultChar = 'v';
                 }
                 ;
                 break;
-                case 3 : //г
+                case 3 : //Рі
                 {
                     ch_resultChar = 'g';
                 }
                 ;
                 break;
-                case 4 : //д
+                case 4 : //Рґ
                 {
                     ch_resultChar = 'd';
                 }
                 ;
                 break;
-                case 5 : //е
+                case 5 : //Рµ
                 {
                     ch_resultChar = 'e';
                 }
                 ;
                 break;
-                case 6 : //ж
+                case 6 : //Р¶
                 {
                     s_resultStr = "zh";
                 }
                 ;
                 break;
-                case 7 : //з
+                case 7 : //Р·
                 {
                     ch_resultChar = 'z';
                 }
                 ;
                 break;
-                case 8 : //и
+                case 8 : //Рё
                 {
                     ch_resultChar = 'i';
                 }
                 ;
                 break;
-                case 9 : //й
+                case 9 : //Р№
                 {
                     s_resultStr = "i'";
                 }
                 ;
                 break;
-                case 10 : //к
+                case 10 : //Рє
                 {
                     ch_resultChar = 'k';
                 }
                 ;
                 break;
-                case 11 : //л
+                case 11 : //Р»
                 {
                     ch_resultChar = 'l';
                 }
                 ;
                 break;
-                case 12 : //м
+                case 12 : //Рј
                 {
                     ch_resultChar = 'm';
                 }
                 ;
                 break;
-                case 13 : //н
+                case 13 : //РЅ
                 {
                     ch_resultChar = 'n';
                 }
                 ;
                 break;
-                case 14 : //о
+                case 14 : //Рѕ
                 {
                     ch_resultChar = 'o';
                 }
                 ;
                 break;
-                case 15 : //п
+                case 15 : //Рї
                 {
                     ch_resultChar = 'p';
                 }
                 ;
                 break;
-                case 16 : //р
+                case 16 : //СЂ
                 {
                     ch_resultChar = 'r';
                 }
                 ;
                 break;
-                case 17 : //с
+                case 17 : //СЃ
                 {
                     ch_resultChar = 's';
                 }
                 ;
                 break;
-                case 18 : //т
+                case 18 : //С‚
                 {
                     ch_resultChar = 't';
                 }
                 ;
                 break;
-                case 19 : //у
+                case 19 : //Сѓ
                 {
                     ch_resultChar = 'u';
                 }
                 ;
                 break;
-                case 20 : //ф
+                case 20 : //С„
                 {
                     ch_resultChar = 'f';
                 }
                 ;
                 break;
-                case 21 : //х
+                case 21 : //С…
                 {
                     ch_resultChar = 'h';
                 }
                 ;
                 break;
-                case 22 : //ц
+                case 22 : //С†
                 {
                     ch_resultChar = 'c';
                 }
                 ;
                 break;
-                case 23 : //ч
+                case 23 : //С‡
                 {
                     s_resultStr = "ch";
                 }
                 ;
                 break;
-                case 24 : //ш
+                case 24 : //С€
                 {
                     s_resultStr = "sh";
                 }
                 ;
                 break;
-                case 25 : //щ
+                case 25 : //С‰
                 {
                     s_resultStr = "shc";
                 }
                 ;
                 break;
-                case 26 : //ь
+                case 26 : //СЊ
                 {
                     ch_resultChar = '\'';
                     lg_spec = true;
                 }
                 ;
                 break;
-                case 27 : //ы
+                case 27 : //С‹
                 {
                     ch_resultChar = 'y';
                 }
                 ;
                 break;
-                case 28 : //ь
+                case 28 : //СЊ
                 {
                     ch_resultChar = '\'';
                     lg_spec = true;
                 }
                 ;
                 break;
-                case 29 : //э
+                case 29 : //СЌ
                 {
                     s_resultStr = "e\"";
                 }
                 ;
                 break;
-                case 30 : //ю
+                case 30 : //СЋ
                 {
                     s_resultStr = "u'";
                 }
                 ;
                 break;
-                case 31 : //я
+                case 31 : //СЏ
                 {
                     s_resultStr = "ya";
                 }
                 ;
                 break;
-                case 32 : //ё
+                case 32 : //С‘
                 {
                     s_resultStr = "yo";
                 }
@@ -927,9 +927,9 @@ public class SMSCatalog
             {
                 if (lg_capital && !lg_spec)
                 {
-                    // Первый символ делаем капитальным, если не спец
+                    // РџРµСЂРІС‹Р№ СЃРёРјРІРѕР» РґРµР»Р°РµРј РєР°РїРёС‚Р°Р»СЊРЅС‹Рј, РµСЃР»Рё РЅРµ СЃРїРµС†
                     char ch_c = s_resultStr.charAt(0);
-                    ch_c = (char) (ch_c - 'а' + 'А');
+                    ch_c = (char) (ch_c - 'Р°' + 'Рђ');
                     p_strBuffer.append(ch_c);
                     p_strBuffer.append(s_resultStr.substring(1));
                 }
@@ -943,7 +943,7 @@ public class SMSCatalog
             {
                 if (lg_capital && !lg_spec)
                 {
-                    ch_resultChar = (char) (ch_resultChar - 'а' + 'А');
+                    ch_resultChar = (char) (ch_resultChar - 'Р°' + 'Рђ');
                 }
                 p_strBuffer.append(ch_resultChar);
             }

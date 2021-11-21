@@ -41,7 +41,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Класс реализует работу звуковой схемы
+ * РљР»Р°СЃСЃ СЂРµР°Р»РёР·СѓРµС‚ СЂР°Р±РѕС‚Сѓ Р·РІСѓРєРѕРІРѕР№ СЃС…РµРјС‹
  *
  * @author Igor Maznitsa
  * @version 2.5 (30 jul 2005)
@@ -549,10 +549,10 @@ public class SoundManager
 
 
     /**
-     * Запуск проигрывания звука
+     * Р—Р°РїСѓСЃРє РїСЂРѕРёРіСЂС‹РІР°РЅРёСЏ Р·РІСѓРєР°
      *
-     * @param _index индекс проигрываемого звука
-     * @param _count количество повторений
+     * @param _index РёРЅРґРµРєСЃ РїСЂРѕРёРіСЂС‹РІР°РµРјРѕРіРѕ Р·РІСѓРєР°
+     * @param _count РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРІС‚РѕСЂРµРЅРёР№
      */
     public synchronized static final void playSound(final int _index, final int _count)
     {
@@ -572,7 +572,7 @@ public class SoundManager
 
             if (i_lastStarted >= 0)
             {
-                // Проверка на окончание проигрывания предыдущего звука
+                // РџСЂРѕРІРµСЂРєР° РЅР° РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРёРіСЂС‹РІР°РЅРёСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ Р·РІСѓРєР°
                 if (System.currentTimeMillis() < l_endCurrentSoundTime)
                 {
                     if (_index == i_lastStarted) return;
@@ -597,8 +597,8 @@ public class SoundManager
             l_endCurrentSoundTime = System.currentTimeMillis() + i_delay;
 
             //#if VENDOR=="SAMSUNG"
-            // Коррекция редкой ошибки получения текущего времени
-            // зафиксированной на X100, E700
+            // РљРѕСЂСЂРµРєС†РёСЏ СЂРµРґРєРѕР№ РѕС€РёР±РєРё РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ РІСЂРµРјРµРЅРё
+            // Р·Р°С„РёРєСЃРёСЂРѕРІР°РЅРЅРѕР№ РЅР° X100, E700
             long l_tms = System.currentTimeMillis();
             long l_delta = l_endCurrentSoundTime - l_tms;
             if (l_delta > i_delay || l_delta <= 0)

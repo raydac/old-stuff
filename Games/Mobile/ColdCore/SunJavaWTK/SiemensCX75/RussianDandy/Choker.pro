@@ -1,4 +1,0 @@
--libraryjars C:\WTK22\lib\mmapi.jar;C:\WTK22\lib\midpapi20.jar;C:\WTK22\lib\wma11.jar;C:\WTK22\lib\cldcapi10.jar
--injars C:\WTK22\apps\Choker\bin\Choker.jar
--outjar C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\Choker.jar
--keep public class * extends javax.microedition.midlet.MIDlet 

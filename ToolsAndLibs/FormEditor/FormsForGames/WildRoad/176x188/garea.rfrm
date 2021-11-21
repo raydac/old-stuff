@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<RRGFRM>
+<Resources>
+<resource id="menu" type="1">
+<resource_info>
+<image file="menupointer.gif"/>
+</resource_info>
+</resource>
+<resource id="canistra" type="1">
+<resource_info>
+<image file="CanIco.gif"/>
+</resource_info>
+</resource>
+<resource id="rul" type="1">
+<resource_info>
+<image file="RulIco.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="MAINFORM" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="GAMEAREA" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="menu" x="2" y="178" width="35" height="9"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="menu" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="attarea" x="1" y="1" width="16" height="68"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-52429"/>
+</component_info>
+</component>
+<component type="7" id="fuelarea" x="158" y="1" width="17" height="19"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-10040065"/>
+</component_info>
+</component>
+<component type="0" id="canistra" x="92" y="79" width="17" height="19" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="canistra" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="rul" x="63" y="92" width="16" height="17" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="rul" scale="1"  />
+</component_info>
+</component>
+</form>
+</RRGFRM>

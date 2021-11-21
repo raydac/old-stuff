@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<RRGFRM>
+<Resources>
+<resource id="stagetxt" type="1">
+<resource_info>
+<image file="txt_stage.gif"/>
+</resource_info>
+</resource>
+<resource id="lvl1" type="1">
+<resource_info>
+<image file="lvl1.gif"/>
+</resource_info>
+</resource>
+<resource id="lvl2" type="1">
+<resource_info>
+<image file="lvl2.gif"/>
+</resource_info>
+</resource>
+<resource id="lvl3" type="1">
+<resource_info>
+<image file="lvl3.gif"/>
+</resource_info>
+</resource>
+<resource id="lvl4" type="1">
+<resource_info>
+<image file="lvl4.gif"/>
+</resource_info>
+</resource>
+<resource id="lvl5" type="1">
+<resource_info>
+<image file="lvl5.gif"/>
+</resource_info>
+</resource>
+<resource id="dig0" type="1">
+<resource_info>
+<image file="dig0.gif"/>
+</resource_info>
+</resource>
+<resource id="dig1" type="1">
+<resource_info>
+<image file="dig1.gif"/>
+</resource_info>
+</resource>
+<resource id="dig2" type="1">
+<resource_info>
+<image file="dig2.gif"/>
+</resource_info>
+</resource>
+<resource id="dig3" type="1">
+<resource_info>
+<image file="dig3.gif"/>
+</resource_info>
+</resource>
+<resource id="dig4" type="1">
+<resource_info>
+<image file="dig4.gif"/>
+</resource_info>
+</resource>
+<resource id="dig5" type="1">
+<resource_info>
+<image file="dig5.gif"/>
+</resource_info>
+</resource>
+<resource id="dig6" type="1">
+<resource_info>
+<image file="dig6.gif"/>
+</resource_info>
+</resource>
+<resource id="dig7" type="1">
+<resource_info>
+<image file="dig7.gif"/>
+</resource_info>
+</resource>
+<resource id="dig8" type="1">
+<resource_info>
+<image file="dig8.gif"/>
+</resource_info>
+</resource>
+<resource id="dig9" type="1">
+<resource_info>
+<image file="dig9.gif"/>
+</resource_info>
+</resource>
+<resource id="score" type="1">
+<resource_info>
+<image file="score.gif"/>
+</resource_info>
+</resource>
+<resource id="cards" type="1">
+<resource_info>
+<image file="cards_left.gif"/>
+</resource_info>
+</resource>
+<resource id="coloda" type="1">
+<resource_info>
+<image file="Cards.gif"/>
+</resource_info>
+</resource>
+<resource id="back4" type="1">
+<resource_info>
+<image file="Back_4.gif"/>
+</resource_info>
+</resource>
+<resource id="menu" type="1">
+<resource_info>
+<image file="menupointer.gif"/>
+</resource_info>
+</resource>
+<resource id="yourturn" type="1">
+<resource_info>
+<image file="yourturn.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GAMEAREA" width="128" height="128" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="GAMEAREA" x="0" y="0" width="128" height="128"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-52429"/>
+</component_info>
+</component>
+<component type="7" id="OPPONENT_COLODA" x="1" y="6" width="21" height="28"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="PLAYER_COLODA" x="106" y="90" width="21" height="28"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-6750004"/>
+</component_info>
+</component>
+<component type="7" id="OPPONENT_HEAP" x="100" y="6" width="27" height="30"  pinned="yes" locked="yes" channel="3">
+<component_info>
+<properties areavalue="0" color="-6710785"/>
+</component_info>
+</component>
+<component type="7" id="PLAYER_HEAP" x="1" y="90" width="27" height="30"  pinned="yes" locked="yes" channel="4">
+<component_info>
+<properties areavalue="0" color="-16724992"/>
+</component_info>
+</component>
+<component type="7" id="OPPONENTSCORE" x="105" y="43" width="18" height="6"  pinned="yes" locked="yes" channel="8">
+<component_info>
+<properties areavalue="0" color="-16776961"/>
+</component_info>
+</component>
+<component type="6" id="PLAYERHEAP" x="-4" y="-4" width="75" height="113"  pinned="yes" locked="yes" channel="0">
+<component_info color="-3355648" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="67" Y="62" S="10"/>
+<point X="15" Y="105" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="OPPONENTCARD" x="-5" y="-5" width="67" height="79"  pinned="yes" locked="yes" channel="0">
+<component_info color="-3407668" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="12" Y="20" S="10"/>
+<point X="59" Y="71" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="OPPONENTHEAP" x="-4" y="-4" width="124" height="69"  pinned="yes" locked="yes" channel="0">
+<component_info color="-16737895" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="69" Y="61" S="10"/>
+<point X="116" Y="20" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PLAYERCARD" x="-4" y="-4" width="125" height="112"  pinned="yes" locked="yes" channel="0">
+<component_info color="-16711681" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="117" Y="104" S="10"/>
+<point X="77" Y="54" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="0" id="playerscore" x="4" y="77" width="22" height="5"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="score" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="PLAYERSCORE" x="6" y="83" width="18" height="6"  pinned="yes" locked="yes" channel="7">
+<component_info>
+<properties areavalue="0" color="-6750157"/>
+</component_info>
+</component>
+<component type="0" id="playercards" x="73" y="82" width="35" height="6"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<image_resource id="cards" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="PLAYERCARDSNUMBER" x="109" y="82" width="18" height="6"  pinned="yes" locked="yes" channel="6">
+<component_info>
+<properties areavalue="0" color="-10066177"/>
+</component_info>
+</component>
+<component type="7" id="yourturnarea" x="48" y="102" width="31" height="18"  pinned="yes" locked="yes" channel="5">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="opponentscore" x="103" y="37" width="22" height="5"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="score" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="CARDSLAYER" x="0" y="0" width="128" height="128"  pinned="yes" locked="yes" channel="9">
+<component_info>
+<properties areavalue="0" color="-52429"/>
+</component_info>
+</component>
+<component type="0" id="menu" x="0" y="116" width="25" height="6"    channel="0">
+<component_info>
+<image_resource id="menu" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig0" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig0" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig1" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig2" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig3" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig4" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig5" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig6" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig7" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig8" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="dig9" x="0" y="0" width="6" height="6" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="dig9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="back4" x="0" y="0" width="27" height="30" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="back4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="coloda" x="0" y="0" width="21" height="28" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="coloda" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="yourturn" x="0" y="0" width="31" height="18" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="yourturn" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="STAGE1" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="BACKGROUND" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="TXT" x="2" y="7" width="41" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="stagetxt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="LVL" x="44" y="7" width="7" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="lvl1" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="STAGE2" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="BACKGROUND_0" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="TXT" x="2" y="7" width="41" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="stagetxt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="LVL" x="44" y="7" width="8" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="lvl2" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="STAGE3" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="BACKGROUND_0" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="TXT" x="2" y="7" width="41" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="stagetxt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="LVL" x="44" y="7" width="8" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="lvl3" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="STAGE4" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="BACKGROUND_0" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="TXT" x="2" y="7" width="41" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="stagetxt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="LVL" x="44" y="7" width="9" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="lvl4" scale="1"  />
+</component_info>
+</component>
+</form>
+<form id="STAGE5" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="7" id="BACKGROUND_0" x="0" y="0" width="176" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="0" id="TXT" x="2" y="7" width="41" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="stagetxt" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="LVL" x="44" y="7" width="8" height="10"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="lvl5" scale="1"  />
+</component_info>
+</component>
+</form>
+</RRGFRM>

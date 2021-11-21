@@ -9,39 +9,39 @@ public class GameMenu
 {
     //---------COLOR MENU SCHEME----------------
     /**
-     * Цвет заднего фона для полоски пунктов меню
+     * Р¦РІРµС‚ Р·Р°РґРЅРµРіРѕ С„РѕРЅР° РґР»СЏ РїРѕР»РѕСЃРєРё РїСѓРЅРєС‚РѕРІ РјРµРЅСЋ
      */
     protected static final int COLOR_ITEM_BACKGROUND = 0x452EE6;
     /**
-     * Цвет текста невыбранного пункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РЅРµРІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_ITEM_NONSELECTED = 0xFFB533;
     /**
-     * Цвет текста выбранного пункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_ITEM_SELECTED = 0xFF4C00;
     /**
-     * Цвет заднего фона подпунктов
+     * Р¦РІРµС‚ Р·Р°РґРЅРµРіРѕ С„РѕРЅР° РїРѕРґРїСѓРЅРєС‚РѕРІ
      */
     protected static final int COLOR_SUBITEM_BACKGROUND = 0x0033FF;
     /**
-     * Цвет текста подпункта
+     * Р¦РІРµС‚ С‚РµРєСЃС‚Р° РїРѕРґРїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_SUBITEM_TEXT = 0xFFFF33;
     /**
-     * Цвет фокуса подпункта
+     * Р¦РІРµС‚ С„РѕРєСѓСЃР° РїРѕРґРїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_SUBITEM_FOCUSED = 0xA033FF;
     /**
-     * Цвет обводки фокуса подпункта
+     * Р¦РІРµС‚ РѕР±РІРѕРґРєРё С„РѕРєСѓСЃР° РїРѕРґРїСѓРЅРєС‚Р°
      */
     protected static final int COLOR_SUBITEM_FOCUSEDBORDER = 0xA0A0A0;
     /**
-     * Цвет границы бокса
+     * Р¦РІРµС‚ РіСЂР°РЅРёС†С‹ Р±РѕРєСЃР°
      */
     protected static final int COLOR_BOX_OUTLINE = 0xFF9933;
     /**
-     * Цвет контента бокса
+     * Р¦РІРµС‚ РєРѕРЅС‚РµРЅС‚Р° Р±РѕРєСЃР°
      */
     protected static final int COLOR_BOX_CHEKED = 0x33CC00;
 
@@ -75,52 +75,52 @@ public class GameMenu
         public static final int OFFSET_ID = 24;
 
         /**
-         * Функция разрешения отображения пункта и подпункта меню
+         * Р¤СѓРЅРєС†РёСЏ СЂР°Р·СЂРµС€РµРЅРёСЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїСѓРЅРєС‚Р° Рё РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
          *
-         * @param _itemId    идентификатор пункта меню
-         * @param _subitemId идентификатор подпункта меню, если пункт меню то -1
-         * @return true если разрешен и false если запрещен
+         * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+         * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ, РµСЃР»Рё РїСѓРЅРєС‚ РјРµРЅСЋ С‚Рѕ -1
+         * @return true РµСЃР»Рё СЂР°Р·СЂРµС€РµРЅ Рё false РµСЃР»Рё Р·Р°РїСЂРµС‰РµРЅ
          */
         public boolean onEnable(int _itemId, int _subitemId);
 
         /**
-         * Отработка активизации пункта меню
+         * РћС‚СЂР°Р±РѕС‚РєР° Р°РєС‚РёРІРёР·Р°С†РёРё РїСѓРЅРєС‚Р° РјРµРЅСЋ
          *
-         * @param _itemId идентификатор пункта меню
+         * @param _itemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
          */
         public void onEnter(int _itemId);
 
         /**
-         * Отработка деактивизации пункта меню
+         * РћС‚СЂР°Р±РѕС‚РєР° РґРµР°РєС‚РёРІРёР·Р°С†РёРё РїСѓРЅРєС‚Р° РјРµРЅСЋ
          *
-         * @param _itemId идентификатор пункта меню
+         * @param _itemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
          */
         public void onExit(int _itemId);
 
         /**
-         * Заполнение сабитемов для настраемового пункта
+         * Р—Р°РїРѕР»РЅРµРЅРёРµ СЃР°Р±РёС‚РµРјРѕРІ РґР»СЏ РЅР°СЃС‚СЂР°РµРјРѕРІРѕРіРѕ РїСѓРЅРєС‚Р°
          *
-         * @param _itemId       идентификатор пункта меню
-         * @param _subitemIndex номер подпункта меню
-         * @return возвращает запакованное значение подпункта
+         * @param _itemId       РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+         * @param _subitemIndex РЅРѕРјРµСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
+         * @return РІРѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїР°РєРѕРІР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїРѕРґРїСѓРЅРєС‚Р°
          */
         public int onCustom(int _itemId, int _subitemIndex);
 
         /**
-         * Отработка изменения состояния подпункта или пункта
+         * РћС‚СЂР°Р±РѕС‚РєР° РёР·РјРµРЅРµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРѕРґРїСѓРЅРєС‚Р° РёР»Рё РїСѓРЅРєС‚Р°
          *
-         * @param _itemId    идентификатор пункта
-         * @param _subitemId идентификатор подпункта, если только пункт то -1
-         * @param _newState  новое состояние пункта, true если выбран и false если не выбран
+         * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р°
+         * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р°, РµСЃР»Рё С‚РѕР»СЊРєРѕ РїСѓРЅРєС‚ С‚Рѕ -1
+         * @param _newState  РЅРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїСѓРЅРєС‚Р°, true РµСЃР»Рё РІС‹Р±СЂР°РЅ Рё false РµСЃР»Рё РЅРµ РІС‹Р±СЂР°РЅ
          */
         public void onState(int _itemId, int _subitemId, boolean _newState);
 
         /**
-         * Запрашивает состояние выводимого подпункта для CHECKBOX, RADIOLIST
+         * Р—Р°РїСЂР°С€РёРІР°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РІС‹РІРѕРґРёРјРѕРіРѕ РїРѕРґРїСѓРЅРєС‚Р° РґР»СЏ CHECKBOX, RADIOLIST
          *
-         * @param _itemId    идентификатор пункта меню
-         * @param _subitemId идентификатор подпункта меню
-         * @return false если не выбран и true если выбран
+         * @param _itemId    РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
+         * @param _subitemId РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕРґРїСѓРЅРєС‚Р° РјРµРЅСЋ
+         * @return false РµСЃР»Рё РЅРµ РІС‹Р±СЂР°РЅ Рё true РµСЃР»Рё РІС‹Р±СЂР°РЅ
          */
         public boolean isSelected(int _itemId, int _subitemId);
 
@@ -269,7 +269,7 @@ public class GameMenu
 
         if ((i_flag & ITEM_FLAGS_CUSTOM) == 0)
         {
-            // Нормальный пункт
+            // РќРѕСЂРјР°Р»СЊРЅС‹Р№ РїСѓРЅРєС‚
             for (int li = 0; li < i_subitemsNumber; li++)
             {
                 int i_sid = ab_menuArray[i_curOffset++] & 0xFF;
@@ -305,7 +305,7 @@ public class GameMenu
         }
         else
         {
-            // Настраиваемый пункт
+            // РќР°СЃС‚СЂР°РёРІР°РµРјС‹Р№ РїСѓРЅРєС‚
             if (i_typeID == ITEM_TYPE_CHECKLIST || i_typeID == ITEM_TYPE_RADIOLIST)
             {
                 for (i_SubitemsNumber = 0; i_SubitemsNumber < MAX_SUBITEM; i_SubitemsNumber++)
@@ -401,9 +401,9 @@ public class GameMenu
                                     };break;
                                 case ITEM_TYPE_RADIOLIST :
                                     {
-                                        // Если флаг уже активирован то никаких действий
+                                        // Р•СЃР»Рё С„Р»Р°Рі СѓР¶Рµ Р°РєС‚РёРІРёСЂРѕРІР°РЅ С‚Рѕ РЅРёРєР°РєРёС… РґРµР№СЃС‚РІРёР№
                                         if (lg_selected) break;
-                                        // Производим сброс всех флагов кроме выбранного
+                                        // РџСЂРѕРёР·РІРѕРґРёРј СЃР±СЂРѕСЃ РІСЃРµС… С„Р»Р°РіРѕРІ РєСЂРѕРјРµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ
                                         for(int li=0;li<i_SubitemsNumber;li++)
                                         {
                                             if (li==i_CurrentFocusedSubitem)
@@ -488,7 +488,7 @@ public class GameMenu
         int i_areaWidth = _screenWidth;
         int i_areaHeight = _screenHeight;
 
-// ================== Обычное текстовое меню ========================
+// ================== РћР±С‹С‡РЅРѕРµ С‚РµРєСЃС‚РѕРІРѕРµ РјРµРЅСЋ ========================
         final String LEFT_ARROW = "<<";
         final String RIGHT_ARROW = ">>";
 
@@ -500,7 +500,7 @@ public class GameMenu
         int i_itemX = i_areaX + ((i_areaWidth - p_MenuFont.stringWidth(s_itemText)) >> 1);
         int i_itemY = i_areaY + i_areaHeight - i_SymbolSize - BORDER_WIDTH;
 
-// Отрисовываем фоновую линию для пунктов
+// РћС‚СЂРёСЃРѕРІС‹РІР°РµРј С„РѕРЅРѕРІСѓСЋ Р»РёРЅРёСЋ РґР»СЏ РїСѓРЅРєС‚РѕРІ
         _graphics.setColor(COLOR_ITEM_BACKGROUND);
         int i_lineHeight = (BORDER_WIDTH << 1) + i_SymbolSize;
         int i_lineY = i_areaY + i_areaHeight - i_lineHeight;
@@ -508,7 +508,7 @@ public class GameMenu
 
         int i_subItemBlockWidth = 0;
 
-// Отрисовываем подложку под подпункты
+// РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РїРѕРґР»РѕР¶РєСѓ РїРѕРґ РїРѕРґРїСѓРЅРєС‚С‹
         if (lg_Pressed)
         {
             switch (i_CurrentItemType)
@@ -523,7 +523,7 @@ public class GameMenu
                         _graphics.setColor(COLOR_SUBITEM_BACKGROUND);
                         _graphics.fillRect(i_xoffset, i_lineY - i_bckHeight, i_subItemBlockWidth, i_bckHeight);
 
-                        // Выбранный пункт
+                        // Р’С‹Р±СЂР°РЅРЅС‹Р№ РїСѓРЅРєС‚
                         int i_yOffset = BORDER_WIDTH + (i_CurrentFocusedSubitem * (i_SymbolSize + SUBITEM_INTERVAL)) + i_SymbolSize;
                         _graphics.setColor(COLOR_SUBITEM_TEXT);
 

@@ -75,21 +75,21 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
         new String[]
         {
             //#if VOL=="1"
-            "Родина-мать зовет...",
-            "Аты-баты, шли солдаты...",
-            "Понимаешь? (Таня и Кулагин)",
-            "Улыбайся, нас снимают (Таня и Кулагин)",
-            "Александр Анатольевич",
-            "Тутта Ларсен",
-            "Интервью с The Rasmus",
+            "Р РѕРґРёРЅР°-РјР°С‚СЊ Р·РѕРІРµС‚...",
+            "РђС‚С‹-Р±Р°С‚С‹, С€Р»Рё СЃРѕР»РґР°С‚С‹...",
+            "РџРѕРЅРёРјР°РµС€СЊ? (РўР°РЅСЏ Рё РљСѓР»Р°РіРёРЅ)",
+            "РЈР»С‹Р±Р°Р№СЃСЏ, РЅР°СЃ СЃРЅРёРјР°СЋС‚ (РўР°РЅСЏ Рё РљСѓР»Р°РіРёРЅ)",
+            "РђР»РµРєСЃР°РЅРґСЂ РђРЅР°С‚РѕР»СЊРµРІРёС‡",
+            "РўСѓС‚С‚Р° Р›Р°СЂСЃРµРЅ",
+            "РРЅС‚РµСЂРІСЊСЋ СЃ The Rasmus",
             //#else
-            "Воздушный поцелуй (\"Виа Гра\" и Валерий Меладзе)",
-            "\"Это между нами любовь\" (Глюк'ozа)",
-            "Господа! Мы звери, господа! (\"Звери\")",
-            "Горячие финские парни (The Rasmus)",
-            "Даррен Хейз и Тутта Ларсен",
-            "Рома Зверь говорит речь",
-            "Даррен Хейз в Кремлe"
+            "Р’РѕР·РґСѓС€РЅС‹Р№ РїРѕС†РµР»СѓР№ (\"Р’РёР° Р“СЂР°\" Рё Р’Р°Р»РµСЂРёР№ РњРµР»Р°РґР·Рµ)",
+            "\"Р­С‚Рѕ РјРµР¶РґСѓ РЅР°РјРё Р»СЋР±РѕРІСЊ\" (Р“Р»СЋРє'ozР°)",
+            "Р“РѕСЃРїРѕРґР°! РњС‹ Р·РІРµСЂРё, РіРѕСЃРїРѕРґР°! (\"Р—РІРµСЂРё\")",
+            "Р“РѕСЂСЏС‡РёРµ С„РёРЅСЃРєРёРµ РїР°СЂРЅРё (The Rasmus)",
+            "Р”Р°СЂСЂРµРЅ РҐРµР№Р· Рё РўСѓС‚С‚Р° Р›Р°СЂСЃРµРЅ",
+            "Р РѕРјР° Р—РІРµСЂСЊ РіРѕРІРѕСЂРёС‚ СЂРµС‡СЊ",
+            "Р”Р°СЂСЂРµРЅ РҐРµР№Р· РІ РљСЂРµРјР»e"
             //#endif
         }
     };
@@ -530,7 +530,7 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
                         _g.setColor(COLOR_LOADING_BACKGROUND);
                         _g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-                        // Высчитываем координаты вывода
+                        // Р’С‹СЃС‡РёС‚С‹РІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РІС‹РІРѕРґР°
                         int i_splImgX = 0;
                         int i_splImgY = 0;
 
@@ -584,11 +584,11 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
                     break;
                 case STATE_WORKING:
                     {
-                        // Отрисовываем рабочую панель
+                        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј СЂР°Р±РѕС‡СѓСЋ РїР°РЅРµР»СЊ
                         _g.setColor(COLOR_MAIN_BACKGROUND);
                         _g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-                        // Отрисовка фрейма
+                        // РћС‚СЂРёСЃРѕРІРєР° С„СЂРµР№РјР°
                         _g.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                         if (lg_Zoomed)
                         {
@@ -609,10 +609,10 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
                             }
                         }
 
-                        // Отрисовка текста
+                        // РћС‚СЂРёСЃРѕРІРєР° С‚РµРєСЃС‚Р°
                         if (lg_Option_Vibration) drawTextTitle(1, _g);
 
-                        // Отрисовываем иконки
+                        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РёРєРѕРЅРєРё
                         int i_iconY = SCREEN_HEIGHT - 2 - INDICATORS_HEIGHT;
 
                         int i_indiX = 0;
@@ -683,7 +683,7 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
                                 }
                             }
 
-                            // Выводим номер фрейма только если отображалась уменьшенная картинка
+                            // Р’С‹РІРѕРґРёРј РЅРѕРјРµСЂ С„СЂРµР№РјР° С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕС‚РѕР±СЂР°Р¶Р°Р»Р°СЃСЊ СѓРјРµРЅСЊС€РµРЅРЅР°СЏ РєР°СЂС‚РёРЅРєР°
                             if (lg_Zoomed & p_SlideImage_small != null)
                             {
                                 _g.setClip(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -695,13 +695,13 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
                                 i_xC = (SCREEN_WIDTH - i_w) >> 1;
                                 i_yC = SCREEN_HEIGHT - i_h;
 
-                                // Поле
+                                // РџРѕР»Рµ
                                 _g.setColor(COLOR_CURSOR_FIELD_UNDER);
                                 _g.drawRect(i_xC + 1, i_yC + 1, i_w, i_h);
                                 _g.setColor(COLOR_CURSOR_FIELD_OVER);
                                 _g.drawRect(i_xC, i_yC, i_w, i_h);
 
-                                // Курсор
+                                // РљСѓСЂСЃРѕСЂ
                                 int i_x = (i8_cursorPosX >> 8);
                                 int i_y = (i8_cursorPosY >> 8);
 
@@ -1135,7 +1135,7 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
         {
             case SCR_MainSCR:
                 {
-                    // Выбран стартовый слайд
+                    // Р’С‹Р±СЂР°РЅ СЃС‚Р°СЂС‚РѕРІС‹Р№ СЃР»Р°Р№Рґ
                     loadSlide(_itemId);
                     i_CurrentMidletState = STATE_WORKING;
                     p_CurrentDisplay.setCurrent(p_MainCanvas);
@@ -1177,11 +1177,11 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
         p_SlideImage_small = null;
         Runtime.getRuntime().gc();
 
-        // Загружаем большую картинку
+        // Р—Р°РіСЂСѓР¶Р°РµРј Р±РѕР»СЊС€СѓСЋ РєР°СЂС‚РёРЅРєСѓ
         p_SlideImage_big = Image.createImage(_image);
         int i8_coeff = (p_SlideImage_big.getWidth() << 8) / p_SlideImage_big.getHeight();
 
-        // Делаем маленькую картинку вписанную в размер экрана
+        // Р”РµР»Р°РµРј РјР°Р»РµРЅСЊРєСѓСЋ РєР°СЂС‚РёРЅРєСѓ РІРїРёСЃР°РЅРЅСѓСЋ РІ СЂР°Р·РјРµСЂ СЌРєСЂР°РЅР°
         int i_smallW = 0;
         int i_smallH = 0;
 
@@ -1192,14 +1192,14 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
 
         if (p_SlideImage_big.getHeight() > p_SlideImage_big.getWidth())
         {
-            // Вписываем по высоте
+            // Р’РїРёСЃС‹РІР°РµРј РїРѕ РІС‹СЃРѕС‚Рµ
             i_smallH = SCREEN_HEIGHT;
             i_smallW = i_smallH * i8_coeff;
             if ((i_smallW & 0xFF) > 0x80) i_smallW = (i_smallW >> 8) + 1; else i_smallW >>= 8;
         }
         else
         {
-            // Вписываем по ширине
+            // Р’РїРёСЃС‹РІР°РµРј РїРѕ С€РёСЂРёРЅРµ
             i_smallW = SCREEN_WIDTH;
             i_smallH = (i_smallW << 16) / i8_coeff;
             if ((i_smallH & 0xFF) > 0x80) i_smallH = (i_smallH >> 8) + 1; else i_smallH >>= 8;
@@ -1207,7 +1207,7 @@ public class Main extends MIDlet implements Runnable, MenuActionListener
 
         p_SlideImage_small = createThumbnail(p_SlideImage_big, i_smallW, i_smallH);
 
-        // Рассчитываем размеры курсора, смещение и положение
+        // Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј СЂР°Р·РјРµСЂС‹ РєСѓСЂСЃРѕСЂР°, СЃРјРµС‰РµРЅРёРµ Рё РїРѕР»РѕР¶РµРЅРёРµ
         i8_cursorZoneHeight = (CURSOR_PANEL_HEIGHT << 8);
         i8_cursorZoneWidth = (i8_cursorZoneHeight * i8_coeff) >> 8;
         i8_CursorWidth = (((SCREEN_WIDTH << 8) / p_SlideImage_big.getWidth()) * i8_cursorZoneWidth) >> 8;

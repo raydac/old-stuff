@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<RRGFRM>
+<Resources>
+<resource id="background" type="1">
+<resource_info>
+<image file="Background.gif"/>
+</resource_info>
+</resource>
+<resource id="digit0" type="1">
+<resource_info>
+<image file="Digit0.gif"/>
+</resource_info>
+</resource>
+<resource id="digit1" type="1">
+<resource_info>
+<image file="Digit1.gif"/>
+</resource_info>
+</resource>
+<resource id="digit2" type="1">
+<resource_info>
+<image file="Digit2.gif"/>
+</resource_info>
+</resource>
+<resource id="digit3" type="1">
+<resource_info>
+<image file="Digit3.gif"/>
+</resource_info>
+</resource>
+<resource id="digit4" type="1">
+<resource_info>
+<image file="Digit4.gif"/>
+</resource_info>
+</resource>
+<resource id="digit5" type="1">
+<resource_info>
+<image file="Digit5.gif"/>
+</resource_info>
+</resource>
+<resource id="digit6" type="1">
+<resource_info>
+<image file="Digit6.gif"/>
+</resource_info>
+</resource>
+<resource id="digit7" type="1">
+<resource_info>
+<image file="Digit7.gif"/>
+</resource_info>
+</resource>
+<resource id="digit8" type="1">
+<resource_info>
+<image file="Digit8.gif"/>
+</resource_info>
+</resource>
+<resource id="digit9" type="1">
+<resource_info>
+<image file="Digit9.gif"/>
+</resource_info>
+</resource>
+<resource id="menupointer" type="1">
+<resource_info>
+<image file="menupointer.gif"/>
+</resource_info>
+</resource>
+<resource id="appear_01" type="1">
+<resource_info>
+<image file="Appear_01.gif"/>
+</resource_info>
+</resource>
+<resource id="appear_02" type="1">
+<resource_info>
+<image file="Appear_02.gif"/>
+</resource_info>
+</resource>
+<resource id="appear_03" type="1">
+<resource_info>
+<image file="Appear_03.gif"/>
+</resource_info>
+</resource>
+<resource id="appear_04" type="1">
+<resource_info>
+<image file="Appear_04.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_bue" type="1">
+<resource_info>
+<image file="Cube_Blue.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_Red" type="1">
+<resource_info>
+<image file="Cube_Red.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_green" type="1">
+<resource_info>
+<image file="Cube_Grin.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_yellow" type="1">
+<resource_info>
+<image file="Cube_Yell.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_G2R" type="1">
+<resource_info>
+<image file="Cube_Grin-R.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_R2Y" type="1">
+<resource_info>
+<image file="Cube_Red-Y.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_Y2B" type="1">
+<resource_info>
+<image file="Cube_Yell-B.gif"/>
+</resource_info>
+</resource>
+<resource id="Cube_B2G" type="1">
+<resource_info>
+<image file="Cube_Blue-G.gif"/>
+</resource_info>
+</resource>
+<resource id="IceStar1" type="1">
+<resource_info>
+<image file="Icestar01.gif"/>
+</resource_info>
+</resource>
+<resource id="IceStar2" type="1">
+<resource_info>
+<image file="Icestar02.gif"/>
+</resource_info>
+</resource>
+<resource id="IceStar3" type="1">
+<resource_info>
+<image file="Icestar03.gif"/>
+</resource_info>
+</resource>
+<resource id="IceStar4" type="1">
+<resource_info>
+<image file="Icestar04.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeR_pulse1" type="1">
+<resource_info>
+<image file="Pulse_Red01.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeR_pulse2" type="1">
+<resource_info>
+<image file="Pulse_Red02.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeR_pulse3" type="1">
+<resource_info>
+<image file="Pulse_Red03.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeR_pulse4" type="1">
+<resource_info>
+<image file="Pulse_Red04.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeG_pulse1" type="1">
+<resource_info>
+<image file="Pulse_Grin01.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeG_pulse2" type="1">
+<resource_info>
+<image file="Pulse_Grin02.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeG_pulse3" type="1">
+<resource_info>
+<image file="Pulse_Grin03.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeG_pulse4" type="1">
+<resource_info>
+<image file="Pulse_Grin04.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeY_pulse1" type="1">
+<resource_info>
+<image file="Pulse_Yell01.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeY_pulse2" type="1">
+<resource_info>
+<image file="Pulse_Yell02.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeY_pulse3" type="1">
+<resource_info>
+<image file="Pulse_Yell03.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeY_pulse4" type="1">
+<resource_info>
+<image file="Pulse_Yell04.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeB_pulse1" type="1">
+<resource_info>
+<image file="Pulse_Blue01.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeB_pulse2" type="1">
+<resource_info>
+<image file="Pulse_Blue02.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeB_pulse3" type="1">
+<resource_info>
+<image file="Pulse_Blue03.gif"/>
+</resource_info>
+</resource>
+<resource id="CubeB_pulse4" type="1">
+<resource_info>
+<image file="Pulse_Blue04.gif"/>
+</resource_info>
+</resource>
+<resource id="Cross_1" type="1">
+<resource_info>
+<image file="Cross01.gif"/>
+</resource_info>
+</resource>
+<resource id="Cross_2" type="1">
+<resource_info>
+<image file="Cross02.gif"/>
+</resource_info>
+</resource>
+<resource id="Cross_3" type="1">
+<resource_info>
+<image file="Cross03.gif"/>
+</resource_info>
+</resource>
+<resource id="Cross_4" type="1">
+<resource_info>
+<image file="Cross04.gif"/>
+</resource_info>
+</resource>
+<resource id="Destroy_1" type="1">
+<resource_info>
+<image file="Dissapp_01.gif"/>
+</resource_info>
+</resource>
+<resource id="Destroy_2" type="1">
+<resource_info>
+<image file="Dissapp_02.gif"/>
+</resource_info>
+</resource>
+<resource id="Destroy_3" type="1">
+<resource_info>
+<image file="Dissapp_03.gif"/>
+</resource_info>
+</resource>
+<resource id="Destroy_4" type="1">
+<resource_info>
+<image file="Dissapp_04.gif"/>
+</resource_info>
+</resource>
+<resource id="RotateIco" type="1">
+<resource_info>
+<image file="rot.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="GAMEAREA" width="132" height="156" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="BACKGROUND" x="0" y="0" width="132" height="156" hidden="yes" pinned="yes"  channel="0">
+<component_info>
+<image_resource id="background" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="GAME_AREA" x="6" y="0" width="120" height="136"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+<component type="7" id="SCORE_AREA" x="46" y="142" width="40" height="12"  pinned="yes" locked="yes" channel="1">
+<component_info>
+<properties areavalue="0" color="-6750055"/>
+</component_info>
+</component>
+<component type="0" id="MENU0" x="1" y="146" width="35" height="9"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="menupointer" scale="1"  />
+</component_info>
+</component>
+<component type="7" id="RZone" x="114" y="138" width="18" height="18"  pinned="yes" locked="yes" channel="2">
+<component_info>
+<properties areavalue="0" color="-14336"/>
+</component_info>
+</component>
+</form>
+<form id="SPRITES" width="128" height="128" background_color="-16777216" disabled_color="-8355712" selected_color="-256" normal_color="-16776961" pressed_color="-65536" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="digit0" x="0" y="0" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit0" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit1" x="13" y="0" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit2" x="24" y="-1" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit3" x="35" y="-1" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit4" x="45" y="-1" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit5" x="50" y="14" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit5" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit6" x="0" y="14" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit6" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit7" x="14" y="15" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit7" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit8" x="27" y="14" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit8" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="digit9" x="38" y="14" width="10" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="digit9" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Appear_1" x="0" y="0" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="appear_01" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Appear_2" x="14" y="1" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="appear_02" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Appear_3" x="30" y="1" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="appear_03" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Appear_4" x="53" y="2" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="appear_04" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_Blue" x="6" y="28" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_bue" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_Red" x="34" y="27" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_Red" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_Green" x="57" y="26" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_green" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_Yellow" x="85" y="28" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_yellow" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_G2R" x="7" y="57" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_G2R" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_R2Y" x="36" y="57" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_R2Y" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_Y2B" x="65" y="58" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_Y2B" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cube_B2G" x="96" y="57" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cube_B2G" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="IceStar_1" x="6" y="90" width="11" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="IceStar1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="IceStar_2" x="27" y="90" width="11" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="IceStar2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="IceStar_3" x="49" y="90" width="11" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="IceStar3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="IceStar_4" x="73" y="90" width="11" height="12" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="IceStar4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeR_pulse1" x="3" y="101" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeR_pulse1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeR_pulse2" x="25" y="101" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeR_pulse2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeR_pulse3" x="48" y="100" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeR_pulse3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeR_pulse4" x="70" y="100" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeR_pulse4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeG_pulse1" x="5" y="1" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeG_pulse1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeG_pulse2" x="30" y="1" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeG_pulse2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeG_pulse3" x="55" y="2" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeG_pulse3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeG_pulse4" x="83" y="2" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeG_pulse4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeY_pulse1" x="4" y="79" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeY_pulse1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeY_pulse2" x="27" y="78" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeY_pulse2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeY_pulse3" x="51" y="78" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeY_pulse3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeY_pulse4" x="74" y="78" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeY_pulse4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeB_pulse1" x="5" y="46" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeB_pulse1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeB_pulse2" x="30" y="46" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeB_pulse2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeB_pulse3" x="57" y="47" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeB_pulse3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="CubeB_pulse4" x="83" y="47" width="18" height="20" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="CubeB_pulse4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cross_1" x="2" y="78" width="19" height="22" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cross_1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cross_2" x="27" y="79" width="19" height="22" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cross_2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cross_3" x="52" y="78" width="19" height="22" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cross_3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Cross_4" x="80" y="78" width="19" height="22" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Cross_4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Destroy_1" x="10" y="25" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Destroy_1" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Destroy_2" x="35" y="24" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Destroy_2" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Destroy_3" x="61" y="21" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Destroy_3" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="Destroy_4" x="53" y="56" width="15" height="17" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="Destroy_4" scale="1"  />
+</component_info>
+</component>
+<component type="0" id="RotateIcon" x="23" y="49" width="18" height="18" hidden="yes"   channel="0">
+<component_info>
+<image_resource id="RotateIco" scale="1"  />
+</component_info>
+</component>
+</form>
+</RRGFRM>

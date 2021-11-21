@@ -1,0 +1,16 @@
+[SECTION_PARAMETERS]
+MIDlet-1=Vineyard,/ico.png, startup
+MIDlet-Jar-Size=63171
+MIDlet-Jar-URL=vineyard_n6100.jar
+MIDlet-Name=Vineyard
+MIDlet-Vendor=Ringtime(R)
+MIDlet-Version=1.0.42
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
+Created-By=RRGWTK10
+MIDlet-Icon=/ico.png
+[END]
+[SECTION_ORDER_JAD]
+[END]
+[SECTION_ORDER_MF]
+[END]

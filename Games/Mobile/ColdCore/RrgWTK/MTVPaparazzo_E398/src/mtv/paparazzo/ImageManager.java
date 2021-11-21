@@ -18,22 +18,22 @@ public class ImageManager
     public static final int IMAGEINFO_LENGTH = 7;
 
     /**
-     * Пакуется в общее изображение
+     * РџР°РєСѓРµС‚СЃСЏ РІ РѕР±С‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
      */
     public static final int FLAG_NORMAL = 0;
 
     /**
-     * Хранится во внешнем файле
+     * РҐСЂР°РЅРёС‚СЃСЏ РІРѕ РІРЅРµС€РЅРµРј С„Р°Р№Р»Рµ
      */
     public static final int FLAG_EXTERNAL = 1;
 
     /**
-     * Динамически распаковывается
+     * Р”РёРЅР°РјРёС‡РµСЃРєРё СЂР°СЃРїР°РєРѕРІС‹РІР°РµС‚СЃСЏ
      */
     public static final int FLAG_DYNAMIC = 2;
 
     /**
-     * Ссылка
+     * РЎСЃС‹Р»РєР°
      */
     public static final int FLAG_LINK = 3;
 
@@ -96,7 +96,7 @@ public class ImageManager
 
     public static final void init(Class _this) throws IOException
     {
-        // Грузим большую картинку
+        // Р“СЂСѓР·РёРј Р±РѕР»СЊС€СѓСЋ РєР°СЂС‚РёРЅРєСѓ
         try
         {
             p_fullImage = Image.createImage(FULLIMAGE);
@@ -112,7 +112,7 @@ public class ImageManager
             //#endif
         }
         Runtime.getRuntime().gc();
-        // Грузим динамический массив
+        // Р“СЂСѓР·РёРј РґРёРЅР°РјРёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
         InputStream p_in = _this.getResourceAsStream(DYNIMAGES);
         if (p_in != null)
         {
@@ -133,7 +133,7 @@ public class ImageManager
         p_in = null;
         Runtime.getRuntime().gc();
 
-        // Грузим карту изображений
+        // Р“СЂСѓР·РёРј РєР°СЂС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         p_in = _this.getResourceAsStream(IMAGEMAPINFO);
         if (p_in != null)
         {
@@ -152,19 +152,19 @@ public class ImageManager
 
              for (int li = 0; li < i_len;)
              {
-                 // Тип хранения
+                 // РўРёРї С…СЂР°РЅРµРЅРёСЏ
                  ash_array[li++] = (short)(p_in.read());
-                 // Координата X на картинке
+                 // РљРѕРѕСЂРґРёРЅР°С‚Р° X РЅР° РєР°СЂС‚РёРЅРєРµ
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
-                 // Координата Y на картинке
+                 // РљРѕРѕСЂРґРёРЅР°С‚Р° Y РЅР° РєР°СЂС‚РёРЅРєРµ
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
-                 // Смещение X
+                 // РЎРјРµС‰РµРЅРёРµ X
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
-                 // Смещение Y
+                 // РЎРјРµС‰РµРЅРёРµ Y
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
-                 // Ширина области
+                 // РЁРёСЂРёРЅР° РѕР±Р»Р°СЃС‚Рё
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
-                 // Высота области
+                 // Р’С‹СЃРѕС‚Р° РѕР±Р»Р°СЃС‚Рё
                  ash_array[li++] = (short)((p_in.read()<<8)|(p_in.read()));
              }
             p_in.close();

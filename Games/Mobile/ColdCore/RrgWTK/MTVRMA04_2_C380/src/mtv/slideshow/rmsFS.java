@@ -6,9 +6,9 @@ import java.io.*;
 import java.util.Vector;
 
 /**
- * Класс осуществляет работу с RMS.
+ * РљР»Р°СЃСЃ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ СЂР°Р±РѕС‚Сѓ СЃ RMS.
  *
- * @author И.А.Мазница
+ * @author Р.Рђ.РњР°Р·РЅРёС†Р°
  * @version 1.00
  * @since  04-Nov-2004
  */
@@ -206,13 +206,13 @@ public class rmsFS
 
         if (p_recordStore.getNumRecords() == 0)
         {
-            // Неинициализированный RMS
+            // РќРµРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹Р№ RMS
             int i_mainRecord = p_recordStore.addRecord(new byte[1024], 0, 1024);
             if (i_mainRecord != 1) throw new RecordStoreException("Fatal RMS error");
         }
         else
         {
-            // Существующий RMS
+            // РЎСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ RMS
             byte [] ab_data = p_recordStore.getRecord(1);
             parseMainRecord(ab_data);
         }

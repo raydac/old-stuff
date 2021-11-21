@@ -1,0 +1,1458 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+</Resources>
+<form id="Untitled_form" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="6" id="PLAYER_IN" x="-4" y="-4" width="95" height="264" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="87" Y="256" S="20"/>
+<point X="87" Y="85" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRENADERIGHT" x="63" y="102" width="50" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="10"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="2"/>
+<point X="16" Y="-8" S="3"/>
+<point X="32" Y="-10" S="3"/>
+<point X="42" Y="-4" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRENADELEFT" x="31" y="113" width="50" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="46" Y="10"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="2"/>
+<point X="-16" Y="-8" S="3"/>
+<point X="-32" Y="-10" S="3"/>
+<point X="-42" Y="-4" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_FIREBLOB" x="24" y="12" width="32" height="128" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="124"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="0" S="3"/>
+<point X="0" Y="-30" S="4"/>
+<point X="0" Y="-60" S="10"/>
+<point X="0" Y="-120" S="20"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLIST_RIGHT" x="74" y="22" width="32" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="5"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="2"/>
+<point X="6" Y="-4" S="3"/>
+<point X="14" Y="-5" S="4"/>
+<point X="21" Y="0" S="6"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLIST_LEFT" x="41" y="53" width="32" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="21" Y="5"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="2"/>
+<point X="-6" Y="-4" S="3"/>
+<point X="-14" Y="-5" S="4"/>
+<point X="-21" Y="0" S="6"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="OUT_PATH" x="46" y="-42" width="32" height="235" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="231"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="0" S="10"/>
+<point X="0" Y="-80" S="16"/>
+<point X="0" Y="-227" S="5"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_FLAMECAR_1" x="-4" y="-36" width="141" height="255" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="36"/>
+<Points SHOWPOINTS="yes">
+<point X="67" Y="215" S="16"/>
+<point X="47" Y="158" S="8"/>
+<point X="27" Y="131" S="10"/>
+<point X="26" Y="112" S="10"/>
+<point X="30" Y="85" S="10"/>
+<point X="40" Y="106" S="10"/>
+<point X="54" Y="140" S="10"/>
+<point X="61" Y="158" S="10"/>
+<point X="77" Y="168" S="10"/>
+<point X="94" Y="167" S="10"/>
+<point X="110" Y="167" S="10"/>
+<point X="124" Y="150" S="10"/>
+<point X="133" Y="126" S="10"/>
+<point X="133" Y="86" S="10"/>
+<point X="132" Y="45" S="10"/>
+<point X="131" Y="-32" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARAN_1" x="-4" y="-34" width="127" height="252" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-3407617" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="119" Y="214" S="50"/>
+<point X="116" Y="95" S="10"/>
+<point X="76" Y="78" S="10"/>
+<point X="55" Y="59" S="10"/>
+<point X="33" Y="32" S="10"/>
+<point X="33" Y="19" S="10"/>
+<point X="24" Y="19" S="10"/>
+<point X="25" Y="54" S="10"/>
+<point X="26" Y="89" S="10"/>
+<point X="33" Y="48" S="10"/>
+<point X="36" Y="11" S="10"/>
+<point X="27" Y="-30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_1" x="-4" y="-29" width="170" height="246" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="29"/>
+<Points SHOWPOINTS="yes">
+<point X="156" Y="213" S="10"/>
+<point X="154" Y="183" S="10"/>
+<point X="153" Y="173" S="10"/>
+<point X="153" Y="162" S="10"/>
+<point X="154" Y="152" S="10"/>
+<point X="158" Y="141" S="10"/>
+<point X="158" Y="113" S="10"/>
+<point X="95" Y="105" S="10"/>
+<point X="57" Y="106" S="10"/>
+<point X="40" Y="122" S="10"/>
+<point X="16" Y="137" S="10"/>
+<point X="32" Y="143" S="10"/>
+<point X="55" Y="132" S="10"/>
+<point X="63" Y="112" S="10"/>
+<point X="89" Y="135" S="10"/>
+<point X="117" Y="134" S="10"/>
+<point X="138" Y="111" S="10"/>
+<point X="155" Y="95" S="10"/>
+<point X="162" Y="79" S="10"/>
+<point X="103" Y="79" S="10"/>
+<point X="82" Y="51" S="10"/>
+<point X="57" Y="39" S="10"/>
+<point X="105" Y="24" S="10"/>
+<point X="103" Y="-25" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_2_3" x="-4" y="-26" width="161" height="254" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="26"/>
+<Points SHOWPOINTS="yes">
+<point X="36" Y="224" S="10"/>
+<point X="45" Y="167" S="10"/>
+<point X="52" Y="122" S="10"/>
+<point X="56" Y="153" S="10"/>
+<point X="58" Y="103" S="10"/>
+<point X="36" Y="98" S="10"/>
+<point X="69" Y="123" S="10"/>
+<point X="99" Y="142" S="10"/>
+<point X="136" Y="125" S="10"/>
+<point X="153" Y="91" S="10"/>
+<point X="111" Y="91" S="10"/>
+<point X="121" Y="60" S="10"/>
+<point X="90" Y="44" S="10"/>
+<point X="133" Y="44" S="10"/>
+<point X="133" Y="-2" S="10"/>
+<point X="132" Y="-22" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_2_1" x="-4" y="-20" width="115" height="248" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="20"/>
+<Points SHOWPOINTS="yes">
+<point X="89" Y="224" S="10"/>
+<point X="93" Y="171" S="10"/>
+<point X="70" Y="141" S="10"/>
+<point X="107" Y="127" S="10"/>
+<point X="106" Y="88" S="10"/>
+<point X="63" Y="67" S="10"/>
+<point X="36" Y="29" S="10"/>
+<point X="80" Y="29" S="10"/>
+<point X="94" Y="57" S="10"/>
+<point X="41" Y="67" S="10"/>
+<point X="30" Y="107" S="10"/>
+<point X="28" Y="147" S="10"/>
+<point X="28" Y="91" S="10"/>
+<point X="28" Y="45" S="10"/>
+<point X="28" Y="-16" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_2_2" x="-4" y="-22" width="151" height="253" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-256" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="22"/>
+<Points SHOWPOINTS="yes">
+<point X="133" Y="227" S="10"/>
+<point X="142" Y="166" S="10"/>
+<point X="112" Y="167" S="10"/>
+<point X="128" Y="127" S="10"/>
+<point X="143" Y="91" S="10"/>
+<point X="102" Y="93" S="10"/>
+<point X="63" Y="78" S="10"/>
+<point X="94" Y="67" S="10"/>
+<point X="110" Y="107" S="10"/>
+<point X="64" Y="108" S="10"/>
+<point X="65" Y="145" S="10"/>
+<point X="85" Y="144" S="10"/>
+<point X="84" Y="98" S="10"/>
+<point X="83" Y="48" S="10"/>
+<point X="81" Y="-18" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_FLAMECAR_3_1" x="-4" y="-4" width="134" height="243" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-52429" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="102" Y="235" S="10"/>
+<point X="100" Y="224" S="10"/>
+<point X="100" Y="235" S="10"/>
+<point X="99" Y="223" S="10"/>
+<point X="112" Y="235" S="10"/>
+<point X="118" Y="221" S="10"/>
+<point X="120" Y="184" S="10"/>
+<point X="126" Y="157" S="10"/>
+<point X="96" Y="149" S="10"/>
+<point X="60" Y="149" S="10"/>
+<point X="46" Y="133" S="10"/>
+<point X="81" Y="125" S="10"/>
+<point X="81" Y="120" S="10"/>
+<point X="81" Y="97" S="10"/>
+<point X="111" Y="119" S="10"/>
+<point X="89" Y="138" S="10"/>
+<point X="114" Y="146" S="10"/>
+<point X="79" Y="162" S="10"/>
+<point X="63" Y="175" S="10"/>
+<point X="49" Y="197" S="10"/>
+<point X="42" Y="227" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR1_3_2" x="-4" y="-29" width="161" height="253" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="29"/>
+<Points SHOWPOINTS="yes">
+<point X="153" Y="220" S="10"/>
+<point X="152" Y="181" S="10"/>
+<point X="152" Y="141" S="10"/>
+<point X="151" Y="98" S="10"/>
+<point X="151" Y="56" S="10"/>
+<point X="151" Y="24" S="10"/>
+<point X="128" Y="24" S="10"/>
+<point X="91" Y="24" S="10"/>
+<point X="64" Y="25" S="10"/>
+<point X="64" Y="43" S="10"/>
+<point X="85" Y="85" S="10"/>
+<point X="126" Y="95" S="10"/>
+<point X="126" Y="128" S="10"/>
+<point X="127" Y="161" S="10"/>
+<point X="116" Y="199" S="10"/>
+<point X="79" Y="220" S="10"/>
+<point X="39" Y="184" S="10"/>
+<point X="26" Y="138" S="10"/>
+<point X="60" Y="106" S="10"/>
+<point X="25" Y="78" S="10"/>
+<point X="55" Y="34" S="10"/>
+<point X="98" Y="34" S="10"/>
+<point X="99" Y="-25" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_3_3" x="-4" y="-35" width="163" height="256" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13369600" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="35"/>
+<Points SHOWPOINTS="yes">
+<point X="26" Y="212" S="10"/>
+<point X="29" Y="217" S="10"/>
+<point X="29" Y="212" S="10"/>
+<point X="28" Y="217" S="10"/>
+<point X="28" Y="212" S="10"/>
+<point X="29" Y="179" S="10"/>
+<point X="29" Y="158" S="10"/>
+<point X="38" Y="114" S="10"/>
+<point X="60" Y="80" S="10"/>
+<point X="26" Y="77" S="10"/>
+<point X="39" Y="25" S="10"/>
+<point X="99" Y="21" S="10"/>
+<point X="134" Y="48" S="10"/>
+<point X="134" Y="83" S="10"/>
+<point X="155" Y="96" S="10"/>
+<point X="148" Y="138" S="10"/>
+<point X="138" Y="178" S="10"/>
+<point X="128" Y="128" S="10"/>
+<point X="123" Y="94" S="10"/>
+<point X="151" Y="67" S="10"/>
+<point X="86" Y="72" S="10"/>
+<point X="86" Y="19" S="10"/>
+<point X="86" Y="-31" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_3_4" x="-4" y="-33" width="151" height="254" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-256" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="33"/>
+<Points SHOWPOINTS="yes">
+<point X="64" Y="217" S="10"/>
+<point X="64" Y="212" S="10"/>
+<point X="65" Y="217" S="10"/>
+<point X="65" Y="212" S="10"/>
+<point X="64" Y="217" S="10"/>
+<point X="65" Y="197" S="10"/>
+<point X="64" Y="154" S="10"/>
+<point X="78" Y="122" S="10"/>
+<point X="143" Y="106" S="10"/>
+<point X="108" Y="59" S="10"/>
+<point X="126" Y="44" S="10"/>
+<point X="63" Y="56" S="10"/>
+<point X="28" Y="86" S="10"/>
+<point X="22" Y="30" S="10"/>
+<point X="60" Y="47" S="10"/>
+<point X="119" Y="33" S="10"/>
+<point X="63" Y="34" S="10"/>
+<point X="65" Y="64" S="10"/>
+<point X="25" Y="78" S="10"/>
+<point X="22" Y="115" S="10"/>
+<point X="76" Y="111" S="10"/>
+<point X="81" Y="62" S="10"/>
+<point X="75" Y="19" S="10"/>
+<point X="74" Y="-29" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR1_4_1" x="-4" y="-34" width="144" height="262" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="21" Y="-30" S="10"/>
+<point X="52" Y="7" S="10"/>
+<point X="59" Y="39" S="10"/>
+<point X="31" Y="60" S="10"/>
+<point X="32" Y="97" S="10"/>
+<point X="32" Y="134" S="10"/>
+<point X="63" Y="133" S="10"/>
+<point X="33" Y="162" S="10"/>
+<point X="34" Y="114" S="10"/>
+<point X="79" Y="78" S="10"/>
+<point X="94" Y="47" S="10"/>
+<point X="46" Y="33" S="10"/>
+<point X="34" Y="60" S="10"/>
+<point X="65" Y="112" S="10"/>
+<point X="93" Y="132" S="10"/>
+<point X="136" Y="146" S="10"/>
+<point X="94" Y="115" S="10"/>
+<point X="58" Y="120" S="10"/>
+<point X="25" Y="116" S="10"/>
+<point X="25" Y="168" S="10"/>
+<point X="27" Y="224" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR2_4_2" x="-4" y="-37" width="168" height="199" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="37"/>
+<Points SHOWPOINTS="yes">
+<point X="160" Y="-32" S="10"/>
+<point X="108" Y="15" S="10"/>
+<point X="103" Y="43" S="10"/>
+<point X="70" Y="55" S="10"/>
+<point X="136" Y="64" S="10"/>
+<point X="102" Y="85" S="10"/>
+<point X="103" Y="105" S="10"/>
+<point X="142" Y="114" S="10"/>
+<point X="87" Y="123" S="10"/>
+<point X="70" Y="157" S="10"/>
+<point X="40" Y="158" S="10"/>
+<point X="70" Y="111" S="10"/>
+<point X="72" Y="72" S="10"/>
+<point X="123" Y="37" S="10"/>
+<point X="137" Y="76" S="10"/>
+<point X="152" Y="41" S="10"/>
+<point X="154" Y="76" S="10"/>
+<point X="139" Y="111" S="10"/>
+<point X="92" Y="113" S="10"/>
+<point X="49" Y="104" S="10"/>
+<point X="33" Y="128" S="10"/>
+<point X="70" Y="81" S="10"/>
+<point X="122" Y="82" S="10"/>
+<point X="140" Y="44" S="10"/>
+<point X="140" Y="6" S="10"/>
+<point X="138" Y="-33" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_4_3" x="-4" y="-35" width="162" height="256" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16724992" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="35"/>
+<Points SHOWPOINTS="yes">
+<point X="136" Y="217" S="10"/>
+<point X="135" Y="212" S="10"/>
+<point X="135" Y="217" S="10"/>
+<point X="135" Y="212" S="10"/>
+<point X="135" Y="217" S="10"/>
+<point X="135" Y="212" S="10"/>
+<point X="134" Y="217" S="10"/>
+<point X="154" Y="212" S="10"/>
+<point X="124" Y="198" S="10"/>
+<point X="125" Y="174" S="10"/>
+<point X="149" Y="159" S="10"/>
+<point X="149" Y="127" S="10"/>
+<point X="98" Y="105" S="10"/>
+<point X="130" Y="106" S="10"/>
+<point X="99" Y="87" S="10"/>
+<point X="66" Y="67" S="10"/>
+<point X="41" Y="97" S="10"/>
+<point X="92" Y="64" S="10"/>
+<point X="124" Y="63" S="10"/>
+<point X="146" Y="88" S="10"/>
+<point X="146" Y="125" S="10"/>
+<point X="126" Y="163" S="10"/>
+<point X="77" Y="169" S="10"/>
+<point X="72" Y="127" S="10"/>
+<point X="71" Y="56" S="10"/>
+<point X="71" Y="-6" S="10"/>
+<point X="69" Y="-31" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_5_1" x="-4" y="-31" width="158" height="252" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="31"/>
+<Points SHOWPOINTS="yes">
+<point X="59" Y="216" S="10"/>
+<point X="59" Y="212" S="10"/>
+<point X="59" Y="217" S="10"/>
+<point X="59" Y="182" S="10"/>
+<point X="59" Y="178" S="10"/>
+<point X="59" Y="174" S="10"/>
+<point X="59" Y="170" S="10"/>
+<point X="59" Y="175" S="10"/>
+<point X="56" Y="153" S="10"/>
+<point X="56" Y="149" S="10"/>
+<point X="31" Y="94" S="10"/>
+<point X="43" Y="32" S="10"/>
+<point X="70" Y="32" S="10"/>
+<point X="21" Y="40" S="10"/>
+<point X="70" Y="38" S="10"/>
+<point X="110" Y="36" S="10"/>
+<point X="140" Y="36" S="10"/>
+<point X="141" Y="71" S="10"/>
+<point X="141" Y="82" S="10"/>
+<point X="102" Y="86" S="10"/>
+<point X="144" Y="88" S="10"/>
+<point X="144" Y="117" S="10"/>
+<point X="144" Y="141" S="10"/>
+<point X="112" Y="111" S="10"/>
+<point X="150" Y="88" S="10"/>
+<point X="114" Y="70" S="10"/>
+<point X="72" Y="85" S="10"/>
+<point X="47" Y="60" S="10"/>
+<point X="48" Y="2" S="10"/>
+<point X="34" Y="-27" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_5_2" x="-4" y="-35" width="152" height="256" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="35"/>
+<Points SHOWPOINTS="yes">
+<point X="122" Y="217" S="10"/>
+<point X="121" Y="211" S="10"/>
+<point X="121" Y="217" S="10"/>
+<point X="121" Y="205" S="10"/>
+<point X="119" Y="185" S="10"/>
+<point X="119" Y="179" S="10"/>
+<point X="126" Y="175" S="10"/>
+<point X="114" Y="175" S="10"/>
+<point X="114" Y="128" S="10"/>
+<point X="114" Y="113" S="10"/>
+<point X="144" Y="98" S="10"/>
+<point X="129" Y="37" S="10"/>
+<point X="106" Y="43" S="10"/>
+<point X="121" Y="61" S="10"/>
+<point X="85" Y="69" S="10"/>
+<point X="34" Y="87" S="10"/>
+<point X="75" Y="64" S="10"/>
+<point X="76" Y="78" S="10"/>
+<point X="94" Y="109" S="10"/>
+<point X="94" Y="137" S="10"/>
+<point X="43" Y="137" S="10"/>
+<point X="43" Y="88" S="10"/>
+<point X="71" Y="75" S="10"/>
+<point X="72" Y="21" S="10"/>
+<point X="125" Y="21" S="10"/>
+<point X="126" Y="57" S="10"/>
+<point X="96" Y="35" S="10"/>
+<point X="94" Y="-20" S="10"/>
+<point X="95" Y="-31" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRANADECAR_5_3" x="-4" y="-4" width="144" height="232" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="88" Y="224" S="10"/>
+<point X="89" Y="186" S="10"/>
+<point X="89" Y="180" S="10"/>
+<point X="89" Y="175" S="10"/>
+<point X="89" Y="170" S="10"/>
+<point X="89" Y="166" S="10"/>
+<point X="89" Y="160" S="10"/>
+<point X="89" Y="155" S="10"/>
+<point X="89" Y="135" S="10"/>
+<point X="90" Y="103" S="10"/>
+<point X="66" Y="103" S="10"/>
+<point X="104" Y="104" S="10"/>
+<point X="121" Y="121" S="10"/>
+<point X="136" Y="121" S="10"/>
+<point X="136" Y="92" S="10"/>
+<point X="123" Y="97" S="10"/>
+<point X="79" Y="113" S="10"/>
+<point X="49" Y="145" S="10"/>
+<point X="49" Y="113" S="10"/>
+<point X="49" Y="77" S="10"/>
+<point X="49" Y="62" S="10"/>
+<point X="79" Y="43" S="10"/>
+<point X="45" Y="43" S="10"/>
+<point X="33" Y="19" S="10"/>
+<point X="25" Y="44" S="10"/>
+<point X="26" Y="72" S="10"/>
+<point X="26" Y="98" S="10"/>
+<point X="26" Y="126" S="10"/>
+<point X="65" Y="136" S="10"/>
+<point X="67" Y="108" S="10"/>
+<point X="105" Y="109" S="10"/>
+<point X="105" Y="136" S="10"/>
+<point X="65" Y="121" S="10"/>
+<point X="54" Y="121" S="10"/>
+<point X="54" Y="147" S="10"/>
+<point X="54" Y="166" S="10"/>
+<point X="54" Y="186" S="10"/>
+<point X="55" Y="206" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRENADERCAR_6_1" x="-4" y="-30" width="127" height="251" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="30"/>
+<Points SHOWPOINTS="yes">
+<point X="51" Y="-26" S="10"/>
+<point X="52" Y="7" S="10"/>
+<point X="53" Y="29" S="10"/>
+<point X="57" Y="64" S="10"/>
+<point X="36" Y="92" S="10"/>
+<point X="47" Y="115" S="10"/>
+<point X="58" Y="156" S="10"/>
+<point X="34" Y="162" S="10"/>
+<point X="34" Y="115" S="10"/>
+<point X="65" Y="86" S="10"/>
+<point X="65" Y="53" S="10"/>
+<point X="75" Y="28" S="10"/>
+<point X="50" Y="22" S="10"/>
+<point X="51" Y="56" S="10"/>
+<point X="66" Y="91" S="10"/>
+<point X="97" Y="101" S="10"/>
+<point X="119" Y="126" S="10"/>
+<point X="82" Y="118" S="10"/>
+<point X="49" Y="132" S="10"/>
+<point X="42" Y="164" S="10"/>
+<point X="69" Y="164" S="10"/>
+<point X="105" Y="164" S="10"/>
+<point X="105" Y="130" S="10"/>
+<point X="105" Y="135" S="10"/>
+<point X="76" Y="133" S="10"/>
+<point X="76" Y="160" S="10"/>
+<point X="76" Y="192" S="10"/>
+<point X="75" Y="217" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR2_6_2" x="-4" y="-38" width="168" height="189" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="38"/>
+<Points SHOWPOINTS="yes">
+<point X="160" Y="-32" S="10"/>
+<point X="132" Y="-26" S="10"/>
+<point X="130" Y="-30" S="10"/>
+<point X="131" Y="10" S="10"/>
+<point X="132" Y="40" S="10"/>
+<point X="144" Y="62" S="10"/>
+<point X="106" Y="76" S="10"/>
+<point X="142" Y="88" S="10"/>
+<point X="119" Y="111" S="10"/>
+<point X="88" Y="138" S="10"/>
+<point X="49" Y="138" S="10"/>
+<point X="70" Y="106" S="10"/>
+<point X="88" Y="76" S="10"/>
+<point X="88" Y="35" S="10"/>
+<point X="112" Y="69" S="10"/>
+<point X="152" Y="53" S="10"/>
+<point X="152" Y="80" S="10"/>
+<point X="152" Y="115" S="10"/>
+<point X="152" Y="147" S="10"/>
+<point X="122" Y="122" S="10"/>
+<point X="95" Y="101" S="10"/>
+<point X="70" Y="81" S="10"/>
+<point X="116" Y="60" S="10"/>
+<point X="155" Y="41" S="10"/>
+<point X="115" Y="43" S="10"/>
+<point X="72" Y="44" S="10"/>
+<point X="29" Y="43" S="10"/>
+<point X="61" Y="66" S="10"/>
+<point X="75" Y="25" S="10"/>
+<point X="74" Y="-34" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_7_3" x="-4" y="-30" width="148" height="253" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="30"/>
+<Points SHOWPOINTS="yes">
+<point X="30" Y="217" S="10"/>
+<point X="30" Y="212" S="10"/>
+<point X="30" Y="219" S="10"/>
+<point X="22" Y="212" S="10"/>
+<point X="24" Y="218" S="10"/>
+<point X="23" Y="212" S="10"/>
+<point X="23" Y="217" S="10"/>
+<point X="23" Y="150" S="10"/>
+<point X="23" Y="83" S="10"/>
+<point X="22" Y="26" S="10"/>
+<point X="61" Y="26" S="10"/>
+<point X="14" Y="20" S="10"/>
+<point X="15" Y="59" S="10"/>
+<point X="58" Y="52" S="10"/>
+<point X="19" Y="41" S="10"/>
+<point X="53" Y="33" S="10"/>
+<point X="98" Y="33" S="10"/>
+<point X="140" Y="33" S="10"/>
+<point X="99" Y="50" S="10"/>
+<point X="58" Y="64" S="10"/>
+<point X="101" Y="60" S="10"/>
+<point X="140" Y="56" S="10"/>
+<point X="107" Y="37" S="10"/>
+<point X="132" Y="31" S="10"/>
+<point X="131" Y="5" S="10"/>
+<point X="130" Y="-26" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_7_5" x="-4" y="-4" width="163" height="225" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65281" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="152" Y="217" S="10"/>
+<point X="151" Y="210" S="10"/>
+<point X="151" Y="217" S="10"/>
+<point X="150" Y="210" S="10"/>
+<point X="150" Y="217" S="10"/>
+<point X="149" Y="210" S="10"/>
+<point X="150" Y="217" S="10"/>
+<point X="150" Y="209" S="10"/>
+<point X="150" Y="217" S="10"/>
+<point X="146" Y="183" S="10"/>
+<point X="151" Y="181" S="10"/>
+<point X="147" Y="178" S="10"/>
+<point X="147" Y="141" S="10"/>
+<point X="125" Y="130" S="10"/>
+<point X="146" Y="92" S="10"/>
+<point X="114" Y="92" S="10"/>
+<point X="155" Y="93" S="10"/>
+<point X="155" Y="61" S="10"/>
+<point X="155" Y="34" S="10"/>
+<point X="118" Y="34" S="10"/>
+<point X="87" Y="35" S="10"/>
+<point X="87" Y="63" S="10"/>
+<point X="48" Y="63" S="10"/>
+<point X="48" Y="93" S="10"/>
+<point X="49" Y="123" S="10"/>
+<point X="64" Y="140" S="10"/>
+<point X="51" Y="156" S="10"/>
+<point X="37" Y="173" S="10"/>
+<point X="37" Y="191" S="10"/>
+<point X="37" Y="213" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_7_4" x="-4" y="-4" width="75" height="225" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-256" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="67" Y="217" S="10"/>
+<point X="67" Y="210" S="10"/>
+<point X="65" Y="217" S="10"/>
+<point X="65" Y="209" S="10"/>
+<point X="65" Y="217" S="10"/>
+<point X="65" Y="210" S="10"/>
+<point X="65" Y="217" S="10"/>
+<point X="65" Y="208" S="10"/>
+<point X="65" Y="217" S="10"/>
+<point X="64" Y="182" S="10"/>
+<point X="64" Y="179" S="10"/>
+<point X="64" Y="175" S="10"/>
+<point X="28" Y="173" S="10"/>
+<point X="20" Y="165" S="10"/>
+<point X="20" Y="160" S="10"/>
+<point X="20" Y="157" S="10"/>
+<point X="20" Y="142" S="10"/>
+<point X="19" Y="120" S="10"/>
+<point X="42" Y="94" S="10"/>
+<point X="21" Y="83" S="10"/>
+<point X="26" Y="116" S="10"/>
+<point X="32" Y="73" S="10"/>
+<point X="50" Y="82" S="10"/>
+<point X="19" Y="98" S="10"/>
+<point X="28" Y="132" S="10"/>
+<point X="29" Y="166" S="10"/>
+<point X="29" Y="194" S="10"/>
+<point X="29" Y="214" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_7_2" x="-4" y="-34" width="153" height="269" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13369600" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="17" Y="231" S="10"/>
+<point X="17" Y="181" S="10"/>
+<point X="17" Y="113" S="10"/>
+<point X="17" Y="42" S="10"/>
+<point X="17" Y="-28" S="10"/>
+<point X="17" Y="-19" S="10"/>
+<point X="18" Y="-23" S="10"/>
+<point X="74" Y="-25" S="10"/>
+<point X="142" Y="-30" S="10"/>
+<point X="144" Y="6" S="10"/>
+<point X="144" Y="23" S="10"/>
+<point X="91" Y="24" S="10"/>
+<point X="91" Y="38" S="10"/>
+<point X="112" Y="38" S="10"/>
+<point X="145" Y="38" S="10"/>
+<point X="145" Y="60" S="10"/>
+<point X="97" Y="75" S="10"/>
+<point X="50" Y="75" S="10"/>
+<point X="50" Y="30" S="10"/>
+<point X="18" Y="22" S="10"/>
+<point X="67" Y="23" S="10"/>
+<point X="38" Y="50" S="10"/>
+<point X="38" Y="9" S="10"/>
+<point X="37" Y="-29" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_FLAMECAR_7_1" x="-4" y="-4" width="143" height="225" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="106" Y="217" S="10"/>
+<point X="104" Y="212" S="10"/>
+<point X="106" Y="217" S="10"/>
+<point X="104" Y="212" S="10"/>
+<point X="105" Y="217" S="10"/>
+<point X="105" Y="211" S="10"/>
+<point X="104" Y="217" S="10"/>
+<point X="105" Y="212" S="10"/>
+<point X="104" Y="217" S="10"/>
+<point X="104" Y="211" S="10"/>
+<point X="104" Y="217" S="10"/>
+<point X="105" Y="182" S="10"/>
+<point X="105" Y="163" S="10"/>
+<point X="75" Y="151" S="10"/>
+<point X="51" Y="139" S="10"/>
+<point X="51" Y="109" S="10"/>
+<point X="78" Y="125" S="10"/>
+<point X="108" Y="140" S="10"/>
+<point X="135" Y="141" S="10"/>
+<point X="105" Y="118" S="10"/>
+<point X="72" Y="95" S="10"/>
+<point X="84" Y="124" S="10"/>
+<point X="85" Y="160" S="10"/>
+<point X="85" Y="193" S="10"/>
+<point X="84" Y="217" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_8_1" x="0" y="-30" width="32" height="252" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="30"/>
+<Points SHOWPOINTS="yes">
+<point X="20" Y="218" S="8"/>
+<point X="20" Y="165" S="8"/>
+<point X="20" Y="100" S="8"/>
+<point X="20" Y="38" S="8"/>
+<point X="20" Y="-26" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_9_1" x="-4" y="-32" width="161" height="260" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="32"/>
+<Points SHOWPOINTS="yes">
+<point X="153" Y="224" S="8"/>
+<point X="153" Y="171" S="8"/>
+<point X="153" Y="102" S="8"/>
+<point X="153" Y="44" S="8"/>
+<point X="153" Y="-28" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_10_1" x="-4" y="-34" width="170" height="258" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="154" Y="220" S="10"/>
+<point X="154" Y="215" S="10"/>
+<point X="154" Y="220" S="10"/>
+<point X="154" Y="181" S="10"/>
+<point X="154" Y="103" S="10"/>
+<point X="106" Y="103" S="10"/>
+<point X="161" Y="111" S="10"/>
+<point X="114" Y="121" S="10"/>
+<point X="161" Y="121" S="10"/>
+<point X="162" Y="56" S="10"/>
+<point X="137" Y="25" S="10"/>
+<point X="138" Y="65" S="10"/>
+<point X="114" Y="25" S="10"/>
+<point X="115" Y="66" S="10"/>
+<point X="115" Y="93" S="10"/>
+<point X="91" Y="110" S="10"/>
+<point X="49" Y="111" S="10"/>
+<point X="67" Y="67" S="10"/>
+<point X="30" Y="67" S="10"/>
+<point X="31" Y="27" S="10"/>
+<point X="66" Y="45" S="10"/>
+<point X="23" Y="45" S="10"/>
+<point X="24" Y="81" S="10"/>
+<point X="43" Y="103" S="10"/>
+<point X="26" Y="127" S="10"/>
+<point X="59" Y="139" S="10"/>
+<point X="96" Y="128" S="10"/>
+<point X="96" Y="95" S="10"/>
+<point X="59" Y="97" S="10"/>
+<point X="37" Y="57" S="10"/>
+<point X="86" Y="49" S="10"/>
+<point X="85" Y="14" S="10"/>
+<point X="31" Y="15" S="10"/>
+<point X="30" Y="-30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRANADECAR_10_3" x="-4" y="-33" width="160" height="254" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13421569" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="33"/>
+<Points SHOWPOINTS="yes">
+<point X="86" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="86" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="85" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="85" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="85" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="84" Y="217" S="10"/>
+<point X="85" Y="212" S="10"/>
+<point X="85" Y="188" S="10"/>
+<point X="85" Y="152" S="10"/>
+<point X="121" Y="152" S="10"/>
+<point X="121" Y="137" S="10"/>
+<point X="152" Y="112" S="10"/>
+<point X="151" Y="64" S="10"/>
+<point X="107" Y="76" S="10"/>
+<point X="83" Y="101" S="10"/>
+<point X="44" Y="117" S="10"/>
+<point X="45" Y="150" S="10"/>
+<point X="75" Y="150" S="10"/>
+<point X="75" Y="114" S="10"/>
+<point X="74" Y="79" S="10"/>
+<point X="74" Y="40" S="10"/>
+<point X="29" Y="41" S="10"/>
+<point X="65" Y="56" S="10"/>
+<point X="109" Y="56" S="10"/>
+<point X="109" Y="28" S="10"/>
+<point X="109" Y="-8" S="10"/>
+<point X="108" Y="-29" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_10_2" x="-4" y="-35" width="161" height="269" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-256" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="35"/>
+<Points SHOWPOINTS="yes">
+<point X="18" Y="230" S="10"/>
+<point X="21" Y="220" S="10"/>
+<point X="22" Y="230" S="10"/>
+<point X="24" Y="220" S="10"/>
+<point X="22" Y="230" S="10"/>
+<point X="25" Y="220" S="10"/>
+<point X="27" Y="179" S="10"/>
+<point X="27" Y="125" S="10"/>
+<point X="71" Y="125" S="10"/>
+<point X="43" Y="145" S="10"/>
+<point X="26" Y="96" S="10"/>
+<point X="18" Y="117" S="10"/>
+<point X="20" Y="61" S="10"/>
+<point X="57" Y="62" S="10"/>
+<point X="19" Y="30" S="10"/>
+<point X="76" Y="31" S="10"/>
+<point X="38" Y="21" S="10"/>
+<point X="94" Y="22" S="10"/>
+<point X="141" Y="22" S="10"/>
+<point X="105" Y="47" S="10"/>
+<point X="152" Y="60" S="10"/>
+<point X="106" Y="77" S="10"/>
+<point X="151" Y="90" S="10"/>
+<point X="152" Y="127" S="10"/>
+<point X="129" Y="153" S="10"/>
+<point X="153" Y="175" S="10"/>
+<point X="112" Y="176" S="10"/>
+<point X="81" Y="142" S="10"/>
+<point X="119" Y="114" S="10"/>
+<point X="82" Y="89" S="10"/>
+<point X="124" Y="65" S="10"/>
+<point X="124" Y="13" S="10"/>
+<point X="122" Y="-31" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRANADECAR_11_1" x="-4" y="-34" width="158" height="261"  pinned="yes"  channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="86" Y="223" S="10"/>
+<point X="86" Y="182" S="10"/>
+<point X="86" Y="173" S="10"/>
+<point X="96" Y="127" S="10"/>
+<point X="127" Y="125" S="10"/>
+<point X="116" Y="109" S="10"/>
+<point X="86" Y="110" S="10"/>
+<point X="57" Y="111" S="10"/>
+<point X="55" Y="137" S="10"/>
+<point X="29" Y="137" S="10"/>
+<point X="29" Y="94" S="10"/>
+<point X="50" Y="64" S="10"/>
+<point X="23" Y="40" S="10"/>
+<point X="56" Y="27" S="10"/>
+<point X="91" Y="27" S="10"/>
+<point X="128" Y="27" S="10"/>
+<point X="118" Y="45" S="10"/>
+<point X="150" Y="59" S="10"/>
+<point X="119" Y="74" S="10"/>
+<point X="148" Y="90" S="10"/>
+<point X="148" Y="125" S="10"/>
+<point X="149" Y="160" S="10"/>
+<point X="119" Y="161" S="10"/>
+<point X="92" Y="140" S="10"/>
+<point X="91" Y="103" S="10"/>
+<point X="61" Y="87" S="10"/>
+<point X="61" Y="49" S="10"/>
+<point X="94" Y="34" S="10"/>
+<point X="93" Y="-3" S="10"/>
+<point X="91" Y="-30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_11_2" x="-4" y="-33" width="152" height="258" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="33"/>
+<Points SHOWPOINTS="yes">
+<point X="45" Y="221" S="10"/>
+<point X="43" Y="213" S="10"/>
+<point X="43" Y="184" S="10"/>
+<point X="20" Y="147" S="10"/>
+<point X="67" Y="108" S="10"/>
+<point X="21" Y="83" S="10"/>
+<point X="21" Y="35" S="10"/>
+<point X="78" Y="34" S="10"/>
+<point X="124" Y="38" S="10"/>
+<point X="143" Y="61" S="10"/>
+<point X="144" Y="95" S="10"/>
+<point X="106" Y="95" S="10"/>
+<point X="144" Y="121" S="10"/>
+<point X="106" Y="142" S="10"/>
+<point X="45" Y="142" S="10"/>
+<point X="101" Y="161" S="10"/>
+<point X="140" Y="141" S="10"/>
+<point X="108" Y="118" S="10"/>
+<point X="60" Y="118" S="10"/>
+<point X="60" Y="156" S="10"/>
+<point X="20" Y="157" S="10"/>
+<point X="20" Y="90" S="10"/>
+<point X="70" Y="59" S="10"/>
+<point X="21" Y="26" S="10"/>
+<point X="20" Y="-29" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_11_3" x="-4" y="-34" width="158" height="255" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="34"/>
+<Points SHOWPOINTS="yes">
+<point X="132" Y="217" S="10"/>
+<point X="131" Y="212" S="10"/>
+<point X="130" Y="217" S="10"/>
+<point X="132" Y="180" S="10"/>
+<point X="78" Y="180" S="10"/>
+<point X="50" Y="142" S="10"/>
+<point X="109" Y="142" S="10"/>
+<point X="149" Y="125" S="10"/>
+<point X="150" Y="71" S="10"/>
+<point X="83" Y="85" S="10"/>
+<point X="118" Y="113" S="10"/>
+<point X="67" Y="134" S="10"/>
+<point X="67" Y="93" S="10"/>
+<point X="102" Y="74" S="10"/>
+<point X="51" Y="88" S="10"/>
+<point X="20" Y="62" S="10"/>
+<point X="21" Y="88" S="10"/>
+<point X="50" Y="119" S="10"/>
+<point X="50" Y="56" S="10"/>
+<point X="86" Y="53" S="10"/>
+<point X="87" Y="19" S="10"/>
+<point X="145" Y="19" S="10"/>
+<point X="146" Y="43" S="10"/>
+<point X="85" Y="45" S="10"/>
+<point X="130" Y="63" S="10"/>
+<point X="103" Y="82" S="10"/>
+<point X="73" Y="107" S="10"/>
+<point X="72" Y="47" S="10"/>
+<point X="69" Y="-30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_12_2" x="-4" y="-41" width="165" height="271" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-256" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="41"/>
+<Points SHOWPOINTS="yes">
+<point X="141" Y="222" S="10"/>
+<point X="141" Y="212" S="10"/>
+<point X="141" Y="225" S="10"/>
+<point X="141" Y="212" S="10"/>
+<point X="141" Y="226" S="10"/>
+<point X="141" Y="213" S="10"/>
+<point X="141" Y="139" S="10"/>
+<point X="106" Y="139" S="10"/>
+<point X="157" Y="148" S="10"/>
+<point X="106" Y="154" S="10"/>
+<point X="58" Y="154" S="10"/>
+<point X="57" Y="89" S="10"/>
+<point X="94" Y="103" S="10"/>
+<point X="43" Y="98" S="10"/>
+<point X="22" Y="46" S="10"/>
+<point X="55" Y="65" S="10"/>
+<point X="26" Y="82" S="10"/>
+<point X="25" Y="10" S="10"/>
+<point X="23" Y="-37" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_12_1" x="-4" y="-35" width="143" height="260" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13369600" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="35"/>
+<Points SHOWPOINTS="yes">
+<point X="52" Y="218" S="10"/>
+<point X="52" Y="209" S="10"/>
+<point X="52" Y="217" S="10"/>
+<point X="52" Y="205" S="10"/>
+<point X="51" Y="220" S="10"/>
+<point X="50" Y="206" S="10"/>
+<point X="51" Y="221" S="10"/>
+<point X="52" Y="210" S="10"/>
+<point X="53" Y="168" S="10"/>
+<point X="22" Y="105" S="10"/>
+<point X="74" Y="119" S="10"/>
+<point X="123" Y="106" S="10"/>
+<point X="122" Y="60" S="10"/>
+<point X="76" Y="60" S="10"/>
+<point X="75" Y="14" S="10"/>
+<point X="119" Y="15" S="10"/>
+<point X="82" Y="24" S="10"/>
+<point X="46" Y="30" S="10"/>
+<point X="94" Y="32" S="10"/>
+<point X="135" Y="32" S="10"/>
+<point X="134" Y="-31" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_12_4" x="-4" y="-42" width="166" height="271" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65281" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="42"/>
+<Points SHOWPOINTS="yes">
+<point X="158" Y="225" S="10"/>
+<point X="158" Y="213" S="10"/>
+<point X="158" Y="131" S="10"/>
+<point X="158" Y="63" S="10"/>
+<point X="112" Y="77" S="10"/>
+<point X="112" Y="18" S="10"/>
+<point X="61" Y="18" S="10"/>
+<point X="112" Y="27" S="10"/>
+<point X="62" Y="37" S="10"/>
+<point X="21" Y="50" S="10"/>
+<point X="63" Y="58" S="10"/>
+<point X="21" Y="67" S="10"/>
+<point X="22" Y="113" S="10"/>
+<point X="23" Y="154" S="10"/>
+<point X="66" Y="140" S="10"/>
+<point X="104" Y="154" S="10"/>
+<point X="128" Y="154" S="10"/>
+<point X="79" Y="160" S="10"/>
+<point X="42" Y="132" S="10"/>
+<point X="69" Y="74" S="10"/>
+<point X="68" Y="12" S="10"/>
+<point X="66" Y="-38" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_12_3" x="-4" y="-38" width="158" height="271" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="38"/>
+<Points SHOWPOINTS="yes">
+<point X="16" Y="228" S="10"/>
+<point X="15" Y="214" S="10"/>
+<point X="18" Y="229" S="10"/>
+<point X="18" Y="211" S="10"/>
+<point X="21" Y="139" S="10"/>
+<point X="69" Y="139" S="10"/>
+<point X="69" Y="170" S="10"/>
+<point X="27" Y="170" S="10"/>
+<point X="28" Y="97" S="10"/>
+<point X="75" Y="79" S="10"/>
+<point X="121" Y="97" S="10"/>
+<point X="121" Y="26" S="10"/>
+<point X="78" Y="26" S="10"/>
+<point X="127" Y="35" S="10"/>
+<point X="150" Y="58" S="10"/>
+<point X="104" Y="70" S="10"/>
+<point X="105" Y="103" S="10"/>
+<point X="66" Y="109" S="10"/>
+<point X="105" Y="118" S="10"/>
+<point X="150" Y="118" S="10"/>
+<point X="148" Y="69" S="10"/>
+<point X="146" Y="20" S="10"/>
+<point X="146" Y="-34" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_GRANADECAR_13_3" x="-4" y="-38" width="159" height="272" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16776961" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="38"/>
+<Points SHOWPOINTS="yes">
+<point X="78" Y="230" S="10"/>
+<point X="78" Y="220" S="10"/>
+<point X="77" Y="230" S="10"/>
+<point X="76" Y="220" S="10"/>
+<point X="75" Y="230" S="10"/>
+<point X="31" Y="220" S="10"/>
+<point X="33" Y="230" S="10"/>
+<point X="34" Y="220" S="10"/>
+<point X="34" Y="230" S="10"/>
+<point X="35" Y="179" S="10"/>
+<point X="34" Y="134" S="10"/>
+<point X="30" Y="84" S="10"/>
+<point X="28" Y="56" S="10"/>
+<point X="27" Y="96" S="10"/>
+<point X="28" Y="135" S="10"/>
+<point X="61" Y="135" S="10"/>
+<point X="94" Y="136" S="10"/>
+<point X="129" Y="130" S="10"/>
+<point X="151" Y="105" S="10"/>
+<point X="150" Y="64" S="10"/>
+<point X="114" Y="64" S="10"/>
+<point X="89" Y="41" S="10"/>
+<point X="113" Y="24" S="10"/>
+<point X="123" Y="53" S="10"/>
+<point X="89" Y="71" S="10"/>
+<point X="71" Y="36" S="10"/>
+<point X="107" Y="16" S="10"/>
+<point X="108" Y="-34" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR_13_1" x="-4" y="-4" width="164" height="238" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="47" Y="230" S="10"/>
+<point X="47" Y="220" S="10"/>
+<point X="48" Y="230" S="10"/>
+<point X="48" Y="220" S="10"/>
+<point X="49" Y="171" S="10"/>
+<point X="49" Y="140" S="10"/>
+<point X="74" Y="127" S="10"/>
+<point X="49" Y="98" S="10"/>
+<point X="71" Y="97" S="10"/>
+<point X="80" Y="64" S="10"/>
+<point X="118" Y="64" S="10"/>
+<point X="128" Y="35" S="10"/>
+<point X="156" Y="48" S="10"/>
+<point X="117" Y="48" S="10"/>
+<point X="117" Y="84" S="10"/>
+<point X="77" Y="84" S="10"/>
+<point X="45" Y="85" S="10"/>
+<point X="34" Y="126" S="10"/>
+<point X="33" Y="166" S="10"/>
+<point X="73" Y="168" S="10"/>
+<point X="125" Y="169" S="10"/>
+<point X="151" Y="152" S="10"/>
+<point X="103" Y="143" S="10"/>
+<point X="102" Y="101" S="10"/>
+<point X="57" Y="114" S="10"/>
+<point X="26" Y="92" S="10"/>
+<point X="26" Y="45" S="10"/>
+<point X="55" Y="66" S="10"/>
+<point X="86" Y="88" S="10"/>
+<point X="86" Y="125" S="10"/>
+<point X="87" Y="158" S="10"/>
+<point X="59" Y="178" S="10"/>
+<point X="59" Y="230" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_13_2" x="-4" y="-36" width="162" height="270" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="36"/>
+<Points SHOWPOINTS="yes">
+<point X="117" Y="230" S="10"/>
+<point X="116" Y="220" S="10"/>
+<point X="133" Y="173" S="10"/>
+<point X="90" Y="162" S="10"/>
+<point X="114" Y="177" S="10"/>
+<point X="83" Y="169" S="10"/>
+<point X="130" Y="169" S="10"/>
+<point X="154" Y="125" S="10"/>
+<point X="123" Y="151" S="10"/>
+<point X="154" Y="132" S="10"/>
+<point X="117" Y="136" S="10"/>
+<point X="77" Y="116" S="10"/>
+<point X="77" Y="89" S="10"/>
+<point X="63" Y="57" S="10"/>
+<point X="26" Y="47" S="10"/>
+<point X="67" Y="21" S="10"/>
+<point X="82" Y="57" S="10"/>
+<point X="83" Y="91" S="10"/>
+<point X="42" Y="91" S="10"/>
+<point X="42" Y="124" S="10"/>
+<point X="25" Y="124" S="10"/>
+<point X="25" Y="83" S="10"/>
+<point X="40" Y="56" S="10"/>
+<point X="24" Y="27" S="10"/>
+<point X="66" Y="34" S="10"/>
+<point X="102" Y="22" S="10"/>
+<point X="135" Y="47" S="10"/>
+<point X="147" Y="74" S="10"/>
+<point X="126" Y="29" S="10"/>
+<point X="123" Y="-32" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_TARANCAR_14_3" x="-4" y="-44" width="156" height="278" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="44"/>
+<Points SHOWPOINTS="yes">
+<point X="66" Y="230" S="10"/>
+<point X="65" Y="225" S="10"/>
+<point X="65" Y="230" S="10"/>
+<point X="65" Y="225" S="10"/>
+<point X="66" Y="230" S="10"/>
+<point X="65" Y="225" S="10"/>
+<point X="66" Y="230" S="10"/>
+<point X="65" Y="225" S="10"/>
+<point X="65" Y="179" S="10"/>
+<point X="35" Y="163" S="10"/>
+<point X="64" Y="151" S="10"/>
+<point X="64" Y="110" S="10"/>
+<point X="25" Y="89" S="10"/>
+<point X="25" Y="134" S="10"/>
+<point X="74" Y="143" S="10"/>
+<point X="127" Y="149" S="10"/>
+<point X="148" Y="125" S="10"/>
+<point X="105" Y="107" S="10"/>
+<point X="70" Y="88" S="10"/>
+<point X="32" Y="65" S="10"/>
+<point X="31" Y="27" S="10"/>
+<point X="79" Y="28" S="10"/>
+<point X="125" Y="28" S="10"/>
+<point X="105" Y="58" S="10"/>
+<point X="82" Y="87" S="10"/>
+<point X="132" Y="87" S="10"/>
+<point X="132" Y="43" S="10"/>
+<point X="132" Y="-7" S="10"/>
+<point X="130" Y="-40" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_14_1" x="-4" y="-36" width="163" height="262" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16777012" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="36"/>
+<Points SHOWPOINTS="yes">
+<point X="33" Y="222" S="10"/>
+<point X="32" Y="174" S="10"/>
+<point X="22" Y="139" S="10"/>
+<point X="28" Y="166" S="10"/>
+<point X="94" Y="167" S="10"/>
+<point X="24" Y="165" S="10"/>
+<point X="22" Y="116" S="10"/>
+<point X="47" Y="147" S="10"/>
+<point X="105" Y="155" S="10"/>
+<point X="155" Y="160" S="10"/>
+<point X="154" Y="105" S="10"/>
+<point X="113" Y="113" S="10"/>
+<point X="154" Y="119" S="10"/>
+<point X="113" Y="123" S="10"/>
+<point X="139" Y="87" S="10"/>
+<point X="153" Y="43" S="10"/>
+<point X="94" Y="43" S="10"/>
+<point X="150" Y="53" S="10"/>
+<point X="107" Y="65" S="10"/>
+<point X="64" Y="49" S="10"/>
+<point X="64" Y="14" S="10"/>
+<point X="112" Y="14" S="10"/>
+<point X="112" Y="-32" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="PATH_MOTORCYCLER_14_2" x="-4" y="-4" width="161" height="235" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13369600" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="140" Y="226" S="10"/>
+<point X="141" Y="184" S="10"/>
+<point X="141" Y="145" S="10"/>
+<point X="153" Y="113" S="10"/>
+<point X="99" Y="133" S="10"/>
+<point X="151" Y="144" S="10"/>
+<point X="152" Y="97" S="10"/>
+<point X="97" Y="98" S="10"/>
+<point X="138" Y="75" S="10"/>
+<point X="99" Y="52" S="10"/>
+<point X="152" Y="53" S="10"/>
+<point X="99" Y="40" S="10"/>
+<point X="45" Y="41" S="10"/>
+<point X="91" Y="56" S="10"/>
+<point X="40" Y="59" S="10"/>
+<point X="40" Y="96" S="10"/>
+<point X="41" Y="132" S="10"/>
+<point X="42" Y="176" S="10"/>
+<point X="92" Y="177" S="10"/>
+<point X="93" Y="227" S="10"/>
+</Points>
+</component_info>
+</component>
+</form>
+</RRGFRM>

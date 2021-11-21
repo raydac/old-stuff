@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * Класс описывает механизм загрузки и отображения экранного меню для мобильных устройств
+ * РљР»Р°СЃСЃ РѕРїРёСЃС‹РІР°РµС‚ РјРµС…Р°РЅРёР·Рј Р·Р°РіСЂСѓР·РєРё Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЌРєСЂР°РЅРЅРѕРіРѕ РјРµРЅСЋ РґР»СЏ РјРѕР±РёР»СЊРЅС‹С… СѓСЃС‚СЂРѕР№СЃС‚РІ
  * @author Igor Maznitsa
  * @version 1.01
  * @since 10 Nov 2004
@@ -140,9 +140,9 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Инициализация блока меню
-     * @param _menuResource имя ресурса, который содержит бинарное представление меню
-     * @throws java.io.IOException исключение генерируется если произошла ошибка во время инициализации
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р»РѕРєР° РјРµРЅСЋ
+     * @param _menuResource РёРјСЏ СЂРµСЃСѓСЂСЃР°, РєРѕС‚РѕСЂС‹Р№ СЃРѕРґРµСЂР¶РёС‚ Р±РёРЅР°СЂРЅРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РјРµРЅСЋ
+     * @throws java.io.IOException РёСЃРєР»СЋС‡РµРЅРёРµ РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° РІРѕ РІСЂРµРјСЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
      */
     public void MB_initMenuBlock(String _menuResource) throws IOException
     {
@@ -150,7 +150,7 @@ public class MenuBlock implements CommandListener
         MB_lg_menuActive = false;
         MB_p_oldCanvas = null;
 
-        // Загружаем меню из ресурса
+        // Р—Р°РіСЂСѓР¶Р°РµРј РјРµРЅСЋ РёР· СЂРµСЃСѓСЂСЃР°
         //------------------------------------
         DataInputStream p_dis = new DataInputStream(this.getClass().getResourceAsStream(_menuResource));
         int i_SummaryLen = p_dis.readUnsignedShort();
@@ -160,9 +160,9 @@ public class MenuBlock implements CommandListener
         p_dis = null;
         //------------------------------------
 
-        // Инициализируем массивы
-        MB_ash_screenStack = new short[20]; // Устанавливаем глубину стека экранов
-        MB_i_MenuStackPointer = -1; // Устанавливаем указатель стека меню
+        // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РјР°СЃСЃРёРІС‹
+        MB_ash_screenStack = new short[20]; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РіР»СѓР±РёРЅСѓ СЃС‚РµРєР° СЌРєСЂР°РЅРѕРІ
+        MB_i_MenuStackPointer = -1; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ СЃС‚РµРєР° РјРµРЅСЋ
         MB_ash_itemIdArray = new short[MB_MAX_ITEMS_NUMBER_PER_SCREEN];
         MB_ash_itemLinkScreen = new short[MB_MAX_ITEMS_NUMBER_PER_SCREEN];
         MB_ash_commandDecode = new short[MB_MAX_COMMANDS_NUMBER_PER_SCREEN];
@@ -175,10 +175,10 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Активизируем меню с выводом заданного экрана
-     * @param _background Displayable объект, который будет выведен на жкран после окончания работы меню
-     * @param _startScreenMenu смещение до данных выводимой формы
-     * @param _menuListener слушатель сообщений меню
+     * РђРєС‚РёРІРёР·РёСЂСѓРµРј РјРµРЅСЋ СЃ РІС‹РІРѕРґРѕРј Р·Р°РґР°РЅРЅРѕРіРѕ СЌРєСЂР°РЅР°
+     * @param _background Displayable РѕР±СЉРµРєС‚, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹РІРµРґРµРЅ РЅР° Р¶РєСЂР°РЅ РїРѕСЃР»Рµ РѕРєРѕРЅС‡Р°РЅРёСЏ СЂР°Р±РѕС‚С‹ РјРµРЅСЋ
+     * @param _startScreenMenu СЃРјРµС‰РµРЅРёРµ РґРѕ РґР°РЅРЅС‹С… РІС‹РІРѕРґРёРјРѕР№ С„РѕСЂРјС‹
+     * @param _menuListener СЃР»СѓС€Р°С‚РµР»СЊ СЃРѕРѕР±С‰РµРЅРёР№ РјРµРЅСЋ
      */
     public void MB_activateMenu(Displayable _background,int _startScreenMenu,MenuActionListener _menuListener)
     {
@@ -189,7 +189,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Деактивизируем меню, очищаем стек, удаляем жкран и восстанавливаем бэкграунд
+     * Р”РµР°РєС‚РёРІРёР·РёСЂСѓРµРј РјРµРЅСЋ, РѕС‡РёС‰Р°РµРј СЃС‚РµРє, СѓРґР°Р»СЏРµРј Р¶РєСЂР°РЅ Рё РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р±СЌРєРіСЂР°СѓРЅРґ
      */
     public void MB_deactivateMenu()
     {
@@ -198,8 +198,8 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Деинициализация текущего экрана, если он представлен
-     * @param _force если true то требуется перегенерация содержимого экрана
+     * Р”РµРёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚РµРєСѓС‰РµРіРѕ СЌРєСЂР°РЅР°, РµСЃР»Рё РѕРЅ РїСЂРµРґСЃС‚Р°РІР»РµРЅ
+     * @param _force РµСЃР»Рё true С‚Рѕ С‚СЂРµР±СѓРµС‚СЃСЏ РїРµСЂРµРіРµРЅРµСЂР°С†РёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЌРєСЂР°РЅР°
      */
     public void MB_reinitScreen(boolean _force,boolean _displayImmediately)
     {
@@ -223,7 +223,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Замещает текущий экран указанным, без изменения стека экранов
+     * Р—Р°РјРµС‰Р°РµС‚ С‚РµРєСѓС‰РёР№ СЌРєСЂР°РЅ СѓРєР°Р·Р°РЅРЅС‹Рј, Р±РµР· РёР·РјРµРЅРµРЅРёСЏ СЃС‚РµРєР° СЌРєСЂР°РЅРѕРІ
      * @param _newScreen
      */
     public void MB_replaceCurrentScreen(int _newScreen,boolean _displayImmediate)
@@ -233,15 +233,15 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Инициализация и отображение экрана из массива по заданному смещению
-     * @param _screenPointer смещение в блоке данных меню
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ СЌРєСЂР°РЅР° РёР· РјР°СЃСЃРёРІР° РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЃРјРµС‰РµРЅРёСЋ
+     * @param _screenPointer СЃРјРµС‰РµРЅРёРµ РІ Р±Р»РѕРєРµ РґР°РЅРЅС‹С… РјРµРЅСЋ
      */
     public void MB_initScreen(int _screenPointer,boolean _displayImmediately)
     {
         int i_screenId = _screenPointer;
         MB_closeCurrentScreen();
 
-        // Читаем общую информацию для экрана
+        // Р§РёС‚Р°РµРј РѕР±С‰СѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РґР»СЏ СЌРєСЂР°РЅР°
         int i_temp = MB_ash_menuArray[_screenPointer++];
         int i_ScreenFlags = i_temp >>> 8;
         int i_CaptionId = i_temp & 0xFF;
@@ -253,19 +253,19 @@ public class MenuBlock implements CommandListener
         int i_ErrorScreen = MB_ash_menuArray[_screenPointer++];
         int i_OkScreen = MB_ash_menuArray[_screenPointer++];
 
-        int i_ItemNumber = MB_ash_menuArray[_screenPointer++];// Читаем количество элементов
+        int i_ItemNumber = MB_ash_menuArray[_screenPointer++];// Р§РёС‚Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ
         boolean lg_isForm = false;
 
         if ((i_ScreenFlags & MB_SCREEN_FLAG_CUSTOMSCREEN) != 0)
         {
-            // Экан настраиваемый, вызываем функцию заполнения экрана из слушателя
+            // Р­РєР°РЅ РЅР°СЃС‚СЂР°РёРІР°РµРјС‹Р№, РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ Р·Р°РїРѕР»РЅРµРЅРёСЏ СЌРєСЂР°РЅР° РёР· СЃР»СѓС€Р°С‚РµР»СЏ
             if (MB_p_menuActionListener != null)
             {
                 MB_p_Form = MB_p_menuActionListener.customScreen(i_screenId);
 
                 if (MB_p_Form==null)
                 {
-                    // Если возвращается NULL то сразу же вызываем обработчик OnExit c параметром NULL и покидаем обработчик
+                    // Р•СЃР»Рё РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ NULL С‚Рѕ СЃСЂР°Р·Сѓ Р¶Рµ РІС‹Р·С‹РІР°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРє OnExit c РїР°СЂР°РјРµС‚СЂРѕРј NULL Рё РїРѕРєРёРґР°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРє
                     if ((i_ScreenFlags & MB_SCREEN_FLAG_ONEXIT) != 0)
                     {
                         MB_currentScreenId = i_screenId;
@@ -286,28 +286,28 @@ public class MenuBlock implements CommandListener
         {
             if ((i_itemTypesFlag & MB_ITEM_MENUITEM) != 0)
             {
-                // Экран-список
+                // Р­РєСЂР°РЅ-СЃРїРёСЃРѕРє
                 MB_p_Form = new List(s_ScreenCaption, List.IMPLICIT);
             }
             else
             {
-                // Экран-форма
+                // Р­РєСЂР°РЅ-С„РѕСЂРјР°
                 MB_p_Form = new Form(s_ScreenCaption);
                 lg_isForm = true;
             }
 
-            // Автоматическое заполнение экрана
+            // РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ Р·Р°РїРѕР»РЅРµРЅРёРµ СЌРєСЂР°РЅР°
             int i_itemIndex = 0;
             for (int li = 0; li < i_ItemNumber; li++)
             {
-                // Считываем элемент
+                // РЎС‡РёС‚С‹РІР°РµРј СЌР»РµРјРµРЅС‚
 
-                //Считывание ID и выравнивания
+                //РЎС‡РёС‚С‹РІР°РЅРёРµ ID Рё РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ
                 int i_tmp = MB_ash_menuArray[_screenPointer++];
                 int i_ItemId = i_tmp >>> 8;
                 int i_Align = i_tmp & 0xFF;
 
-                // Считывание типа и флагов
+                // РЎС‡РёС‚С‹РІР°РЅРёРµ С‚РёРїР° Рё С„Р»Р°РіРѕРІ
                 i_tmp = MB_ash_menuArray[_screenPointer++];
                 int i_ItemType = i_tmp >>> 8;
                 int i_ItemFlags = i_tmp & 0xFF;
@@ -330,7 +330,7 @@ public class MenuBlock implements CommandListener
                         {
                             if (MB_p_menuActionListener != null)
                             {
-                                // Обработка настраевомого элемента
+                                // РћР±СЂР°Р±РѕС‚РєР° РЅР°СЃС‚СЂР°РµРІРѕРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
                                 if (lg_isForm)
                                 {
                                     Object p_custItem = MB_p_menuActionListener.customItem(i_screenId, i_ItemId, false);
@@ -351,7 +351,7 @@ public class MenuBlock implements CommandListener
                         break;
                     case MB_ITEM_IMAGE:
                         {
-                            // Обрабатываем элемент-изображение
+                            // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЌР»РµРјРµРЅС‚-РёР·РѕР±СЂР°Р¶РµРЅРёРµ
                             String s_string = null;
                             Image p_image = null;
 
@@ -379,7 +379,7 @@ public class MenuBlock implements CommandListener
                         break;
                     case MB_ITEM_DELIMITER:
                         {
-                            // Обрабатываем элемент-делимитер
+                            // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЌР»РµРјРµРЅС‚-РґРµР»РёРјРёС‚РµСЂ
                             Image p_Image = null;
                             p_Image = MB_p_menuActionListener != null ? MB_p_menuActionListener.getImageForIndex(i_ImageId) : null;
                             ((List) MB_p_Form).append("-------", p_Image);
@@ -388,7 +388,7 @@ public class MenuBlock implements CommandListener
                         break;
                     case MB_ITEM_MENUITEM:
                         {
-                            // Обрабатываем элемент списка меню
+                            // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° РјРµРЅСЋ
                             String s_String = MB_p_menuActionListener != null ? MB_p_menuActionListener.getStringForIndex(i_StringId) : "";
                             Image p_Image = null;
                             if (i_ImageId >= 0)
@@ -413,7 +413,7 @@ public class MenuBlock implements CommandListener
             }
         }
 
-        // Обрабатываем команды
+        // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РєРѕРјР°РЅРґС‹
         int i_commandNumber = MB_ash_menuArray[_screenPointer++];
         int i_cmndnum = 0;
 
@@ -433,7 +433,7 @@ public class MenuBlock implements CommandListener
             {
                 if (MB_p_menuActionListener != null)
                 {
-                    // Выясняем, можно ли добавить команду в список
+                    // Р’С‹СЏСЃРЅСЏРµРј, РјРѕР¶РЅРѕ Р»Рё РґРѕР±Р°РІРёС‚СЊ РєРѕРјР°РЅРґСѓ РІ СЃРїРёСЃРѕРє
                     if (!MB_p_menuActionListener.enableCommand(i_screenId, i_CmndId)) continue;
                 }
             }
@@ -466,7 +466,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Закрываем текущий экран и отрабатываем OnExit если требуется
+     * Р—Р°РєСЂС‹РІР°РµРј С‚РµРєСѓС‰РёР№ СЌРєСЂР°РЅ Рё РѕС‚СЂР°Р±Р°С‚С‹РІР°РµРј OnExit РµСЃР»Рё С‚СЂРµР±СѓРµС‚СЃСЏ
      */
     public void MB_closeCurrentScreen()
     {
@@ -485,7 +485,7 @@ public class MenuBlock implements CommandListener
 
 
     /**
-     * Удаляем текущий экран и очищаем стек экранов
+     * РЈРґР°Р»СЏРµРј С‚РµРєСѓС‰РёР№ СЌРєСЂР°РЅ Рё РѕС‡РёС‰Р°РµРј СЃС‚РµРє СЌРєСЂР°РЅРѕРІ
      */
     public void MB_clearScreenStack()
     {
@@ -506,7 +506,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * очищаем стек экранов и инициализируем новый экран
+     * РѕС‡РёС‰Р°РµРј СЃС‚РµРє СЌРєСЂР°РЅРѕРІ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РЅРѕРІС‹Р№ СЌРєСЂР°РЅ
      */
     public void MB_clearScreenStack(int _screenID,boolean _displayImmediately)
     {
@@ -516,8 +516,8 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Возвращает идентификатор предыдущего в стеке экрана или  -1
-     * @return ScreenID или -1
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РІ СЃС‚РµРєРµ СЌРєСЂР°РЅР° РёР»Рё  -1
+     * @return ScreenID РёР»Рё -1
      */
     public int MB_getPreviousScreenID()
     {
@@ -529,7 +529,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Отобразить OK экран для текущего экрана, если таковой представлен
+     * РћС‚РѕР±СЂР°Р·РёС‚СЊ OK СЌРєСЂР°РЅ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СЌРєСЂР°РЅР°, РµСЃР»Рё С‚Р°РєРѕРІРѕР№ РїСЂРµРґСЃС‚Р°РІР»РµРЅ
      */
     public void MB_viewOkScreen()
     {
@@ -551,7 +551,7 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Отобразить ERROR экран для текущего экрана, если таковой представлен
+     * РћС‚РѕР±СЂР°Р·РёС‚СЊ ERROR СЌРєСЂР°РЅ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СЌРєСЂР°РЅР°, РµСЃР»Рё С‚Р°РєРѕРІРѕР№ РїСЂРµРґСЃС‚Р°РІР»РµРЅ
      */
     public void MB_viewErrorScreen()
     {
@@ -560,8 +560,8 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Закрывает текущий экран и возвращается к предыдущему в стеке экранов, если таковой есть
-     * @return True если стек экранов пуст иначе False
+     * Р—Р°РєСЂС‹РІР°РµС‚ С‚РµРєСѓС‰РёР№ СЌРєСЂР°РЅ Рё РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РІ СЃС‚РµРєРµ СЌРєСЂР°РЅРѕРІ, РµСЃР»Рё С‚Р°РєРѕРІРѕР№ РµСЃС‚СЊ
+     * @return True РµСЃР»Рё СЃС‚РµРє СЌРєСЂР°РЅРѕРІ РїСѓСЃС‚ РёРЅР°С‡Рµ False
      */
     public boolean MB_back(boolean _displayImmediately)
     {
@@ -629,9 +629,9 @@ public class MenuBlock implements CommandListener
     }
 
     /**
-     * Закрывает текущий экран и возвращается на заданное количество экранов назад в стеке
-     * @param _depth количество экранов для отката
-     * @return true если стек меню исчерпан иначе false
+     * Р—Р°РєСЂС‹РІР°РµС‚ С‚РµРєСѓС‰РёР№ СЌРєСЂР°РЅ Рё РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РЅР° Р·Р°РґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌРєСЂР°РЅРѕРІ РЅР°Р·Р°Рґ РІ СЃС‚РµРєРµ
+     * @param _depth РєРѕР»РёС‡РµСЃС‚РІРѕ СЌРєСЂР°РЅРѕРІ РґР»СЏ РѕС‚РєР°С‚Р°
+     * @return true РµСЃР»Рё СЃС‚РµРє РјРµРЅСЋ РёСЃС‡РµСЂРїР°РЅ РёРЅР°С‡Рµ false
      */
     public boolean MB_back(int _depth,boolean _displayImmediately)
     {

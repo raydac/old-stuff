@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+<resource id="back" type="1">
+<resource_info>
+<image file="DuckHunt.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="Untitled_form" width="176" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="background" x="0" y="0" width="176" height="188"  pinned="yes"  channel="0">
+<component_info>
+<image_resource id="back" scale="1"  />
+</component_info>
+</component>
+<component type="6" id="HUNTERIN" x="-24" y="-4" width="119" height="196" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="24" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="-20" Y="188" S="18"/>
+<point X="91" Y="188" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="BOARTANKGENERATEDPATH" x="-4" y="-4" width="164" height="122" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="16" Y="114" S="10"/>
+<point X="45" Y="114" S="10"/>
+<point X="72" Y="114" S="10"/>
+<point X="100" Y="114" S="10"/>
+<point X="130" Y="114" S="10"/>
+<point X="156" Y="114" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="BOARTANKUPPATH" x="81" y="74" width="32" height="40" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="36"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="12"/>
+<point X="0" Y="-32" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="BOARTANKDOWNPATH" x="105" y="74" width="32" height="40" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="10"/>
+<point X="0" Y="32" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="BOARKILLEDPATH" x="52" y="37" width="32" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="26" Y="2"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="1" S="3"/>
+<point X="-8" Y="-2" S="3"/>
+<point X="-16" Y="5" S="3"/>
+<point X="-26" Y="26" S="3"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="HORZDUCKGENERATIONPATH" x="0" y="-4" width="32" height="83" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<MAINPOINT X="0" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="1" Y="75" S="10"/>
+<point X="1" Y="66" S="10"/>
+<point X="1" Y="57" S="10"/>
+<point X="1" Y="47" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="DUCKTOLEFT" x="-29" y="86" width="226" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="221" Y="3"/>
+<Points SHOWPOINTS="no">
+<point X="1" Y="2" S="5"/>
+<point X="-44" Y="-3" S="5"/>
+<point X="-84" Y="2" S="5"/>
+<point X="-130" Y="-3" S="5"/>
+<point X="-174" Y="6" S="5"/>
+<point X="-217" Y="0" S="5"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="DUCKTORIGHT" x="-29" y="129" width="230" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="7" Y="5"/>
+<Points SHOWPOINTS="no">
+<point X="-3" Y="1" S="5"/>
+<point X="52" Y="-3" S="5"/>
+<point X="97" Y="1" S="5"/>
+<point X="139" Y="-5" S="5"/>
+<point X="175" Y="3" S="5"/>
+<point X="219" Y="-1" S="5"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="DUCKDOWN" x="66" y="91" width="32" height="63" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="0" S="2"/>
+<point X="0" Y="25" S="2"/>
+<point X="0" Y="55" S="2"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="SCOREPATH" x="104" y="0" width="32" height="44" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="10" Y="39"/>
+<Points SHOWPOINTS="no">
+<point X="1" Y="1" S="3"/>
+<point X="15" Y="-9" S="3"/>
+<point X="-10" Y="-17" S="3"/>
+<point X="15" Y="-27" S="3"/>
+<point X="-7" Y="-35" S="3"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="FIGHTERRIGHT" x="-4" y="-11" width="210" height="59" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<onEveryPointNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="11"/>
+<Points SHOWPOINTS="yes">
+<point X="105" Y="-7" S="16"/>
+<point X="107" Y="13" S="10"/>
+<point X="110" Y="29" S="8"/>
+<point X="115" Y="44" S="6"/>
+<point X="202" Y="30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="FIGHTERLEFT" x="-34" y="-9" width="107" height="59" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<onEveryPointNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="34" Y="11"/>
+<Points SHOWPOINTS="yes">
+<point X="69" Y="-7" S="16"/>
+<point X="69" Y="13" S="10"/>
+<point X="66" Y="29" S="8"/>
+<point X="62" Y="44" S="6"/>
+<point X="-30" Y="36" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="TANKBOMB" x="14" y="39" width="102" height="159"  pinned="yes"  channel="0">
+<component_info color="-10092289" PathType="0">
+<onEndNotify/>
+<onEveryPointNotify/>
+<sf_saveboundiaryinfo/>
+<sf_savestepsinfo/>
+<MAINPOINT X="98" Y="38"/>
+<Points SHOWPOINTS="yes">
+<point X="-8" Y="-6" S="4"/>
+<point X="-18" Y="-24" S="4"/>
+<point X="-40" Y="-34" S="4"/>
+<point X="-64" Y="-26" S="4"/>
+<point X="-82" Y="6" S="4"/>
+<point X="-90" Y="58" S="4"/>
+<point X="-94" Y="117" S="4"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="HUNTERDEATH" x="23" y="6" width="32" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="0"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="20"/>
+<point X="0" Y="30" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="FIGHTERFIRING" x="31" y="124" width="100" height="68" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13210" PathType="0">
+<onEndNotify/>
+<onEveryPointNotify/>
+<sf_saveboundiaryinfo/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="1" S="3"/>
+<point X="15" Y="10" S="3"/>
+<point X="28" Y="19" S="3"/>
+<point X="42" Y="28" S="3"/>
+<point X="56" Y="37" S="3"/>
+<point X="68" Y="45" S="3"/>
+<point X="80" Y="52" S="3"/>
+<point X="92" Y="60" S="3"/>
+</Points>
+</component_info>
+</component>
+</form>
+</RRGFRM>

@@ -1,6 +1,0 @@
-MIDlet-1: Financial calc, ico.png, FinancialCalc.Main
-MIDlet-Name: Financial calc
-MIDlet-Vendor: Siemens Mobile
-MIDlet-Version: 1.0
-MicroEdition-Configuration: CLDC-1.1
-MicroEdition-Profile: MIDP-2.0

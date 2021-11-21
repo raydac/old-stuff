@@ -1,0 +1,51 @@
+
+
+
+//#local STRINGS = false
+//#local FONTS = false
+//#local PATHSDATA = false
+//#local PATHSDATA_SAVESTEPS = false
+//#local PATHSDATA_SAVEBOUNDIARY = false
+//#local PATHSDATA_SAVEMAINPOINT = false
+//#local CHANNEL = true
+//#local IMAGESONLY = false
+//#local NATIVEFONTS = false
+//#local HASANCHORINFO = false
+//#local OPTIONALELEMENTS = false
+//#local MODIFIED = false
+
+//#local COMPONENT_CLIPAREA = true
+//#local COMPONENT_IMAGE = true
+//#local COMPONENT_BUTTON = false
+//#local COMPONENT_TEXTLABEL = false
+
+
+
+//------------MCI FORMS-----------------
+   protected static final int MCF_FORM_GAMEFORM = 0;
+   protected static final int MCF_CMP_GAMEFORM_background = 0;
+   protected static final int MCF_CMP_GAMEFORM_background_OFFSET = 6;
+   protected static final int MCF_CMP_GAMEFORM_tilearea = 1;
+   protected static final int MCF_CMP_GAMEFORM_tilearea_OFFSET = 11;
+   protected static final int MCF_CMP_GAMEFORM_gamearea = 2;
+   protected static final int MCF_CMP_GAMEFORM_gamearea_OFFSET = 17;
+   protected static final int MCF_CMP_GAMEFORM_attarea = 3;
+   protected static final int MCF_CMP_GAMEFORM_attarea_OFFSET = 23;
+   protected static final int MCF_CMP_GAMEFORM_scores = 4;
+   protected static final int MCF_CMP_GAMEFORM_scores_OFFSET = 29;
+   protected static final int MCF_CMP_GAMEFORM_menu = 5;
+   protected static final int MCF_CMP_GAMEFORM_menu_OFFSET = 35;
+//------------MCF IMAGES-----------------
+  protected static final int MCF_IMG_background = 0;
+  protected static final int MCF_IMG_menupointer = 12;
+  protected static final int MCF_IMG_live_ico = 11;
+  protected static final int MCF_IMG_dig9 = 10;
+  protected static final int MCF_IMG_dig8 = 9;
+  protected static final int MCF_IMG_dig7 = 8;
+  protected static final int MCF_IMG_dig6 = 7;
+  protected static final int MCF_IMG_dig5 = 6;
+  protected static final int MCF_IMG_dig4 = 5;
+  protected static final int MCF_IMG_dig3 = 4;
+  protected static final int MCF_IMG_dig2 = 3;
+  protected static final int MCF_IMG_dig1 = 2;
+  protected static final int MCF_IMG_dig0 = 1;

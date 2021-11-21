@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RRGFRM>
+<Resources>
+<resource id="back" type="1">
+<resource_info>
+<image file="map_with_objects.gif"/>
+</resource_info>
+</resource>
+</Resources>
+<form id="Untitled_form" width="3520" height="188" background_color="-16777216" disabled_color="-8355712" selected_color="-65536" normal_color="-16711936" pressed_color="-16776961" channel="0">
+<rulers>
+</rulers>
+<component type="0" id="backscreen" x="0" y="0" width="3520" height="188"  pinned="yes" locked="yes" channel="0">
+<component_info>
+<image_resource id="back" scale="1"  />
+</component_info>
+</component>
+<component type="6" id="Enemy_Rocket_gener_points" x="-4" y="-4" width="3376" height="171" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-65536" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="232" Y="163" S="10"/>
+<point X="752" Y="147" S="10"/>
+<point X="945" Y="147" S="10"/>
+<point X="1889" Y="147" S="10"/>
+<point X="2120" Y="163" S="10"/>
+<point X="2200" Y="163" S="10"/>
+<point X="2480" Y="163" S="10"/>
+<point X="3256" Y="162" S="10"/>
+<point X="3312" Y="162" S="10"/>
+<point X="3368" Y="162" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Gun_gener_points" x="-4" y="-4" width="3035" height="164"  pinned="yes"  channel="0">
+<component_info color="-16711681" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="301" Y="156" S="10"/>
+<point X="357" Y="140" S="10"/>
+<point X="478" Y="124" S="10"/>
+<point X="1053" Y="124" S="10"/>
+<point X="1121" Y="124" S="10"/>
+<point X="1592" Y="108" S="10"/>
+<point X="2335" Y="140" S="10"/>
+<point X="2573" Y="124" S="10"/>
+<point X="2914" Y="156" S="10"/>
+<point X="3027" Y="156" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Zenitka_gener_points" x="-4" y="-4" width="3141" height="165" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3355648" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="681" Y="140" S="10"/>
+<point X="1360" Y="140" S="10"/>
+<point X="1807" Y="124" S="10"/>
+<point X="2755" Y="108" S="10"/>
+<point X="3133" Y="157" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Tank_gener_points" x="-4" y="-4" width="3195" height="164" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16738048" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="903" Y="156" S="10"/>
+<point X="1416" Y="139" S="10"/>
+<point X="2065" Y="155" S="10"/>
+<point X="2402" Y="139" S="10"/>
+<point X="2811" Y="107" S="10"/>
+<point X="3079" Y="155" S="10"/>
+<point X="3187" Y="155" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Safe_gener_points" x="-4" y="-4" width="2963" height="164" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-3407668" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="627" Y="140" S="10"/>
+<point X="1730" Y="124" S="10"/>
+<point X="1985" Y="156" S="10"/>
+<point X="2955" Y="156" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Station_gener_points" x="-4" y="-4" width="2742" height="132"  pinned="yes"  channel="0">
+<component_info color="-3407668" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="428" Y="124" S="10"/>
+<point X="1540" Y="108" S="10"/>
+<point X="2734" Y="108" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Copter_move1" x="-33" y="-4" width="237" height="82" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16724737" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="33" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="200" Y="47" S="8"/>
+<point X="155" Y="74" S="7"/>
+<point X="104" Y="67" S="9"/>
+<point X="51" Y="72" S="8"/>
+<point X="4" Y="65" S="6"/>
+<point X="-29" Y="55" S="12"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Copter_move2" x="-27" y="-4" width="231" height="81" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-154" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="27" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="200" Y="47" S="5"/>
+<point X="179" Y="47" S="8"/>
+<point X="144" Y="47" S="4"/>
+<point X="120" Y="65" S="3"/>
+<point X="107" Y="73" S="7"/>
+<point X="67" Y="70" S="6"/>
+<point X="23" Y="70" S="5"/>
+<point X="-23" Y="70" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Copter_move3" x="-34" y="-4" width="238" height="80" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13369549" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="34" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="200" Y="47" S="4"/>
+<point X="181" Y="47" S="8"/>
+<point X="158" Y="72" S="8"/>
+<point X="133" Y="50" S="7"/>
+<point X="105" Y="50" S="8"/>
+<point X="77" Y="65" S="8"/>
+<point X="41" Y="51" S="8"/>
+<point X="4" Y="63" S="10"/>
+<point X="-30" Y="47" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Plane_move" x="-38" y="38" width="252" height="32" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-52225" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="248" Y="0"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="1" S="4"/>
+<point X="-62" Y="10" S="12"/>
+<point X="-244" Y="0" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Dirigible_move" x="-39" y="47" width="243" height="32" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-16711936" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="239" Y="0"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="0" S="120"/>
+<point X="-235" Y="0" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Player_Bomb_move" x="-6" y="-8" width="45" height="189" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-16763905" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="31" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="10" Y="15" S="6"/>
+<point X="5" Y="39" S="6"/>
+<point X="-5" Y="74" S="6"/>
+<point X="-13" Y="121" S="6"/>
+<point X="-27" Y="181" S="6"/>
+<point X="-3" Y="74" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Rocket_move" x="231" y="-22" width="32" height="217" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3407872" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="184"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="29" S="4"/>
+<point X="0" Y="-10" S="3"/>
+<point X="0" Y="-57" S="3"/>
+<point X="0" Y="-117" S="3"/>
+<point X="0" Y="-180" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_missile_move_to_left" x="-14" y="63" width="208" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3407872" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="204" Y="0"/>
+<Points SHOWPOINTS="yes">
+<point X="-20" Y="9" S="10"/>
+<point X="-200" Y="9" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_missile_move_to_left_up" x="-1" y="-4" width="174" height="184" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-3407872" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="170" Y="180"/>
+<Points SHOWPOINTS="yes">
+<point X="-15" Y="-24" S="16"/>
+<point X="-166" Y="-176" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_missile_move_to_up" x="117" y="-16" width="32" height="211" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3407872" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="207"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="-28" S="16"/>
+<point X="0" Y="-203" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_missile_move_to_right_up" x="-19" y="-4" width="175" height="183" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3407872" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="4" Y="179"/>
+<Points SHOWPOINTS="yes">
+<point X="15" Y="-23" S="16"/>
+<point X="167" Y="-175" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Tank_move" x="17" y="159" width="110" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-3407872" PathType="2">
+<onEveryPointNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="106" Y="0"/>
+<Points SHOWPOINTS="yes">
+<point X="0" Y="1" S="30"/>
+<point X="-102" Y="1" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_Zenitka_move" x="38" y="159" width="89" height="32" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13421569" PathType="2">
+<onEveryPointNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="84" Y="0"/>
+<Points SHOWPOINTS="yes">
+<point X="1" Y="1" S="16"/>
+<point X="-80" Y="1" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Player_In" x="-23" y="-4" width="54" height="81" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13421569" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="23" Y="4"/>
+<Points SHOWPOINTS="yes">
+<point X="-19" Y="73" S="14"/>
+<point X="27" Y="73" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Player_Out" x="46" y="-29" width="32" height="149" hidden="yes" pinned="yes" locked="yes" channel="0">
+<component_info color="-13421569" PathType="0">
+<onEndNotify/>
+<sf_savestepsinfo/>
+<MAINPOINT X="0" Y="145"/>
+<Points SHOWPOINTS="no">
+<point X="0" Y="0" S="16"/>
+<point X="0" Y="-141" S="10"/>
+</Points>
+</component_info>
+</component>
+<component type="6" id="Enemy_fly_gener_points" x="-4" y="-4" width="208" height="64" hidden="yes" pinned="yes"  channel="0">
+<component_info color="-13421569" PathType="0">
+<MAINPOINT X="4" Y="4"/>
+<Points SHOWPOINTS="no">
+<point X="200" Y="56" S="10"/>
+<point X="200" Y="46" S="10"/>
+<point X="200" Y="34" S="10"/>
+<point X="200" Y="23" S="10"/>
+</Points>
+</component_info>
+</component>
+</form>
+</RRGFRM>
