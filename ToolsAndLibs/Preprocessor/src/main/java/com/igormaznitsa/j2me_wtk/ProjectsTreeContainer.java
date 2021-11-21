@@ -19,8 +19,6 @@ public class ProjectsTreeContainer implements TreeModel
         p_projects = new Vector();
     }
 
-    
-
     public void addTreeModelListener(TreeModelListener l)
     {
          p_treeListener = l;
@@ -115,9 +113,27 @@ public class ProjectsTreeContainer implements TreeModel
                 }
                 p_strBuff.append("\r\n");
             }
+            sort(p_projects);
         }
-
         if (p_treeListener!=null) p_treeListener.treeStructureChanged(new TreeModelEvent(this,new Object[]{this}));
         return p_strBuff.toString();
     }
+
+    private static void sort(Vector projects) {
+        boolean changed;
+        do {
+            changed = false;
+            for(int i=0;i<projects.size()-2;i++) {
+                ProjectInfo a = (ProjectInfo) projects.get(i);
+                ProjectInfo b = (ProjectInfo) projects.get(i+1);
+                if (a.compare(b) > 0) {
+                    projects.set(i, b);
+                    projects.set(i+1, a);
+                    changed = true;
+                    break;
+                }
+            }
+        } while (changed);
+    }
+
 }

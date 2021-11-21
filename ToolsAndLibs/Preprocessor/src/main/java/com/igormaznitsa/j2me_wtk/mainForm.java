@@ -60,6 +60,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
 
     public mainForm()
     {
+        super();
         BuilderModule.p_ProcessListener = this;
 
         p_ProgressBar = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
@@ -123,7 +124,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
         setContentPane(p_MainPanel);
         pack();
 
-        Utilities.toFullScreen(this);
+        //Utilities.toFullScreen(this);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -325,6 +326,15 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
         }
     }
 
+    private static String ensureAbsolutePath(final String path) {
+        final File filePath = new File(path);
+        if (filePath.isAbsolute()) {
+            return path;
+        } else {
+            return filePath.getAbsolutePath().replace("/./","/").replace("\\.\\","\\");
+        }
+    }
+
     public final void buildProjects()
     {
         TreePath [] ap_paths = p_ProjectsTree.getSelectionPaths();
@@ -375,18 +385,18 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
                     String s_midp = "";
                     switch(p_projInfo.getCLDCVersion())
                     {
-                        case ProjectInfo.CLDC10:{s_cldc = appProperties.CLDC10Path;};break;
-                        case ProjectInfo.CLDC11:{s_cldc = appProperties.CLDC11Path;};break;
+                        case ProjectInfo.CLDC10:{s_cldc = ensureAbsolutePath(appProperties.CLDC10Path);};break;
+                        case ProjectInfo.CLDC11:{s_cldc = ensureAbsolutePath(appProperties.CLDC11Path);};break;
                     }
 
                     switch(p_projInfo.getMIDPVersion())
                     {
-                        case ProjectInfo.MIDP_10:{s_midp = appProperties.MIDP10Path;};break;
-                        case ProjectInfo.MIDP_20:{s_midp = appProperties.MIDP20Path;};break;
+                        case ProjectInfo.MIDP_10:{s_midp = ensureAbsolutePath(appProperties.MIDP10Path);};break;
+                        case ProjectInfo.MIDP_20:{s_midp = ensureAbsolutePath(appProperties.MIDP20Path);};break;
                     }
 
                     String s_bootPath = s_cldc;
-                    if (s_bootPath.length()!=0 && s_midp.length()!=0) s_bootPath +=";";
+                    if (s_bootPath.length()!=0 && s_midp.length()!=0) s_bootPath += File.pathSeparator;
                     if (s_midp.length()!=0)
                     {
                         s_bootPath += s_midp;

@@ -4,6 +4,7 @@ import com.igormaznitsa.WToolkit.classes.*;
 import com.igormaznitsa.Preprocessor.Preprocessor;
 
 import java.io.*;
+import java.util.Locale;
 
 public class BuilderModule
 {
@@ -19,12 +20,12 @@ public class BuilderModule
     public static final String PATH_AFTERLOCAL = "/after.bat";
     public static final String PATH_AFTER = "/after.bat";
     public static final String PATH_BEFORE = "/before.bat";
-    public static final String PATH_SOURCES = "/src";
-    public static final String PATH_RESOURCES = "/res";
-    public static final String PATH_PREPROCESSED = "/preprocessed";
-    public static final String PATH_GENERICLIB = "/lib";
-    public static final String PATH_TMPCLASSES = "/tmpclasses";
-    public static final String PATH_CLASSES = "/classes";
+    public static final String PATH_SOURCES = "src";
+    public static final String PATH_RESOURCES = "res";
+    public static final String PATH_PREPROCESSED = "preprocessed";
+    public static final String PATH_GENERICLIB = "lib";
+    public static final String PATH_TMPCLASSES = "tmpclasses";
+    public static final String PATH_CLASSES = "classes";
     public static final String PATH_BIN = "/bin";
     public static final String PATH_MAINFEST = "/bin/Manifest.mf";
 
@@ -34,19 +35,32 @@ public class BuilderModule
     public static final String SYSPROPERTY_MAINDIR = "RRGWTK_MAINDIR";
 
     public static String s_ProtocolString = "";
-
-
     public static final int BUILD_STEPS = 8;
 
+    private static void deleteTempFolders(ProjectInfo project) throws IOException {
+        final File baseFolder = project.getDirectory();
+        final File preprocessed = new File(baseFolder, PATH_PREPROCESSED);
+        final File tempClasses = new File(baseFolder, PATH_TMPCLASSES);
+        final File classes = new File(baseFolder, PATH_CLASSES);
+        if (preprocessed.isDirectory()) {
+            if (!FileUtils.deleteDir(preprocessed)) throw new IOException("Can't delete folder "+preprocessed);
+        }
+        if (tempClasses.isDirectory()) {
+            if (!FileUtils.deleteDir(tempClasses)) throw new IOException("Can't delete folder "+tempClasses);
+        }
+        if (classes.isDirectory()) {
+            if (!FileUtils.deleteDir(classes)) throw new IOException("Can't delete folder "+classes);
+        }
+    }
 
     public static final String buildProject(ProjectInfo _project, File _mainDir, File _destDir, boolean _obfuscated, boolean _debug, boolean _removecomments, boolean _optimization, String _bootclassPath, boolean _jarOptimization) throws IOException
     {
         final String[] as_envVars = new String[]
                 {
-                            SYSPROPERTY_PROJNAME + '=' + _project.getJDDName().trim().replaceAll("/", "\\"),
-                            SYSPROPERTY_PROJDIR + '=' + _project.getDirectory().getCanonicalPath().trim().replaceAll("/", "\\"),
-                            SYSPROPERTY_PROJDEST + '=' + _destDir.getCanonicalPath().replaceAll("/", "\\"),
-                            SYSPROPERTY_MAINDIR, _mainDir.getCanonicalPath().replaceAll("/", "\\")
+                            SYSPROPERTY_PROJNAME + '=' + _project.getJDDName().trim().replaceAll("/", File.separator),
+                            SYSPROPERTY_PROJDIR + '=' + _project.getDirectory().getCanonicalPath().trim().replaceAll("/", File.separator),
+                            SYSPROPERTY_PROJDEST + '=' + _destDir.getCanonicalPath().replaceAll("/", File.separator),
+                            SYSPROPERTY_MAINDIR, _mainDir.getCanonicalPath().replaceAll("/", File.separator)
                     };
 
         // Отключаем обфускацию принудительно если требуется отладочная версия
@@ -57,6 +71,8 @@ public class BuilderModule
 
         StringArray p_strArray = new StringArray();
         StringBuffer p_strBuff = new StringBuffer();
+
+        deleteTempFolders(_project);
 
         // Отработка сценария BEFORE, если есть
         //-------------------------------------------------------
@@ -188,7 +204,7 @@ public class BuilderModule
         if (!p_srcFile.exists() || !p_srcFile.isDirectory()) throw new IOException("I can't find the sources directory");
         p_strArray.add("/I:" + p_srcFile.getCanonicalPath());
         File p_preprocessedFile = new File(_project.getDirectory(), PATH_PREPROCESSED);
-        if (p_preprocessedFile.exists())
+        if (p_preprocessedFile.isDirectory())
         {
             if (!FileUtils.deleteDir(p_preprocessedFile))
             {
@@ -282,116 +298,129 @@ public class BuilderModule
 
         p_ProcessListener.nextProjectBuildStep();
 
-        if (_obfuscated)
-        {
-            // Обфускация JAR архива (ProGuard)
-            //-------------------------------------------------------
+        if (_obfuscated) {
+            if (appProperties.ObfuscatorPath.trim().length() == 0) {
+                throw new IOException("Obfuscation is requested but obfuscator path is empty");
+            } else {
+                // Обфускация JAR архива (ProGuard)
+                //-------------------------------------------------------
+                p_strArray.clear();
+                if (appProperties.ObfuscatorPath.trim().toLowerCase(Locale.ENGLISH).endsWith(".jar")) {
+                    p_strArray.add("java");
+                    p_strArray.add("-jar");
+                    p_strArray.add(appProperties.ObfuscatorPath);
+                } else {
+                    p_strArray.add(appProperties.ObfuscatorPath);
+                }
+
+                File p_proguardOpt = new File(_project.getDirectory().getAbsolutePath(), "proguard.pro");
+                final boolean proguardOptionFileFound = p_proguardOpt.isFile();
+                if (proguardOptionFileFound) {
+                    p_strBuff.append("\r\nfound custom proguard.pro file\r\n");
+                    p_strArray.add("@" + p_proguardOpt.getAbsolutePath());
+                } else {
+                    p_strArray.add("-overloadaggressively");
+                    p_strArray.add("-defaultpackage");
+                    p_strArray.add("''");
+                    p_strArray.add("-dontusemixedcaseclassnames");
+                    p_strArray.add("-allowaccessmodification");
+                    p_strArray.add("-keep public class * extends javax.microedition.midlet.MIDlet");
+                }
+                if (!_optimization) p_strArray.add("-dontoptimize");
+                p_strArray.add("-libraryjars");
+
+                if (s_path != null && s_path.length() > 0) {
+                    p_strArray.add(_bootclassPath + File.pathSeparator + s_path);
+                } else
+                    p_strArray.add(_bootclassPath);
+
+                p_strArray.add("-injars");
+                p_strArray.add(p_tmpClassesDir.getCanonicalPath());
+                p_strArray.add("-outjar");
+                p_strArray.add(p_classesDir.getCanonicalPath());
+
+                p_strBuff.append("\r\n" + p_strArray.toString() + "\r\n");
+
+                p_result = ExtAppStarter.startApp(p_strArray, null);
+                s_strOut = new String(p_result.outStreamArray);
+                s_strErr = new String(p_result.errStreamArray);
+                p_strBuff.append(s_strOut);
+                p_strBuff.append(s_strErr);
+
+                if (p_result.Status != 0) {
+                    s_ProtocolString = p_strBuff.toString();
+                    throw new IOException("Error status of obfuscator [" + p_result.Status + "]");
+                }
+
+                File p_fileA = p_classesDir;
+                p_classesDir = p_tmpClassesDir;
+                p_tmpClassesDir = p_fileA;
+                p_fileA = null;
+            }
+        }
+
+        p_ProcessListener.nextProjectBuildStep();
+
+        // Preverifier call
+        //-------------------------------------------------------
+        if (appProperties.PreverifierPath.trim().length() == 0) {
+            p_strBuff.append("\r\n!!! Preverifier call is ignored because path is empty !!!\r\n");
+            if (_obfuscated) {
+                // just copy classes folder into tmpclasses
+                if (!FileUtils.deleteDir(p_classesDir)) {
+                    throw new IOException("Can't delete folder: "+ p_classesDir);
+                }
+                FileUtils.copyDir(p_tmpClassesDir, p_classesDir);
+            }
+        } else {
+            String s_cldc = "CLDC1.0";
+            if (_project.getCLDCVersion() == ProjectInfo.CLDC11) {
+                s_cldc = "CLDC1.1";
+            }
+
+            if (p_classesDir.exists()) {
+                if (!FileUtils.clearDirectory(p_classesDir)) {
+                    s_ProtocolString = p_strBuff.toString();
+                    throw new IOException("I can't clear a directory");
+                }
+            } else if (!p_classesDir.mkdirs()) {
+                s_ProtocolString = p_strBuff.toString();
+                throw new IOException("I can't make a directory");
+            }
+
             p_strArray.clear();
-            p_strArray.add("java");
-            p_strArray.add("-jar");
-            p_strArray.add(appProperties.ObfuscatorPath);
+            p_strArray.add(appProperties.PreverifierPath);
+            if (s_cldc.equals("CLDC1.0")) {
+                p_strArray.add("-nofp");
+            }
+            p_strArray.add("-nofinalize");
+            p_strArray.add("-nonative");
+            p_strArray.add("-target");
+            p_strArray.add(s_cldc);
+            p_strArray.add("-classpath");
 
-            File p_proguardOpt = new File(_project.getDirectory().getAbsolutePath()+'/'+"proguard.pro");
-            if (p_proguardOpt.exists()) p_strArray.add("@"+p_proguardOpt.getAbsolutePath());
-
-            p_strArray.add("-overloadaggressively");
-            p_strArray.add("-defaultpackage");
-            p_strArray.add("''");
-            if (!_optimization) p_strArray.add("-dontoptimize");
-            p_strArray.add("-dontusemixedcaseclassnames");
-            p_strArray.add("-allowaccessmodification");
-            p_strArray.add("-libraryjars");
-
-            if (s_path != null && s_path.length() > 0)
-            {
-                p_strArray.add(_bootclassPath + ";" + s_path);
+            if (s_path != null && s_path.length() > 0) {
+                p_strArray.add(_bootclassPath + File.pathSeparator + s_path);
             } else
                 p_strArray.add(_bootclassPath);
 
-            p_strArray.add("-injars");
-            p_strArray.add(p_tmpClassesDir.getCanonicalPath());
-            p_strArray.add("-outjar");
+            p_strArray.add("-d");
             p_strArray.add(p_classesDir.getCanonicalPath());
-            p_strArray.add("-keep public class * extends javax.microedition.midlet.MIDlet");
+            p_strArray.add(p_tmpClassesDir.getCanonicalPath());
 
             p_strBuff.append("\r\n" + p_strArray.toString() + "\r\n");
 
             p_result = ExtAppStarter.startApp(p_strArray, null);
+
             s_strOut = new String(p_result.outStreamArray);
             s_strErr = new String(p_result.errStreamArray);
             p_strBuff.append(s_strOut);
             p_strBuff.append(s_strErr);
 
-            if (p_result.Status != 0)
-            {
+            if (p_result.Status != 0) {
                 s_ProtocolString = p_strBuff.toString();
-                throw new IOException("Error status of obfuscator [" + p_result.Status + "]");
+                throw new IOException("Error status of preverifier [" + p_result.Status + "]");
             }
-
-            File p_fileA = p_classesDir;
-            p_classesDir = p_tmpClassesDir;
-            p_tmpClassesDir = p_fileA;
-            p_fileA = null;
-        }
-
-        p_ProcessListener.nextProjectBuildStep();
-
-        // Преверифинг
-        //-------------------------------------------------------
-        String s_cldc = "CLDC1.0";
-        if (_project.getCLDCVersion() == ProjectInfo.CLDC11)
-        {
-            s_cldc = "CLDC1.1";
-        }
-
-        if (p_classesDir.exists())
-        {
-            if (!FileUtils.clearDirectory(p_classesDir))
-            {
-                s_ProtocolString = p_strBuff.toString();
-                throw new IOException("I can't clear a directory");
-            }
-        } else if (!p_classesDir.mkdirs())
-        {
-            s_ProtocolString = p_strBuff.toString();
-            throw new IOException("I can't make a directory");
-        }
-
-        p_strArray.clear();
-        p_strArray.add(appProperties.PreverifierPath);
-        if (s_cldc.equals("CLDC1.0"))
-        {
-            p_strArray.add("-nofp");
-        }
-        p_strArray.add("-nofinalize");
-        p_strArray.add("-nonative");
-        p_strArray.add("-target");
-        p_strArray.add(s_cldc);
-        p_strArray.add("-classpath");
-
-        if (s_path != null && s_path.length() > 0)
-        {
-            p_strArray.add(_bootclassPath + ";" + s_path);
-        } else
-            p_strArray.add(_bootclassPath);
-
-        p_strArray.add("-d");
-        p_strArray.add(p_classesDir.getCanonicalPath());
-        p_strArray.add(p_tmpClassesDir.getCanonicalPath());
-
-        p_strBuff.append("\r\n" + p_strArray.toString() + "\r\n");
-
-        p_result = ExtAppStarter.startApp(p_strArray, null);
-
-        s_strOut = new String(p_result.outStreamArray);
-        s_strErr = new String(p_result.errStreamArray);
-        p_strBuff.append(s_strOut);
-        p_strBuff.append(s_strErr);
-
-        if (p_result.Status != 0)
-        {
-            s_ProtocolString = p_strBuff.toString();
-            throw new IOException("Error status of preverifier [" + p_result.Status + "]");
         }
         //----------------------------------------------------------------
 

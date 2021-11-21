@@ -75,7 +75,7 @@ public class NewProjectDialog extends JDialog
 
         p_ProjectsContainer = _container;
 
-        Utilities.toScreenCenter(this);
+//        Utilities.toScreenCenter(this);
 
         p_ProjectNameField.setText("");
         p_ClassNameField.setText("");

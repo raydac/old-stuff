@@ -8,7 +8,6 @@ public class Main
 
     public static final void main(String [] _args)
     {
-        mainForm p_mainForm = new mainForm();
-        SplashForm p_SplashForm = new SplashForm(p_mainForm);
+        new SplashForm(new mainForm());
     }
 }

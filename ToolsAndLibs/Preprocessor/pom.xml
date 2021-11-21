@@ -13,11 +13,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
-    <embedded.jdk.provider>BELLSOFT</embedded.jdk.provider>
-    <embedded.jdk.type>jre</embedded.jdk.type>
-    <embedded.jdk.version>8u312+7</embedded.jdk.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -88,47 +85,6 @@
                   <mainClass>com.igormaznitsa.j2me_wtk.Main</mainClass>
                 </transformer>
               </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.igormaznitsa</groupId>
-        <artifactId>mvn-jlink-wrapper</artifactId>
-        <version>1.1.0</version>
-        <executions>
-          <execution>
-            <id>cache-windows-jdk-x86</id>
-            <goals>
-              <goal>cache-jdk</goal>
-            </goals>
-            <configuration>
-              <jdkPathProperty>mvnjlink.jdk.windows.x86.path</jdkPathProperty>
-              <provider>${embedded.jdk.provider}</provider>
-              <providerConfig>
-                <type>${embedded.jdk.type}</type>
-                <version>${embedded.jdk.version}</version>
-                <os>windows</os>
-                <arch>i586</arch>
-              </providerConfig>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
-        <executions>
-          <execution>
-            <id>make-windows-distributive</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <descriptors>
-                <descriptor>src/assembly/windows.xml</descriptor>
-              </descriptors>
             </configuration>
           </execution>
         </executions>

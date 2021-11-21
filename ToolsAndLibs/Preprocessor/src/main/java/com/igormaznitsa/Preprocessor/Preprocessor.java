@@ -1336,7 +1336,7 @@ public class Preprocessor
 
         // Ordering of input directory names
         HashSet p_indir = new HashSet();
-        p_tokenizer = new StringTokenizer(s_indir, ";");
+        p_tokenizer = new StringTokenizer(s_indir, File.pathSeparator);
         while (p_tokenizer.hasMoreTokens())
         {
             String s_dir = p_tokenizer.nextToken().trim();

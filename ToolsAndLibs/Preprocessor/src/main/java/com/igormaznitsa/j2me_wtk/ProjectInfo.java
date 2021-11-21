@@ -667,6 +667,10 @@ public class ProjectInfo
         return true;
     }
 
+    public int compare(ProjectInfo other) {
+        return other == null ? 1 : this.s_ViewName.compareTo(other.s_ViewName);
+    }
+
     public Properties getCustomVariables()
     {
         return p_customVariabes;
