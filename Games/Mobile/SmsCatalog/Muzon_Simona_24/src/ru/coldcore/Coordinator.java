@@ -91,7 +91,7 @@ public abstract class Coordinator
     public static boolean enableSMSServices()
     {
         int i_enginetype = Coordinator.doesSupportSMS();
-        // Запрещаем сервисы на Samsung MIDP 1.0
+        // Р—Р°РїСЂРµС‰Р°РµРј СЃРµСЂРІРёСЃС‹ РЅР° Samsung MIDP 1.0
         if (i_enginetype == Coordinator.TYPE_SAMSUNG && !Coordinator.isMIDP20()) return false;
         return i_enginetype!=Coordinator.TYPE_NONE;
     }

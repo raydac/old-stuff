@@ -77,14 +77,14 @@ public class VideoBall extends Game
         else
             lg_GradientOn = true;
 
-        // Размеры объектов
+        // Р Р°Р·РјРµСЂС‹ РѕР±СЉРµРєС‚РѕРІ
         makeBackgroundImage();
 
         restartGameSession();
 
         if (_gameData[0]!=0)
         {
-            // есть сохраненная игра
+            // РµСЃС‚СЊ СЃРѕС…СЂР°РЅРµРЅРЅР°СЏ РёРіСЂР°
             i_BallDX = _gameData[1];
             i_BallDY = _gameData[2];
             i_BallX = _gameData[3];
@@ -112,7 +112,7 @@ public class VideoBall extends Game
 
         if (lg_BallIn)
         {
-            // проверка на прохождение центра
+            // РїСЂРѕРІРµСЂРєР° РЅР° РїСЂРѕС…РѕР¶РґРµРЅРёРµ С†РµРЅС‚СЂР°
             if (i_BallX >= (IDEALWIDTH >> 1))
             {
                 if (getRandomInt(100) > 50)
@@ -137,7 +137,7 @@ public class VideoBall extends Game
         }
         else
         {
-            // проверка на столкновение с вертикальной границей
+            // РїСЂРѕРІРµСЂРєР° РЅР° СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ РіСЂР°РЅРёС†РµР№
             if (i_BallX <= LEFTBORDER)
             {
                 i_BallX = LEFTBORDER;
@@ -149,17 +149,17 @@ public class VideoBall extends Game
                 i_BallDX = 0 - i_BallDX;
             }
 
-            //Проверка на столкновение с  ракетками
-            // оппонент
+            //РџСЂРѕРІРµСЂРєР° РЅР° СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ  СЂР°РєРµС‚РєР°РјРё
+            // РѕРїРїРѕРЅРµРЅС‚
             if (!(i_BallY + BALLWIDTH < OPPONENTY || i_BallY > OPPONENTY + ROCKET_HEIGHT))
             {
-                // проверка на столкновение с границами
+                // РїСЂРѕРІРµСЂРєР° РЅР° СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ РіСЂР°РЅРёС†Р°РјРё
                 if (!(i_oldY + BALLWIDTH < OPPONENTY || i_oldY > OPPONENTY + ROCKET_HEIGHT))
                 {
                     if ((i_BallY + (BALLWIDTH >> 1)) > (OPPONENTY + (ROCKET_HEIGHT >> 1)))
                         if (!(i_BallX > i_OpponentX + ROCKET_WIDTH || i_BallX + BALLWIDTH < i_OpponentX))
                         {
-                            // вертикальная граница
+                            // РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РіСЂР°РЅРёС†Р°
                             if (i_BallDX < 0)
                                 i_BallDX = BALLSPEED;
                             else
@@ -167,22 +167,22 @@ public class VideoBall extends Game
 
                             i_BallDX += (getRandomInt(BALLSPEED) - (BALLSPEED >> 1));
 
-                            // выравниваем
+                            // РІС‹СЂР°РІРЅРёРІР°РµРј
                             if (i_BallX + (BALLWIDTH >> 1) > (i_OpponentX + (ROCKET_WIDTH >> 1)))
                             {
-                                // Правая
+                                // РџСЂР°РІР°СЏ
                                 i_BallX = i_OpponentX + ROCKET_WIDTH + 1;
                             }
                             else
                             {
-                                // Левая
+                                // Р›РµРІР°СЏ
                                 i_BallX = i_OpponentX - BALLWIDTH - 1;
                             }
                         }
                 }
                 else
                 {
-                    // горизонтальная граница
+                    // РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РіСЂР°РЅРёС†Р°
                     if (!(i_BallX + BALLWIDTH < i_OpponentX || i_BallX > i_OpponentX + ROCKET_WIDTH))
                     {
                         if (i_BallDY < 0)
@@ -198,13 +198,13 @@ public class VideoBall extends Game
             }
             else if (!(i_BallY + BALLWIDTH < PLAYERY || i_BallY > PLAYERY + ROCKET_HEIGHT))
             {
-                // проверка на столкновение с границами
+                // РїСЂРѕРІРµСЂРєР° РЅР° СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ РіСЂР°РЅРёС†Р°РјРё
                 if (!(i_oldY + BALLWIDTH < PLAYERY || i_oldY > PLAYERY + ROCKET_HEIGHT))
                 {
                     if ((i_BallY + (BALLWIDTH >> 1)) < (PLAYERY + (ROCKET_HEIGHT >> 1)))
                         if (!(i_BallX > i_PlayerX + ROCKET_WIDTH || i_BallX + BALLWIDTH < i_PlayerX))
                         {
-                            // вертикальная граница
+                            // РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РіСЂР°РЅРёС†Р°
                             if (i_BallDX < 0)
                                 i_BallDX = BALLSPEED;
                             else
@@ -212,22 +212,22 @@ public class VideoBall extends Game
 
                             i_BallDX += (getRandomInt(BALLSPEED) - (BALLSPEED >> 1));
 
-                            // выравниваем
+                            // РІС‹СЂР°РІРЅРёРІР°РµРј
                             if (i_BallX + (BALLWIDTH >> 1) > (i_PlayerX + (ROCKET_WIDTH >> 1)))
                             {
-                                // Правая
+                                // РџСЂР°РІР°СЏ
                                 i_BallX = i_PlayerX + ROCKET_WIDTH + 1;
                             }
                             else
                             {
-                                // Левая
+                                // Р›РµРІР°СЏ
                                 i_BallX = i_PlayerX - BALLWIDTH - 1;
                             }
                         }
                 }
                 else
                 {
-                    // горизонтальная граница
+                    // РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РіСЂР°РЅРёС†Р°
                     if (!(i_BallX + BALLWIDTH < i_PlayerX || i_BallX > i_PlayerX + ROCKET_WIDTH))
                     {
                         if (i_BallDY < 0)
@@ -241,17 +241,17 @@ public class VideoBall extends Game
                 }
             }
 
-            // проверка
+            // РїСЂРѕРІРµСЂРєР°
             boolean lg_ballOut = false;
             if (i_BallY > IDEALHEIGHT)
             {
-                // гол игроку
+                // РіРѕР» РёРіСЂРѕРєСѓ
                 i_Score_Opponent++;
                 lg_ballOut = true;
             }
             else if (i_BallY + BALLWIDTH < 0)
             {
-                // гол AI
+                // РіРѕР» AI
                 i_Score_Player ++;
                 lg_ballOut = true;
             }
@@ -277,7 +277,7 @@ public class VideoBall extends Game
         int i_cx = i_OpponentX + (ROCKET_WIDTH >> 1);
         int i_bx = i_BallX + (BALLWIDTH >> 1);
 
-        // движение ракетки противника зависит от дальности мяча
+        // РґРІРёР¶РµРЅРёРµ СЂР°РєРµС‚РєРё РїСЂРѕС‚РёРІРЅРёРєР° Р·Р°РІРёСЃРёС‚ РѕС‚ РґР°Р»СЊРЅРѕСЃС‚Рё РјСЏС‡Р°
         boolean lg_move = false;
         if (i_BallY < 70 && i_BallDY < 0 && getRandomInt(8) != 3) lg_move = true;
 
@@ -503,7 +503,7 @@ public class VideoBall extends Game
     {
         Graphics p_gr = p_BackgroundImage.getGraphics();
 
-        //Градиентнтая заливка
+        //Р“СЂР°РґРёРµРЅС‚РЅС‚Р°СЏ Р·Р°Р»РёРІРєР°
         if (lg_GradientOn)
         {
             int i_StartColor = 0x000000;
@@ -550,7 +550,7 @@ public class VideoBall extends Game
 
         p_gr.setColor(0xFFFFFF);
 
-        // Бордюры
+        // Р‘РѕСЂРґСЋСЂС‹
         int i_brw = ((BORDER_WIDTH * i8_coeffW) + 0x7F) >> 8;
         int i_brh = ((BORDER_WIDTH * i8_coeffH) + 0x7F) >> 8;
 
@@ -567,7 +567,7 @@ public class VideoBall extends Game
         String s_strOpponent = Integer.toString(i_Score_Opponent);
         if (s_strOpponent.length() == 1) s_strOpponent = '0' + s_strOpponent;
 
-        // Отрисовка очков
+        // РћС‚СЂРёСЃРѕРІРєР° РѕС‡РєРѕРІ
         p_gr.setColor(COLOR_OPPONENT_SCORE);
 
         int i_x = ((SCORE_OPPONENT_X * i8_coeffW) + 0x7F) >> 8;
@@ -618,15 +618,15 @@ public class VideoBall extends Game
     {
         _g.drawImage(p_BackgroundImage, 0, 0, 0);
 
-        // оппонент
+        // РѕРїРїРѕРЅРµРЅС‚
         _g.setColor(COLOR_OPPONENT);
         _g.fillRect((i_OpponentX * i8_coeffW + 0x7F) >> 8, (OPPONENTY * i8_coeffH + 0x7F) >> 8, (ROCKET_WIDTH * i8_coeffW + 0x7F) >> 8, (ROCKET_HEIGHT * i8_coeffH + 0x7F) >> 8);
 
-        // игрок
+        // РёРіСЂРѕРє
         _g.setColor(COLOR_PLAYER);
         _g.fillRect((i_PlayerX * i8_coeffW + 0x7F) >> 8, (PLAYERY * i8_coeffH + 0x7F) >> 8, (ROCKET_WIDTH * i8_coeffW + 0x7F) >> 8, (ROCKET_HEIGHT * i8_coeffH + 0x7F) >> 8);
 
-        // мячик
+        // РјСЏС‡РёРє
         _g.setColor(COLOR_BALL);
         _g.fillRect((i_BallX * i8_coeffW + 0x7F) >> 8, (i_BallY * i8_coeffH + 0x7F) >> 8, (BALLWIDTH * i8_coeffW + 0x7F) >> 8, (BALLWIDTH * i8_coeffH + 0x7F) >> 8);
     }

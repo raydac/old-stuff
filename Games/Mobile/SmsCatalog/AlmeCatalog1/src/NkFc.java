@@ -47,7 +47,7 @@ public class NkFc extends com.nokia.mid.ui.FullCanvas implements CommandListener
         if (Main.i_ProcessCommand != Main.COMMAND_NONE) return;
         if (Main.p_Command_Exit.equals(command))
         {
-            // Выход из игры
+            // Р’С‹С…РѕРґ РёР· РёРіСЂС‹
             Main.i_ArgScreenID = 0;
             Main.i_ArgCommandID = 1;
             Main.i_ArgSelectedID = 0;
@@ -55,7 +55,7 @@ public class NkFc extends com.nokia.mid.ui.FullCanvas implements CommandListener
         }
         else if (Main.p_Command_Restart.equals(command))
         {
-            // Выход из игры
+            // Р’С‹С…РѕРґ РёР· РёРіСЂС‹
             Main.i_ArgScreenID = 0;
             Main.i_ArgCommandID = 0;
             Main.i_ArgSelectedID = 0;
@@ -152,7 +152,7 @@ public class NkFc extends com.nokia.mid.ui.FullCanvas implements CommandListener
         final int COLOR_BCKG = 0x0000FF;
         final int COLOR_FRG = 0xFFFFFF;
 
-        // Окно
+        // РћРєРЅРѕ
         _graphic.setColor(COLOR_BCKG);
         _graphic.fillRect(0,0,i_width,i_size*i_FontHeight+2);
 
@@ -184,10 +184,10 @@ public class NkFc extends com.nokia.mid.ui.FullCanvas implements CommandListener
         int i_h = getHeight();
         if (p_canvas!=null) p_canvas.paint(_graphics);
         _graphics.setClip(0,0,i_w,i_h);
-        // Рисуем треугольник вывод списка команд
+        // Р РёСЃСѓРµРј С‚СЂРµСѓРіРѕР»СЊРЅРёРє РІС‹РІРѕРґ СЃРїРёСЃРєР° РєРѕРјР°РЅРґ
         if (p_Commands.size()>0)
         {
-            // рисуем над правой софт кнопкой
+            // СЂРёСЃСѓРµРј РЅР°Рґ РїСЂР°РІРѕР№ СЃРѕС„С‚ РєРЅРѕРїРєРѕР№
             Font p_font = Font.getDefaultFont();
 
             final int COLOR_FILL = 0x00FFFF;

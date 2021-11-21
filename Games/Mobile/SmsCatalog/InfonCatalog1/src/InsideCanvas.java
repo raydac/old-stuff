@@ -38,7 +38,7 @@ public class InsideCanvas extends javax.microedition.lcdui.Canvas implements Run
         if (Main.i_ProcessCommand != Main.COMMAND_NONE) return;
         if (Main.p_Command_Exit.equals(command))
         {
-            // Выход из игры
+            // Р’С‹С…РѕРґ РёР· РёРіСЂС‹
             Main.i_ArgScreenID = 0;
             Main.i_ArgCommandID = 1;
             Main.i_ArgSelectedID = 0;
@@ -46,7 +46,7 @@ public class InsideCanvas extends javax.microedition.lcdui.Canvas implements Run
         }
         else if (Main.p_Command_Restart.equals(command))
         {
-            // Выход из игры
+            // Р’С‹С…РѕРґ РёР· РёРіСЂС‹
             Main.i_ArgScreenID = 0;
             Main.i_ArgCommandID = 0;
             Main.i_ArgSelectedID = 0;
@@ -341,7 +341,7 @@ public class InsideCanvas extends javax.microedition.lcdui.Canvas implements Run
 
         //#if SHOWSYS
         _graphics.setClip(0, 0, i_scrW, i_scrH);
-        // Отрисовываем объем занятой и свободной памяти
+        // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РѕР±СЉРµРј Р·Р°РЅСЏС‚РѕР№ Рё СЃРІРѕР±РѕРґРЅРѕР№ РїР°РјСЏС‚Рё
         Font p_fnt = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
         _graphics.setFont(p_fnt);
         int i_y = 0;
@@ -359,7 +359,7 @@ public class InsideCanvas extends javax.microedition.lcdui.Canvas implements Run
         _graphics.drawString(s_out, 0, i_y, GTL);
         i_y += p_fnt.getHeight();
 
-        // Выводим сообщение исключения если есть
+        // Р’С‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ РёСЃРєР»СЋС‡РµРЅРёСЏ РµСЃР»Рё РµСЃС‚СЊ
         if (Main.s_CurrentExceptionMessage != null)
         {
             s_out = Main.s_CurrentExceptionMessage;

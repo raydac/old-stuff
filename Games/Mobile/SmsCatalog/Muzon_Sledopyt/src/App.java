@@ -43,12 +43,12 @@ public class App
     private static byte [] ab_AppData;
 
     /**
-     * Идентификатор канала дистрибьютера для подстановки в код запроса
+     * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєР°РЅР°Р»Р° РґРёСЃС‚СЂРёР±СЊСЋС‚РµСЂР° РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ РєРѕРґ Р·Р°РїСЂРѕСЃР°
      */
     public static String s_DistributorChannel;
 
     /**
-     * Идентификатор номера дистрибьютера для подстановки в SMS номер запроса
+     * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РЅРѕРјРµСЂР° РґРёСЃС‚СЂРёР±СЊСЋС‚РµСЂР° РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ SMS РЅРѕРјРµСЂ Р·Р°РїСЂРѕСЃР°
      */
     public static String s_DistributorNumber;
 
@@ -61,20 +61,20 @@ public class App
         _dataBlock[2] = (byte) (i_id >>> 8);
         _dataBlock[3] = (byte) i_id;
 
-        // остальное пространство сбрасываем в 0
+        // РѕСЃС‚Р°Р»СЊРЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ СЃР±СЂР°СЃС‹РІР°РµРј РІ 0
         for (int li = 4; li < _dataBlock.length; li++) _dataBlock[li] = 0;
-        // записываем новый блок
+        // Р·Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Р№ Р±Р»РѕРє
         Main.saveDataBlock();
     }
 
 
     /**
-     * Инициализация приложения
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ
      *
-     * @param _canvas    класс канваса для загрузки ресурсов если требуется
-     * @param _midlet    указатель на родительский мидлет
-     * @param _dataBlock блок данных приложения
-     * @return true если все удачно и false если неудачно
+     * @param _canvas    РєР»Р°СЃСЃ РєР°РЅРІР°СЃР° РґР»СЏ Р·Р°РіСЂСѓР·РєРё СЂРµСЃСѓСЂСЃРѕРІ РµСЃР»Рё С‚СЂРµР±СѓРµС‚СЃСЏ
+     * @param _midlet    СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ РјРёРґР»РµС‚
+     * @param _dataBlock Р±Р»РѕРє РґР°РЅРЅС‹С… РїСЂРёР»РѕР¶РµРЅРёСЏ
+     * @return true РµСЃР»Рё РІСЃРµ СѓРґР°С‡РЅРѕ Рё false РµСЃР»Рё РЅРµСѓРґР°С‡РЅРѕ
      */
     protected static boolean init(Class _canvas, MIDlet _midlet, byte[] _dataBlock)
     {
@@ -97,7 +97,7 @@ public class App
         }
         else
         {
-            // проверяем идентификатор приложения
+            // РїСЂРѕРІРµСЂСЏРµРј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ
             int i_id = ((_dataBlock[0] & 0xFF) << 24) | ((_dataBlock[1] & 0xFF) << 16) | ((_dataBlock[2] & 0xFF) << 8) | (_dataBlock[3] & 0xFF);
             if (i_id != CATALOGID)
             {
@@ -105,7 +105,7 @@ public class App
                 System.out.println("New version of the catalog");
                 //#+
 
-                // новая версия каталога, производим инициализацию
+                // РЅРѕРІР°СЏ РІРµСЂСЃРёСЏ РєР°С‚Р°Р»РѕРіР°, РїСЂРѕРёР·РІРѕРґРёРј РёРЅРёС†РёР°Р»РёР·Р°С†РёСЋ
                 initDataBlock(_dataBlock);
             }
             //#-
@@ -193,7 +193,7 @@ public class App
         {
             if (!Game.processStep())
             {
-                // если false то переходим в обычный режим
+                // РµСЃР»Рё false С‚Рѕ РїРµСЂРµС…РѕРґРёРј РІ РѕР±С‹С‡РЅС‹Р№ СЂРµР¶РёРј
                 lg_GameMode = false;
                 Main.changeVideoMode(Main.VIDEOMODE_CANVAS);
                 byte [] ab_gameData = Game.releaseGame();
@@ -209,7 +209,7 @@ public class App
         //#endif
         {
             long l_CurrentDate = System.currentTimeMillis();
-            // Проверяем валидность каталога
+            // РџСЂРѕРІРµСЂСЏРµРј РІР°Р»РёРґРЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР°
             if (p_catalog.l_ValidityCatalogDate != 0)
             {
                 if (p_catalog.l_ValidityCatalogDate < l_CurrentDate)
@@ -249,7 +249,7 @@ public class App
 
                     p_catalog.s_MainAdvertisment = null;
 
-                    MenuBlock.MB_viewAlert(lg_AsTranslit ? SMSCatalog.russian2translit("Реклама") : "Реклама", s_msg,p_advImage, AlertType.INFO, 3000, true);
+                    MenuBlock.MB_viewAlert(lg_AsTranslit ? SMSCatalog.russian2translit("Р РµРєР»Р°РјР°") : "Р РµРєР»Р°РјР°", s_msg,p_advImage, AlertType.INFO, 3000, true);
                 }
             }
             //#endif
@@ -281,17 +281,17 @@ public class App
     //#if SMSENGINE
     private static void sendOrderSMS(boolean _flag,String _resourceID)
     {
-        // Отсылаем СМС для заказа
+        // РћС‚СЃС‹Р»Р°РµРј РЎРњРЎ РґР»СЏ Р·Р°РєР°Р·Р°
         String s_SMSNumber = p_catalog.getItemSMSnumForIndex(i_SelectedContentOffset);
         String s_ResourceID = _resourceID;
         if (Coordinator.sendTxtSMS(s_ResourceID, s_SMSNumber))
         {
-            // Удачно
+            // РЈРґР°С‡РЅРѕ
             MenuBlock.MB_viewAlert(Main.getStringForIndex(SMSSentTitleTXT), Main.getStringForIndex(SMSSentTextTXT),null, AlertType.INFO, 3000, true);
         }
         else
         {
-            // Неудачно
+            // РќРµСѓРґР°С‡РЅРѕ
             MenuBlock.MB_viewAlert(Main.getStringForIndex(SMSNoSentTitleTXT), Main.getStringForIndex(SMSNoSentTextTXT), null,AlertType.ERROR, Alert.FOREVER, true);
         }
         MenuBlock.MB_back(_flag);
@@ -300,11 +300,11 @@ public class App
     //#if SEND2FRIEND
     private static void sendOrderSMSForFriend(String _friendNumber, boolean _flag)
     {
-        // Отсылаем СМС для заказа
+        // РћС‚СЃС‹Р»Р°РµРј РЎРњРЎ РґР»СЏ Р·Р°РєР°Р·Р°
         String s_Send2Friend = p_catalog.getSend2FriendNumber();
         if (s_Send2Friend == null)
         {
-            // Берем номер для контента
+            // Р‘РµСЂРµРј РЅРѕРјРµСЂ РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
             s_Send2Friend = p_catalog.getItemSMSnumForIndex(i_SelectedContentOffset);
         }
         String s_ResourceID = p_catalog.getItemResourceIDForIndex(i_SelectedContentOffset);
@@ -315,12 +315,12 @@ public class App
         p_strBuff = null;
         if (Coordinator.sendTxtSMS(s_content, s_Send2Friend))
         {
-            // Удачно
+            // РЈРґР°С‡РЅРѕ
             MenuBlock.MB_viewAlert(Main.getStringForIndex(SMSSentTitleTXT), Main.getStringForIndex(SMSSentTextTXT), null,AlertType.INFO, 3000, true);
         }
         else
         {
-            // Неудачно
+            // РќРµСѓРґР°С‡РЅРѕ
             MenuBlock.MB_viewAlert(Main.getStringForIndex(SMSNoSentTitleTXT), Main.getStringForIndex(SMSNoSentTextTXT),null, AlertType.ERROR, Alert.FOREVER, true);
         }
         MenuBlock.MB_back(_flag);
@@ -378,7 +378,7 @@ public class App
                 //#if GAMEMODE!=""
                 case COMMAND_GameCMD:
                 {
-                    // Инициализируем игру
+                    // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРіСЂСѓ
                     Main.changeVideoMode(Main.VIDEOMODE_CANVAS);
 
                     ab_LocalBytes = new byte[Game.GAMEDATAMAXLEN];
@@ -450,7 +450,7 @@ public class App
                 case COMMAND_SendCMD:
                 case COMMAND_OrderCMD:
                 {
-                    // Переходим на экран заказа
+                    // РџРµСЂРµС…РѕРґРёРј РЅР° СЌРєСЂР°РЅ Р·Р°РєР°Р·Р°
                     //#if CONFIRMATION
                     //$MenuBlock.MB_initScreen(SCR_ConfirmationSCR, true);
                     //#else
@@ -466,7 +466,7 @@ public class App
                         if (s_phone.startsWith("+")) s_phone = s_phone.substring(1);
                         if (s_phone.length() != 11)
                         {
-                            String s_str = "Неправильный формат номера";
+                            String s_str = "РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ С„РѕСЂРјР°С‚ РЅРѕРјРµСЂР°";
                             if (Main.p_languageBlock.i_CurrentLanguageIndex == 0)
                                 s_str = SMSCatalog.russian2translit(s_str);
                             MenuBlock.MB_viewAlert("Warning", s_str, null,AlertType.WARNING, 1500, true);
@@ -477,7 +477,7 @@ public class App
                     else
                     //#endif
                     {
-                        // Собираем введенную информацию
+                        // РЎРѕР±РёСЂР°РµРј РІРІРµРґРµРЅРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
                         String s_resID = p_catalog.getItemResourceIDForIndex(i_SelectedContentOffset);
 
                         //#if SMSSERVICEPARSER
@@ -620,7 +620,7 @@ public class App
                 if (p_catalog.i_SupportPhones != 0xFFFF)
                 {
                     String s_phones = p_catalog.getSupportPhones();
-                    p_itm = new StringItem(lg_AsTranslit ? SMSCatalog.russian2translit("Телефон") : "Телефон", s_phones);
+                    p_itm = new StringItem(lg_AsTranslit ? SMSCatalog.russian2translit("РўРµР»РµС„РѕРЅ") : "РўРµР»РµС„РѕРЅ", s_phones);
                     Coordinator.algnItem(p_itm, Coordinator.LAYOUT_LEFT | Coordinator.LAYOUT_NEWLINE_AFTER | Coordinator.LAYOUT_NEWLINE_BEFORE);
                     p_LocalForm.append(p_itm);
                 }
@@ -653,7 +653,7 @@ public class App
             //#if AGREEMENT
             case SCR_AgreementSCR:
             {
-                String s_str = "Соглашение";
+                String s_str = "РЎРѕРіР»Р°С€РµРЅРёРµ";
                 if(lg_AsTranslit) s_str = SMSCatalog.russian2translit(s_str);
                 p_LocalForm = new Form(s_str);
                 s_str = p_catalog.getStringForIndex(p_catalog.i_AgreementText);
@@ -708,7 +708,7 @@ public class App
                 {
                     String s_error = null;
 
-                    // грузим изображение в PNG формате
+                    // РіСЂСѓР·РёРј РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІ PNG С„РѕСЂРјР°С‚Рµ
                     try
                     {
                         Image p_image = null;
@@ -728,7 +728,7 @@ public class App
                             String s_previewURL = p_catalog.getStringForIndex(i_previewURL - 1);
                             if (s_previewURL.startsWith("http://"))
                             {
-                                // Загрузка через вап
+                                // Р—Р°РіСЂСѓР·РєР° С‡РµСЂРµР· РІР°Рї
                                 ab_LocalBytes = HTTPInterface.processGETRequestToServer(s_previewURL);
                                 p_image = Image.createImage(ab_LocalBytes, 0, ab_LocalBytes.length);
                             }
@@ -737,7 +737,7 @@ public class App
                             //#if RSRC_JAR
                             if (s_previewURL.startsWith("jar://"))
                             {
-                                // Загрузка из ресурса JAR
+                                // Р—Р°РіСЂСѓР·РєР° РёР· СЂРµСЃСѓСЂСЃР° JAR
                                 s_previewURL = s_previewURL.substring(6);
                                 if (!s_previewURL.startsWith("/")) s_previewURL = '/' + s_previewURL;
                                 p_image = Image.createImage(s_previewURL);
@@ -884,9 +884,9 @@ public class App
 
     //#if SMSSERVICEPARSER
     /**
-     * генерируем список полей для SMS сервиса
-     * @param _serviceId  строка с идентификатором сервиса, содержащая или нет поля
-     * @return массив объектов полей или null если нет полей ввода
+     * РіРµРЅРµСЂРёСЂСѓРµРј СЃРїРёСЃРѕРє РїРѕР»РµР№ РґР»СЏ SMS СЃРµСЂРІРёСЃР°
+     * @param _serviceId  СЃС‚СЂРѕРєР° СЃ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј СЃРµСЂРІРёСЃР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РёР»Рё РЅРµС‚ РїРѕР»СЏ
+     * @return РјР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ РїРѕР»РµР№ РёР»Рё null РµСЃР»Рё РЅРµС‚ РїРѕР»РµР№ РІРІРѕРґР°
      */
     private static TextField [] makeTextFieldsArrayForSMSService(String _serviceId)
     {
@@ -1002,7 +1002,7 @@ public class App
                     ash_ScreensStack[i_ScreenStackPointer] = (short) p_catalog.getCurrentScreenOffset();
                     i_ScreenStackPointer++;
 
-                    // Выбран линк
+                    // Р’С‹Р±СЂР°РЅ Р»РёРЅРє
                     i_CurrentSelectedItem = 0;
                     int i_newScreenOffset = p_catalog.getScreenOffsetForIndexedLink(_itemId);
                     p_catalog.setCurrentScreenOffset(i_newScreenOffset);
@@ -1011,8 +1011,8 @@ public class App
                 else
                 {
                     i_CurrentSelectedItem = _itemId;
-                    // Выбран контент
-                    // Осуществляем переход на экран информации
+                    // Р’С‹Р±СЂР°РЅ РєРѕРЅС‚РµРЅС‚
+                    // РћСЃСѓС‰РµСЃС‚РІР»СЏРµРј РїРµСЂРµС…РѕРґ РЅР° СЌРєСЂР°РЅ РёРЅС„РѕСЂРјР°С†РёРё
                     i_SelectedContentOffset = _itemId;
                     MenuBlock.MB_initScreen(SCR_ResourceInfoSCR, true);
                 }

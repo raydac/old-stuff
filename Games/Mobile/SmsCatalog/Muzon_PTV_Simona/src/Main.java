@@ -68,7 +68,7 @@ public class Main extends MIDlet implements Runnable
             //#if FCNOKIA && MIDP!="2.0"
             if (!Coordinator.isMIDP20())
             {
-                // Проверяем на наличие FullCanvas
+                // РџСЂРѕРІРµСЂСЏРµРј РЅР° РЅР°Р»РёС‡РёРµ FullCanvas
                 try
                 {
                     Class p_class = Class.forName("com.nokia.mid.ui.FullCanvas");
@@ -310,7 +310,7 @@ public class Main extends MIDlet implements Runnable
         if (_width<=101) return null;
         Image p_result = null;
 
-        // ищем стартовый индекс
+        // РёС‰РµРј СЃС‚Р°СЂС‚РѕРІС‹Р№ РёРЅРґРµРєСЃ
         for(int li=0;li<SPLASHFORMATS.length;li++)
         {
             int i_width = SPLASHFORMATS[li];

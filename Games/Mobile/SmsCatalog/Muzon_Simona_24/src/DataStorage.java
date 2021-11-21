@@ -23,9 +23,9 @@ public class DataStorage
     private static final int RECORD_DATA = 4;
 
     /**
-     * Функция проверяет есть ли сохраненные данные
+     * Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂСЏРµС‚ РµСЃС‚СЊ Р»Рё СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
      *
-     * @return true если есть и false если нет
+     * @return true РµСЃР»Рё РµСЃС‚СЊ Рё false РµСЃР»Рё РЅРµС‚
      */
     public static boolean hasSavedData()
     {
@@ -38,7 +38,7 @@ public class DataStorage
     }
 
     /**
-     * Функция сбрасывает флаг сохраненных данных
+     * Р¤СѓРЅРєС†РёСЏ СЃР±СЂР°СЃС‹РІР°РµС‚ С„Р»Р°Рі СЃРѕС…СЂР°РЅРµРЅРЅС‹С… РґР°РЅРЅС‹С…
      */
     public static void resetSavedDataFlag()
     {
@@ -67,10 +67,10 @@ public class DataStorage
     }
 
     /**
-     * Записываем блок данных в хранилище
+     * Р—Р°РїРёСЃС‹РІР°РµРј Р±Р»РѕРє РґР°РЅРЅС‹С… РІ С…СЂР°РЅРёР»РёС‰Рµ
      *
-     * @param _dataBlock массив данных
-     * @throws Exception порождается если произошел сбой при обработке
+     * @param _dataBlock РјР°СЃСЃРёРІ РґР°РЅРЅС‹С…
+     * @throws Exception РїРѕСЂРѕР¶РґР°РµС‚СЃСЏ РµСЃР»Рё РїСЂРѕРёР·РѕС€РµР» СЃР±РѕР№ РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ
      */
     public static void saveDataBlock(byte[] _dataBlock) throws Exception
     {
@@ -112,7 +112,7 @@ public class DataStorage
     }
 
     /**
-     * Заканчивает работу блока и сохраняет опции и тех.опции в хранилище.
+     * Р—Р°РєР°РЅС‡РёРІР°РµС‚ СЂР°Р±РѕС‚Сѓ Р±Р»РѕРєР° Рё СЃРѕС…СЂР°РЅСЏРµС‚ РѕРїС†РёРё Рё С‚РµС….РѕРїС†РёРё РІ С…СЂР°РЅРёР»РёС‰Рµ.
      */
     public static void release()
     {
@@ -142,10 +142,10 @@ public class DataStorage
     }
 
     /**
-     * Возвращает блок данных, сохраненный в хранилище
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р±Р»РѕРє РґР°РЅРЅС‹С…, СЃРѕС…СЂР°РЅРµРЅРЅС‹Р№ РІ С…СЂР°РЅРёР»РёС‰Рµ
      *
-     * @return массив байт если хранилище имеет запись и null если нет записи
-     * @throws Exception если произошел сбой в процессе обработки.
+     * @return РјР°СЃСЃРёРІ Р±Р°Р№С‚ РµСЃР»Рё С…СЂР°РЅРёР»РёС‰Рµ РёРјРµРµС‚ Р·Р°РїРёСЃСЊ Рё null РµСЃР»Рё РЅРµС‚ Р·Р°РїРёСЃРё
+     * @throws Exception РµСЃР»Рё РїСЂРѕРёР·РѕС€РµР» СЃР±РѕР№ РІ РїСЂРѕС†РµСЃСЃРµ РѕР±СЂР°Р±РѕС‚РєРё.
      */
     public static byte[] loadDataBlock() throws Exception
     {
@@ -208,11 +208,11 @@ public class DataStorage
     public static String s_Status;
 
     /**
-         * Инициализация блока
+         * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р»РѕРєР°
          *
-         * @param _name имя хранилища данных
-         * @return true если хранилище впервые созданно, false если существует
-         * @throws Exception исключение порождается если были проблемы при работе с хранилищем
+         * @param _name РёРјСЏ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С…
+         * @return true РµСЃР»Рё С…СЂР°РЅРёР»РёС‰Рµ РІРїРµСЂРІС‹Рµ СЃРѕР·РґР°РЅРЅРѕ, false РµСЃР»Рё СЃСѓС‰РµСЃС‚РІСѓРµС‚
+         * @throws Exception РёСЃРєР»СЋС‡РµРЅРёРµ РїРѕСЂРѕР¶РґР°РµС‚СЃСЏ РµСЃР»Рё Р±С‹Р»Рё РїСЂРѕР±Р»РµРјС‹ РїСЂРё СЂР°Р±РѕС‚Рµ СЃ С…СЂР°РЅРёР»РёС‰РµРј
          */
     public static int init(String _name) throws Exception
     {
@@ -227,12 +227,12 @@ public class DataStorage
             int i_recordsNumber = p_recStore.getNumRecords();
             if (i_recordsNumber < 4)
             {
-                // Создаем области
-                // Проверка доступного пространства
+                // РЎРѕР·РґР°РµРј РѕР±Р»Р°СЃС‚Рё
+                // РџСЂРѕРІРµСЂРєР° РґРѕСЃС‚СѓРїРЅРѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°
                 int i_summSize = SUMMARY_SIZE + 32;
                 int i_availableSize = p_recStore.getSizeAvailable();
                 if (i_availableSize < i_summSize) throw new javax.microedition.rms.RecordStoreFullException(i_availableSize + "<" + i_summSize);
-                // Создаем записи и заполняем их 0 пространством
+                // РЎРѕР·РґР°РµРј Р·Р°РїРёСЃРё Рё Р·Р°РїРѕР»РЅСЏРµРј РёС… 0 РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕРј
                 i_codeErr++;
                 if (i_recordsNumber == 0)
                 {

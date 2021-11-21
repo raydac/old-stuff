@@ -65,7 +65,7 @@ public class Main extends MIDlet implements Runnable
 
             p_MainCanvas = null;
 
-            // Проверяем на наличие FullCanvas
+            // РџСЂРѕРІРµСЂСЏРµРј РЅР° РЅР°Р»РёС‡РёРµ FullCanvas
             //#if FCNOKIA
             try
             {
@@ -302,7 +302,7 @@ public class Main extends MIDlet implements Runnable
         if (_width<=101) return null;
         Image p_result = null;
 
-        // ищем стартовый индекс
+        // РёС‰РµРј СЃС‚Р°СЂС‚РѕРІС‹Р№ РёРЅРґРµРєСЃ
         for(int li=0;li<SPLASHFORMATS.length;li++)
         {
             int i_width = SPLASHFORMATS[li];
