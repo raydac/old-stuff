@@ -6,6 +6,7 @@ import com.igormaznitsa.Preprocessor.Formula.FormulaStack;
 import com.igormaznitsa.WToolkit.classes.FileUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /*
@@ -24,6 +25,8 @@ import java.util.*;
 
 public class Preprocessor
 {
+    private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+
     private static final void header()
     {
         System.out.println("CommentPreprocessor v4.91b (13 march 2005)");
@@ -256,8 +259,7 @@ public class Preprocessor
         return _string;
     }
 
-
-    private static final void processFile(FileReference _fileRef, HashMap _global, HashMap _local, File _outdir, PrintStream _infoStream, boolean _removeComments, PreprocessorActionListener _listener) throws IOException
+    private static void processFile(FileReference _fileRef, HashMap _global, HashMap _local, File _outdir, PrintStream _infoStream, boolean _removeComments, PreprocessorActionListener _listener) throws IOException
     {
         _local.clear();
         String s_strLastIfFileName = null;
@@ -265,18 +267,23 @@ public class Preprocessor
         int i_lastIfStringNumber = 0;
         int i_lastWhileStringNumber = 0;
 
-        BufferedReader p_bufreader = new BufferedReader(new FileReader(_fileRef.p_srcFile));
-
-        // Считываем весь файл в память
+        BufferedReader p_bufreader = new BufferedReader(new InputStreamReader(new FileInputStream(_fileRef.p_srcFile),  CHARSET_UTF8));
         Vector p_StringVector = new Vector(5000);
-        while (true)
-        {
-            String s_str = p_bufreader.readLine();
-            p_StringVector.add(s_str);
-            if (s_str == null) break;
+        try {
+            // Считываем весь файл в память
+            while (true) {
+                String s_str = p_bufreader.readLine();
+                p_StringVector.add(s_str);
+                if (s_str == null) break;
+            }
+        } finally {
+            try {
+                p_bufreader.close();
+            } catch (Exception exx){
+
+            }
+            p_bufreader = null;
         }
-        p_bufreader.close();
-        p_bufreader = null;
 
         boolean lg_outenabled = true;
         boolean lg_ifenabled = true;
