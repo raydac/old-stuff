@@ -1,10 +1,10 @@
 [SECTION_PARAMETERS]
 MIDlet-1=SpaceAge,/aku.png,com.startup
-MIDlet-Jar-Size=55104
+MIDlet-Jar-Size=54831
 MIDlet-Jar-URL=SpaceAge_N7210.jar
 MIDlet-Name=SpaceAge
 MIDlet-Vendor=Akumiitti CC
-MIDlet-Version=1.0.7
+MIDlet-Version=1.0.9
 MicroEdition-Configuration=CLDC-1.0
 MicroEdition-Profile=MIDP-1.0
 Created-By=RRGWTK10

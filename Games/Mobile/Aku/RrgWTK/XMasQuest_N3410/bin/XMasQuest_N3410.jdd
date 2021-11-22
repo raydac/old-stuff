@@ -1,13 +1,14 @@
 [SECTION_PARAMETERS]
 MIDlet-1=XMasQuest,/ico.png,startup
-MIDlet-Jar-URL=XMasQuest_N7210.jar
+MIDlet-Jar-URL=XMasQuest_N3410.jar
 MIDlet-Name=XMasQuest
 MIDlet-Vendor=Akumiitti CC
-MIDlet-Version=1.0.0
+MIDlet-Version=1.0.1
 MicroEdition-Configuration=CLDC-1.0
 MicroEdition-Profile=MIDP-1.0
 Created-By=RRGWTK10
 MIDlet-Icon=/ico.png
+MIDlet-Jar-Size=44569
 [END]
 [SECTION_ORDER_JAD]
 MIDlet-Name

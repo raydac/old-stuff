@@ -250,7 +250,7 @@ public static final int[] ai_wayarray = new int[]
 
         System.gc();
     }
-//#endif
+
 
     /**
      * This function generates a pseudorandom value from 0 to a limit value (the limit value is included in the range)

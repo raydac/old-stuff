@@ -182,7 +182,7 @@ public class Snake_SB implements StrategicBlock
                         okfl = false;
                         continue;
                     }
-                    ;
+                    
                 case Labyrinths.ELE_MOUSE:
                     {
                         _game_state._mice_is_eaten = true;
@@ -199,7 +199,7 @@ public class Snake_SB implements StrategicBlock
                         okfl = false;
                         continue;
                     }
-                    ;
+                    
                 case Labyrinths.ELE_WALL:
                     {
                         if (new_dir != _game_state._current_direction)
@@ -233,7 +233,7 @@ public class Snake_SB implements StrategicBlock
                                     }
                                     continue;
                                 }
-                                ;
+                                
                             case Snake_PMR.DIRECT_LEFT:
                             case Snake_PMR.DIRECT_RIGHT:
                                 {
@@ -257,7 +257,7 @@ public class Snake_SB implements StrategicBlock
                                     }
                                     continue;
                                 }
-                                ;
+                                
                         }
                     }
                     ;
@@ -281,7 +281,7 @@ public class Snake_SB implements StrategicBlock
                                         _game_state._player_state = Snake_GSR.PLAYERSTATE_LOST;
                                     return;
                                 }
-                                ;
+                                
                         }
                     }
             }

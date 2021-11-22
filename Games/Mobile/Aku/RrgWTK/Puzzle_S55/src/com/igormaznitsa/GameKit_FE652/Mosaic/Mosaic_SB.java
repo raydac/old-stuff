@@ -247,7 +247,7 @@ public class Mosaic_SB implements StrategicBlock
                     _game_state._old_empty_x = _game_state._empty_x;
                     _game_state._old_empty_y = _game_state._empty_y;
                     return;
-                };
+                }
             case Mosaic_PMR.DIRECT_DOWN :
                 {
                     ny++;

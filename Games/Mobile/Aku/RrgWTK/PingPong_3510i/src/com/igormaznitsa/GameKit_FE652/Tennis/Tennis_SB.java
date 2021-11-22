@@ -320,14 +320,14 @@ public class Tennis_SB implements StrategicBlock
                     _game_state._ball._dz_8 = Tennis_SB.BALL_SPEEDLOW_DZ_8;
                     return;
                 }
-                ;
+                
             case Racket.RACKET_UP:
                 {
                     _game_state._ball._vert_speed  = 0;
                     _game_state._ball._dz_8 = Tennis_SB.BALL_SPEEDNORMAL_DZ_8;
                     return;
                 }
-                ;
+                
             case Racket.RACKET_RIGHT:
                 {
                     if (racket._type == Racket.RACKETPOS_LEFT)

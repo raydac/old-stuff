@@ -3,11 +3,12 @@ MIDlet-1=SteelRain,/ico.png,startup
 MIDlet-Jar-URL=SteelRain_N3410.jar
 MIDlet-Name=SteelRain
 MIDlet-Vendor=Akumiitti CC
-MIDlet-Version=1.0.0
+MIDlet-Version=1.0.1
 MicroEdition-Configuration=CLDC-1.0
 MicroEdition-Profile=MIDP-1.0
 Created-By=RRGWTK10
 MIDlet-Icon=/ico.png
+MIDlet-Jar-Size=31239
 [END]
 [SECTION_ORDER_JAD]
 MIDlet-Name
