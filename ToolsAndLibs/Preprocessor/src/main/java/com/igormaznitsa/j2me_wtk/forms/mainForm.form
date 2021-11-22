@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.igormaznitsa.j2me_wtk.mainForm">
-  <grid id="3e5b2" binding="p_MainPanel" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="3e5b2" binding="p_MainPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="69" y="16" width="698" height="418"/>
-      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+      <xy x="69" y="16" width="887" height="418"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
       <splitpane id="6325f">
         <constraints>
-          <xy x="0" y="57" width="698" height="361"/>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
@@ -32,7 +30,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="978eb" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="978eb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <splitpane position="left"/>
@@ -42,8 +40,7 @@
                 <children>
                   <scrollpane id="c9f7">
                     <constraints>
-                      <xy x="0" y="0" width="103" height="361"/>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none" title="Projects"/>
@@ -63,7 +60,7 @@
                   </scrollpane>
                 </children>
               </grid>
-              <grid id="fd741" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="fd741" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <splitpane position="right"/>
@@ -71,19 +68,17 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="4b794" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="4b794" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <xy x="0" y="336" width="191" height="25"/>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
                       <component id="6ac67" class="javax.swing.JButton" binding="p_Button_AddVar">
                         <constraints>
-                          <xy x="51" y="0" width="55" height="25"/>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Add"/>
@@ -92,8 +87,7 @@
                       </component>
                       <component id="e1237" class="javax.swing.JButton" binding="p_Button_RemoveVar">
                         <constraints>
-                          <xy x="116" y="0" width="75" height="25"/>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Remove"/>
@@ -102,16 +96,14 @@
                       </component>
                       <hspacer id="71d97">
                         <constraints>
-                          <xy x="0" y="7" width="51" height="11"/>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                       </hspacer>
                     </children>
                   </grid>
                   <scrollpane id="9c6b7">
                     <constraints>
-                      <xy x="0" y="0" width="191" height="331"/>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none" title="Preprocessor variables"/>
@@ -139,7 +131,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="2b83f" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="2b83f" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <splitpane position="left"/>
@@ -149,8 +141,7 @@
                 <children>
                   <scrollpane id="4c745">
                     <constraints>
-                      <xy x="0" y="0" width="392" height="170"/>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none" title="MIDlet parameters"/>
@@ -163,19 +154,17 @@
                       </component>
                     </children>
                   </scrollpane>
-                  <grid id="548a6" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="548a6" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <xy x="0" y="175" width="392" height="25"/>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
                       <component id="3e519" class="javax.swing.JButton" binding="p_Button_AddMIDLETProperty">
                         <constraints>
-                          <xy x="252" y="0" width="55" height="25"/>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Add"/>
@@ -184,8 +173,7 @@
                       </component>
                       <component id="64196" class="javax.swing.JButton" binding="p_Button_RemoveMIDLETProperty">
                         <constraints>
-                          <xy x="317" y="0" width="75" height="25"/>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Remove"/>
@@ -194,15 +182,14 @@
                       </component>
                       <hspacer id="d46a2">
                         <constraints>
-                          <xy x="0" y="7" width="252" height="11"/>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                       </hspacer>
                     </children>
                   </grid>
                 </children>
               </grid>
-              <grid id="8bc45" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="8bc45" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <splitpane position="right"/>
@@ -210,11 +197,10 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <xy id="7d299" binding="p_ProgressPanel" hgap="-1" vgap="-1">
+                  <xy id="7d299" binding="p_ProgressPanel" layout-manager="XYLayout" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <xy x="0" y="135" width="392" height="20"/>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
@@ -222,8 +208,7 @@
                   </xy>
                   <scrollpane id="bb174">
                     <constraints>
-                      <xy x="0" y="0" width="392" height="130"/>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="etched" title="Terminal messages"/>
@@ -243,19 +228,17 @@
           </splitpane>
         </children>
       </splitpane>
-      <grid id="51db6" row-count="2" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="51db6" layout-manager="GridLayoutManager" row-count="2" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <xy x="0" y="0" width="698" height="52"/>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
           <component id="3c362" class="javax.swing.JButton" binding="p_Button_SelectDirectory">
             <constraints>
-              <xy x="0" y="0" width="111" height="25"/>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Select directory"/>
@@ -264,8 +247,7 @@
           </component>
           <component id="cb3e9" class="javax.swing.JButton" binding="p_Button_NewProject">
             <constraints>
-              <xy x="121" y="0" width="95" height="25"/>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <enabled value="false"/>
@@ -275,8 +257,7 @@
           </component>
           <component id="5b3f5" class="javax.swing.JButton" binding="p_Button_Build">
             <constraints>
-              <xy x="226" y="0" width="116" height="25"/>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Build"/>
@@ -285,14 +266,12 @@
           </component>
           <hspacer id="54a17">
             <constraints>
-              <xy x="447" y="7" width="176" height="11"/>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <component id="37731" class="javax.swing.JButton" binding="p_Button_About">
             <constraints>
-              <xy x="633" y="0" width="65" height="25"/>
-              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="About"/>
@@ -301,8 +280,7 @@
           </component>
           <component id="c94a" class="javax.swing.JCheckBox" binding="p_Check_Debug">
             <constraints>
-              <xy x="0" y="30" width="78" height="22"/>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Debug info"/>
@@ -311,8 +289,7 @@
           </component>
           <component id="6b743" class="javax.swing.JCheckBox" binding="p_Check_Obfuscating">
             <constraints>
-              <xy x="121" y="30" width="84" height="22"/>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="false"/>
@@ -322,8 +299,7 @@
           </component>
           <component id="d3f10" class="javax.swing.JCheckBox" binding="p_Check_RemoveComments">
             <constraints>
-              <xy x="226" y="30" width="116" height="22"/>
-              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <enabled value="true"/>
@@ -334,34 +310,40 @@
           </component>
           <component id="8264b" class="javax.swing.JButton" binding="p_Button_Options">
             <constraints>
-              <xy x="352" y="0" width="85" height="25"/>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Options"/>
               <toolTipText value="Paths of tools and libraries"/>
             </properties>
           </component>
-          <component id="c3fdc" class="javax.swing.JCheckBox" binding="p_Check_Optimization">
-            <constraints>
-              <xy x="352" y="30" width="85" height="22"/>
-              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
-            </constraints>
-            <properties>
-              <selected value="false"/>
-              <text value="Optimization"/>
-              <toolTipText value="Turn on optimization in options of the obfuscator"/>
-            </properties>
-          </component>
           <component id="c7dda" class="javax.swing.JCheckBox" binding="p_Check_JarOptimization">
             <constraints>
-              <xy x="447" y="30" width="101" height="22"/>
-              <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+              <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="true"/>
               <text value="Jar optimization"/>
               <toolTipText value="To optimize result JAR file"/>
+            </properties>
+          </component>
+          <component id="b2cc0" class="javax.swing.JButton" binding="p_Button_Clear">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Clear"/>
+              <toolTipText value="Remove temporary  folders and result files"/>
+            </properties>
+          </component>
+          <component id="c3fdc" class="javax.swing.JCheckBox" binding="p_Check_Optimization">
+            <constraints>
+              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <selected value="false"/>
+              <text value="Optimization"/>
+              <toolTipText value="Turn on optimization in options of the obfuscator"/>
             </properties>
           </component>
         </children>

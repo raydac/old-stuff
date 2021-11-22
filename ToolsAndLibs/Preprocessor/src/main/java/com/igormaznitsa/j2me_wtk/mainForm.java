@@ -1,22 +1,23 @@
 package com.igormaznitsa.j2me_wtk;
 
-import com.raydac_research.FormEditor.Misc.Utilities;
-import com.raydac_research.FormEditor.Misc.AboutForm;
+import com.igormaznitsa.j2me_wtk.forms.NewProjectDialog;
 import com.igormaznitsa.j2me_wtk.forms.NewVarDialog;
 import com.igormaznitsa.j2me_wtk.forms.OptionsDialog;
-import com.igormaznitsa.j2me_wtk.forms.NewProjectDialog;
+import com.raydac_research.FormEditor.Misc.AboutForm;
+import com.raydac_research.FormEditor.Misc.Utilities;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 public class mainForm extends JFrame implements ActionListener,TreeSelectionListener,FocusListener,BuilderModule.ProjectProcessingListener
 {
@@ -24,6 +25,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
     private JTree p_ProjectsTree;
     private JButton p_Button_SelectDirectory;
     private JButton p_Button_Build;
+    private JButton p_Button_Clear;
     private JButton p_Button_NewProject;
     private JTable p_MidletPropertiesTable;
     private JButton p_Button_About;
@@ -97,6 +99,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
 
         p_Button_SelectDirectory.addActionListener(this);
         p_Button_Build.addActionListener(this);
+        p_Button_Clear.addActionListener(this);
         p_Button_NewProject.addActionListener(this);
         p_Button_About.addActionListener(this);
         p_Check_Debug.addActionListener(this);
@@ -167,6 +170,20 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
                 }
             }
             ).start();
+        }
+        else
+        if (p_Button_Clear.equals(p_src))
+        {
+            final int option = JOptionPane.showConfirmDialog(this, "Remove also result JAR+JAD?", "Question", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (option != JOptionPane.CANCEL_OPTION) {
+                try {
+                    final int removed = clearProjects(option == JOptionPane.YES_OPTION);
+                    JOptionPane.showMessageDialog(this, "Completed, deleted " + removed + " files", "Completed", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            lg_busy = false;
         }
         else
         if (p_Button_NewProject.equals(p_src))
@@ -335,6 +352,41 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
         }
     }
 
+    public final int clearProjects(final boolean removeJarJad) throws IOException {
+        int removedCounter = 0;
+        TreePath[] ap_paths = p_ProjectsTree.getSelectionPaths();
+        for (int i = 0; i < ap_paths.length; i++) {
+            TreePath p_path = ap_paths[i];
+            if (p_path.getLastPathComponent() instanceof ProjectInfo) {
+                final ProjectInfo projectInfo = (ProjectInfo) p_path.getLastPathComponent();
+                final File baseFolder = projectInfo.getDirectory();
+                if (baseFolder.isDirectory()) {
+                    removedCounter += BuilderModule.deleteTempFolders(projectInfo);
+                }
+
+                if (removeJarJad) {
+                    final File bin = new File(baseFolder, BuilderModule.PATH_BIN);
+                    if (bin.isDirectory()) {
+                        final File[] files = bin.listFiles();
+                        for (int y = 0; y < files.length; y++) {
+                            final File file = files[y];
+                            if (file.isFile()) {
+                                final String name = file.getName().toLowerCase(Locale.ENGLISH);
+                                if (name.endsWith(".mf") || name.endsWith(".jar") || name.endsWith(".jad")) {
+                                    if (!file.delete()) {
+                                        throw new IOException("Can't delete file: " + file);
+                                    }
+                                    removedCounter++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return removedCounter;
+    }
+
     public final void buildProjects()
     {
         TreePath [] ap_paths = p_ProjectsTree.getSelectionPaths();
@@ -458,6 +510,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
             p_Button_AddVar.setEnabled(false);
             p_Button_RemoveVar.setEnabled(false);
             p_Button_Build.setEnabled(false);
+            p_Button_Clear.setEnabled(false);
             p_Button_AddMIDLETProperty.setEnabled(false);
             p_Button_RemoveMIDLETProperty.setEnabled(false);
         }
@@ -484,6 +537,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
                 p_Button_RemoveMIDLETProperty.setEnabled(false);
             }
             p_Button_Build.setEnabled(true);
+            p_Button_Clear.setEnabled(true);
         }
 
         if  (appProperties.MainDirectory==null)

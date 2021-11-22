@@ -15,7 +15,7 @@ public class BuilderModule
 
     public static ProjectProcessingListener p_ProcessListener;
 
-    public static final String PATH_VARLIST = "/bin/varlist.jcp";
+    public static final String PATH_VARLIST = "varlist.jcp";
     public static final String PATH_BEFORELOCAL = "/before.bat";
     public static final String PATH_AFTERLOCAL = "/after.bat";
     public static final String PATH_AFTER = "/after.bat";
@@ -26,8 +26,8 @@ public class BuilderModule
     public static final String PATH_GENERICLIB = "lib";
     public static final String PATH_TMPCLASSES = "tmpclasses";
     public static final String PATH_CLASSES = "classes";
-    public static final String PATH_BIN = "/bin";
-    public static final String PATH_MAINFEST = "/bin/Manifest.mf";
+    public static final String PATH_BIN = "bin";
+    public static final String PATH_MAINFEST = "Manifest.mf";
 
     public static final String SYSPROPERTY_PROJNAME = "RRGWTK_PROJNAME";
     public static final String SYSPROPERTY_PROJDIR = "RRGWTK_PROJDIR";
@@ -37,20 +37,25 @@ public class BuilderModule
     public static String s_ProtocolString = "";
     public static final int BUILD_STEPS = 8;
 
-    private static void deleteTempFolders(ProjectInfo project) throws IOException {
+    public static int deleteTempFolders(ProjectInfo project) throws IOException {
+        int counter = 0;
         final File baseFolder = project.getDirectory();
         final File preprocessed = new File(baseFolder, PATH_PREPROCESSED);
         final File tempClasses = new File(baseFolder, PATH_TMPCLASSES);
         final File classes = new File(baseFolder, PATH_CLASSES);
         if (preprocessed.isDirectory()) {
             if (!FileUtils.deleteDir(preprocessed)) throw new IOException("Can't delete folder "+preprocessed);
+            counter ++;
         }
         if (tempClasses.isDirectory()) {
             if (!FileUtils.deleteDir(tempClasses)) throw new IOException("Can't delete folder "+tempClasses);
+            counter ++;
         }
         if (classes.isDirectory()) {
             if (!FileUtils.deleteDir(classes)) throw new IOException("Can't delete folder "+classes);
+            counter ++;
         }
+        return counter;
     }
 
     public static final String buildProject(ProjectInfo _project, File _mainDir, File _destDir, boolean _obfuscated, boolean _debug, boolean _removecomments, boolean _optimization, String _bootclassPath, boolean _jarOptimization) throws IOException
@@ -73,6 +78,8 @@ public class BuilderModule
         StringBuffer p_strBuff = new StringBuffer();
 
         deleteTempFolders(_project);
+
+        final File binFolder = new File(_project.getDirectory(), PATH_BIN);
 
         // Отработка сценария BEFORE, если есть
         //-------------------------------------------------------
@@ -153,7 +160,7 @@ public class BuilderModule
         p_strArray = new StringArray();
 
         // Подключаем файл с переменными если есть
-        File p_varList = new File(_project.getDirectory(), PATH_VARLIST);
+        File p_varList = new File(binFolder, PATH_VARLIST);
         if (p_varList.exists())
         {
             p_strArray.add("@" + p_varList.getCanonicalPath());
@@ -431,15 +438,15 @@ public class BuilderModule
         // Записываем манифестный файл
         //-------------------------------------------------------
         p_strBuff.append("Saving the manifest file\r\n");
-        File p_mainfestFile = new File(_project.getDirectory(), PATH_MAINFEST);
-        _project.generateManifestFile(p_mainfestFile);
+        File p_manifestFile = new File(binFolder, PATH_MAINFEST);
+        _project.generateManifestFile(p_manifestFile);
 
         // Формируем целевой JAR файл из проверенных файлов
         //---------------------------------------------------
         File p_JarFile = new File(_destDir, _project.getJDDName() + ".jar");
         String[] as_jarClasses = new String[]
                 {
-                            "cmf", p_mainfestFile.getCanonicalPath(), p_JarFile.getCanonicalPath(), "-C", p_classesDir.getCanonicalPath(), "."
+                            "cmf", p_manifestFile.getCanonicalPath(), p_JarFile.getCanonicalPath(), "-C", p_classesDir.getCanonicalPath(), "."
                     };
 
         p_strArray.clear();
@@ -585,7 +592,7 @@ public class BuilderModule
         p_classesDir = null;
         p_jadFile = null;
         p_JarFile = null;
-        p_mainfestFile = null;
+        p_manifestFile = null;
         p_resDir = null;
 
         System.gc();
