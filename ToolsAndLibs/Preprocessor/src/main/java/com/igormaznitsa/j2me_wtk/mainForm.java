@@ -255,7 +255,7 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
 
             try
             {
-                p_proj.addJDDVariable(s_name,s_value);
+                p_proj.addJDDVariable(s_name,s_value, true);
             }
             catch (IOException e)
             {

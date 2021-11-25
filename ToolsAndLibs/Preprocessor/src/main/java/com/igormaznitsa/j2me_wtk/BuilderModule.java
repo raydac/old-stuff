@@ -433,7 +433,7 @@ public class BuilderModule
 
 
         // Увеличиваем номер билда
-        _project.increaseBuildNumber();
+        //_project.increaseBuildNumber();
 
         // Записываем манифестный файл
         //-------------------------------------------------------
@@ -534,7 +534,7 @@ public class BuilderModule
         // Записываем новый размер JAR в JAD и сохраняем его
         //-------------------------------------------------------
         int i_size = (int) p_JarFile.length();
-        _project.addJDDVariable("MIDlet-Jar-Size", Integer.toString(i_size));
+        _project.addJDDVariable("MIDlet-Jar-Size", Integer.toString(i_size), false);
         String s_name = _project.getJDDName();
         s_name += ".jad";
 
@@ -542,7 +542,7 @@ public class BuilderModule
 
         // Записываем параметр MIDlet-Jar-URL если его нет
         //-------------------------------------------------
-        _project.addJDDVariable("MIDlet-Jar-URL", p_JarFile.getName());
+        _project.addJDDVariable("MIDlet-Jar-URL", p_JarFile.getName(), false);
 
         _project.generateJadFile(p_jadFile);
 
@@ -599,7 +599,7 @@ public class BuilderModule
 
         p_strBuff.append("--------OK-----------");
 
-        _project.saveJDDFile(_project.getJDDFile());
+        //_project.saveJDDFile(_project.getJDDFile());
 
         return p_strBuff.toString();
     }

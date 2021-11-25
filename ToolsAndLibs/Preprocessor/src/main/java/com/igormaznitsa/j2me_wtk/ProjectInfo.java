@@ -36,10 +36,6 @@ public class ProjectInfo
     protected Vector p_NamesOrderMF;
     protected Vector p_ValuesForReplacing;
 
-    int i_MidletVerion;
-    int i_MidletSubversion;
-    int i_MidletBuild;
-
     public static final int MIDP_UNKNOWN = 0;
     public static final int CLDC_UNKNOWN = 0;
     public static final int MIDP_10 = 1;
@@ -88,25 +84,6 @@ public class ProjectInfo
         return p_Directory;
     }
 
-    public void increaseBuildNumber()
-    {
-        i_MidletBuild++;
-        if (i_MidletBuild>=100)
-        {
-            i_MidletSubversion++;
-            i_MidletBuild = 1;
-        }
-        String s_midletVersion = p_Properties.getProperty(MIDLET_VERSION);
-        if (s_midletVersion == null)
-        {
-            i_MidletVerion = 1;
-            i_MidletSubversion = 0;
-            i_MidletBuild = 1;
-            p_propertiesNames.addElement(MIDLET_VERSION);
-        }
-        p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
-    }
-
     private static final boolean excludeForMF(String _parameter)
     {
         for(int li=0;li<EXCLUDE_FROM_MF.length;li++)
@@ -136,7 +113,7 @@ public class ProjectInfo
         {
             p_propertiesNames.addElement(MIDLET_VERSION);
         }
-        p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
+        p_Properties.setProperty(MIDLET_VERSION, "1.0");
 
 
         Properties p_workProperties = new Properties();
@@ -212,8 +189,8 @@ public class ProjectInfo
         if (s_value == null)
         {
             p_propertiesNames.addElement(MIDLET_VERSION);
+            p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
-        p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
 
 
         //Секция параметров
@@ -264,8 +241,8 @@ public class ProjectInfo
         if (s_value == null)
         {
             p_propertiesNames.addElement(MIDLET_VERSION);
+            p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
-        p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
 
 
         Properties p_workProperties = new Properties();
@@ -475,35 +452,11 @@ public class ProjectInfo
         }
 
         String s_midletVersion = p_Properties.getProperty(MIDLET_VERSION);
-        i_MidletVerion = -1;
-        i_MidletSubversion = -1;
-        i_MidletBuild = -1;
         if (s_midletVersion == null)
         {
-            i_MidletVerion = 1;
-            i_MidletSubversion = 0;
-            i_MidletBuild = 1;
             p_propertiesNames.addElement(MIDLET_VERSION);
-            p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
+            p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
-        else
-        {
-            StringTokenizer p_strTokenizer = new StringTokenizer(s_midletVersion, ".");
-            try
-            {
-                i_MidletVerion = Integer.parseInt(p_strTokenizer.nextToken());
-                i_MidletSubversion = Integer.parseInt(p_strTokenizer.nextToken());
-                i_MidletBuild = Integer.parseInt(p_strTokenizer.nextToken());
-            }
-            catch (Exception _ex)
-            {
-                i_MidletVerion = i_MidletVerion < 0 ? 1 : i_MidletVerion;
-                i_MidletSubversion = i_MidletSubversion < 0 ? 0 : i_MidletSubversion;
-                i_MidletBuild = i_MidletBuild < 0 ? 1 : i_MidletBuild;
-                p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
-            }
-        }
-
         updateMIDPCLDCVersions();
         updateNamesOfMidlets();
     }
@@ -530,33 +483,9 @@ public class ProjectInfo
         }
 
         String s_midletVersion = p_Properties.getProperty(MIDLET_VERSION);
-        i_MidletVerion = -1;
-        i_MidletSubversion = -1;
-        i_MidletBuild = -1;
         if (s_midletVersion == null)
         {
-            i_MidletVerion = 1;
-            i_MidletSubversion = 0;
-            i_MidletBuild = 1;
-            p_propertiesNames.addElement(MIDLET_VERSION);
-            p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
-        }
-        else
-        {
-            StringTokenizer p_strTokenizer = new StringTokenizer(s_midletVersion, ".");
-            try
-            {
-                i_MidletVerion = Integer.parseInt(p_strTokenizer.nextToken());
-                i_MidletSubversion = Integer.parseInt(p_strTokenizer.nextToken());
-                i_MidletBuild = Integer.parseInt(p_strTokenizer.nextToken());
-            }
-            catch (Exception _ex)
-            {
-                i_MidletVerion = i_MidletVerion < 0 ? 1 : i_MidletVerion;
-                i_MidletSubversion = i_MidletSubversion < 0 ? 0 : i_MidletSubversion;
-                i_MidletBuild = i_MidletBuild < 0 ? 1 : i_MidletBuild;
-                p_Properties.setProperty(MIDLET_VERSION, "" + i_MidletVerion + '.' + i_MidletSubversion + '.' + i_MidletBuild);
-            }
+            p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
     }
 
@@ -622,7 +551,7 @@ public class ProjectInfo
         return true;
     }
 
-    public boolean addJDDVariable(String _name, String _value) throws IOException
+    public boolean addJDDVariable(String _name, String _value, boolean forceSave) throws IOException
     {
         if (p_Properties.getProperty(_name) != null)
         {
@@ -631,7 +560,10 @@ public class ProjectInfo
         }
         p_propertiesNames.addElement(_name);
         p_Properties.setProperty(_name, _value);
-        saveJDDFile(p_JDDFile);
+
+        if (forceSave) {
+            saveJDDFile(p_JDDFile);
+        }
         return true;
     }
 
