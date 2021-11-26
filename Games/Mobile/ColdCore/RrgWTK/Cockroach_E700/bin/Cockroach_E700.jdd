@@ -1,0 +1,24 @@
+[SECTION_PARAMETERS]
+MIDlet-1=Cockroach_E700, , startup
+MIDlet-Jar-URL=Cockroach_E700.jar
+MIDlet-Name=Cockroach
+MIDlet-Vendor=Samsung Electronics Co., Ltd
+MIDlet-Version=1.0
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
+Nokia-MIDlet-Category=Games
+Created-By=INFON (http://www.infon.ru)
+MIDlet-Jar-Size=78153
+[END]
+[SECTION_ORDER_JAD]
+MIDlet-Name
+MIDlet-Vendor
+MIDlet-1
+MIDlet-Jar-URL
+MIDlet-Jar-Size
+MIDlet-Version
+MicroEdition-Configuration
+MicroEdition-Profile
+[END]
+[SECTION_ORDER_MF]
+[END]

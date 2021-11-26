@@ -1,0 +1,24 @@
+[SECTION_PARAMETERS]
+MIDlet-1=Sheriff_S300, , startup
+MIDlet-Jar-URL=Sheriff_S300.jar
+MIDlet-Name=Mobile Sheriff
+MIDlet-Vendor=Samsung Electronics Co., Ltd
+MIDlet-Version=1.0
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
+Nokia-MIDlet-Category=Games
+Created-By=INFON (http://www.infon.ru)
+MIDlet-Jar-Size=69358
+[END]
+[SECTION_ORDER_JAD]
+MIDlet-Name
+MIDlet-Vendor
+MIDlet-1
+MIDlet-Jar-URL
+MIDlet-Jar-Size
+MIDlet-Version
+MicroEdition-Configuration
+MicroEdition-Profile
+[END]
+[SECTION_ORDER_MF]
+[END]
