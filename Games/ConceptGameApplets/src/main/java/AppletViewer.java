@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AppletViewer {
 
@@ -38,18 +39,27 @@ public class AppletViewer {
           }})
   ));
 
+  public AppletViewer() {
+    SwingUtilities.invokeLater(() -> {
+      final SelectAppletPanel selectAppletPanel = new SelectAppletPanel(APPLETS);
+      if (JOptionPane.showConfirmDialog(null, selectAppletPanel, "Select applet", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
+        new AppletFrame(selectAppletPanel.getSelected()).setVisible(true);
+      }
+    });
+  }
+
   private static class SelectAppletPanel extends JPanel {
 
     private AppletItem selected;
 
     SelectAppletPanel(final List<AppletItem> applets) {
-      super(new GridLayout(applets.size(),1));
+      super(new GridLayout(applets.size(), 1));
       final ButtonGroup buttonGroup = new ButtonGroup();
 
       selected = applets.get(0);
 
       applets.forEach(a -> {
-        JRadioButton appletButton = new JRadioButton(a.name+(a.completed?"":" (non-completed)"), selected == a);
+        JRadioButton appletButton = new JRadioButton(a.name + (a.completed ? "" : " (non-completed)"), selected == a);
         appletButton.addActionListener(e -> {
           selected = a;
         });
@@ -102,6 +112,8 @@ public class AppletViewer {
         @Override
         public AppletContext getAppletContext() {
           return new AppletContext() {
+            private final Map<String, InputStream> streams = new ConcurrentHashMap<>();
+
             @Override
             public AudioClip getAudioClip(URL url) {
               throw new UnsupportedOperationException();
@@ -145,24 +157,29 @@ public class AppletViewer {
 
             @Override
             public void setStream(String key, InputStream stream) throws IOException {
-              throw new IOException("Can't set stream: " + key);
+              if (stream == null) {
+                this.streams.remove(key);
+              } else {
+                this.streams.put(key, stream);
+              }
             }
 
             @Override
-            public InputStream getStream(String key) {
-              throw new UnsupportedOperationException();
+            public InputStream getStream(final String key) {
+              return this.streams.get(key);
             }
 
             @Override
             public Iterator<String> getStreamKeys() {
-              throw new UnsupportedOperationException();
+              return this.streams.keySet().iterator();
             }
           };
         }
 
         @Override
         public void appletResize(int width, int height) {
-
+          appletInstance.setSize(width, height);
+          AppletFrame.this.doLayout();
         }
       });
 
@@ -184,15 +201,6 @@ public class AppletViewer {
       SwingUtilities.invokeLater(appletInstance::start);
     }
 
-  }
-
-  public AppletViewer() {
-    SwingUtilities.invokeLater(() -> {
-      final SelectAppletPanel selectAppletPanel = new SelectAppletPanel(APPLETS);
-      if (JOptionPane.showConfirmDialog(null, selectAppletPanel, "Select applet", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
-        new AppletFrame(selectAppletPanel.getSelected()).setVisible(true);
-      }
-    });
   }
 
   private static class AppletItem {
