@@ -300,9 +300,11 @@ public class ProjectInfo
 
     public void saveVarFile() throws IOException
     {
-        File p_file = new File(p_Directory, BuilderModule.PATH_VARLIST);
-        FileOutputStream p_fos = new FileOutputStream(p_file);
+        final File p_BinFolder = new File(p_Directory, BuilderModule.PATH_BIN);
+        if (!p_BinFolder.isDirectory()) throw new IOException("Can't find BIN folder: "+p_BinFolder);
 
+        File p_file = new File(p_BinFolder, BuilderModule.PATH_VARLIST);
+        FileOutputStream p_fos = new FileOutputStream(p_file);
         try
         {
             PrintStream p_out = new PrintStream(p_fos);
@@ -332,7 +334,9 @@ public class ProjectInfo
         p_mainClasses = new HashSet();
         lg_saved = true;
 
-        p_JDDFile = new File(_directory, BuilderModule.PATH_BIN);
+        final File p_BinFolder = new File(_directory, BuilderModule.PATH_BIN);
+
+        p_JDDFile = p_BinFolder;
 
         if (p_JDDFile.exists() && p_JDDFile.isDirectory())
         {
@@ -435,7 +439,7 @@ public class ProjectInfo
 
         p_cvarNames = new Vector();
 
-        File p_varFile = new File(_directory, BuilderModule.PATH_VARLIST);
+        File p_varFile = new File(p_BinFolder, BuilderModule.PATH_VARLIST);
         p_customVariabes = new Properties();
         p_cvarNames = new Vector();
         if (p_varFile.exists() && !p_varFile.isDirectory())
