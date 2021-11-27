@@ -82,8 +82,14 @@ public class PropertiesTableModel implements TableModel
             Properties p_prop = p_ProjectInfo.getProperties();
             Vector p_names = p_ProjectInfo.p_propertiesNames;
             String s_key = (String)p_names.elementAt(rowIndex);
+
+            final Object old = p_prop.getProperty(s_key);
             p_prop.setProperty(s_key,(String)aValue);
-            p_ProjectInfo.updateMIDPCLDCVersions();
+            if (!p_ProjectInfo.updateMIDPCLDCVersions()) {
+                p_prop.setProperty(s_key,(String)old);
+                Utilities.showErrorDialog(null,"Property error","Can't extract CLDC or MIDP profile.");
+                return;
+            }
 
             try
             {

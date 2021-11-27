@@ -461,11 +461,11 @@ public class ProjectInfo
             p_propertiesNames.addElement(MIDLET_VERSION);
             p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
-        updateMIDPCLDCVersions();
+        if (!updateMIDPCLDCVersions()) throw new IOException("Can't load project, can't find " + MIDLET_CLDC_PROFILE +" or "+ MIDLET_MIDP_PROFILE);
         updateNamesOfMidlets();
     }
 
-    public void updateMIDPCLDCVersions()
+    public boolean updateMIDPCLDCVersions()
     {
         // Выявляем версии
         String s_midp = p_Properties.getProperty(MIDLET_MIDP_PROFILE);
@@ -474,14 +474,16 @@ public class ProjectInfo
         i_MIDP_version = MIDP_UNKNOWN;
         i_CLDC_version = CLDC_UNKNOWN;
 
-        if (s_midp != null)
-        {
+        if (s_midp == null) {
+            return false;
+        } else {
             if (s_midp.equals("MIDP-1.0")) i_MIDP_version = MIDP_10;
             else if (s_midp.equals("MIDP-2.0")) i_MIDP_version = MIDP_20;
         }
 
-        if (s_cldc != null)
-        {
+        if (s_cldc == null) {
+            return false;
+        } else {
             if (s_cldc.equals("CLDC-1.0")) i_CLDC_version = CLDC10;
             else if (s_cldc.equals("CLDC-1.1")) i_CLDC_version = CLDC11;
         }
@@ -491,6 +493,7 @@ public class ProjectInfo
         {
             p_Properties.setProperty(MIDLET_VERSION, "1.0");
         }
+        return true;
     }
 
     public Vector loadVariablesFromFile(Properties _properties, File _file) throws IOException

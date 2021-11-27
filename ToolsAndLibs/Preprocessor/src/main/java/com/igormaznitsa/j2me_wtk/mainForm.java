@@ -439,12 +439,14 @@ public class mainForm extends JFrame implements ActionListener,TreeSelectionList
                     {
                         case ProjectInfo.CLDC10:{s_cldc = ensureAbsolutePath(appProperties.CLDC10Path);};break;
                         case ProjectInfo.CLDC11:{s_cldc = ensureAbsolutePath(appProperties.CLDC11Path);};break;
+                        default: throw new IllegalStateException("Can't find CLDC data about project");
                     }
 
                     switch(p_projInfo.getMIDPVersion())
                     {
                         case ProjectInfo.MIDP_10:{s_midp = ensureAbsolutePath(appProperties.MIDP10Path);};break;
                         case ProjectInfo.MIDP_20:{s_midp = ensureAbsolutePath(appProperties.MIDP20Path);};break;
+                        default: throw new IllegalStateException("Can't find MIDP data about project");
                     }
 
                     String s_bootPath = s_cldc;
