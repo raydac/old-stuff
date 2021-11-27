@@ -1,0 +1,10 @@
+MIDlet-Name: BallooonPark
+MIDlet-Vendor: Akumiitti CC
+MIDlet-1: BalloonPark,/ico.png,startup
+MIDlet-Jar-URL: BalloonPark_3510i.jar
+MIDlet-Jar-Size: 30098
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

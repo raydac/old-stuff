@@ -1,0 +1,9 @@
+MIDlet-Name: Penalty
+MIDlet-Vendor: INFON
+MIDlet-1: startup, , startup
+MIDlet-Jar-URL: Penalty_N3410.jar
+MIDlet-Jar-Size: 43363
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10

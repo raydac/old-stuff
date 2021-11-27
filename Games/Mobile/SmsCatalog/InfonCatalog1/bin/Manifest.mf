@@ -1,7 +1,7 @@
 MIDlet-1: INFONCatalog,/ico.png, Main
 MIDlet-Name: INFON Catalog
 MIDlet-Vendor: INFON
-MIDlet-Version: 1.0.8
+MIDlet-Version: 1.0
 MicroEdition-Configuration: CLDC-1.0
 MicroEdition-Profile: MIDP-1.0
 Created-By: RRGWTK10

@@ -1,0 +1,10 @@
+MIDlet-Name: DriveOff
+MIDlet-Vendor: INFON
+MIDlet-1: startup, , startup
+MIDlet-Jar-URL: DriveOff_N3410.jar
+MIDlet-Jar-Size: 43012
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

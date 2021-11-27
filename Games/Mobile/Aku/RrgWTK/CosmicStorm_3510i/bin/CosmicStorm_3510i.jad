@@ -1,0 +1,10 @@
+MIDlet-Name: CosmicStorm
+MIDlet-Vendor: Akumiitti CC
+MIDlet-1: CosmicStorm,/ico.png,startup
+MIDlet-Jar-URL: CosmicStorm_3510i.jar
+MIDlet-Jar-Size: 29715
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

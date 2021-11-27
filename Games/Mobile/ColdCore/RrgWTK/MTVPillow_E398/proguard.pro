@@ -3,4 +3,4 @@
 -repackageclasses ''
 -allowaccessmodification
 -keep public class * extends javax.microedition.midlet.MIDlet
--keep mtv.pillow.startup
+-keep class mtv.pillow.startup

@@ -1,0 +1,10 @@
+MIDlet-Name: SteelRain
+MIDlet-Vendor: Akumiitti CC
+MIDlet-1: SteelRain,/ico.png,startup
+MIDlet-Jar-URL: SteelRain_N3410.jar
+MIDlet-Jar-Size: 31236
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

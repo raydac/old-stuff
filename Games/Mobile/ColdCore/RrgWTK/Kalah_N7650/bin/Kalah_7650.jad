@@ -1,0 +1,11 @@
+MIDlet-Name: Kalah
+MIDlet-Vendor: Cold Core(R)
+MIDlet-1: Kalah_7650, /ico.png, startup
+MIDlet-Jar-URL: Kalah_7650.jar
+MIDlet-Jar-Size: 82735
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png
+Nokia-MIDlet-Category: Games

@@ -1,0 +1,10 @@
+MIDlet-Name: Nimble
+MIDlet-Vendor: Samsung Electronics Co., Ltd
+MIDlet-1: Nimble_X100, , startup
+MIDlet-Jar-URL: Nimble_X100.jar
+MIDlet-Jar-Size: 55765
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Nokia-MIDlet-Category: Games
+Created-By: INFON (http://www.infon.ru)

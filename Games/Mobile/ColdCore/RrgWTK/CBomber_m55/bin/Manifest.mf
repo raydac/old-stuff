@@ -1,0 +1,8 @@
+MIDlet-1: CBomber,/ico.png, startup
+MIDlet-Name: CBomber
+MIDlet-Vendor: Ringtime(R)
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png

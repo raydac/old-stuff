@@ -2,8 +2,8 @@ MIDlet-Name: HitCatalog
 MIDlet-Vendor: Ringtime(R)
 MIDlet-1: HitCatalog,/ico.png, Main
 MIDlet-Jar-URL: smscatalogmuzon.jar
-MIDlet-Jar-Size: 72247
-MIDlet-Version: 2.1.10
+MIDlet-Jar-Size: 71991
+MIDlet-Version: 1.0
 MicroEdition-Configuration: CLDC-1.0
 MicroEdition-Profile: MIDP-1.0
 Created-By: RRGWTK10

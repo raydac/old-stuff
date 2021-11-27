@@ -1,10 +1,13 @@
 [SECTION_PARAMETERS]
-MIDlet-1=startup, , startup
+MIDlet-1=startup, , com.igormaznitsa.midp.startup
 MIDlet-Jar-URL=Fowling_N3410.jar
 MIDlet-Name=Fowling
 MIDlet-Vendor=INFON
 MIDlet-Version=1.0
+MicroEdition-Configuration=CLDC-1.0
+MicroEdition-Profile=MIDP-1.0
 Created-By=RRGWTK10
+MIDlet-Icon=/ico.png
 [END]
 [SECTION_ORDER_JAD]
 MIDlet-Name

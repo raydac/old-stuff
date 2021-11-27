@@ -1,0 +1,11 @@
+MIDlet-Name: NY2006 Anekdotes
+MIDlet-Vendor: ColdCore(R)
+MIDlet-1: NY2006,/ico.png,Main
+MIDlet-Jar-URL: AneksNY2006.jar
+MIDlet-Jar-Size: 51817
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png
+MIDlet-Description: New Year 2006 Anekdotes

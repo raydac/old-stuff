@@ -1,0 +1,10 @@
+MIDlet-Name: Smashing Kick
+MIDlet-Vendor: Samsung Electronics Co., Ltd
+MIDlet-1: SmashKick_E700, , startup
+MIDlet-Jar-URL: Smashkick_E700.jar
+MIDlet-Jar-Size: 58496
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Nokia-MIDlet-Category: Games
+Created-By: INFON (http://www.infon.ru)

@@ -1,0 +1,10 @@
+MIDlet-Name: DownhillRace
+MIDlet-Vendor: Akumiitti CC
+MIDlet-1: DownhillRace,/ico.png,startup
+MIDlet-Jar-URL: DownhillRace_3510i.jar
+MIDlet-Jar-Size: 29330
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0
+Created-By: RRGWTK10
+MIDlet-Icon: /ico.png
