@@ -10,6 +10,8 @@
 </parent>
   <artifactId>rtone-composer</artifactId>
 
+  <description>Online player to play Nokia OTT files before send them on mobile device</description>
+
   <packaging>jar</packaging>
 
 </project>
