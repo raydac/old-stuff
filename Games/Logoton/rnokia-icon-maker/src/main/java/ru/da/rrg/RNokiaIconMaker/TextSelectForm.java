@@ -78,10 +78,13 @@ public class TextSelectForm extends RPanel implements ItemListener,ActionListene
 		font_list.setBounds(10,10,100,140);
 		font_list.select(0);
 		// Loading of font image
-		rfnt = new RFont[3];
+		rfnt = new RFont[6];
 		rfnt [0] = new RFont(getParentApplet(),"Simple font","1");  
 		rfnt [1] = new RFont(getParentApplet(),"Bold font","2");
 		rfnt [2] = new RFont(getParentApplet(),"Techno font","3");
+		rfnt [3] = new RFont(getParentApplet(),"Simple font#","4");  
+		rfnt [4] = new RFont(getParentApplet(),"Bold font#","5");
+		rfnt [5] = new RFont(getParentApplet(),"Techno font#","6");
 		for(int li=0;li<rfnt.length;li++) font_list.add(rfnt[li].getFontName());   
 		font_list.addItemListener(this);  
 		add(font_list); 

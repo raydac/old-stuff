@@ -93,8 +93,11 @@ public class IconMaker extends Applet implements Runnable
 		try
 		{
 			editor_form = new EditorForm(this);
-			tsf = new TextSelectForm(this); 
-			dbp = new DBPanel(this,editor_form,sendcmnd,urlok); 
+			editor_form.setBounds(this.getBounds());
+			tsf = new TextSelectForm(this);
+			tsf.setBounds(this.getBounds());
+			dbp = new DBPanel(this,editor_form,sendcmnd,urlok);
+			dbp.setBounds(this.getBounds());
 		}
 		catch(IOException exx)
 		{

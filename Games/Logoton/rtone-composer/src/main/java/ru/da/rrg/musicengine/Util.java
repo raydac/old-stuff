@@ -10,9 +10,31 @@ import java.net.*;
 
 public class Util
 {
+	//--- added to provide work as local file reader
+	public static byte [] loadFile(final File file) throws IOException {
+		if (!file.isFile()) {
+			throw new IOException("Can't find file "+file);
+		}
+		int length =(int)file.length();
+		final ByteArrayOutputStream result = new ByteArrayOutputStream(length);
+		final FileInputStream inputStream = new FileInputStream(file);
+		try {
+			byte [] buffer = new byte[16384];
+			while (Thread.currentThread().isAlive() && length > 0) {
+				final int read = inputStream.read(buffer);
+				if (read < 0) break;
+				length -= read;
+				result.write(buffer, 0, read);
+			}
+		}finally {
+			inputStream.close();
+		}
+		return result.toByteArray();
+	}
+
 	public static byte[] getURLResourceAsByteArray(Applet cls,String name) throws IOException
 	{
-		URL url = new URL(cls.getDocumentBase(),name); 
+		URL url = new URL(cls.getDocumentBase(),name);
 		
 		URLConnection con = url.openConnection();
 		InputStream istr = con.getInputStream();

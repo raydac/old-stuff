@@ -5,10 +5,8 @@ import java.applet.*;
 import java.awt.*;
 import java.io.*;
 import java.awt.event.*;   
-import java.awt.image.*;  
-import java.net.*; 
+import java.net.*;
 import java.util.*; 
-import sun.misc.*;     
 
 public class DBPanel extends RPanel implements ActionListener
 {
@@ -200,40 +198,40 @@ public class DBPanel extends RPanel implements ActionListener
 		for(int li=0;li<IconMaker.iarr.length;li++) ll += IconMaker.iarr[li];
 		if (ll!=-1059287553) throw new IOException("Fatal error");
 		
-		/* lbl_msg = new RLabel("Do you really want to save the image?"); */
-		lbl_msg = new RLabel("Вы хотите сохранить этот логотип?");
+		lbl_msg = new RLabel("Do you really want to save the image?");
+		//lbl_msg = new RLabel("Вы хотите сохранить этот логотип?");
 		lbl_msg.setBackground(bckclr);   
 		lbl_msg.setFont(new Font("System",Font.PLAIN,14));
 		lbl_msg.setBounds((330-lbl_msg.getFontMetrics(lbl_msg.getFont()).stringWidth(lbl_msg.getText()))>>1,45,lbl_msg.getFontMetrics(lbl_msg.getFont()).stringWidth(lbl_msg.getText()),lbl_msg.getFontMetrics(lbl_msg.getFont()).getHeight()+10);    
 		
-		/* err_msg = new RLabel("I can't save your image!!!"); */
-		err_msg = new RLabel("Не могу сохранить логотип!!!");
+		err_msg = new RLabel("I can't save your image!!!"); 
+		//err_msg = new RLabel("Не могу сохранить логотип!!!");
 		err_msg.setForeground(Color.red);  
 		err_msg.setBackground(bckclr);   
 		err_msg.setFont(new Font("System",Font.PLAIN,20));
 		err_msg.setBounds((463-err_msg.getFontMetrics(err_msg.getFont()).stringWidth(err_msg.getText()))>>1,40,err_msg.getFontMetrics(err_msg.getFont()).stringWidth(err_msg.getText()),err_msg.getFontMetrics(err_msg.getFont()).getHeight()+10);
 
-		/* prgrs_msg = new RLabel("Saving progress..."); */
-		prgrs_msg = new RLabel("Прогресс сохранения...");
+		prgrs_msg = new RLabel("Saving progress..."); 
+		//prgrs_msg = new RLabel("Прогресс сохранения...");
 		prgrs_msg.setForeground(Color.black);  
 		prgrs_msg.setBackground(bckclr);   
 		prgrs_msg.setFont(new Font("System",Font.BOLD,10));
 		prgrs_msg.setBounds(10,35,100,20);
 		
-		/* ok_button = new Button("Yes");*/
-		ok_button = new Button("Да"); 
+		ok_button = new Button("Yes");
+		//ok_button = new Button("Да"); 
 		ok_button.setActionCommand("OK"); 
 		ok_button.setBounds(100,120,60,20); 
 		ok_button.addActionListener(this); 
 		
-		/* cancel_button = new Button("No"); */
-		cancel_button = new Button("Нет"); 
+		cancel_button = new Button("No"); 
+		//cancel_button = new Button("Нет"); 
 		cancel_button.setBounds(180,120,60,20);
 		cancel_button.setActionCommand("CANCEL");
 		cancel_button.addActionListener(this); 
 		
-		/* exit_button = new Button("Ok"); */
-		exit_button = new Button("Вернуться"); 
+		exit_button = new Button("Ok"); 
+		//exit_button = new Button("Вернуться"); 
 		exit_button.setBounds(191,120,80,20); 
 		exit_button.addActionListener(this); 
 		
@@ -262,18 +260,20 @@ public class DBPanel extends RPanel implements ActionListener
 									nscreen.setPreviewImage(primage);  
 								 };break;
 			case ERROR_WINDOW :{
-								add(err_msg); 
-								/* exit_button = new Button("Ok"); */
-								exit_button.setLabel("Вернуться"); 
-								exit_button.setActionCommand("CANCEL"); 
-								add(exit_button); 
+                                 invalidate();
+								 exit_button.setLabel("Ok");
+                                 exit_button.setActionCommand("CANCEL");
+                                 add(exit_button);
+                                 add(err_msg);
+                                 validate();
+                                 repaint();
+                                 err_msg.repaint();
 							   };break;
 			case PROGRESS_WINDOW :{
 									add(prgrs_msg); 
 									add(prgrbarr); 
-									/* exit_button.setLabel("Cancel"); */
-									exit_button.setLabel("Прервать"); 
-									exit_button.setActionCommand("CNCLTRNSMT"); 
+									exit_button.setLabel("Cancel");
+									exit_button.setActionCommand("CNCLTRNSMT");
 									add(exit_button); 
 								};break;
 		}	

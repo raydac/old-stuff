@@ -4,7 +4,6 @@ package ru.da.rrg.RNokiaIconMaker.graphics;
 
 import java.awt.*; 
 import java.applet.*; 
-import java.awt.event.*; 
 import java.io.*;
 
 public class RPanel extends Container
@@ -13,7 +12,7 @@ public class RPanel extends Container
 	protected Image bckg = null;
 	
 	public Applet getParentApplet(){return prnt; }
-	
+
 	public RPanel(Applet appl,String imgname) throws IOException
 	{
 		super();	
@@ -28,17 +27,16 @@ public class RPanel extends Container
 		paint(g);	
 	}
 	
-	public void repaint()
-	{
-		paint(getGraphics());	
-	}
-	
 	public synchronized void paint(Graphics g)
 	{
 		if (!isVisible())return;
 		if (g==null) return;
 		if (bckg!=null) g.drawImage(bckg,0,0,this); 
-		paintComponents(g); 
+		Component [] compo = getComponents();
+        for(int li=0;li<compo.length;li++)
+        {
+            compo[li].repaint();
+        }
 	}
 	
 }

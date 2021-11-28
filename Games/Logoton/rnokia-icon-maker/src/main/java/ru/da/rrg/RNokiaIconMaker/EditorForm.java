@@ -595,7 +595,7 @@ public class EditorForm extends RPanel implements RActionListener,RMPSListener,R
 	public void updateScreen()
 	{
 		mscreen.repaint();
-		previewpr.update(previewpr.getGraphics());
+		previewpr.repaint();
 	}
 
 	public void backdrawPaint(int id,Graphics g)

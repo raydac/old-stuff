@@ -9,7 +9,10 @@ public class RLabel extends Canvas
 	public String getText(){return strr;}
 	public RLabel(String str){ strr = str; }
 
-	public void update(Graphics g){paint(g);}
+    public void validate()
+    {
+        repaint();
+    }
 
 	public void paint(Graphics g)
 	{

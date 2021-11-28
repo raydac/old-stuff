@@ -3,7 +3,10 @@
 
 package ru.da.rrg.musicengine;
 
-import sun.audio.*;
+import stub.com.audio.AudioData;
+import stub.com.audio.AudioDataStream;
+import stub.com.audio.AudioPlayer;
+
 import java.util.*;
 
 public class MusicPlayer extends Vector implements Runnable 
@@ -189,11 +192,12 @@ public class MusicPlayer extends Vector implements Runnable
 													   
 													   if (lnote!=MusicEntity.NOTE_PAUSE)
 													   {
+														   System.out.println("Generate note FRQ="+lfreq);
 														   ads = GenerateSoundArray(lfreq,llen,style); 
 													   }
 														else	
 													   {
-														   System.out.println("Generate note FRQ="+lfreq);
+														   System.out.println("Generate pause FRQ="+lfreq);
 														   ads = GenerateSoundArray(0f,llen,MusicEntity.STYLE_CONTINOUS); 
 													   }
 													   MusicItem mi = new MusicItem(llen,ads); 
@@ -248,7 +252,7 @@ public class MusicPlayer extends Vector implements Runnable
 		{
 			MusicPattern mpt = (MusicPattern) elementAt(li);
 
-			AudioData adt = new AudioData(mpt.getWaveArray());
+			AudioData adt = new AudioData(AudioData.DEFAULT_FORMAT, mpt.getWaveArray());
 
 			int loopn = mpt.getLoopValue()+1;
 			for(int lil=0;lil<loopn;lil++)

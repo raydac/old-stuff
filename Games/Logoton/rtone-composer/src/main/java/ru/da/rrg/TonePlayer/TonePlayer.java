@@ -61,14 +61,15 @@ public class TonePlayer extends Applet
 	{
 		try
 		{
-			fname = getParameter("cfgfile"); 
+			fname = getParameter("cfgfile");
+			if ((fname==null)) throw new IOException("Parameter 'cfgfile' not found");
 			tonefile = getParameter("tonefile"); 
-			if ((fname==null)||(tonefile==null)) throw new IOException("Parameter not found");
-			tonefile=tonefile.trim().toLowerCase(); 
+			if (tonefile==null) throw new IOException("Parameter 'tonefile' not found");
+			//tonefile=tonefile.trim().toLowerCase();
 			
 			byte [] cfgfile = Util.getURLResourceAsByteArray(this,fname);
 			Properties prp = new Properties();
-			prp.load(new ByteArrayInputStream(cfgfile));  
+			prp.load(new InputStreamReader(new ByteArrayInputStream(cfgfile), "UTF-8"));
 			
 			imagename = prp.getProperty("image");
 			wavefile = prp.getProperty("wave");
@@ -132,7 +133,7 @@ public class TonePlayer extends Applet
 			{ tra =1f;}
 			
 			this.setLayout(null); 
-			byte [] ott = Util.getURLResourceAsByteArray(this,tonefile);
+			byte [] ott =  Util.loadFile(new File(tonefile));//Util.getURLResourceAsByteArray(this,tonefile);
 			byte [] ptrn = Util.getURLResourceAsByteArray(this,wavefile);
 			Image img = null;
 			if (imagename!=null) img = Util.loadURLImageResource(this,imagename);
@@ -158,6 +159,7 @@ public class TonePlayer extends Applet
 		}
 		catch(IOException ex)
 		{
+			ex.printStackTrace();
 			err = "IOError:"+ex.getMessage(); 
 			System.out.println(err);
 		}

@@ -694,7 +694,8 @@ public class MobilePhoneScreen extends Canvas implements RComponent,MouseListene
 	
 	public void preview(Graphics g,int x,int y)
 	{
-		g.drawImage(hiddenimage,x,y,this);
+        if (g==null) return;
+        if (hiddenimage!=null) g.drawImage(hiddenimage,x,y,this);
 	}
 	
 }
