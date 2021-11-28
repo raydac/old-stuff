@@ -3,15 +3,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-<parent>
-  <groupId>com.igormaznitsa.infon</groupId>
-  <artifactId>infon-logoton</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-</parent>
+  <parent>
+    <groupId>com.igormaznitsa.infon</groupId>
+    <artifactId>infon-logoton</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
   <artifactId>rtone-composer</artifactId>
+  <packaging>jar</packaging>
 
   <description>Online player to play Nokia OTT files before send them on mobile device</description>
 
-  <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>com.igormaznitsa.infon</groupId>
+      <artifactId>applet-emulator</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
 </project>

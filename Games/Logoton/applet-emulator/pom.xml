@@ -8,16 +8,8 @@
   <artifactId>infon-logoton</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 </parent>
-  <artifactId>rnokia-icon-maker</artifactId>
+  <artifactId>applet-emulator</artifactId>
 
   <packaging>jar</packaging>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.igormaznitsa.infon</groupId>
-      <artifactId>applet-emulator</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
 
 </project>
