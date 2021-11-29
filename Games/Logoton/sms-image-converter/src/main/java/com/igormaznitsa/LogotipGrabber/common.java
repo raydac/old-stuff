@@ -14,9 +14,9 @@ public class common
 {
     public static Image loadImageResource(Applet cmp, String name) throws IOException
     {
-        InputStream imgStream = cmp.getClass().getResourceAsStream(name);
-
-        if (imgStream == null) throw new IOException(name);
+        String resource = "/res/" + name;
+        InputStream imgStream = cmp.getClass().getResourceAsStream(resource);
+        if (imgStream == null) throw new IOException("Can't load resource image: " + resource);
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = null;
 
