@@ -613,7 +613,6 @@ public class EditorForm extends RPanel implements RActionListener,RMPSListener,R
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		updateScreen(); 
 	}
 
 }

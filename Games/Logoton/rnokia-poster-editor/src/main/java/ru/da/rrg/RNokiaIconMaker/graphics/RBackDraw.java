@@ -2,7 +2,7 @@ package ru.da.rrg.RNokiaIconMaker.graphics;
 
 import java.awt.*;
 
-public class RBackDraw extends Component
+public class RBackDraw extends Canvas
 {
 	protected int id;
 	protected RBackDrawListener lstnr;
@@ -11,12 +11,14 @@ public class RBackDraw extends Component
 
 	public RBackDraw(int id,RBackDrawListener listener)
 	{
+		super();
 		this.id = id;	
 		this.lstnr = listener;
 	}
 	
 	public void paint(Graphics g)
 	{
-		if (lstnr!=null) lstnr.backdrawPaint(id,g);
+		if (lstnr!=null)
+			lstnr.backdrawPaint(id,g);
 	}
 }

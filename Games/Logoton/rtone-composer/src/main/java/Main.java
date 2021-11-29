@@ -15,7 +15,12 @@ public class Main {
       System.exit(1);
     }
     final File ottFile = ToneChooser.chooseFile(ottFolder);
-    System.out.println("Chosen ott file: "+ottFile);
+    if (ottFile == null) {
+      System.out.println("Canceled");
+      System.exit(0);
+    } else {
+      System.out.println("Chosen ott file: " + ottFile);
+    }
 
     SwingUtilities.invokeLater(() -> {
       final AppletEmulator emulator = new AppletEmulator(TonePlayer.class, "RToneComposer", 190, 178, "/", name -> {
