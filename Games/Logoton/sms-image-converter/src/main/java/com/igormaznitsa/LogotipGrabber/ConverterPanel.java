@@ -264,7 +264,7 @@ public class ConverterPanel extends Panel implements ActionListener, ItemListene
             _toppanel = new TopPanel(apl, this,this,_icobjarray);
             _toppanel.setBackground(getBackground());
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             ex.printStackTrace();
             apl.showStatus(ex.getMessage());

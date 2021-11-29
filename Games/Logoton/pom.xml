@@ -10,6 +10,8 @@
 
   <description>Set of applets developed for INFON Logoton service in 2001</description>
 
+  <inceptionYear>2001</inceptionYear>
+
   <developers>
     <developer>
       <name>Igor Maznitsa</name>
@@ -26,6 +28,7 @@
 
   <modules>
     <module>applet-emulator</module>
+    <module>logo-editor</module>
     <module>rnokia-icon-maker</module>
     <module>rnokia-poster-editor</module>
     <module>rtone-composer</module>
