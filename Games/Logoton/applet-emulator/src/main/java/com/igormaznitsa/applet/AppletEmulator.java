@@ -152,6 +152,15 @@ public class AppletEmulator extends Frame {
 
     SwingUtilities.invokeLater(() -> {
       try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        SwingUtilities.updateComponentTreeUI(this);
+      }catch (Exception ex){
+        ex.printStackTrace();
+      }
+    });
+
+    SwingUtilities.invokeLater(() -> {
+      try {
         System.out.println("Initing...");
         appletInstance.init();
         System.out.println("Starting...");

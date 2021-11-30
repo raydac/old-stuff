@@ -43,6 +43,11 @@ public class PhonePanel extends Panel
         setLayout(bl);
 
         add("Center", _phonescreen);
-        add("South", _optionbar);
+
+        Panel optionPanel = new Panel(new GridLayout(2,1));
+        optionPanel.add(_optionbar);
+        optionPanel.add(new Label(" "));
+
+        add("South", optionPanel);
     }
 }

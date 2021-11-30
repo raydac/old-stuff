@@ -275,8 +275,12 @@ public class ConverterPanel extends Panel implements ActionListener, ItemListene
         if (Math.min(lwdt,lhgt)<=MIN_IMAGE_SIZE) _toppanel.setZoomDecEnable(false);
 
         add("North", _toppanel);
-        add("Center", _scrollpane);
-        add("South", _selectpanel);
+
+        Panel editPanel = new Panel(new BorderLayout());
+        editPanel.add("Center", _scrollpane);
+        editPanel.add("South", _selectpanel);
+
+        add("Center", editPanel);
         add("East", _phonescreen);
 
         _scrollpane.setActionListener(this);
