@@ -1,0 +1,15 @@
+<%%
+	"authorize.fsp" LOAD
+%%>
+<html>
+	<body>
+           <p>Examples of the TITMOUSE server use</p>
+           <p>=========================================</p>
+           <p>Current time 
+           <%%
+           		DATETIME TIME_BREAK DROP SWAP . ":" S. .
+           %%>
+			</p>
+			<p>Your name:password pair is <%% FSP-AUTHSTR s. %%> </p>
+	</body>
+</html>

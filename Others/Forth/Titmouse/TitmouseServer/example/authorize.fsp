@@ -1,0 +1,11 @@
+: test_user
+	fsp-authstr "" s=
+	if
+		1 setoutstream
+		"HTTP/1.1 401 Unauthorized\n\r" s.
+		"WWW-Authenticate: Basic realm=\"TitmouseTest\"\n\r\n\r" s.
+		"Authorize required" s.
+		quit
+	then
+;
+test_user

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.raydac_research.RRGImagePacker.Utils.SelectNewResourceDialog">
+  <grid id="311fc" binding="p_SelectResourcePanel" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="79" y="50" width="284" height="148"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="edf86" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="0" width="284" height="119"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="20f2" class="javax.swing.JRadioButton" binding="p_Radio_ImageFromFile">
+            <constraints>
+              <xy x="0" y="2" width="111" height="22"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="An image from file"/>
+            </properties>
+          </component>
+          <component id="9f727" class="javax.swing.JRadioButton" binding="p_Radio_EmptyImage">
+            <constraints>
+              <xy x="0" y="33" width="102" height="22"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="An empty image"/>
+            </properties>
+          </component>
+          <component id="3da7d" class="javax.swing.JRadioButton" binding="p_Radio_Radio_PaletteFromFile">
+            <constraints>
+              <xy x="0" y="64" width="111" height="22"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="A palette from file"/>
+            </properties>
+          </component>
+          <component id="30d18" class="javax.swing.JRadioButton" binding="p_Radio_LoadAllResourcesFromDirectory">
+            <constraints>
+              <xy x="0" y="95" width="200" height="22"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+            </constraints>
+            <properties>
+              <text value="All resources from selected directory"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="b732b" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <xy x="0" y="124" width="284" height="24"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <hspacer id="ccf48">
+            <constraints>
+              <xy x="0" y="6" width="54" height="11"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="58e9">
+            <constraints>
+              <xy x="231" y="6" width="53" height="11"/>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+            </constraints>
+          </hspacer>
+          <component id="f4dc6" class="javax.swing.JButton" binding="p_ButtonCancel">
+            <constraints>
+              <xy x="165" y="0" width="66" height="24"/>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+            </constraints>
+            <properties>
+              <text value="Cancel"/>
+            </properties>
+          </component>
+          <hspacer id="da415">
+            <constraints>
+              <xy x="111" y="6" width="54" height="11"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+            </constraints>
+          </hspacer>
+          <component id="313bd" class="javax.swing.JButton" binding="p_ButtonOk">
+            <constraints>
+              <xy x="54" y="0" width="47" height="24"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+            </constraints>
+            <properties>
+              <text value="Ok"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
