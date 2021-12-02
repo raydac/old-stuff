@@ -1,10 +1,8 @@
-package R_HTTP;
+package R_HTTPResponse;
 
 import java.util.*;  
 import java.io.*;
 import java.text.*; 
-
-import sun.misc.*;  
 
 public class HTTPQueryRecord
 {
@@ -21,12 +19,11 @@ public class HTTPQueryRecord
         public String CGIString="";
         public Date IMS_Date;
         public String IMS_String;
-        public String User_Agent="";
+        public String User_Agent="Unknown";
         public String From="Unknown";
         public String AuthorizationNamePassword="";
         public String AuthorizationScheme="";
-		public String Accept="";
-		public String Referer="";
+        public String Referer="";
         public Date Date_Date;
         public String Date_String;
         public String Pragma;
@@ -41,7 +38,7 @@ public class HTTPQueryRecord
                 if (qr==null) throw new Exception("Query is null"); 
                 if (qr.size()==0) throw new Exception ("Empty query list");                 
 
-				StringTokenizer s_token = new StringTokenizer((String)qr.elementAt(0)," ");   
+                StringTokenizer s_token = new StringTokenizer((String)qr.elementAt(0)," ");   
                 
                 DateFormatSymbols dfs = new DateFormatSymbols();
                 dfs.setShortMonths(ShortMonths);   
@@ -56,11 +53,11 @@ public class HTTPQueryRecord
 
                 try
                 {
-					Method = s_token.nextToken();
-					URLString = s_token.nextToken();  
-					HTTPVersion = s_token.nextToken(); 
+                Method = s_token.nextToken();
+                URLString = s_token.nextToken();                  
+                HTTPVersion = s_token.nextToken(); 
                 }
-                catch (Exception e) {System.out.println("Error query");};
+                catch (Exception e) {};
 
                 lpos = URLString.indexOf('?');
                 if (lpos>=0)
@@ -108,11 +105,6 @@ public class HTTPQueryRecord
                                         Content_Type = right_part;
                                 }
                                 else
-                                if (left_part.compareTo("ACCEPT")==0)
-                                {
-                                        Accept = right_part;
-                                }
-								else
                                 if (left_part.compareTo("PRAGMA")==0)
                                 {
                                         Pragma = right_part;
@@ -134,8 +126,8 @@ public class HTTPQueryRecord
                                                 if (AuthorizationScheme.equalsIgnoreCase("BASIC"))
                                                 {  
                                                         AuthorizationNamePassword = st.nextToken();  
-                                                        BASE64Decoder bs64dec = new BASE64Decoder ();
-                                                        AuthorizationNamePassword = new String(bs64dec.decodeBuffer(AuthorizationNamePassword)); 
+                                                        Base64.Decoder bs64dec = Base64.getDecoder();
+                                                        AuthorizationNamePassword = new String(bs64dec.decode(AuthorizationNamePassword));
                                                         bs64dec = null;
                                                 }
                                                 else AuthorizationNamePassword = st.nextToken();
