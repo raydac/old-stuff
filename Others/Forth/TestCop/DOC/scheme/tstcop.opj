@@ -1,0 +1,35 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\tstcop.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify)
+    (BOM_Scope "0")
+    (BOM_Mode "0")
+    (BOM_Report_File "C:\MY_PROJECTS\TEST_RSL_CNT\SCHEME\TSTCOP.BOM")
+    (BOM_Merge_Include "FALSE")
+    (BOM_Property_Combine_7.0 "{Item}\t{Quantity}\t{Reference}\t{Value}")
+    (BOM_Header "Item\tQuantity\tReference\tPart")
+    (BOM_Include_File "C:\MY_PROJECTS\TEST_RSL_CNT\SCHEME\TSTCOP.INC")
+    (BOM_Include_File_Combine_7.0 "{Item}\t{Quantity}\t{Reference}\t{Value}")
+    (BOM_One_Part_Per_Line "FALSE")
+    (BOM_View_Output "FALSE"))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\tstcop.dsn")
+      (Path "Design Resources" ".\tstcop.dsn" "—хемы")
+      (Select "Design Resources" ".\tstcop.dsn" "—хемы" "—хема принципиальна€"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -4 -23 0 200 0 150"))
+      (Tab 0)))
+  (LastUsedLibraryBrowseDirectory "C:\Program Files\OrCAD\CAPTURE\LIBRARY"))

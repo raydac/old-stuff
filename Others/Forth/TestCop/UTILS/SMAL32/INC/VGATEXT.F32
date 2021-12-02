@@ -1,0 +1,1460 @@
+
+?Use /F1 KbdCodes
+
+0 Value VRAMOFFSET
+0 Value VRAMSELECTOR
+0 Value VRAMSCREENWIDTH
+0 Value CRTCPORT                        \ Cathode ray tube controller port
+
+Code TGOTOXY ; ( x y --> )
+
+                pop     eax
+                mul     dword ptr [pfa "VRAMSCREENWIDTH"]
+                pop     ebx
+                add     ebx,eax
+                ; shl     ebx,1
+                mov     edx,dword ptr [pfa "CRTCPORT"]
+                mov     al,0eh
+                out     dx,al
+                inc     edx
+                mov     al,bh
+                out     dx,al
+                dec     edx
+                mov     al,0fh
+                out     dx,al
+                inc     edx
+                mov     al,bl
+                out     dx,al
+                next
+
+EndCode
+
+Code ((DRAWWINIMAGE))
+; ( Width VramOff PosX PosY ScrWidth WinHeight WinAddr VramSel --> )
+
+                pop     es
+                mov     dword ptr [temp_si],esi
+                pop     esi
+                pop     ebx
+                pop     dword ptr [time_t]
+                pop     eax
+                mul     dword ptr [time_t]
+                pop     edi
+                add     edi,eax
+                shl     edi,1
+                pop     eax
+                add     edi,eax
+                pop     edx
+                sub     dword ptr [time_t],edx
+                shl     dword ptr [time_t],1
+                mov     eax,80
+                sub     eax,edx
+                shl     eax,1
+        dwi_loop:
+                mov     ecx,edx
+                rep     movsw
+                add     esi,eax
+                add     edi,dword ptr [time_t]
+                dec     ebx
+                jnz     short dwi_loop
+                mov     esi,dword ptr [temp_si]
+                mov     ax,ds
+                mov     es,ax
+                next
+
+temp_si:        dd      0
+time_t:         dd      0
+
+EndCode
+
+: TEDITLINE ( asc MaxLen X Y ScrLen *CrTest *Key 1stDelFlag attr --> CrFlag )
+   {
+      #Int #KEY
+      #Int #ORGLINE
+      #Int #MAXLEN
+      #Int #X
+      #Int #Y
+      #Int #SCRLEN
+      #Int #CRTEST
+      #Int #CX
+      #Int #SX
+      #Int #BUFFER
+      #Int #1STDEL
+      #Int #EDITATTR
+      #Int #LINEBACKUP
+      [ 520 ] #MemBlock SCRLINEBUFFER
+
+      #EditAttr !
+      #1StDel ! #Key ! #CrTest !
+      #ScrLen ! #Y ! #X !
+      #MaxLen ! Dup #OrgLine !
+
+      Here Dup #LineBackup ! #MaxLen @ Dup Allot Erase
+
+      #LineBackup @ 0 #MaxLen @ Copy*
+
+      #ScrLen @ 1- #LineBackup @ ASCIIzLen Umin #CX !
+      #LineBackup @ ASCIIzLen #CX @ - #SX !
+
+      \ =========================================
+      ScrLineBuffer #ScrLen @ 2* #EditAttr @ Fill
+      \ =========================================
+
+      #Call #OutLine
+
+      Begin
+         #LineBackup @
+         #SX @ #CX @+
+         #Key @Execute
+         Press
+         Press
+         Case
+            27 Of
+               #LineBackup @ Here - Allot
+               False Exit
+            EndOf
+            13 Of
+               #LineBackup @ #CrTest @Execute
+               If
+                  #LineBackup @ #OrgLine @ 0 #MaxLen @ Copy*
+                  #LineBackup @ Here - Allot
+                  True Exit
+               Else
+                  Beep
+               Then
+            EndOf
+            [ 'K 256 * ] Literal Of \ Left
+               #CX @ #SX @+
+               If
+                  #CX @ If #CX Else #SX Then 1-!
+                  #Call #OutLine
+               Then
+            EndOf
+            [ 'M 256 * ] Literal Of \ Right
+               #Label #ProcessRight
+                  #SX @ #CX @+ #LineBackup @ ASCIIzLen <
+                  If
+                     #CX @ 1+ #ScrLen @ <
+                     If #CX Else #SX Then 1+!
+                     #Call #OutLine
+                  Then
+            EndOf
+            Set [ 115 256 * ] Literal [ 71 256 * ] Literal Of \ Ctrl+Left, Home
+               #CX @ #SX @+
+               If
+                  #CX 0! #SX 0!
+                  #Call #OutLine
+               Then
+            EndOf
+            Set [ 116 256 * ] Literal [ 79 256 * ] Literal Of \ Ctrl+Right, End
+               #SX @ #CX @+ #LineBackup @ ASCIIzLen <
+               If
+                  #ScrLen @ 1- #LineBackup @ ASCIIzLen Umin #CX !
+                  #LineBackup @ ASCIIzLen #CX @ - #SX !
+                  #Call #OutLine
+               Then
+            EndOf
+            [ 83 256 * ] Literal Of \ Delete
+               #Label #ProcessDelete
+                  #SX @ #CX @+ #LineBackup @ ASCIIzLen <
+                  If
+                     #LineBackup @ Dup #CX @ #SX @+ 1 Delete*
+                     #Call #OutLine
+                  Then
+            EndOf
+            8 Of \ BackSpace
+               #CX @ #SX @+
+               If
+                  #CX @ If #CX Else #SX Then 1-!
+                  #Goto #ProcessDelete
+               Then
+            EndOf
+
+               Dup Bl 255 Bound
+               If
+                  #1StDel @
+                  If
+                     #LineBackup @ 130 Erase
+                     #CX 0! #SX 0!
+                  Then
+
+                  #LineBackup @ ASCIIzLen #MaxLen @ <
+                  If
+                     #Buffer !
+                     #LineBackup @ Dup #Buffer #SX @ #CX @+ Insert*
+                     #Goto #ProcessRight
+                  Else
+                     Beep Drop
+                  Then
+               Else
+                  Drop
+               Then
+         EndCase
+         #1StDel Off
+      Again
+
+      #Label #OutLine
+
+         #X @ #CX @+ #Y @ TGotoXY
+
+         #ScrLen @ 0
+         ?Do
+            i #MaxLen @ < IfNot Bl Else i #LineBackup @+ #SX @+ c@ ?Dup IfNot Bl Then Then
+            ScrLineBuffer i 2* + c!
+         Loop
+
+         #ScrLen @ VramOffset
+         #X @ #Y @
+         VramScreenWidth 1 ScrLineBuffer
+         VramSelector
+         ((DrawWinImage))
+         Exit
+   }
+;
+
+>Hidden ((DRAWWINIMAGE))
+
+Code CGENMODESET ; ( --> )
+
+                push    esi             ; preserve caller registers
+
+; Program the Sequencer
+
+                cli                     ; disable interrupts
+                mov     edx,3C4h        ; Sequencer port address
+                mov     esi,SeqParms
+                mov     ecx,4
+
+L01:            lodsw                   ; AH := value for Sequencer register
+                                        ; AL := register number
+                out     dx,ax           ; program the register
+                loop    L01
+                sti                     ; enable interrupts
+
+; Program the Graphics Controller
+
+                mov     dl,0CEh         ; DX := 3CEH (Graphics Controller port
+                                        ;               address)
+                mov     esi,GCParms
+                mov     ecx,3
+
+L02:            lodsw                   ; program the Graphics Controller
+                out     dx,ax
+                loop    L02
+
+                pop     esi
+                next
+
+; Format of the parameters is:  Lo-order byte:  Register number
+;                               Hi-order byte:  Value for reg
+
+SeqParms:       DW      0100h           ; synchronous reset
+                DW      0402h           ; CPU writes only to map 2
+                DW      0704h           ; sequential addressing
+                DW      0300h           ; clear synchronous reset
+
+GCParms:        DW      0204h           ; select map 2 for CPU reads
+                DW      0005h           ; disable odd-even addressing
+                DW      0006h           ; map starts at A000:0000
+
+EndCode
+
+
+Code CGENMODECLEAR ; ( --> )
+
+                push    esi             ; preserve caller registers
+
+; Program the Sequencer
+
+                cli                     ; disable interrupts
+                mov     edx,3C4h        ; Sequencer port address
+                mov     esi,SeqParms
+                mov     ecx,4
+
+L01:            lodsw                   ; AH := value for Sequencer register
+                                        ; AL := register number
+                out     dx,ax           ; program the register
+                loop    L01
+                sti                     ; enable interrupts
+
+; Program the Graphics Controller
+
+                mov     dl,0CEh         ; DX := 3CEH (Graphics Controller port
+                                        ;               address)
+                mov     esi,GCParms
+                mov     ecx,3
+
+L02:            lodsw                   ; program the Graphics Controller
+                out     dx,ax
+                loop    L02
+
+                mov     ah,0Fh          ; AH := INT 10H function number
+                int     10h             ; get video mode
+
+                cmp     al,7
+                jne     L03             ; jump if not monochrome mode
+
+                mov     eax,0806h       ; program Graphics Controller
+                out     dx,ax           ;  to start map at B000:0000
+
+L03:            pop     esi
+                next
+
+; Format of the parameters is:  Lo-order byte:  Register number
+;                               Hi-order byte:  Value for reg
+
+SeqParms:       DW      0100h           ; synchronous reset
+                DW      0302h           ; CPU writes to maps 0 and 1
+                DW      0304h           ; odd-even addressing
+                DW      0300h           ; clear synchronous reset
+
+GCParms:        DW      0004h           ; select map 0 for CPU reads
+                DW      1005h           ; enable odd-even addressing
+                DW      0E06h           ; map starts at B800:0000
+
+EndCode
+
+
+Code ALPHAMODESET ; ( w h c --> )
+
+                ; ARGw --> dword ptr [ebp+12]
+                ; ARGh --> dword ptr [ebp+8]
+                ; ARGc --> dword ptr [ebp+4]
+
+CRT_COLS:       EQU     44Ah            ; addresses in video BIOS data area
+ADDR_6845:      EQU     463h
+
+                push    ebp             ; preserve caller registers
+                mov     ebp,esp
+                push    esi
+                push    es
+
+; Program the CRTC
+
+                fcall   "BIOSSELECTOR"
+                pop     ebx
+                mov     es,bx           ; ES := video BIOS data segment
+
+                mov     bl,byte ptr [ebp+12] ; BL := character width
+                mov     bh,byte ptr [ebp+8]  ; BH := character height
+                call    SetCRTC
+
+; Program the Sequencer and Attribute Controller for 8 or 9 dots per character
+
+                mov     edx,3C4h
+                mov     eax,0100h       ; AH bit 1 := 0 (synchronous reset)
+                                        ; AL := 0 (Reset register number)
+                cli                     ; disable interrupts
+                out     dx,ax           ; Sequencer synchronous reset
+
+                mov     ebx,1           ; BH,BL := values for 8-wide chars:
+                                        ;  BH := 0 (value for Horiz Pel Pan)
+                                        ;  BL := 1 (value for Clocking Mode)
+                cmp     byte ptr [ebp+12],8
+                je      short L01       ; jump if 8-wide characters
+
+                mov     ebx,0800h       ; BH,BL := values for 9-wide characters
+
+L01:            mov     ah,bl           ; AH := value for Clocking Mode reg
+                mov     al,1            ; AL := Clocking Mode reg number
+                out     dx,ax           ; program the Sequencer
+
+                mov     eax,0300h       ; AH := 3 (disable reset)
+                                        ; AL := 0 (Sequencer register number)
+                out     dx,ax           ; disable Sequencer reset
+                sti                     ; enable interrupts
+
+                mov     bl,13h          ; BL := Horizontal Pel Pan reg number
+                mov     eax,1000h       ; AH := 10H (INT 10H function number)
+                                        ; AL := 0 (set specified register)
+                int     10h             ; program Attribute Controller
+
+; Program the Attribute Controller for 8- or 9-bit character codes
+
+                mov     eax,1000h       ; AH := 10H (INT 10H function number)
+                                        ; AL := 0 (set specified register)
+                mov     ebx,0F12h       ; BH := 0FH (Color Plane Enable value)
+                                        ; BL := 12H (Color Plane Enable reg #)
+                cmp     byte ptr [ebp+4],8
+                je      short L02       ; jump if 8-bit character codes
+
+                mov     bh,7            ; BH bit 3 := 0 (ignore bit 3 of all
+                                        ;  attributes)
+L02:            int     10h             ; update Color Plane Enable register
+
+; update video BIOS data area
+
+                mov     eax,720         ; AX := displayed pixels per row
+                div     byte ptr [ebp+12] ; AL := displayed character columns
+                mov     byte ptr es:[CRT_COLS],al
+                and     eax,255
+                mov     dword ptr [pfa "VRAMSCREENWIDTH"],eax
+
+                pop     es
+                pop     esi
+                pop     ebp
+                add     esp,12
+                next
+
+
+SetCRTC:        ; Caller:       BH = character height
+                ;               BL = character width
+
+                push    edx
+                mov     dx,es:[ADDR_6845]  ; CRTC I/O port
+
+; establish CRTC vertical timing and cursor position in character matrix
+
+                push    ebx             ; preserve char height and width
+                mov     eax,1110h       ; AH := 11H (INT 10H function number)
+                                        ; AL := 0 (user alpha load)
+                xor     ecx,ecx         ; CX := 0 (store no characters)
+                int     10h             ; call BIOS to program CRTC
+                pop     ebx
+
+; enable I/O writes to CRTC registers
+
+                mov     al,11h          ; AL := Vertical Retrace End reg number
+                out     dx,al
+                inc     edx
+                in      al,dx           ; AL := current value of this register
+                dec     edx
+
+                mov     ah,al           ; AH := current value
+                mov     al,11h          ; AL := register number
+                push    eax             ; save on stack
+
+                and     ah,01111111b    ; zero bit 7
+                out     dx,ax           ; update this register
+
+; establish CRTC horizontal timing
+
+                xor     bh,bh           ; BX := character width
+                sub     bl,8            ; BX := 0 or 1
+                neg     ebx             ; BX := 0 or 0FFFFH
+                and     ebx,14          ; BX := 0 or 14 (offset into table)
+                mov     esi,ebx         ; SI := offset into table
+
+                add     esi,HorizParms  ; DS:SI -> parameters
+                call    UpdateCRTC
+
+; write-protect CRTC registers
+
+                pop     eax             ; AX := previous VR End register data
+                out     dx,ax           ; restore this register
+
+                pop     edx
+                ret
+
+
+UpdateCRTC:     ; Caller:       DX = CRTC address port
+                                        ;               DS:SI -> parameters
+                                        ; Destroys:     AX,CX
+
+                mov     ecx,7           ; CX := number of registers to update
+
+L10:            lodsw                   ; AH := data for CRTC register in AL
+                out     dx,ax           ; update the register
+                loop    L10
+
+                ret
+
+HorizParms:     DW      6A00h,5901h,5A02h,8D03h,6304h,8805h,2D13h  ; 8-wide
+                DW      5F00h,4F01h,5002h,8203h,5504h,8105h,2813h  ; 9-wide
+
+EndCode
+
+Code LOADALPHACUSTOM ; ( fontaddr fontsize destaddr destsel 1stchar chars --> )
+
+                pop     dword ptr [chars_count]
+                pop     dword ptr [first_char]
+
+                pop     eax
+                pop     edi
+                pop     edx
+                xchg    esi,dword ptr [esp]
+                push    es
+                mov     es,ax
+                mov     eax,32
+                sub     eax,edx
+
+                mov     ebx,dword ptr [chars_count]
+                shl     dword ptr [first_char],4
+                add     esi,dword ptr [first_char]
+                shl     dword ptr [first_char],1
+                add     edi,dword ptr [first_char]
+        laf_loop:
+                mov     ecx,edx
+                rep     movsb
+                add     edi,eax
+                dec     ebx
+                jnz     short laf_loop
+
+                pop     es
+                pop     esi
+                next
+
+first_char:     dd      0
+chars_count:    dd      256
+
+EndCode
+
+Code SAVEALPHACUSTOM ; ( fontaddr fontsize destaddr destsel 1stchar chars --> )
+
+                pop     dword ptr [chars_count]
+                pop     dword ptr [first_char]
+
+                pop     eax
+                pop     edi
+                pop     edx
+                xchg    esi,dword ptr [esp]
+                push    es
+                mov     es,ax
+                mov     eax,32
+                sub     eax,edx
+
+                mov     ebx,dword ptr [chars_count]
+                shl     dword ptr [first_char],4
+                add     esi,dword ptr [first_char]
+                shl     dword ptr [first_char],1
+                add     edi,dword ptr [first_char]
+        laf_loop:
+                mov     ecx,edx
+
+                push    eax
+        movsb_loop:
+                mov     al,byte ptr es:[edi]
+                mov     byte ptr [esi],al
+                inc     esi
+                inc     edi
+                loop    movsb_loop
+                pop     eax
+
+                add     edi,eax
+                dec     ebx
+                jnz     short laf_loop
+
+                pop     es
+                pop     esi
+                next
+
+first_char:     dd      0
+chars_count:    dd      256
+
+EndCode
+
+: LOADALPHAFONT ( fontaddr fontsize destaddr destselector --> )
+   0 256 LoadAlphaCustom
+;
+
+Create PALETTE
+   0 c, 0 c, 0 c,               \ 0
+   72 c, 72 c, 72 c,            \ 1
+   112 c, 112 c, 112 c,         \ 2
+   144 c, 144 c, 144 c,         \ 3
+   255 c, 255 c, 255 c,         \ 4
+   8 c, 32 c, 120 c,            \ 5
+   28 c, 60 c, 160 c,           \ 6
+   80 c, 164 c, 220 c,          \ 7
+   0 c, 88 c, 56 c,             \ 8
+   0 c, 144 c, 60 c,            \ 9
+   0 c, 200 c, 80 c,            \ a
+   144 c, 108 c, 28 c,          \ b
+   255 c, 255 c, 40 c,          \ c
+   184 c, 28 c, 8 c,            \ d
+   244 c, 64 c, 44 c,           \ e
+   255 c, 40 c, 255 c,          \ f
+   Create;
+
+Code LOADPALETTE ; ( --> )
+
+                mov     ecx,16
+        init_pal_loop:
+                mov     bl,cl
+                dec     bl
+                mov     bh,bl
+                mov     ax,1000h
+                int     10h
+                loop    init_pal_loop
+
+                mov     dx,3dah
+                push    esi
+                push    ebp
+                fcall   "PALETTE"
+                pop     esi
+                pop     ebp
+        wadsap:
+                in      al,dx
+                and     al,8
+                jnz     short wadsap
+        wadsap1:
+                in      al,dx
+                and     al,8
+                jz      short wadsap1
+                mov     dx,3c8h
+                mov     ecx,16
+                mov     al,0
+                out     dx,al
+                inc     edx
+        sapl:
+                lodsb
+                shr     al,2
+                out     dx,al
+                lodsb
+                shr     al,2
+                out     dx,al
+                lodsb
+                shr     al,2
+                out     dx,al
+                inc     di
+                loop    short sapl
+                pop     esi
+                next
+
+EndCode
+
+Registers REGS
+
+Code TOUTLINE ; ( asc attr x y --> )
+
+                pop     eax
+                mul     dword ptr [pfa "VRAMSCREENWIDTH"]
+                pop     ebx
+                add     ebx,eax
+                shl     ebx,1
+                add     ebx,dword ptr [pfa "VRAMOFFSET"]
+                pop     ecx
+                pop     edi
+                push    es
+                mov     es,word ptr [pfa "VRAMSELECTOR"]
+                mov     ah,cl
+        tl_loop:
+                mov     al,byte ptr [edi]
+                or      al,al
+                jz      short tl_exit
+                mov     word ptr es:[ebx],ax
+                add     ebx,2
+                inc     edi
+                jmp     short tl_loop
+        tl_exit:
+                pop     es
+                next
+
+EndCode
+
+Code HLBLOCK ; ( x y dx dy attr --> )
+
+                pop     ebx
+                pop     dword ptr [block_dy]
+                pop     dword ptr [block_dx]
+
+                mov     edi,dword ptr [pfa "VRAMSCREENWIDTH"]
+                pop     eax
+                mul     edi
+                pop     edx
+                add     edx,eax
+                shl     edx,1
+                add     edx,dword ptr [pfa "VRAMOFFSET"]
+                inc     edx
+                sub     edi,dword ptr [block_dx]
+                shl     edi,1
+                push    es
+                mov     es,word ptr [pfa "VRAMSELECTOR"]
+        hlb_1:
+                mov     ecx,dword ptr [block_dx]
+        hlb_2:
+                mov     byte ptr es:[edx],bl
+                add     edx,2
+                loop    hlb_2
+                add     edx,edi
+                dec     dword ptr [block_dy]
+                jnz     short hlb_1
+
+                pop     es
+                next
+
+block_dx:       dd      0
+block_dy:       dd      0
+
+EndCode
+
+Code FILLBLOCK ; ( x y dx dy char attr --> )
+
+                pop     ebx
+                pop     eax
+                mov     bh,bl
+                mov     bl,al
+                pop     dword ptr [block_dy]
+                pop     dword ptr [block_dx]
+
+                mov     edi,dword ptr [pfa "VRAMSCREENWIDTH"]
+                pop     eax
+                mul     edi
+                pop     edx
+                add     edx,eax
+                shl     edx,1
+                add     edx,dword ptr [pfa "VRAMOFFSET"]
+                sub     edi,dword ptr [block_dx]
+                shl     edi,1
+                push    es
+                mov     es,word ptr [pfa "VRAMSELECTOR"]
+        hlb_1:
+                mov     ecx,dword ptr [block_dx]
+        hlb_2:
+                mov     word ptr es:[edx],bx
+                add     edx,2
+                loop    hlb_2
+                add     edx,edi
+                dec     dword ptr [block_dy]
+                jnz     short hlb_1
+
+                pop     es
+                next
+
+block_dx:       dd      0
+block_dy:       dd      0
+
+EndCode
+
+Code ?VGA ; ( --> flag )
+
+                mov     eax,1a00h
+                int     10h
+                cmp     al,1ah
+                jnz     short no_vga
+                cmp     bx,7
+                jz      short vga_ok
+                cmp     bx,8
+                jz      short vga_ok
+        no_vga:
+                push    0
+                next
+        vga_ok:
+                push    -1
+                next
+
+EndCode
+
+
+Code LOADALPHAVIRT ; ( virtscr charysize charsoffset charsselector --> )
+
+VIRTHEADERSIZE: equ     40h
+
+                mov     dword ptr [temp_si],esi
+                push    es
+                pop     dword ptr [temp_es]
+
+                pop     es
+                pop     edi
+                pop     dword ptr [charysize]
+                pop     ebx
+
+                mov     eax,32
+                sub     eax,dword ptr [charysize]
+                mov     dword ptr [between_char],eax
+                xor     ecx,ecx
+                xor     edx,edx
+
+        lav_loop:
+                push    ecx
+                push    edx
+                ; ==========================================
+                ; DS:EBX --> Virtual screen
+                ; ES:EDI --> Char buffer
+                ; ECX      = X0 (in virtual screen)
+                ; EDX      = Y0
+
+                mov     eax,dword ptr [ebx+4]
+                mul     edx
+                add     eax,ecx
+                lea     esi,byte ptr [ebx+eax+VIRTHEADERSIZE]
+                mov     edx,dword ptr [charysize]
+        lav_loop2:
+                mov     ecx,8
+                xor     eax,eax
+        lav_loop3:
+                xor     ah,ah
+                sub     ah,byte ptr [esi]
+                rcl     al,1
+                inc     esi
+                loop    lav_loop3
+                stosb
+                sub     esi,8
+                add     esi,dword ptr [ebx+4]
+                dec     edx
+                jnz     short lav_loop2
+                ; ==========================================
+                pop     edx
+                pop     ecx
+                add     edi,dword ptr [between_char]
+                add     ecx,8
+                cmp     ecx,dword ptr [ebx+4]
+                jc      lav_loop
+                xor     ecx,ecx
+                add     edx,dword ptr [charysize]
+                cmp     edx,dword ptr [ebx+8]
+                jc      lav_loop
+
+                mov     esi,dword ptr [temp_si]
+                mov     es,dword ptr [temp_es]
+                next
+
+charysize:      dd      0
+between_char:   dd      0
+temp_si:        dd      0
+temp_es:        dd      0
+
+EndCode
+
+: INITTEXT ( --> )
+   BIOSSelector To VramSelector
+   $0f00 Regs .EAX !
+   $10 Regs Intr
+   Regs .AL c@ 7 = If $b0000 $3b4 Else $b8000 $3d4 Then
+   To CRTCPort To VramOffset
+   $44a BiosSelector aw@ To VramScreenWidth
+;
+
+0 Value TX1
+0 Value TY1
+80 Value TDX
+25 Value TDY
+
+: TPUSHSTATE ( --> )
+   TX1 >L
+   TY1 >L
+   TDX >L
+   TDY >L
+   $503206 >L
+;
+
+: TPOPSTATE ( --> )
+   L@ $503206 =
+   If
+      LDrop
+      L> To TDY
+      L> To TDX
+      L> To TY1
+      L> To TX1
+   Then
+;
+
+: TSETWINDOW ( x y dx dy --> )
+   To TDY
+   To TDX
+   To TY1
+   To TX1
+;
+
+: TMAKEWINDOW ( x y dx dy --> )
+   TPushState
+   TSetWindow
+   TDX TDY * 2* LSP -!
+
+   TDY 0
+   ?Do
+      i TY1 + VRAMSCREENWIDTH * TX1 + 2* VRAMOFFSET + VRAMSELECTOR
+      i TDX * 2* LSP @+ ForthSelector
+      TDX 2* ACMove
+   Loop
+
+   TPushState
+   $503207 >L
+;
+
+: TREMOVEWINDOW ( --> )
+   L@ $503207 =
+   If
+      LDrop
+      TPopState
+
+      TDY 0
+      ?Do
+         i TDX * 2* LSP @+ ForthSelector
+         i TY1 + VRAMSCREENWIDTH * TX1 + 2* VRAMOFFSET + VRAMSELECTOR
+         TDX 2* ACMove
+      Loop
+
+      TDX TDY * 2* LSP +!
+
+      TPopState
+   Then
+;
+
+: TFILLWINDOW ( char attr --> )
+   2>R TX1 TY1 TDX TDY 2R> FillBlock
+;
+
+: TCLS ( --> )
+   0 0 80 25 TSetWindow
+   Bl $07 TFillWindow
+;
+
+: TBORDER ( asc attr --> )
+   TDX 2 > TDY 2 > And
+   If
+      Over c@ Over TX1 TY1 1 1 2Rot FillBlock
+      Over 1+ c@ Over TX1 1+ TY1 TDX 2- 1 2Rot FillBlock
+      Over 2+ c@ Over TX1 TDX + 1- TY1 1 1 2Rot FillBlock
+
+      Over 3 + c@ Over TX1 TY1 1+ 1 TDY 2- 2Rot FillBlock
+      Over 5 + c@ Over TX1 TDX + 1- TY1 1+ 1 TDY 2- 2Rot FillBlock
+
+      Over 6 + c@ Over TX1 TY1 TDY + 1- 1 1 2Rot FillBlock
+      Over 7 + c@ Over TX1 1+ TY1 TDY + 1- TDX 2- 1 2Rot FillBlock
+      Over 8 + c@ Over TX1 TDX + 1- TY1 TDY + 1- 1 1 2Rot FillBlock
+
+      1+To TX1
+      1+To TY1
+      2-To TDX
+      2-To TDY
+
+      Over 4+ c@ Over TFillWindow
+   Then
+
+   2Drop
+;
+
+Create TBORDER#1 a" ┌─┐│ │└─┘" a, Create;
+Create TBORDER#2 a" ╔═╗║ ║╚═╝" a, Create;
+Create TBORDER#3 a" ╓─╖║ ║╙─╜" a, Create;
+Create TBORDER#4 a" ╒═╕│ │╘═╛" a, Create;
+Create TBORDER#5 a" ┼─┼│ │┼─┼" a, Create;
+Create TBORDER#6 a" ╬═╬║ ║╬═╬" a, Create;
+Create TBORDER#7 a" \219;\223;\219;\219; \219;\219;\220;\219;" a, Create;
+Create TBORDER#8 a" \222;\223;\221;\222; \221;\222;\220;\221;" a, Create;
+Create TBORDER#9 a" \220;\220;\220;\221; \222;\223;\223;\223;" a, Create;
+Create TBORDER#A a" \219;\219;\219;\219; \219;\219;\220;\219;" a, Create;
+
+: CENTER* ( asc attr y --> )
+   2 Pick ASCIIzLen VRAMSCREENWIDTH Swap- 2/ Swap TOutLine
+;
+
+$3b Value HM_BORDER_ATTR
+$30 Value HM_ITEM_ATTR
+$03 Value HM_ACTIVE_ATTR
+$37 Value HM_DISSABLED_ATTR
+
+0 Value HMFIRSTROOT
+0 Value HMLASTROOT
+0 Value HMCURRENTROOT
+0 Value HMFIRSTITEM
+0 Value HMCURRENTITEM
+0 Value HMDATA                  \ Указатель на блок описателей пунктов меню
+0 Value HMMAXITEMS              \ Максимальное количество путктов меню
+0 Value HMDATATOP               \ Куда добавляем следующие пункты
+0 Value HMITEMSCOUNT            \ Количество определенных пунктов меню
+
+Create HMKEYS                   \ Указатель на буфер, описывающий HotKeys
+   400 Allot                    \ (2-байтовые элементы - коды ASCII)
+   Create;
+0 Value HMKEYSCOUNT             \ Количество элементов в буфере (Max=200)
+
+$34 Value HMRECORDSIZE          \ Размер записи описателя пункта меню
+
+Defer HMSELECTDEFAULTPROC       \ При смене активного пункта всегда вызывать...
+   ' Noop To HMSelectDefaultProc
+
+Comment:
+
+        Формат описателя пункта меню:
+
+        0       dd      next item (brother)
+        4       dd      daughter item (only for root items; =0 for non-root)
+        8       dd      pointer to item text
+        c       dd      flags
+                           bit 0 = 1 - dissabled
+                                   0 - enabled
+       10       dd      select-procedure
+       14       dd      activate-procedure
+       18       dd      1st select-parameter
+       1c       dd      2nd select-parameter
+       20       dd      1st activate-parameter
+       24       dd      2nd activate-parameter
+       28       dd      previous item (brother)
+       2c       dd      last daughter item (only for root items)
+       30       dd      secondary text (right-aligned, only for non-root)
+
+Comment;
+
+Code UNKEY ; ( char --> )
+
+                pop     ecx
+                mov     ah,5
+                int     16h
+                next
+
+EndCode
+
+: HMCLEARKEYS ( --> )
+   0 To HMKeysCount
+;
+
+: HMSETKEYS ( false ... --> )
+   Begin
+      Dup
+   While
+      HMKeys HMKeysCount 2* + w!
+
+      1+To HMKeysCount
+
+      HMKeysCount 200 =
+      If
+         Begin While Repeat
+         Exit
+      Then
+   Repeat
+   Drop
+;
+
+: HMCLEAR ( --> )
+   HMData To HMDataTop
+   0 To HMFirstRoot
+   0 To HMLastRoot
+   0 To HMFirstItem
+   0 To HMCurrentRoot
+   0 To HMCurrentItem
+   0 To HMItemsCount
+   HMData HMMaxItems HMRecordSize * Erase
+   HMClearKeys
+;
+
+: HMINIT ( MaxItems --> )
+   To HMMaxItems
+   Here To HMData
+   HMMaxItems HMRecordSize * Allot
+   HMClear
+;
+
+: HMDISSABLE ( --> )
+   1 HMCurrentRoot HMCurrentItem UMax $c + Or!
+;
+
+: HMENABLE ( --> )
+   $fffffffe HMCurrentRoot HMCurrentItem UMax $c + And!
+;
+
+: HMSELECT ( 1stparameter 2ndparameter *proc --> )
+   HMCurrentItem HMCurrentRoot UMax Dup>R $10 + !
+   R@ $18 + !
+   R> $1c + !
+;
+
+: HMACTIVATE ( 1stparameter 2ndparameter *proc --> )
+   HMCurrentItem HMCurrentRoot UMax Dup>R $14 + !
+   R@ $20 + !
+   R> $24 + !
+;
+
+: HMROOTITEM ( asc --> )
+   0 To HMFirstItem
+   0 To HMCurrentItem
+   HMMaxItems HMItemsCount > IfNot Drop Beep Exit Then
+   HMDataTop HMRecordSize Erase
+   HMDataTop 8 + !
+
+   HMDataTop
+   HMCurrentRoot
+   If
+      HMCurrentRoot !
+   Else
+      To HMFirstRoot
+   Then
+
+   HMCurrentRoot HMDataTop $28 + !
+
+   HMDataTop To HMCurrentRoot
+   HMDataTop To HMLastRoot
+
+   HMRecordSize +To HMDataTop
+   1+To HMItemsCount
+;
+
+: HMITEM ( asc1 asc2 --> )
+   HMMaxItems HMItemsCount > IfNot Drop Beep Exit Then
+   HMDataTop HMRecordSize Erase
+   HMDataTop $30 + !
+   HMDataTop 8 + !
+
+   HMDataTop
+   HMCurrentItem
+   If
+      HMCurrentItem !
+   Else
+      HMCurrentRoot
+      If
+         HMCurrentRoot Cell+ !
+      Else
+         Beep Exit
+      Then
+   Then
+
+   HMCurrentItem HMDataTop $28 + !
+
+   HMDataTop To HMCurrentItem
+
+   HMCurrentItem 8 + @c@ IfNot HMDissable Then
+
+   HMRecordSize +To HMDataTop
+   1+To HMItemsCount
+
+   HMCurrentItem HMCurrentRoot $2c + !
+;
+
+: PULLDOWN ( x y dx --> )
+   {
+      #Int #CX
+      #Int #X0
+      #Int #Y0
+      #Int #DX
+      #Int #HMOPEN      \ True, если открыт второй уровень меню
+      #Int #TIMEX       \ Не изменять!
+      #Int #TIMEY       \ Не изменять!
+      #Int #PTR
+      [ 80 ] #MemBlock #ITEM
+      [ 8 KBytes ] #MemBlock #STACK
+      #Int #SP
+
+      #DX ! #Y0 ! #X0 !
+
+      #HMOpen Off
+      #Stack 8 KBytes + #SP !
+
+      \ Вычисляем минимальную ширину основного меню
+      HMFirstRoot #Ptr !
+      #TimeX 0!
+      Begin
+         #Ptr @ 8 + @ ASCIIzLen 2+ #TimeX +!
+         #Ptr @@ Dup #Ptr ! 0=
+      Until
+      #TimeX @ Cell+ #DX @ UMax VramScreenWidth UMin #DX !
+
+      #X0 @ #Y0 @ #DX @ 3 #Call #TMakeWindow
+      TBorder#7 HM_BORDER_ATTR TBorder
+
+      Begin
+         HMCurrentRoot $c + @ 1 And
+      While
+         HMCurrentRoot @ ?Dup IfNot HMFirstRoot Then To HMCurrentRoot
+         HMCurrentRoot Cell+ @ Dup To HMFirstItem To HMCurrentItem
+      Repeat
+
+      #Call #ShowRoot
+      #Call #SetSelect
+
+      Begin
+         Key
+
+         HMKeysCount 0
+         ?Do
+            i 2* HMKeys + w@ Over =
+            If
+               UnLoop
+               UnKey
+               #HMOpen @ #IfCall #CloseSecondary
+               #Goto #Exit
+            Then
+         Loop
+
+         Case
+            /Enter Of
+               #HMOpen @
+               If
+                  HMCurrentRoot Cell+ @
+                  If
+                     HMCurrentItem $14 + @ ?Dup
+                     If
+                        HMCurrentItem $24 + @
+                        HMCurrentItem $20 + @
+                        Rot Execute ( --> flag )
+                        If
+                           \ Выходим из меню
+                           #Call #CloseSecondary
+                           #Goto #Exit
+                        Then
+                     Else
+                        Beep
+                     Then
+                  Else
+                     HMCurrentRoot $14 + @ ?Dup
+                     If
+                        HMCurrentRoot $20 + @
+                        HMCurrentRoot $24 + @
+                        Rot Execute ( --> flag )
+                        If
+                           \ Выходим из меню
+                           #Call #CloseSecondary
+                           #Goto #Exit
+                        Then
+                     Then
+                  Then
+               Else
+                  HMCurrentRoot Cell+ @
+                  If
+                     #HMOpen On
+                     #Call #OpenSecondary
+                     #Call #SetSelect
+                  Else
+                     HMCurrentRoot $14 + @ ?Dup
+                     If
+                        HMCurrentRoot $20 + @
+                        HMCurrentRoot $24 + @
+                        Rot Execute ( --> flag )
+                        #IfGoto #Exit
+                     Then
+                  Then
+               Then
+            EndOf
+            /Esc Of
+               #HMOpen @ #IfNotGoto #Exit
+               HMCurrentRoot Cell+ @
+               IfNot
+                  #Call #CloseSecondary
+                  #Goto #Exit
+               Then
+               #HMOpen Off
+               #Call #CloseSecondary
+               #Call #SetSelect
+            EndOf
+            /Left Of
+               #HMOpen @ #IfCall #CloseSecondary
+
+               Begin
+                  HMCurrentRoot $28 + @ ?Dup IfNot HMLastRoot Then
+                  Dup To HMCurrentRoot
+                  $c + @ 1 And 0=
+               Until
+               #Call #ShowRoot
+
+               HMCurrentRoot Cell+ @
+               Dup To HMCurrentItem To HmFirstItem
+
+               #HMOpen @ #IfCall #OpenSecondary
+               #Call #SetSelect
+            EndOf
+            /Right Of
+               #HMOpen @ #IfCall #CloseSecondary
+
+               Begin
+                  HMCurrentRoot @ ?Dup IfNot HMFirstRoot Then
+                  Dup To HMCurrentRoot
+                  $c + @ 1 And 0=
+               Until
+               #Call #ShowRoot
+
+               HMCurrentRoot Cell+ @
+               Dup To HMCurrentItem To HmFirstItem
+
+               #HMOpen @ #IfCall #OpenSecondary
+               #Call #SetSelect
+            EndOf
+            /Down Of
+               #HMOpen @
+               If
+                  HMCurrentRoot Cell+ @
+                  If
+                     Begin
+                        HMCurrentItem @ ?Dup IfNot HMFirstItem Then
+                        Dup To HMCurrentItem
+                        $c + @ 1 And 0=
+                     Until
+                     #Call #SetSelect
+                  Then
+                  #Call #ShowSecondary
+               Else
+                  #HMOpen On
+                  #Call #OpenSecondary
+                  #Call #SetSelect
+               Then
+            EndOf
+            Bl Of
+               #HMOpen @
+               IfNot
+                  #HMOpen On
+                  #Call #OpenSecondary
+                  #Call #SetSelect
+               Then
+            EndOf
+            /Up Of
+               #HMOpen @
+               If
+                  Begin
+                     HMCurrentItem $28 + @ ?Dup
+                     IfNot HMCurrentRoot $2c + @ Then
+                     Dup To HMCurrentItem
+                     $c + @ 1 And 0=
+                  Until
+                  #Call #ShowSecondary
+                  #Call #SetSelect
+               Then
+            EndOf
+               Drop
+         EndCase
+      Again
+
+      #Label #SetSelect
+         HMSelectDefaultProc
+
+         #HMOpen @ HMCurrentRoot Cell+ @ And
+         If
+            HMCurrentItem $10 + @ ?Dup
+            If
+               HMCurrentItem $1c + @
+               HMCurrentItem $18 + @
+               Rot Execute
+            Then
+         Else
+            HMCurrentRoot $10 + @ ?Dup
+            If
+               HMCurrentRoot $1c + @
+               HMCurrentRoot $18 + @
+               Rot Execute
+            Then
+         Then
+
+         Exit
+
+      #Label #OpenSecondary
+         HMCurrentRoot Cell+ @ To HMFirstItem
+
+         \ Вычисляем ширину вторичного меню
+         HMFirstItem #Ptr !
+         #TimeX 0!
+         #TimeY 0!
+         #Ptr @
+         If
+            Begin
+               #TimeY 1+!
+               #Ptr @ 8 + @ ASCIIzLen
+               #Ptr @ $30 + @ ASCIIzLen + 2+
+               #TimeX @ UMax #TimeX !
+               #Ptr @@ Dup #Ptr ! 0=
+            Until
+         Then
+         #TimeX 2+!
+         #CX @ #Y0 @ 2+ #TimeX @ 4+ #TimeY @ 2+ #Call #TMakeWindow
+
+         HMFirstItem If TBorder#7 HM_BORDER_ATTR TBorder Then
+
+      #Label #ShowSecondary ( --> )
+         HMFirstItem #Ptr !
+
+         #TimeY @ 0
+         ?Do
+            #Ptr @ 8 + @c@
+            If
+               #Ptr @ 8 + @ #Item 1+ 0 70 Copy*
+               Bl #Item c!
+               Begin
+                  #Item a"      " Over Concat*
+                  #Item ASCIIzLen 70 >
+               Until
+               0 #Item #TimeX @+ c!
+
+               #Ptr @ $30 + @ #Item #TimeX @+ 1- Over ASCIIzLen Dup>R -
+               R> CMove
+
+               #Item
+               #Ptr @ HMCurrentItem =
+               If
+                  HM_Active_Attr
+               Else
+                  #Ptr @ $c + @ 1 And
+                  If
+                     HM_Dissabled_Attr
+                  Else
+                     HM_Item_Attr
+                  Then
+               Then
+               #CX @ 2+ #Y0 @ 3 + i + TOutLine
+            Else
+               #Item 79 '─ Fill
+               0 #Item #TimeX @+ 2+ c!
+               #Item HM_Border_Attr
+               #CX @ 1+ #Y0 @ 3 + i + TOutLine
+            Then
+            #Ptr @@ #Ptr !
+         Loop
+
+         Exit
+
+      #Label #ShowRoot ( --> )
+         HMFirstRoot #Ptr !
+         #X0 @ 2+ #TimeX !
+         Begin
+            #Ptr @
+         While
+            #Ptr @ 8 + @ #Item 1+ 0 70 Copy*
+            Bl #Item c!
+            #Item a"  " Over Concat*
+            #Item
+            #Ptr @ HMCurrentRoot =
+            If
+               #TimeX @ #CX !
+               HM_Active_Attr
+            Else
+               #Ptr @ $c + @ 1 And
+               If
+                  HM_Dissabled_Attr
+               Else
+                  HM_Item_Attr
+               Then
+            Then
+            #TimeX @ #Y0 @ 1+ TOutLine
+            #Ptr @ 8 + @ ASCIIzLen 2+ #TimeX +!
+            #Ptr @@ #Ptr !
+         Repeat
+
+         Exit
+
+      #Label #TMakeWindow ( x y dx dy --> )
+      TSetWindow
+         #SP Cell-! TX1 #SP @!
+         #SP Cell-! TY1 #SP @!
+         #SP Cell-! TDX #SP @!
+         #SP Cell-! TDY #SP @!
+
+         TDX TDY * 2* #SP -!
+
+         TDY 0
+         ?Do
+            i TY1 + VRAMSCREENWIDTH * TX1 + 2* VRAMOFFSET + VRAMSELECTOR
+            i TDX * 2* #SP @+ ForthSelector
+            TDX 2* ACMove
+         Loop
+
+         #SP Cell-! TX1 #SP @!
+         #SP Cell-! TY1 #SP @!
+         #SP Cell-! TDX #SP @!
+         #SP Cell-! TDY #SP @!
+         Exit
+
+      #Label #CloseSecondary
+      #Label #TRemoveWindow
+         #SP @@ To TDY #SP Cell+!
+         #SP @@ To TDX #SP Cell+!
+         #SP @@ To TY1 #SP Cell+!
+         #SP @@ To TX1 #SP Cell+!
+
+         TDY 0
+         ?Do
+            i TDX * 2* #SP @+ ForthSelector
+            i TY1 + VRAMSCREENWIDTH * TX1 + 2* VRAMOFFSET + VRAMSELECTOR
+            TDX 2* ACMove
+         Loop
+
+         TDX TDY * 2* #SP +!
+
+         #SP @@ To TDY #SP Cell+!
+         #SP @@ To TDX #SP Cell+!
+         #SP @@ To TY1 #SP Cell+!
+         #SP @@ To TX1 #SP Cell+!
+
+         Exit
+
+      #Label #Exit
+         #Call #TRemoveWindow
+
+   }
+;
+

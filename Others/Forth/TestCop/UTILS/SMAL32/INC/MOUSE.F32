@@ -1,0 +1,123 @@
+\ ======================================================================= MOUSE
+
+0 Value MOUSEFLAG
+0 Value MOUSEX
+0 Value MOUSEY
+0 Value MOUSEXDOWN
+0 Value MOUSEYDOWN
+0 Value MOUSEXUP
+0 Value MOUSEYUP
+0 Value MOUSELEFTPRESSED
+0 Value MOUSERIGHTPRESSED
+0 Value MOUSECENTERPRESSED
+0 Value MOUSECOUNTER                    \ 1 = рисуем курсор
+
+Code RESETMOUSE ; ( --> )
+
+                mov     dword ptr [pfa MOUSECOUNTER],0
+                mov     dword ptr [pfa MOUSEX],0
+                mov     dword ptr [pfa MOUSEY],0
+                mov     dword ptr [pfa MOUSEXUP],0
+                mov     dword ptr [pfa MOUSEYUP],0
+                mov     dword ptr [pfa MOUSEXDOWN],0
+                mov     dword ptr [pfa MOUSEYDOWN],0
+                mov     dword ptr [pfa MOUSELEFTPRESSED],0
+                mov     dword ptr [pfa MOUSERIGHTPRESSED],0
+                mov     dword ptr [pfa MOUSECENTERPRESSED],0
+                xor     eax,eax
+                int     33h
+                or      ax,ax
+                jnz     short mouse_present
+                mov     dword ptr [pfa MOUSEFLAG],0
+                next
+        mouse_present:
+                mov     dword ptr [pfa MOUSEFLAG],-1
+                next
+
+EndCode
+
+Code PUTMOUSE ; ( --> )
+
+                cmp     dword ptr [pfa MOUSEFLAG],0
+                jz      short no_mouse
+                inc     dword ptr [pfa MOUSECOUNTER]
+                mov     eax,1
+                int     33h
+        no_mouse:
+                next
+
+EndCode
+
+Code HIDEMOUSE ; ( --> )
+
+                cmp     dword ptr [pfa MOUSEFLAG],0
+                jz      short no_mouse
+                dec     dword ptr [pfa MOUSECOUNTER]
+                mov     eax,2
+                int     33h
+        no_mouse:
+                next
+
+EndCode
+
+Code MOVEMOUSE ; ( x y --> )
+
+                pop     edx
+                pop     ecx
+                cmp     dword ptr [pfa MOUSEFLAG],0
+                jz      short no_mouse
+                mov     eax,4
+                int     33h
+        no_mouse:
+                next
+
+EndCode
+
+Code GETMOUSE ; ( --> )
+
+                cmp     dword ptr [pfa MOUSEFLAG],0
+                jz      no_mouse
+                mov     eax,3
+                int     33h
+                mov     dword ptr [pfa MOUSELEFTPRESSED],0
+                mov     dword ptr [pfa MOUSERIGHTPRESSED],0
+                mov     dword ptr [pfa MOUSECENTERPRESSED],0
+                and     ecx,0ffffh
+                and     edx,0ffffh
+                mov     dword ptr [pfa MOUSEX],ecx
+                mov     dword ptr [pfa MOUSEY],edx
+                test    ebx,1
+                jz      short no_left
+                dec     dword ptr [pfa MOUSELEFTPRESSED]
+        no_left:
+                test    ebx,2
+                jz      short no_right
+                dec     dword ptr [pfa MOUSERIGHTPRESSED]
+        no_right:
+                test    ebx,4
+                jz      short no_center
+                dec     dword ptr [pfa MOUSECENTERPRESSED]
+        no_center:
+                mov     eax,5
+                xor     ebx,ebx         ; Query left button
+                or      bx,bx
+                jz      short no_left_was_pressed
+                and     ecx,0ffffh
+                and     edx,0ffffh
+                mov     dword ptr [pfa MOUSEXDOWN],ecx
+                mov     dword ptr [pfa MOUSEYDOWN],edx
+        no_left_was_pressed:
+                mov     eax,6
+                xor     ebx,ebx         ; Query left button
+                or      bx,bx
+                jz      short no_left_was_released
+                and     ecx,0ffffh
+                and     edx,0ffffh
+                mov     dword ptr [pfa MOUSEXUP],ecx
+                mov     dword ptr [pfa MOUSEYUP],edx
+        no_left_was_released:
+
+        no_mouse:
+                next
+EndCode
+

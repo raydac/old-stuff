@@ -1,0 +1,778 @@
+
+?Include CGENMODESET VGAText
+?Use /F1 KbdCodes
+
+\ =============================================================================
+
+16 Value GF_X
+ 4 Value GF_Y
+
+: DRAW_GET_FILE_PICTURE ( asc --> )
+   GF_X GF_Y 48 17 TMakeWindow
+   TBorder#7 $3b TBorder
+   $3e Over ASCIIzLen 48 Swap- 2/ GF_X + GF_Y 1+ TOutLine
+   GF_X 1+ GF_Y 2+ 46 1 '─ $3b FillBlock
+   GF_X 1+ GF_Y Cell+ 46 1 '─ $3b FillBlock
+   GF_X 1+ GF_Y 14 + 46 1 '─ $3b FillBlock
+   GF_X 2+ GF_Y 3 + 44 1 Bl $3 FillBlock
+   GF_X 16 + GF_Y Cell+ 1 1 '┬ $3b FillBlock
+   GF_X 31 + GF_Y Cell+ 1 1 '┬ $3b FillBlock
+   GF_X 16 + GF_Y 5 + 1 9 '│ $3b FillBlock
+   GF_X 31 + GF_Y 5 + 1 9 '│ $3b FillBlock
+   GF_X 16 + GF_Y 14 + 1 1 '┴  $3b FillBlock
+   GF_X 31 + GF_Y 14 + 1 1 '┴ $3b FillBlock
+   \ GF_X 2+ GF_Y 15 + 14 1 Bl $3 FillBlock
+;
+
+0 Value (LASTKEY)
+
+: ((KEY)) ( --> char )
+   Key Dup To (LASTKEY)
+   Dup 9 = If Drop 13 Then
+   Dup 10 = If Drop 13 Then
+;
+
+Code (FORMATFILENAME) ; ( buffer-addr[find+21] out-buffer --> )
+
+                pop     edi
+                pop     ebx
+                mov     ecx,ebx
+                add     ebx,9
+                mov     byte ptr [edi],' '
+                inc     edi
+
+                mov     eax,dword ptr [ebx]
+                and     eax,0ffffffh
+                cmp     eax,2e2eh
+                jz      up_dir
+
+                lea     edx,byte ptr [edi+8]
+
+        ffn_1:
+                mov     al,byte ptr [ebx]
+                inc     ebx
+                cmp     al,'.'
+                jz      short ffn_go_ext
+                or      al,al
+                jz      short ffn_go_ext
+                mov     byte ptr [edi],al
+                inc     edi
+                cmp     edi,edx
+                jc      short ffn_1
+
+        ffn_skip_name_rest_loop:
+                mov     al,byte ptr [ebx]
+                inc     ebx
+                cmp     al,'.'
+                jz      short ffn_go_ext
+                or      al,al
+                jnz     short ffn_skip_name_rest_loop
+
+        ffn_go_ext:
+                inc     edx
+
+        ffn_2:
+                mov     byte ptr [edi],' '
+                inc     edi
+                cmp     edi,edx
+                jc      short ffn_2
+
+        ffn_3:
+                lea     edx,byte ptr [edi+3]
+
+                cmp     byte ptr [ebx-1],0
+                jz      short ffn_5
+
+        ffn_4:
+                mov     al,byte ptr [ebx]
+                inc     ebx
+                cmp     al,'.'
+                jz      short ffn_5
+                or      al,al
+                jz      short ffn_5
+                mov     byte ptr [edi],al
+                inc     edi
+                cmp     edi,edx
+                jc      short ffn_4
+
+        ffn_5:
+                cmp     edi,edx
+                jnc     short ffn_6
+                mov     byte ptr [edi],' '
+                inc     edi
+                jmp     short ffn_5
+
+        ffn_6:
+                mov     ebx,ecx
+                mov     ecx,12
+                mov     word ptr [edi],' '
+                test    byte ptr [ebx],10h
+                jnz     short ffn_dir
+
+        ffn_file:
+                dec     edi
+                mov     al,byte ptr [edi]
+                cmp     al,'A'
+                jc      short ffn_f_next
+                cmp     al,'Z'
+                ja      short ffn_f_next
+                add     byte ptr [edi],20h
+        ffn_f_next:
+                dec     ecx
+                jnz     short ffn_file
+
+                next
+
+        ffn_dir:
+                dec     edi
+                mov     al,byte ptr [edi]
+                cmp     al,'a'
+                jc      short ffn_d_next
+                cmp     al,'z'
+                ja      short ffn_d_next
+                sub     byte ptr [edi],20h
+        ffn_d_next:
+                dec     ecx
+                jnz     short ffn_dir
+
+                next
+
+        up_dir:
+                lea     edx,byte ptr [edi+12]
+                mov     byte ptr [edi],'.'
+                mov     byte ptr [edi+1],'.'
+                add     edi,2
+                jmp     short ffn_5
+
+EndCode
+
+Code (COMPAREFILENAMES) ; ( addr1 addr2 --> flag )
+
+                pop     edi
+                pop     ebx
+
+                mov     al,byte ptr [ebx]
+                xor     al,byte ptr [edi]
+                and     al,10h
+                jz      short nb_start
+
+                test    byte ptr [ebx],10h
+                jnz     short nb_less
+                jmp     short nb_greater
+
+        nb_start:
+                add     ebx,9
+                add     edi,9
+        nb_loop:
+                mov     al,byte ptr [ebx]
+                cmp     al,byte ptr [edi]
+                jc      short nb_less
+                ja      short nb_greater
+                or      al,al
+                jz      short nb_less
+                cmp     byte ptr [edi],0
+                jz      short nb_greater
+                inc     ebx
+                inc     edi
+                jmp     short nb_loop
+        nb_less:
+                push    0ffffffffh
+                next
+        nb_greater:
+                push    0
+                next
+
+EndCode
+
+: GET_FILE ( asc-message asc-edit-buffer --> cr-flag )
+   Swap Draw_Get_File_Picture
+   {
+      #Int #CX
+      #Int #CY
+      #Int #SY
+
+      #Int #CX_FLAG
+      #Int #BUFFER
+      #Int #OLDHERE
+      #Int #FILESCOUNT
+      #Int #SP
+      #Int #QSLEN
+      #Int #DIRFLAG
+      #Int #CURRFILE
+      [ 200 ] #MemBlock #FINDBUFFER
+      [ 80 ] #MemBlock #OUTBUFFER
+      [ 80 ] #MemBlock #OUTBUFFER2
+      [ 40 12 * ] #MemBlock #STACK
+      [ 16 ] #MemBlock #QSBUFFER \ Quick-search buffer
+
+      #Buffer !
+      Here #OldHere !
+      #CX 0!
+      #CY 0!
+      #SY 0!
+      #CX_Flag On
+      #QSBuffer 0!
+
+      #Buffer @ c@
+      If
+         #Buffer @ Dup ASCIIzLen + 1- c@ '\ =
+         If
+            #Buffer @ a" *.*" Over Concat*
+         Then
+      Else
+         a" *.*" #Buffer @ 0 80 Copy*
+      Then
+
+      0 To (LastKey)
+
+      Begin
+         (LastKey) -1000 =
+         If
+            /Tab To (LastKey)
+         Else
+            #Call #LoadFileNames
+
+            \ #FilesCount @ IfNot #CX_Flag On Then
+            #Call #ShowFileNames
+
+            #SP 0!
+            #DirFlag 0!
+            #QSBuffer 0!
+
+            #Buffer @ 80 GF_X 3 + GF_Y 3 + 42 ['] DropTrue
+               ['] ((Key)) True $3 TEditLine IfNot False #Goto #Exit Then
+
+            (LastKey) /Enter =
+            If
+               #Buffer @ c@
+               If
+                  #Buffer @ a" ?" 0 Pos* 0<
+                  #Buffer @ a" *" 0 Pos* 0< And
+                  If True #Goto #Exit Then
+               Else
+                  a" *.*" #Buffer @ 0 80 Copy*
+               Then
+            Then
+         Then
+
+         (LASTKEY) /Tab =
+         If
+            #Call #LoadFileNames
+            #Call #ProcessFileNames
+            (LastKey) /Enter = If True #Goto #Exit Then
+            (LastKey) /Esc = If False #Goto #Exit Then
+         Then
+      Again
+
+      #Label #ProcessFileNames \ Все нажатые клавиши сохраняются в (LASTKEY)
+
+         \ #DirFlag: 0 - обычный вход; 1 - глубже; 2 - выше
+
+         #QSBuffer 0!
+         #CX_FLAG Off
+
+         #DirFlag @ 2 = #SP @ 0> And
+         If
+            #SP 1-!
+            #SP @ 12 * #Stack + @ #CX !
+            #SP @ 12 * #Stack + Cell+ @ #CY !
+            #SP @ 12 * #Stack + 8 + @ #SY !
+         Else
+            #DirFlag @ 1 =
+            If
+               #CX @ #SP @ 12 * #Stack + !
+               #CY @ #SP @ 12 * #Stack + Cell+ !
+               #SY @ #SP @ 12 * #Stack + 8 + !
+               #SP 1+!
+            Then
+
+            #CX 0!
+            #CY 0!
+            #SY 0!
+         Then
+
+         #DirFlag 0!
+
+         #Call #LoadFileNames
+         #FilesCount @ IfNot #CX_Flag On Then
+         #Call #ShowFileNames
+         #CX_Flag Off
+
+         #FilesCount @ 0= ?Exit
+
+         Begin
+            Key Dup To (LASTKEY)
+            Case
+               /Left Of
+                  #CX @ 9 * #CY @+ #SY @+
+                  If
+                     #CX @
+                     If
+                        #CX @ #CY @
+                        #CX 1-!
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Else
+                        #SY @ 9 - 0< #IfGoto #Home
+                        9 #SY -!
+                        #Call #ShowFileNames
+                     Then
+                  Then
+               EndOf
+               /PageUp Of
+                  #CX @ 9 * #CY @+ #SY @+
+                  If
+                     #CX @ #CY @ +
+                     If
+                        #CX @ #CY @
+                        #CX 0! #CY 0!
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Else
+                        #SY @ 26 - 0< #IfGoto #Home
+                        26 #SY -!
+                        #Call #ShowFileNames
+                     Then
+                  Then
+               EndOf
+               /Right Of
+                  #CX @ 9 * #CY @+ #SY @+ 1+ #FilesCount @ <
+                  If
+                     #CX @ 2 <
+                     If
+                        #CX @ 1+ 9 * #CY @+ #SY @+ #FilesCount @ <
+                        #IfNotGoto #End
+
+                        #CX @ #CY @
+                        #CX 1+!
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Else
+                        #SY @ 9 + #CX @ 9 * + #CY @+
+                        #FilesCount @ < #IfNotGoto #End
+
+                        9 #SY +!
+                        #Call #ShowFileNames
+                     Then
+                  Then
+               EndOf
+               /PageDown Of
+                  #CX @ 9 * #CY @+ #SY @+ 1+ #FilesCount @ <
+                  If
+                     #FilesCount @ 27 > #IfNotGoto #End
+
+                     #CX @ 2 = #CY @ 8 = And
+                     If
+                        #SY @ 52 + #FilesCount @ < #IfNotGoto #End
+
+                        26 #SY +!
+                        #Call #ShowFileNames
+                     Else
+                        #CX @ #CY @
+                        2 #CX ! 8 #CY !
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Then
+                  Then
+               EndOf
+               /Home Of
+                  #CX @ 9 * #CY @+ #SY @+
+                  If
+                     #Label #Home
+                     #CX 0!
+                     #CY 0!
+                     #SY 0!
+                     #Call #ShowFileNames
+                  Then
+               EndOf
+               /End Of
+                  #CX @ 9 * #CY @+ #SY @+ 1+ #FilesCount @ <
+                  If
+                     #Label #End
+
+                     #FilesCount @ 27 >
+                     If
+                        #FilesCount @ 27 - #SY !
+                        2 #CX !
+                        8 #CY !
+                        #Call #ShowFileNames
+                     Else
+                        #CX @ #CY @
+                        #FilesCount @ 1- 9 /Mod #CX ! #CY !
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Then
+                  Then
+               EndOf
+               /Down Of
+                  #CX @ 9 * #CY @+ #SY @+ 1+ #FilesCount @ <
+                  If
+                     #CY @ 8 < #CX @ 2 < Or
+                     If
+                        #CX @ #CY @
+                        #CY @ 8 < If #CY 1+! Else #CY 0! #CX 1+! Then
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Else
+                        #SY 1+!
+                        #Call #ShowFileNames
+                     Then
+                  Then
+               EndOf
+               /Up Of
+                  #CX @ 9 * #CY @+ #SY @+
+                  If
+                     #CY @ 0> #CX @ 0> Or
+                     If
+                        #CX @ #CY @
+                        #CY @ If #CY 1-! Else 8 #CY ! #CX 1-! Then
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                        #CX @ #CY @
+                        2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Else
+                        #SY 1-!
+                        #Call #ShowFileNames
+                     Then
+                  Then
+               EndOf
+               /Tab Of
+                  #QSBuffer 0!
+                  #Goto #EscPressed
+               EndOf
+               /Esc Of
+                  #QSBuffer c@
+                  If
+                     #QSBuffer 0!
+                     #CX @ #CY @
+                     2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                  Else
+                     #Label #ESCPRESSED
+
+                     #CX_FLAG On
+                     #CX @ #CY @
+                     2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                     Exit
+                  Then
+               EndOf
+               /Enter Of
+                  #CX @ 9 * #CY @+ #SY @+ 32 * #OldHere @+ c@ $10 And
+                  If \ Директория
+                     -1000 To (LastKey)
+                     #CX @ 9 * #CY @+ #SY @+ 32 * #OldHere @+ 9 +
+                     Dup c@ '. = If 2 Else 1 Then #DirFlag !
+                     #Call #ChangeDir
+                  Else \ Файл выбран
+                     #Call #GetCurrentDir
+                     #OutBuffer #CX @ 9 * #CY @+ #SY @+ 32 * #OldHere @+ 9 +
+                     #Buffer @ Concat*
+                  Then
+                  #CX_FLAG On
+                  Exit
+               EndOf
+
+               8 Of
+                  #QSBuffer c@
+                  If
+                     0 #QSBuffer Dup ASCIIzLen + 1- c!
+                     #QSBuffer c@ #IfGoto #QSEnd
+
+                     #CX @ #CY @
+                     2Dup #Call #FillOutBuffer #Call #ShowOutBuffer
+                  Else
+                     Beep
+                  Then
+               EndOf
+
+               10 Of
+                  #QSBuffer c@
+                  If
+                     #CX @ 9 * #CY @+ #SY @+ 1+ #CurrFile !
+                     #CurrFile @ #FilesCount @ <
+                     IfNot #CurrFile 0! Then
+
+                     #Goto #QSGoNext
+                  Else
+                     Beep
+                  Then
+               EndOf
+
+               Range '! '~ Of
+                  #FilesCount @ 1 >
+                  If
+                     #QSBuffer ASCIIzLen Dup #QSLen ! 12 <
+                     If
+                        (LastKey) [Char] a [Char] z Bound
+                        If (LastKey) $5f And To (LastKey) Then
+
+                        (LastKey) Here !
+                        #QSBuffer Here Over Concat*
+                        #QSLen 1+!
+
+                        #CX @ 9 * #CY @+ #SY @+ #CurrFile !
+
+                        #Label #QSGONEXT
+
+                        #FilesCount @ 0
+                        ?Do
+
+                           #CurrFile @ 32 * #OldHere @+ 9 +
+                           #OutBuffer 0 #QSLen @ Copy*
+                           #OutBuffer #QSBuffer Compare*
+                           IfNot
+                              UnLoop
+                              #Goto #QSFIND
+                           Then
+
+                           #CurrFile 1+!
+                           #CurrFile @ #FilesCount @ <
+                           IfNot #CurrFile 0! Then
+                        Loop
+                        Beep
+                        0 #QSBuffer Dup ASCIIzLen + 1- c!
+                        #Goto #QSEND
+
+                        #Label #QSFIND
+
+                        #CX @ 9 * #CY @+ #SY @+
+                        #CurrFile @ =
+                        IfNot
+                           #CurrFile @
+                           #SY @ Dup 26 + Bound
+                           If
+                              #CurrFile @ #SY @ - 9 /Mod #CX ! #CY !
+                           Else
+                              #CurrFile @ 26 >
+                              If
+                                 2 #CX !
+                                 8 #CY !
+                                 #CurrFile @ 26 - #SY !
+                              Else
+                                 #CurrFile @ 9 /Mod #CX ! #CY !
+                                 #SY 0!
+                              Then
+                           Then
+
+                           #Call #ShowFileNames
+                        Then
+
+                        #Label #QSEND
+                        \ Выводим текущее значение QSBuffer
+                        #QSBuffer c@
+                        If
+                           #OutBuffer 14 Bl Fill
+                           #OutBuffer 14 + 0!
+                           #QSBuffer #OutBuffer 1+ Over ASCIIzLen CMove
+
+                           #OutBuffer $3 GF_X 2+ GF_Y 15 + TOutLine
+                           GF_X 3 + #QSBuffer ASCIIzLen + GF_Y 15 + TGotoXY
+                        Then
+                     Then
+                  Then
+               EndOf
+
+                  Drop
+            EndCase
+
+         Again
+
+      #Label #GetCurrentDir
+         GetCurrentDisk 'A + #OutBuffer c!
+         ': #OutBuffer 1+ c!
+         '\ #OutBuffer 2+ c!
+         0 #OutBuffer 3 + GetDir
+         If
+            #OutBuffer Dup ASCIIzLen + 1- c@ '\ =
+            IfNot
+               #OutBuffer a" \\" Over Concat*
+            Then
+         Else
+            #OutBuffer 0!
+         Then
+         Exit
+
+      #Label #ChangeDir ( asc --> )
+         ChangeDir Drop
+
+         #Buffer @
+         Begin
+            Dup a" \\" 0 Pos* Dup -1 <>
+         While
+            + 1+
+         Repeat
+         Drop >R
+
+         #Buffer @ #FindBuffer 0 R> #Buffer @ - Delete*
+         #Call #GetCurrentDir
+         #OutBuffer #FindBuffer #Buffer @ Concat*
+         Exit
+
+      #Label #ShowFileNames
+         3 0
+         Do
+            9 0
+            Do
+               j i #Call #FillOutBuffer
+               j i #Call #ShowOutBuffer
+            Loop
+         Loop
+
+         Exit
+
+      #Label #ClearOutBuffer ( --> )
+         #OutBuffer 14 Bl Fill
+         0 #OutBuffer 14 + c!
+         Exit
+
+      #Label #FillOutBuffer ( x y --> )
+         Over #CX @ = Over #CY @ = And >R
+
+         #Call #ClearOutBuffer
+
+         Swap 9 * + #SY @+ Dup #FilesCount @ <
+         If
+            ( n --> )
+            32 * #OldHere @+ #OutBuffer (FormatFileName)
+         Else
+            Drop
+         Then
+
+         R>
+         If \ Заполняем информационное поле
+            #OutBuffer2 70 Bl Fill
+            0 #OutBuffer2 29 + c!
+
+            #CX @ 9 * #CY @+ #SY @+ 32 * #OldHere @+ Dup>R
+            c@ $10 And
+            If
+               #OutBuffer 1+ @ a" ..  " @ =
+               If  a"  \16;UP--DIR\17;" Else a"  \16;SUB-DIR\17;" Then
+            Else
+               R@ 5 + @ 0 10 RStr 1+
+            Then
+            #OutBuffer2 18 + 10 CMove
+
+            #OutBuffer2 2 + 4 '/ Fill
+            #OutBuffer2 11 + 4 ': Fill
+
+            R@ 3 + w@ $1f And 0 2 RStr 1+ #OutBuffer2 2 CMove
+            R@ 3 + w@ 5 RShift $f And 0 2 ZStr 1+ #OutBuffer2 3 + 2 CMove
+            R@ 3 + w@ 9 RShift $7f And
+              1980 + 100 Mod 0 2 ZStr 1+ #OutBuffer2 6 + 2 CMove
+
+            R@ 1+ w@ 11 Rshift $1f And 0 2 RStr 1+ #OutBuffer2 9 + 2 CMove
+            R@ 1+ w@ 5 Rshift $3f And 0 2 ZStr 1+ #OutBuffer2 12 + 2 CMove
+            R@ 1+ w@ $1f And 0 2 ZStr 1+ #OutBuffer2 15 + 2 CMove
+
+            RDrop
+         Then
+         Exit
+
+      #Label #ShowOutBuffer ( x y --> )
+         Over #CX @ = Over #CY @ = And
+         If
+            #OutBuffer2 $30 GF_X 17 + GF_Y 15 + TOutLine
+            #QSBuffer c@
+            IfNot
+               0 26 TGotoXY
+               #OutBuffer $30 GF_X 2+ GF_Y 15 + TOutLine
+            Then
+
+            $3
+            #CX_Flag @ If Drop $30 Then
+         Else
+            $30
+         Then
+
+         #OutBuffer Swap 2Swap
+         >R 15 * 2+ GF_X + R> GF_Y + 5 + TOutLine
+         Exit
+
+      #Label #LoadFileNames
+         #Buffer @ ASCIIz> >Upper >ASCIIz Drop
+         #Buffer @ Trim_Spaces #Buffer @ 0 80 Copy*
+         #Buffer @ 1+ c@ ': =
+         If
+            #Buffer @c@ 'A - SetCurrentDisk
+            #Buffer @ Dup 0 2 Delete*
+         Then
+
+         #Buffer @
+         Begin
+            Dup a" \\" 0 Pos* Dup -1 <>
+         While
+            + 1+
+         Repeat
+         Drop >R
+
+         #Buffer @ #FindBuffer 0 R@ #Buffer @ - Copy*
+         #FindBuffer c@
+         If
+            #FindBuffer Dup ASCIIzLen + 1- c@ '\ =
+            If
+               0 #FindBuffer Dup ASCIIzLen + 1- c!
+            Then
+         Then
+         #FindBuffer ChangeDir Drop
+         #Buffer @ #FindBuffer 0 R> #Buffer @ - Delete*
+         a" ." #Call #ChangeDir
+
+         #Buffer @ #FindBuffer 0 80 Copy*
+         #FindBuffer a"                                           " Over Concat*
+         #FindBuffer 42 + 0!
+         #FindBuffer $3 GF_X 3 + GF_Y 3 + TOutLine
+
+         #FilesCount 0!
+         #OldHere @ Here - Allot
+
+         a" *.*" 48 #FindBuffer FindFirst
+         If
+            Begin
+               #FindBuffer 30 + w@ a" ." w@ =
+               IfNot
+                  #FindBuffer 21 + c@ $10 And
+                  If
+                     #FindBuffer 21 + Here 32 CMove
+                     32 Allot
+                     #FilesCount 1+!
+                  Then
+               Then
+
+               #FindBuffer FindNext 0=
+            Until
+         Then
+
+         #Buffer @ 33 #FindBuffer FindFirst
+         If
+            Begin
+               #FindBuffer 21 + Here 32 CMove
+               32 Allot
+               #FilesCount 1+!
+
+               #FindBuffer FindNext 0=
+            Until
+         Then
+
+         #FilesCount @ 1 >
+         If
+            #OldHere @ #FilesCount @ 32 ['] (CompareFileNames) Here Sort
+         Then
+
+         Exit
+
+      #Label #Exit
+         0 26 TGotoXY
+         #OldHere @ Here - Allot
+   }
+   TRemoveWindow
+;
+
+>Hidden ((KEY)) (LASTKEY) (FORMATFILENAME) (COMPAREFILENAMES)
+
+\ =============================================================================
+

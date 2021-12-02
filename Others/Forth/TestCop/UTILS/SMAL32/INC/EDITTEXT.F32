@@ -1,0 +1,1052 @@
+
+Comment: **********************************************************************
+
+     Text Editor (single/miltiline edit) by Alexandr Larionov. July 1996
+
+********************************************************************** Comment;
+
+?Use SetGraphMode VGA640
+?Use /F1 KbdCodes
+?Include ResetMouse Mouse
+
+0 Value CLIPBOARD
+
+Comment:
+
+        Формат структуры, хранящей позицию в тексте
+
+           0 - #X
+           4 - #Y
+           8 - #SCRLINE
+           C - #CURLINE
+          10 - #SCREEN
+          14 - #CX
+          18 - #START
+          1C - #END
+          20 - #STARTLINE
+          24 - #ENDLINE
+          ** - reserved
+
+Comment;
+
+: EDITTEXT4 ( asc maxlen maxlines n1 n2 n3 *key *?key fl1 fl2 fl3 addr|0 --> )
+   {
+      #Int #SELECTALL
+      #Int #CLIPFLAG
+      #Int #?KEY
+      #Int #KEY
+      #Int #CURSORCOLOR
+      #Int #BACKCOLOR
+      #Int #CHARCOLOR
+      #Int #MAXLINES
+      #Int #MAXLEN
+      #Int #OLDTEXT
+      #Int #OLDHERE
+      #Int #MOVEOUTFLAG
+      #Int #POSFLAG
+
+      #Int #VIRTCHAR
+      #Int #TIME
+
+      #Int #X         \ Абсолютные координаты курсора
+      #Int #Y         \
+      #Int #SCRLINE   \ Строка в верхней части окна
+
+      #Int #LEN       \ ─┐
+      #Int #CURLINE   \  │ в символах с начала текста
+      #Int #SCREEN    \ ─┘
+
+      #Int #LINES     \ строк в тексте
+      #Int #SCRLINES  \ строк на экране одновременно
+
+      #Int #CX        \ позиция левой части текста в пикселах
+
+      #Int #ADDR
+      #Int #ADDR2
+      #Int #ADDR3
+      #Int #ADDR4
+
+      #Int #OUTFLAG
+      #Int #HIDEFLAG
+      #Int #REPKEY
+      #Int #REPCODE
+
+      #Int #START
+      #Int #END
+      #Int #STARTLINE
+      #Int #ENDLINE
+      #Int #LASTLINE
+      #Int #LASTSHIFT
+
+      #PosFlag ! #MoveOutFlag ! #SelectAll ! #ClipFlag ! #?Key ! #Key !
+      #CursorColor ! #BackColor ! #CharColor !
+      #MaxLines ! #MaxLen ! #OldText !
+
+      Here #OldHere !
+
+      Here Here #VIRTCHAR !
+      GetFont 8 + @ 8 * GetFont $c + @ 2Dup GetVirtBufferSize Allot
+      InitVirtScreen
+
+      #Lines 0!
+      #Len 0!
+      Begin
+         #OldText @ #Len @+ a" \r\n" 0 Pos* Dup 0< Not
+      While
+         2+ #Len +!
+         #Lines 1+!
+         #Lines @ #MaxLines @ = If #Len 2-! 0 #OldText @ #Len @+ c! Then
+      Repeat
+      Drop
+      #Lines 1+!
+      #OldText @ ASCIIzLen #Len !
+
+      #Start 0!
+      #SelectAll @ #ClipFlag @ And
+      If
+         #Len @ #Start !
+         #End 0!
+         #Lines @ #StartLine !
+         #EndLine 0!
+         True #LastShift !
+      Else
+         #End 0!
+         #LastShift 0!
+      Then
+
+      #X 0! #Y 0! #Screen 0! #CX 0! #ScrLine 0!
+      0 #CurLine ! Y2 @ Y1 @ - 1+ GetFont $c + @ / Dup #ScrLines !
+      IfNot #OldText @ Here - Allot False Exit Then
+
+      GetVirtScreen >R Color @ >R AuxColor @ >R
+      #VirtChar @ SetVirtScreen
+      GetFont V-SetFont
+
+      #CharColor @ Dup Color ! V-Color !
+      #BackColor @ Dup AuxColor ! V-AuxColor !
+
+      #PosFlag @
+      If
+         #PosFlag @ 2@ Or
+         If
+            #PosFlag @@ #X !
+            #PosFlag @Cell+@ #Y !
+            #PosFlag @2Cells+@ #SCRLINE !
+            #PosFlag @3Cells+@ #CURLINE !
+            #PosFlag @ 4 Cells+ @ #SCREEN !
+            #PosFlag @ 5 Cells+ @ #CX !
+            #PosFlag @ 6 Cells+ @ #START !
+            #PosFlag @ 7 Cells+ @ #END !
+            #PosFlag @ 8 Cells+ @ #STARTLINE !
+            #PosFlag @ 9 Cells+ @ #ENDLINE !
+         Then
+      Then
+
+      HideMouse
+      #HideFlag Off
+      #RepKey Off
+      #Call #OutWindow2
+
+      Y1 @ >R
+      #ScrLines @ GetFont $c + @ * Y1 +!
+      #BackColor @ FillWindow
+      R> Y1 !
+
+      20 #Time !
+      PutMouse
+
+      Begin
+         #Call #KeyPressed
+         If
+            HideMouse
+            20 #Time !
+            #Call #CursorOff
+
+            #Call #ReadKey
+
+            Case
+               27 Of
+                  #PosFlag @
+                  If
+                     #X @ #PosFlag @!
+                     #Y @ #PosFlag @ Cell+ !
+                     #SCRLINE @ #PosFlag @ 2 Cells+ !
+                     #CURLINE @ #PosFlag @ 3 Cells+ !
+                     #SCREEN @ #PosFlag @ 4 Cells+ !
+                     #CX @ #PosFlag @ 5 Cells+ !
+                     #START @ #PosFlag @ 6 Cells+ !
+                     #END @ #PosFlag @ 7 Cells+ !
+                     #STARTLINE @ #PosFlag @ 8 Cells+ !
+                     #ENDLINE @ #PosFlag @ 9 Cells+ !
+                  Else
+                     #Start @ #End @ Or #IfCall #UnMark
+                  Then
+                  #Goto #EndEdit
+               EndOf
+               /Ctrl+C Of
+                  ClipBoard If ClipBoard Dispose 0 To ClipBoard Then
+                  #Start @ #End @ >
+                  If #Start #End Exchange #StartLine #EndLine Exchange Then
+                  Free #End @ #Start @ - <
+                  IfNot
+                     #End @ #Start @ - 1+ 0 0 New
+                     If
+                        Dup
+                        #Start @ #OldText @+ Swap
+                        #End @ #Start @ - Dup>R CMove
+                        R> + 0 Swap c!
+                        To ClipBoard
+                     Then
+                  Then
+                  #LastShift On
+                  #Call #ProcessBlock
+               EndOf
+               /Ctrl+X Of
+                  ClipBoard If ClipBoard Dispose 0 To ClipBoard Then
+                  #Start @ #End @ >
+                  If #Start #End Exchange #StartLine #EndLine Exchange Then
+                  Free #End @ #Start @ - <
+                  IfNot
+                     #End @ #Start @ - 1+ 0 0 New
+                     If
+                        Dup
+                        #Start @ #OldText @+ Swap
+                        #End @ #Start @ - Dup>R CMove
+                        R> + 0 Swap c!
+                        To ClipBoard
+                     Then
+                  Then
+                  #LastShift On
+                  #Call #DeleteBlock
+               EndOf
+               /Ctrl+V Of
+                  ClipBoard
+                  If
+                     #HideFlag On
+                     #End @ #Start @ Or #IfCall #DeleteBlock
+                     -1 #RepKey !
+                     #RepCode 0!
+                  Then
+               EndOf
+               /Ctrl+Y Of
+                  #Call #ProcessHome
+                  #CurLine @ #Start !
+                  #CurLine @ #Call #NextLine #End !
+                  #Y @ #StartLine !
+                  #Y @ Dup #Lines @ 1- = IfNot 1+ Then #EndLine !
+                  #Call #DeleteBlock
+               EndOf
+               /Right Of
+                  #Call #ProcessBlock
+                  #Call #ProcessRight
+               EndOf
+               /Left Of
+                  #Call #ProcessBlock
+                  #Call #ProcessLeft
+               EndOf
+               /Ctrl+Right Of
+                  #Call #ProcessBlock
+                  #CurLine @ #X @+ #OldText @+ c@
+                  If
+                     #HideFlag On
+                     Begin
+                        #CurLine @ #X @+ #OldText @+ c@ Bl >
+                     While
+                        #Call #ProcessRight
+                     Repeat
+
+                     Begin
+                        #CurLine @ #X @+ #OldText @+ c@ 1 Bl Bound
+                     While
+                        #Call #ProcessRight
+                     Repeat
+
+                     #HideFlag Off
+                  Then
+               EndOf
+               /Ctrl+Left Of
+                  #Call #ProcessBlock
+                  #X @ #Y @ Or
+                  If
+                     #Call #ProcessLeft
+                     #HideFlag On
+                     Begin
+                        #CurLine @ #X @+ #OldText @+ c@ Bl >
+                        #X @ #Y @ Or And
+                     While
+                        #Call #ProcessLeft
+                     Repeat
+
+                     Begin
+                        #CurLine @ #X @+ #OldText @+ c@ 1 Bl Bound
+                        #X @ #Y @ Or And
+                     While
+                        #Call #ProcessLeft
+                     Repeat
+                     #Call #ProcessRight
+
+                     #HideFlag Off
+                  Then
+               EndOf
+               Set /Ctrl+Home /Ctrl+PageUp Of
+                  #Call #ProcessBlock
+                  #X @
+                  If
+                     #Y @
+                     If
+                        #Y 0!
+                        #CurLine 0!
+                        #X 0!
+                        #ScrLine @ 0> #CX @ 0> Or
+                        If
+                           #ScrLine 0!
+                           #CX 0!
+                           #Screen 0!
+                           #Call #OutWindow
+                        Then
+                     Else
+                        #X 0!
+                        #CX @
+                        If
+                           #CX 0!
+                           #Call #OutWindow
+                        Then
+                     Then
+                  Else
+                     #Y @
+                     If
+                        #Y 0!
+                        #CurLine 0!
+                        #Screen 0!
+                        #ScrLine @
+                        If
+                           #ScrLine 0!
+                           #Call #OutWindow
+                        Then
+                     Then
+                  Then
+               EndOf
+               /Home Of
+                  #Call #ProcessBlock
+                  #Call #ProcessHome
+               EndOf
+               Set /Ctrl+End /Ctrl+PageDown Of
+                  #Call #ProcessBlock
+                  #CurLine @ #OldText @+ #X @+ c@
+                  If
+                     #Lines @ 1 >
+                     If
+                        #Len @ 2+ #Call #PrevLine #CurLine !
+                     Then
+                     #Lines @ 1- #Y !
+                     #CurLine @ #OldText @+ ASCIIzLen #X !
+                     #CurLine @ #OldText @+ #X @ GetLineWidth
+                     X2 @ 1+ X1 @ - - Dup 0<
+                     If
+                        Drop
+                        #CX 0!
+                     Else
+                        1+ #CX !
+                     Then
+                     #CurLine @
+                     #ScrLines @ 1
+                     ?Do
+                        #Call #PrevLine
+                     Loop
+                     #Screen !
+                     #Lines @ #ScrLines @ - 0 Max #ScrLine !
+                     #Call #OutWindow
+                  Then
+               EndOf
+               /End Of
+                  #Call #ProcessBlock
+                  #CurLine @ #OldText @+ a" \r\n" 0 Pos* Dup 0<
+                  If
+                     Drop
+                     #CurLine @ #OldText @+ ASCiizLen
+                  Then
+                  #X !
+                  #CX @ >R
+                  #CurLine @ #OldText @+ #X @ GetLineWidth X2 @ 1+ X1 @ - -
+                  Dup 0<
+                  If
+                     Drop #CX 0!
+                  Else
+                     1+ #CX !
+                  Then
+                  #CX @ R> = #IfNotCall #OutWindow
+               EndOf
+               /Up Of
+                  #Call #ProcessBlock
+                  #Y @
+                  If
+                     #CurLine @ #OldText @+ #X @ GetLineWidth >R
+                     #Addr4 Off
+
+                     #CurLine @ #Call #PrevLine #CurLine !
+                     #Y @ #ScrLine @ =
+                     If
+                        #ScrLine 1-!
+                        #Screen @ #Call #PrevLine #Screen !
+                        #Addr4 On
+                     Then
+                     #Y 1-!
+
+                     R> #Addr !
+                     $7fffffff #Addr3 !
+                     #Addr2 0!
+
+                     Begin
+                        #CurLine @ #OldText @+ #Addr2 @ GetLineWidth
+                        #Addr @ - Abs Dup #Addr3 @ <
+                     While
+                        #Addr3 !
+                        #Addr2 @ #CurLine @+ #OldText @+ w@
+                        Dup $a0d = Swap 255 And 0= Or
+                        #Addr2 1+!
+                        #IfGoto #End/Up
+                     Repeat
+                     Drop
+                     #Label #End/Up
+                     #Addr2 @ 1- #X !
+
+                     #CurLine @ #OldText @+ #X @ GetLineWidth Dup #Addr3 !
+                     #CX @ - 0 X2 @ X1 @ - Bound
+                     IfNot
+                        #Addr3 @ #CX @ <
+                        If
+                           #Addr3 @
+                        Else
+                           #Addr3 @ X2 @ X1 @ - -
+                        Then
+                        #CX !
+                        #Addr4 On
+                     Then
+
+                     #Addr4 @ #IfCall #OutWindow
+                  Else
+                     #MoveOutFlag @ #IfCall #SetExit
+                  Then
+               EndOf
+               /Down Of
+                  #Call #ProcessBlock
+                  #Y @ #Lines @ 1- <
+                  If
+                     #CurLine @ #OldText @+ #X @ GetLineWidth >R
+                     #Addr4 Off
+
+                     #CurLine @ #Call #NextLine #CurLine !
+                     #Y @ #ScrLine @ #ScrLines @+ 1- =
+                     If
+                        #ScrLine 1+!
+                        #Screen @ #Call #NextLine #Screen !
+                        #Addr4 On
+                     Then
+                     #Y 1+!
+
+                     R> #Addr !
+                     $7fffffff #Addr3 !
+                     #Addr2 0!
+
+                     Begin
+                        #CurLine @ #OldText @+ #Addr2 @ GetLineWidth
+                        #Addr @ - Abs Dup #Addr3 @ <
+                     While
+                        #Addr3 !
+                        #Addr2 @ #CurLine @+ #OldText @+ w@
+                        Dup $a0d = Swap 255 And 0= Or
+                        #Addr2 1+!
+                        #IfGoto #End/Down
+                     Repeat
+                     Drop
+                     #Label #End/Down
+                     #Addr2 @ 1- #X !
+
+                     #CurLine @ #OldText @+ #X @ GetLineWidth Dup #Addr3 !
+                     #CX @ - 0 X2 @ X1 @ - Bound
+                     IfNot
+                        #Addr3 @ #CX @ <
+                        If
+                           #Addr3 @
+                        Else
+                           #Addr3 @ X2 @ X1 @ - -
+                        Then
+                        #CX !
+                        #Addr4 On
+                     Then
+
+                     #Addr4 @ #IfCall #OutWindow
+                  Else
+                     #MoveOutFlag @ #IfCall #SetExit
+                  Then
+               EndOf
+               /PageUp Of
+                  #Call #ProcessBlock
+                  #HideFlag On
+                  #ScrLines @ 1- 1 UMax #RepKey !
+                  /Up #RepCode !
+               EndOf
+               /PageDown Of
+                  #Call #ProcessBlock
+                  #HideFlag On
+                  #ScrLines @ 1- 1 UMax #RepKey !
+                  /Down #RepCode !
+               EndOf
+               /Delete Of
+                  #End @ #Start @ Or
+                  If
+                     #Call #DeleteBlock
+                  Else
+                     #CurLine @ #X @+ #OldText @+ c@
+                     If
+                        #CurLine @ #X @+ #OldText @+ w@ $a0d =
+                        If
+                           #Len 2-!
+                           #Lines 1-!
+                           #CurLine @ #X @+ #OldText @+ 2+ Dup 2-
+                           #Len @ #CurLine @ #X @+ - 1+ CMove
+
+                           #ScrLines @ #Y @ #ScrLine @ -
+                           ?Do
+                              #Call #KeyPressed
+                              If
+                                 #OutFlag On
+                                 Leave
+                              Then
+                              i #Call #OutLine
+                           Loop
+                        Else
+                           #Len 1-!
+                           #CurLine @ #X @+ #OldText @+ 1+ Dup 1-
+                           #Len @ #CurLine @ #X @+ - 1+ CMove
+                           #Y @ #ScrLine @ - #Call #OutLine
+                        Then
+                     Then
+                  Then
+               EndOf
+               8 Of
+                  #End @ #Start @ Or
+                  If
+                     #Call #DeleteBlock
+                  Else
+                     1 #RepKey !
+                     /Delete #RepCode !
+                     #Call #ProcessLeft
+                  Then
+               EndOf
+               10 Of EndOf
+               13 Of
+                  #End @ #Start @ Or
+                  If
+                     #Call #DeleteBlock
+                  Then
+                  #Len @ 2+ #MaxLen @ > Not #Lines @ #MaxLines @ < And
+                  If
+                     #CurLine @ #X @+ #OldText @+ Dup 2+
+                     #Len @ #CurLine @ #X @+ - 1+ Cmove>
+                     $a0d #CurLine @ #X @+ #OldText @+ w!
+                     #X @ 2+ #CurLine +!
+                     #X 0!
+                     #Y 1+!
+                     #Len 2+!
+                     #Lines 1+!
+
+                     #Addr4 Off
+
+                     #ScrLine @ #ScrLines @+ #Y @ =
+                     If
+                        #ScrLine 1+!
+                        #Screen @ #Call #NextLine #Screen !
+                        #Addr4 On
+                     Then
+                     #CX @ If #CX 0! #Addr4 On Then
+
+                     #Addr4 @ #Y @ #ScrLine @ - 1 = Or
+                     If
+                        #Call #OutWindow
+                     Else
+                        #ScrLines @ #Y @ #ScrLine @ - 1-
+                        ?Do
+                           #Call #KeyPressed
+                           If
+                              #OutFlag On
+                              Leave
+                           Then
+                           i #Call #OutLine
+                        Loop
+                     Then
+
+                  Then
+               EndOf
+                  Dup Bl 255 Bound
+                  If
+                     #End @ #Start @ Or
+                     If
+                        #Call #DeleteBlock
+                     Then
+                     #End Off #Start Off
+                     #LastShift Off
+
+                     #Len @ #MaxLen @ <
+                     If
+                        #CurLine @ #X @+ #OldText @+ Dup 1+
+                        #Len @ #CurLine @ #X @+ - 1+ Cmove>
+                        #CurLine @ #X @+ #OldText @+ c!
+                        #Len 1+!
+
+                        #CurLine @ #OldText @+ #X @ 1+ GetLineWidth #CX @ -
+                        0 X2 @ X1 @ - Bound
+                        If
+                           #X 1+!
+                           #Y @ #ScrLine @ - #Call #OutLine
+                        Else
+                           #Call #ProcessRight
+                        Then
+                     Else
+                        Drop
+                     Then
+                  Else
+                     Drop
+                  Then
+            EndCase
+
+            #Call #ProcessBlock
+            PutMouse
+
+         Else
+            HideMouse
+            #OutFlag @ #IfCall #OutWindow
+            PutMouse
+         Then
+
+         #HideFlag @
+         IfNot
+            #Time @ 20 =
+            If
+               #CursorColor @ Color !
+               HideMouse
+               #Call #CursorOn
+               PutMouse
+            Else
+               #Time @ 7 = If HideMouse #Call #CursorOff PutMouse Then
+            Then
+
+            #Time 1-!
+            #Call #KeyPressed
+            IfNot 35 Delay Then
+            #Time @ IfNot 20 #Time ! Then
+         Then
+
+      Again
+
+      #Label #OUTLINE ( Line#[0..] --> )
+         #HideFlag @ If Drop #OutFlag On Exit Then
+         #Screen @ #Addr !
+         Dup GetFont $c + @ * GetWindow 2Drop Rot + GotoXY
+
+         Begin
+            Dup
+         While
+            #Addr @ #OldText @+ a" \r\n" 0 Pos*
+            Dup 0<
+            If
+               2Drop
+               \ Empty line
+               #Goto #EmptyLine
+            Else
+               2+ #Addr +!
+            Then
+            1-
+         Repeat
+         Drop
+
+         #OldText @ #Addr +!
+         #Addr @ a" \r\n" 0 Pos* Dup 0<
+         If Drop #Addr @ ASCIIzLen Then
+         Dup #Addr2 !  \ Длина строки
+         #Addr3 0!     \ Начальный символ
+         \ Empty line?
+         #IfNotGoto #EmptyLine
+
+         Begin
+            #Addr @ #Addr3 @ GetLineWidth #CX @ <
+         While
+            #Addr3 1+!
+            #Addr3 @ #Addr2 @ = #IfGoto #EmptyLine
+         Repeat
+
+         #Addr @ #Addr3 @ GetLineWidth #CX @ >
+         If
+            \ Выводим первый символ, частично видимый
+            0 0 V-GotoXY
+
+            #CharColor @ V-Color !
+            #BackColor @ V-AuxColor !
+
+            #Addr @ #Addr3 @+ 1- #OldText @ -
+            #Start @ #End @ 2Dup > If Swap Then WithIn
+            If V-Color V-AuxColor Exchange Then
+
+            #Addr @ #Addr3 @+ 1- c@ V-OutChar2
+            #Addr @ #Addr3 @ GetLineWidth #CX @ - Dup>R PosX +!
+            #Addr @ #Addr3 @+ 1- 1 GetLineWidth R@ - 0 R> V-Y-Size V-SetWindow
+            X1 @ PosY @ ShowVirtWindow
+            \ #Addr3 1+!
+         Then
+         #Addr3 @ #Addr2 @ = #IfGoto #EmptyLine
+
+         \ Выводим всю строку
+         Begin
+            #Addr @ #Addr3 @+ 1 GetLineWidth PosX @+ X2 @ 1+ <
+         While
+
+            #CharColor @ Color !
+            #BackColor @ AuxColor !
+
+            #Addr @ #Addr3 @+ #OldText @ -
+            #Start @ #End @ 2Dup > If Swap Then WithIn
+            If Color AuxColor Exchange Then
+
+            #Addr @ #Addr3 @+ c@ OutChar2
+            #Addr3 1+!
+            #Addr3 @ #Addr2 @ = #IfGoto #EmptyLine
+         Repeat
+
+         PosX @ X2 @ >
+         IfNot
+            \ Выводим последний символ, частично видимый
+            0 0 V-GotoXY
+
+            #CharColor @ V-Color !
+            #BackColor @ V-AuxColor !
+
+            #Addr @ #Addr3 @+ #OldText @ -
+            #Start @ #End @ 2Dup > If Swap Then WithIn
+            If V-Color V-AuxColor Exchange Then
+
+            #Addr @ #Addr3 @+ c@ V-OutChar2
+            0 0 X2 @ 1+ PosX @ - V-Y-Size V-SetWindow
+            PosX @ PosY @ ShowVirtWindow
+         Then
+
+         Exit
+
+      #Label #EMPTYLINE
+         GetWindow
+         PosX @ PosY @ X2 @ 1+ PosX @ - GetFont $c + @ SetWindow
+         #BackColor @ FillWindow
+         SetWindow
+         Exit
+
+      #Label #OUTWINDOW
+         #OutFlag On
+         #HideFlag @ ?Exit
+         #ScrLines @ 0
+         Do
+            #Call #KeyPressed If Exit Then
+            i #Call #OutLine
+         Loop
+         #OutFlag Off
+         Exit
+
+      #Label #OUTWINDOW2
+         #OutFlag Off
+         #ScrLines @ 0
+         Do
+            i #Call #OutLine
+         Loop
+         Exit
+
+      #Label #PROCESSRIGHT
+         #CurLine @ #X @+ #OldText @+ c@ 0=
+         If
+            #MoveOutFlag @ #IfCall #SetExit
+         Else
+            #CurLine @ #X @+ #OldText @+ w@ $a0d =
+            If
+               #CX @ 0> #Y @ #ScrLine @ - 1+ #ScrLines @ = Or
+               #X @ 2+ #CurLine +!
+               #Y 1+!
+               #X 0!
+               #CX 0!
+               If
+                  #Y @ #ScrLine @ - #ScrLines @ =
+                  If
+                     #ScrLine 1+!
+                     #Screen @ #OldText @+ a" \r\n" 0 Pos*
+                     2+ #Screen +!
+                  Then
+                  #Call #OutWindow
+               Then
+            Else
+               #X 1+!
+               #CurLine @ #OldText @+ #X @ GetLineWidth #CX @ -
+               X2 @ X1 @ - 1+ <
+               IfNot
+                  #CurLine @ #OldText @+ #X @ GetLineWidth
+                  X2 @ X1 @ - 1+
+                  - 1+ #CX !
+                  #Call #OutWindow
+               Then
+            Then
+         Then
+         Exit
+
+      #Label #PROCESSLEFT
+         #X @
+         If
+            #X 1-!
+            #CurLine @ #OldText @+ #X @ GetLineWidth #CX @ <
+            If
+               #CurLine @ #OldText @+ #X @ GetLineWidth #CX !
+               #Call #OutWindow
+            Then
+         Else
+            #Y @
+            If
+               #Y @ #ScrLine @ = Dup>R
+               If
+                  #Screen @ #Call #PrevLine #Screen !
+                  #ScrLine 1-!
+               Then
+               #CurLine @ #Call #PrevLine #CurLine !
+               #Y 1-!
+
+               #CurLine @ #OldText @+ Dup a" \r\n" 0 Pos*
+               Dup #X ! GetLineWidth X2 @ 1+ X1 @ - - Dup 0<
+               If
+                  Drop
+                  R> #IfCall #OutWindow
+               Else
+                  RDrop
+                  1+ #CX !
+                  #Call #OutWindow
+               Then
+            Else
+               #MoveOutFlag @ #IfCall #SetExit
+            Then
+         Then
+         Exit
+
+      #Label #PROCESSHOME
+         #X @
+         If
+            #X 0!
+            #CX @
+            If
+               #CX 0!
+               #Call #OutWindow
+            Then
+         Then
+         Exit
+
+      #Label #PREVLINE ( off1 --> off2 )
+         Dup If 2- #Addr ! Else Exit Then
+
+         Begin
+            #Addr @
+            If
+               #Addr 1-!
+               #Addr @ #OldText @+ w@ $a0d =
+               If
+                  #Addr @ 2+ Exit
+               Then
+            Else
+               #Addr @ Exit
+            Then
+         Again
+
+      #Label #NEXTLINE ( off1 --> off2 )
+         Dup>R
+         #OldText @+ a" \r\n" 0 Pos* Dup 0<
+         If
+            Drop R>
+         Else
+            R> + 2+
+         Then
+         Exit
+
+      #Label #CURSORON
+         #HideFlag @ ?Exit
+         #CursorColor @ Color !
+         #CurLine @ #OldText @+ #X @ GetLineWidth #CX @ - X1 @+
+         #Y @ #ScrLine @ - GetFont $c + @ * Y1 @+
+         2Dup GetFont $c + @ 1- + Line
+         #CharColor @ Color !
+         Exit
+
+      #Label #DRAWCHAR ( char --> )
+         #CharColor @ Color !
+         #BackColor @ AuxColor !
+
+         #CurLine @ #X @+
+         #Start @ #End @ 2Dup > If Swap Then WithIn
+         If Color AuxColor Exchange Then
+
+         255 And OutChar2
+         Exit
+
+      #Label #CURSOROFF
+         #HideFlag @ ?Exit
+         #CurLine @ #OldText @+ #X @ GetLineWidth #CX @ - X1 @+
+         #Y @ #ScrLine @ - GetFont $c + @ * Y1 @+ GotoXY
+         PosX @ #CurLine @ #X @+ #OldText @+ 1 GetLineWidth + X2 @ <
+         IfNot
+            #Label #COFF2
+            #BackColor @ Color !
+            PosX @ PosY @ 2Dup GetFont $c + @ + 1- Line
+            #CharColor @ Color !
+         Else
+            #CurLine @ #X @+ #OldText @+ w@ Dup $a0d = Over 255 And 0= Or
+            If
+               Drop
+               #Goto #COff2
+            Else
+               #Call #DrawChar
+            Then
+         Then
+         Exit
+
+      #Label #SETEXIT
+         1 #RepKey !
+         27 #RepCode !
+         Exit
+
+      #Label #KEYPRESSED ( --> flag )
+         #RepKey @ If True Exit Then
+         #OldText @ #?Key @Execute Press
+         Exit
+
+      #Label #READKEY ( --> char )
+         #RepKey @
+         If
+            #RepKey @ 0<
+            If
+               #RepCode @ ClipBoard Address + Dup c@ Swap 1+ c@
+               If #RepCode 1+! Else #RepKey 0! #HideFlag Off Then
+               Exit
+            Else
+               #RepKey 1-!
+               #RepKey @ IfNot #HideFlag Off Then
+               #RepCode @ Exit
+            Then
+         Then
+         #X @ #Y @ #OldText @ #Key @Execute 2Press Press
+         Exit
+
+      #Label #SHIFTPRESSED ( --> flag )
+         #ClipFlag @ ?False
+         $417 BIOSSelector ac@ 3 And 0= 0=
+         Exit
+
+      #Label #PROCESSBLOCK
+         #LastShift @
+         If
+            #Call #ShiftPressed
+            If
+               #CurLine @ #X @+ #End !
+               #Y @ #EndLine !
+               #Call #Mark
+            Else
+               #LastShift Off
+               #Start @ #End @ >
+               If #Start #End Exchange #StartLine #EndLine Exchange Then
+               #Start @ #End @ = If #End Off #Start Off Then
+               #Call #UnMark
+            Then
+         Else
+            #Call #ShiftPressed
+            If
+               #CurLine @ #X @+ Dup #Start ! #End !
+               #Y @ Dup Dup #StartLine ! #EndLine ! #LastLine !
+               #LastShift On
+               #Call #Mark
+            Else
+               #Call #UnMark
+            Then
+         Then
+         Exit
+
+      #Label #UNMARK
+         #End @ #Start @ Or 0= ?Exit
+         #End 0! #Start 0!
+         #ScrLines @ 0
+         Do
+            i #ScrLine @+ #StartLine @ #EndLine @ 2Dup > If Swap Then Bound
+            If i #Call #OutLine Then
+         Loop
+         Exit
+
+      #Label #MARK
+         ( #LastLine @ 0< #HideFlag @ Or #End @ 0= Or ?Exit )
+         #ScrLines @ 0
+         Do
+            i #ScrLine @+ #LastLine @ #EndLine @ 2Dup > If Swap Then Bound
+            If i #Call #OutLine Then
+         Loop
+         #EndLine @ #LastLine !
+         Exit
+
+      #Label #DELETEBLOCK
+         #End @ #Start @ Or 0= ?Exit
+         #Start @ #End @ >
+         If #Start #End Exchange #StartLine #EndLine Exchange Then
+         #End @ #OldText @+ #Start @ #OldText @+
+         #Len @ #End @ - 1+ CMove
+         #End @ #Start @ - #Len -!
+         #EndLine @ #StartLine @ - #Lines -!
+
+         #CurLine @ #X @+ #End @ =
+         If
+            #Start @ 2+ #Call #PrevLine #CurLine !
+            #StartLine @ #Y !
+            #Start @ #CurLine @ - #X !
+
+            #Start @ #Screen @ >
+            IfNot
+               #CurLine @ #Screen !
+               #StartLine @ #ScrLine !
+               -1 #EndLine !
+            Then
+
+            #CurLine @ #OldText @+ #X @ GetLineWidth #CX @ -
+            0 X2 @ X1 @ - Bound
+            IfNot
+               #CurLine @ #OldText @+ #X @ GetLineWidth #CX !
+               -1 #EndLine !
+            Then
+         Then
+
+         #End 0! #Start 0!
+         #StartLine @ #EndLine @ =
+         If
+            #StartLine @ #ScrLine @ - #Call #OutLine
+         Else
+            #Call #OutWindow
+         Then
+
+         #EndLine 0! #StartLine 0!
+         #LastShift Off
+         #Call #ProcessBlock
+         Exit
+
+      #Label #ENDEDIT
+         R> AuxColor !
+         R> Color !
+         R> SetVirtScreen
+         #OldHere @ Here - Allot
+         PutMouse
+   }
+;
+
+: EDITTEXT ( asc maxlen maxlines n1 n2 n3 *key *?key fl1 --> )
+   False False 0 EditText4
+;
+
+: EDITTEXT2 ( asc maxlen maxlines n1 n2 n3 *key *?key fl1 fl2 --> )
+   False 0 EditText4
+;
+
+: EDITTEXT3 ( asc maxlen maxlines n1 n2 n3 *key *?key fl1 fl2 fl3 --> )
+   0 EditText4
+;

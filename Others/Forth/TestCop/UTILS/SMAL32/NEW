@@ -1,0 +1,37 @@
+EDITTEXT4
+   see edittext.f32
+2V*-библиотеки
+   Если доступен VESA 2.0+. Работают быстрее стандартных.
+STI
+SIZEOF ( --> n )
+mov segreg,...
+V-SETVIRTSCREEN
+V-GETVIRTSCREEN
+V-SHOWVIRTWINDOW
+MOD - исправлена ошибка
+UMOD ( u1 u1 --> u3 )
+FREDIRECT ( fh-src fh-dest --> flag )
+   Весь вывод в fh-src приводит к выводу в fh-dest
+FROM ( --> x )
+   Противоположность TO
+GETBIT ( u n --> flag )
+SETBIT ( u1 n --> u2 )
+CLEARBIT ( u1 n --> u2 )
+INVERTBIT ( u1 n --> u2 )
+DSQRT
+   исправлена ошибка
+BIT! ( flag a-addr n --> )
+BIT@ ( a-addr n --> flag )
+?DROP ( n true | false --> )
+IRQ5 bug fixed
+NDROP ( ... n --> )
+Assembler:
+   RC RNC RZ RNZ RA RNA RPO RPE RO RNO RG RNG RL RNL RE RB
+   RNAE RAE RNB RNE RBE RNBE RP RNP RNGE RGE RLE RNLE
+GET_FILE (from get_file.f32)
+   see vgatext.f32
+GETCURRENTDISK ( --> n[0=A] )
+SETCURRENTDISK ( n[0=A] --> )
+TRIM_SPACES ( asc1 --> asc2 )
+PACKDATE ( sec min hour day month year --> unix_date )
+UNPACKDATE ( unix_date --> sec min hour day month year )

@@ -1,0 +1,1739 @@
+Use VGA640
+Use RANDOM
+Use KBDCODES
+
+LoadFont BOLD bold
+LoadFont COPFONT copsym3
+
+	0 Value FILENAME
+      Black Value FILE-TITLE
+ Light-Blue Value FILE-NAME
+  Dark-Gray Value FILE-BACK
+      White Value FILE-CURSOR
+        Red Value ERROR-TEXT
+
+ 50 Value FILE-X
+150 Value FILE-Y
+
+0 Value Handle
+
+CREATE COPCFG_STD ( Loding data module for "Standard" addressing)
+ 0 0 LOADDATA standart.rcp
+CREATE;
+
+CREATE COPCFG_PEREDN ( Loading data module for "Front door" addressing)
+ 0 0 LOADDATA peredn.rcp
+CREATE;
+
+CREATE COPCFG_BCK ( Loading data module for "Back door" addressing)
+ 0 0 LOADDATA zadn.rcp
+CREATE;
+
+Variable COP_DATA_ADDRESS
+Variable COP_CFG_NUM
+
+false Value STARTWITHFILE
+false Value DEMOMODE
+
+
+3 Constant COP_CFG_COUNT ( Number of configurations)
+
+0 Value COPDATABLOCK
+
+
+( =================COP constants, offsets in memory block=========================)
+( Cpnstants for contract file)
+ 00 Constant COPFILE_LABEL ( File label)
+ 04 Constant COPFILE_FLOORCOUNT ( Floor number)
+ 05 Constant COPFILE_CPI ( Position indicator is presented)
+ 06 Constant COPFILE_CDL ( Direction indicator is presented)
+ 07 Constant COPFILE_OLS ( Overload indicator is presented)
+ 08 Constant COPFILE_BUZ ( Bell is presented)
+ 09 Constant COPFILE_ICU ( Intercom is presented)
+ 10 Constant COPFILE_ESK ( Fire key is presented)
+ 11 Constant COPFILE_ISS ( Independent service key is presented)
+ 12 Constant COPFILE_FAN ( Fan key is presented)
+ 13 Constant COPFILE_DOB ( Open door button is presented)
+ 14 Constant COPFILE_DCB ( Close door button is presented)
+ 15 Constant COPFILE_BB ( Bell button is presented)
+ 16 Constant COPFILE_CFG ( Port configuration number) 
+
+( Buttons)
+ 00 Constant ADDR_CB00
+ 01 Constant ADDR_CB01
+ 02 Constant ADDR_CB02
+ 03 Constant ADDR_CB03
+ 04 Constant ADDR_CB04
+ 05 Constant ADDR_CB05
+ 06 Constant ADDR_CB06
+ 07 Constant ADDR_CB07
+ 08 Constant ADDR_CB08
+ 09 Constant ADDR_CB09
+ 10 Constant ADDR_CB10
+ 11 Constant ADDR_CB11
+ 12 Constant ADDR_CB12
+ 13 Constant ADDR_CB13
+ 14 Constant ADDR_CB14
+ 15 Constant ADDR_CB15
+ 16 Constant ADDR_CB16
+ 17 Constant ADDR_CB17
+ 18 Constant ADDR_CB18
+ 19 Constant ADDR_CB19
+ 20 Constant ADDR_CB20
+ 21 Constant ADDR_CB21
+ 22 Constant ADDR_CB22
+ 23 Constant ADDR_CB23
+ 24 Constant ADDR_CB24
+ 25 Constant ADDR_CB25
+ 26 Constant ADDR_CB26
+ 27 Constant ADDR_CB27
+ 28 Constant ADDR_CB28
+ 29 Constant ADDR_CB29
+ 30 Constant ADDR_CB30
+ 31 Constant ADDR_CB31
+ 32 Constant ADDR_DOB
+ 33 Constant ADDR_DCB
+ 34 Constant ADDR_BELLB
+
+( Keys)
+ 64 Constant ADDR_ESK
+ 65 Constant ADDR_ISS
+
+( Indicators)
+ 128 Constant ADDR_CUDL
+ 129 Constant ADDR_CDDL
+ 130 Constant ADDR_OLS
+
+( Misc)
+ 192 Constant ADDR_BUZ
+
+( ===============================================================================)
+
+( Constants)
+  450 Constant COP_WINDOW_X
+  34  Constant COP_WINDOW_Y  
+  180 Constant COP_WINDOW_WIDTH  
+  431 Constant COP_WINDOW_HEIGHT
+
+  HERE Value strbuf 5 Allot
+  HERE Value cop_buf 256 ALLOT
+
+( Colors)
+  Dark-Gray Value WALLPAPER
+  Dark-Blue Value MENUWALLPAPER
+  Dark-Green Value CMNDWALLPAPER
+  Black Value ABOUTWALLPAPER
+  White Value MENUTEXT
+  Dark-Gray Value MENUTEXTU
+  Yellow Value MENUSELECT
+  Red Value ACTIVEBUTTONCOLOR
+  White Value ACTIVEKEYCOLOR
+  Dark-Green Value UNACTIVEKEYCOLOR
+  Dark-Blue Value UNACTIVEBUTTONCOLOR
+  Red Value ACTIVESBUTTONCOLOR
+  Dark-Green Value UNACTIVESBUTTONCOLOR
+  Black      Value COPWNDBCKGND
+  Yellow Value INDICATORCOLOR
+  Dark-Gray Value UNACTIVEINDICATORCOLOR
+
+( Flags for buttons, keys and indicators)
+  VARIABLE COP_OPEN_BUTTON  ( Door open button)
+  VARIABLE COP_CLOSE_BUTTON ( Door close button)
+  VARIABLE COP_BELL_BUTTON ( Bell button)
+
+  VARIABLE COP_FIRE_KEY ( Firemen key)
+  VARIABLE COP_SPECIAL_KEY ( Special mode key)
+  VARIABLE COP_VENTILATOR_KEY ( Fan key)
+
+  VARIABLE COP_OVERLOADING_INDICATOR ( Overload indicator)
+  VARIABLE COP_DIRECTION_INDICATOR ( Direction indicator)
+  VARIABLE COP_POSITION_INDICATOR ( Floor indicator)
+
+  VARIABLE COP_SPEAKER ( Intercom device)
+
+  VARIABLE COP_FLOOR_COUNT ( Floor number)
+
+( =============COP Party===============================)
+
+ VARIABLE LPT1
+ VARIABLE DATA_REG
+ VARIABLE MANAGE_REG
+ VARIABLE STATUS_REG
+
+( ADDR --> mask addr)
+: COPDATA@
+  2* 2* COP_DATA_ADDRESS @ + 16 + @ dup 65535 AND swap 16 rshift
+;
+
+: COP_MODUL_INIT
+ $408 BIOSSELECTOR A@ LPT1 !
+ LPT1 @ DATA_REG !
+ LPT1 @ 1+ STATUS_REG !
+ LPT1 @ 2+ MANAGE_REG ! 
+
+ 255 DATA_REG @ out
+;
+
+( Write five bits into port)
+( 1 set data)
+( 2 set port number)
+( 3 data writing signal ON)
+( 4 data writing signal OFF)
+( data addr -> )
+: COP!
+{
+	#INT laddr
+	#INT ldata
+
+	63 AND laddr ! 
+	31 AND ldata !
+	ldata @ 16 AND 2* 2* laddr @ OR laddr !
+	ldata @ 15 AND ldata !
+
+	ldata @ 11 xor 15 xor MANAGE_REG @ out 
+	laddr @ 127 AND 255 XOR DATA_REG @ out
+	laddr @ 128 OR 255 XOR DATA_REG @  out 1 delay
+	laddr @ 127 AND 255 XOR DATA_REG @ out
+}
+;
+
+( Read data from port)
+( addr -> data)
+: COP@
+{
+   #int laddr
+   63 AND 255 XOR laddr ! 
+   laddr @ DATA_REG @ OUT
+   1 delay
+   laddr @ DATA_REG @ OUT 
+   1 delay
+   STATUS_REG @ IN 2/ 2/ 2/ 15 AND 15 XOR
+}
+;
+
+: SendCOPBuffer
+  64 1 DO
+   cop_buf I 4 * + @ I COP!
+  LOOP
+;
+
+: ClearCOPBuffer
+  64 0 DO
+   0 cop_buf I 4 * + !
+  LOOP
+;
+
+( Test controller RAN  AS: -> err_num )
+: COP_HARDWARE_TEST
+{  
+  ."       Communication block test" cr
+  ." ========================================" cr
+
+  #INT lflag1 #INT lflag2 #INT lgflag #int lerr1 #int lerr2
+  #INT liflag1 #INT liflag2 
+
+  -1 lflag1 !
+  -1 lflag2 !
+  -1 liflag1 !
+  -1 liflag2 !
+
+  0 lerr1 !
+  0 lerr2 !  
+
+  10 0 DO
+  4 0 COP!
+  64 4  DO
+	I I COP!
+  LOOP
+
+  6 0 COP!
+  64 4  DO
+	I 31 XOR I COP!
+  LOOP
+
+	  6 0 COP!
+	  64 4 DO
+	     I COP@ I 15 AND = not if 0 lflag1 ! lerr1 1+! then
+	  LOOP  
+
+	  6 0 COP!
+	  64 4 DO
+	     I COP@ I 15 AND = not if 0 liflag1 ! lerr1 1+! then
+	  LOOP  
+
+	  4 0 COP!
+	  64 4 DO
+	     I COP@ I 31 XOR 15 AND = not if 0 lflag2 ! lerr2 1+! then
+	  LOOP  
+
+	  64 4 DO
+	     I COP@ I 31 XOR 15 AND = not if 0 liflag2 ! lerr2 1+! then
+	  LOOP  
+
+	  lflag1 @ 0= if ."  E" else ."  ." then
+	  liflag1 @ 0= if ." E" else ." ." then
+	  lflag2 @ 0= if ." E" else ." ." then
+	  liflag2 @ 0= if ." E" else ." ." then
+
+	  -1 lflag1 !
+	  -1 lflag2 !
+	  -1 liflag1 !
+	  -1 liflag2 !
+
+	LOOP
+
+  0 0 COP!
+  64 1 DO
+	0 I COP!
+  LOOP
+
+  lerr1 @ 5 > lerr2 @ 5 > OR 
+    if 
+  	   DEMOMODE  
+	else 
+		true 
+	then    
+}
+;
+
+( data offset->)
+: DB!
+  COPDATABLOCK + c!
+;
+
+( offset->data)
+: DB@
+  COPDATABLOCK + c@
+;
+
+( offset->data)
+: DBW@
+  COPDATABLOCK + @
+;
+
+( ====================================================)
+
+( Draw rectangle AS: x1 y1 x2 y2 -->)
+: DRAWRECTANGLE
+	{
+		#int lx1
+		#int ly1
+		#int lx2
+		#int ly2
+		ly2 ! lx2 ! ly1 ! lx1 !
+		lx1 @ ly1 @ lx2 @ ly1 @ line
+		lx2 @ ly1 @ lx2 @ ly2 @ line
+		lx1 @ ly2 @ lx2 @ ly2 @ line
+		lx1 @ ly1 @ lx1 @ ly2 @ line
+	}
+;
+
+: SETDEFAULTCOP
+	true COP_OPEN_BUTTON !
+	true COP_CLOSE_BUTTON !
+	true COP_BELL_BUTTON !
+	true COP_FIRE_KEY !
+	true COP_SPECIAL_KEY !
+	true COP_VENTILATOR_KEY !
+	true COP_OVERLOADING_INDICATOR !
+	true COP_DIRECTION_INDICATOR !
+	true COP_POSITION_INDICATOR !
+	true COP_SPEAKER !
+	true COP_FLOOR_COUNT !
+;
+
+: BUTTON ( X Y Char --> )
+   >R 2>R
+   GetWindow
+   2R> 14 14 SetWindow
+   Dark-Gray Light-Gray Border
+   Light-Gray Dark-Gray Border
+   Gray FillWindow
+   R> X1 @ 1+ Y1 @ GotoXY
+   Color @ Dark-Gray Color ! Swap
+   OutChar
+   Color !
+   SetWindow
+;
+
+: STDBORDER ( ASCIIzText --> )
+   Black Black Border
+   Light-Gray Dark-Gray Border
+   Gray Gray Border
+   Dark-Gray Light-Gray Border
+   GetWindow
+   GetWindow Drop 20 SetWindow
+   Light-Gray Dark-Gray Border
+   Gray FillWindow
+   20 - Rot 20 + -Rot
+   SetWindow
+   Black Black Border
+   X1 @ 2+   Y1 @ 18 - $f6 Button
+   X2 @ 15 - Y1 @ 18 - $f2 Button
+   X2 @ 31 - Y1 @ 18 - $f3 Button
+   X2 @ 47 - Y1 @ 18 - $f4 Button
+   Color @ Swap
+   Black Color !
+   X2 @ X1 @ - Over -1 GetLineWidth - 2/ X1 @ +
+   Y1 @ 18 - GotoXY OutLine
+   Color !
+;
+
+: STDBORDER2 ( ASCIIzText --> )
+   Black Black Border
+   Light-Gray Dark-Gray Border
+   Gray Gray Border
+   Dark-Gray Light-Gray Border
+   GetWindow
+   GetWindow Drop 20 SetWindow
+   Light-Gray Dark-Gray Border
+   Gray FillWindow
+   20 - Rot 20 + -Rot
+   SetWindow
+   Black Black Border
+   X1 @ 2+   Y1 @ 18 - $f6 Button
+   X2 @ 15 - Y1 @ 18 - $f2 Button
+   Color @ Swap
+   Black Color !
+   X2 @ X1 @ - Over -1 GetLineWidth - 2/ X1 @ +
+   Y1 @ 18 - GotoXY OutLine
+   Color !
+;
+
+: DrawPicture
+	0 0 640 480 SetWindow
+	BOLD SetFont
+	a" Test COP panel system TESTCOP v 1.02" StdBorder
+	WALLPAPER FillWindow
+;
+
+
+: OUTERROR ( ASCIIz1 ASCIIz2 --> )
+   Dup
+   If
+      Dup 200 GetLineWidth
+   Else
+      0
+   Then
+   >R Over 200 GetLineWidth R> UMax 100 + Dup>R 640 Swap - 2/
+   FILE-Y R> 100 MakeWindow
+   a" Error!" StdBorder
+   Dark-Gray FillWindow
+   ERROR-TEXT Color !
+   ?Dup
+   If
+      Swap
+      640 Over 200 GetLineWidth - 2/ FILE-Y 40 + GotoXY
+      OutLine
+      640 Over 200 GetLineWidth - 2/ FILE-Y 67 + GotoXY
+      OutLine
+   Else
+      640 Over 200 GetLineWidth - 2/ FILE-Y 52 + GotoXY
+      OutLine
+   Then
+
+   Beep Beep Beep
+   Begin
+      ?Key
+   Until
+   key drop
+   RemoveWindow
+;
+
+( Words to show buttons, keys and indicators)
+( color -->)
+: DRAW_COP_OPEN_BUTTON
+  COPFILE_DOB db@ 0= not if 
+  Color ! COP_WINDOW_X 18 + POSX ! COP_WINDOW_Y 396 + POSY ! a"    \186 \176" OUTLINE
+  else
+   drop
+  then
+;
+
+: DRAW_COP_BELL_BUTTON
+  COPFILE_BB db@ 0= not if
+  Color ! COP_WINDOW_X 88 + POSX ! COP_WINDOW_Y 396 + POSY ! a"    \188 \176" OUTLINE
+  else 
+   drop
+  then
+;
+
+( Draw button with floor nyumber AS: floor_number color -> )
+: DRAW_FLOOR_BUTTON
+  over 
+  COPFILE_FLOORCOUNT db@ > not if
+  Color ! 
+  {
+	#Int xoffst 
+	#Int yoffst 
+	dup 1 and 
+	0= if 88 xoffst ! else 18 xoffst ! then
+	dup 1- 2/ 16 * yoffst !
+	COP_WINDOW_X xoffst @ + POSX ! 
+	COP_WINDOW_Y 372 yoffst @ - + POSY ! 
+	dup 10 < 
+	if
+		32 dup strbuf ! dup strbuf 1+ ! strbuf 2+ !
+		48 + strbuf 3 + ! 0 strbuf 4 + !
+	else
+		32 strbuf ! dup 10 / 48 + strbuf 1+ ! dup 10 / 10 * - 48 + strbuf 2+ !
+		0 strbuf 1+ 2+ !
+	then
+	strbuf OUTLINE
+ 	a"  \176" OUTLINE
+  }
+  else
+   drop drop
+  then
+;
+
+( Close door button AS: color -->)
+: DRAW_COP_CLOSE_BUTTON
+  COPFILE_DCB db@ 0= not if
+  Color ! COP_WINDOW_X 18 + POSX ! COP_WINDOW_Y 108 + POSY ! a"    \185 \176" OUTLINE
+  else
+   drop
+  then
+;
+
+( Firemen key AS: color -->)
+: DRAW_COP_FIRE_KEY
+  COPFILE_ESK db@ 0= not if
+  Color ! COP_WINDOW_X 88 + POSX ! COP_WINDOW_Y 108 + POSY ! a"    \189 \178" OUTLINE
+  else
+   drop
+  then
+;
+
+( Fan key AS: color -->)
+: DRAW_COP_VENTILATOR_KEY
+  COPFILE_FAN db@ 0= not if
+  Color ! COP_WINDOW_X 18 + POSX ! COP_WINDOW_Y 92 + POSY ! a"    \184 \178" OUTLINE
+  else
+   drop
+  then
+;
+
+( Special mode key AS: color -->)
+: DRAW_COP_SPECIAL_KEY
+  COPFILE_ISS db@ 0= not if
+  Color ! COP_WINDOW_X 88 + POSX ! COP_WINDOW_Y 92 + POSY ! a"    \187 \178" OUTLINE
+  else
+   drop
+  then
+;
+
+( Overload indicator AS: color -->)
+: DRAW_COP_OVERLOADING_INDICATOR
+  COPFILE_OLS db@ 0= not if
+  Color ! COP_WINDOW_X 34 + POSX ! COP_WINDOW_Y 72 + POSY ! a"      ¡¢£" OUTLINE  
+  else
+   drop
+  then
+;
+
+( Direction indicator border AS: color -->)
+: DRAW_COP_DIR_INDICATOR
+  COPFILE_CDL db@ 0= not if
+	  Color ! COP_WINDOW_X 72 + COP_WINDOW_Y 50 + COP_WINDOW_X 123 + COP_WINDOW_Y 69 + DRAWRECTANGLE
+  else
+   drop
+  then
+;
+
+( Direction indicator up arrow)
+: DRAW_COP_DIR_TOP_INDICATOR
+  Color ! COP_WINDOW_X 34 + POSX ! COP_WINDOW_Y 52 + POSY ! a"       \183" OUTLINE  
+;
+
+( Direction indicator down arrow)
+: DRAW_COP_DIR_BOT_INDICATOR
+  Color ! COP_WINDOW_X 34 + POSX ! COP_WINDOW_Y 52 + POSY ! a"         \182" OUTLINE  
+;
+
+( Draw floor number on its indicator AS: floor -->)
+: DRAW_COP_POSITION_INDICATOR_NUMBER
+{
+   #INT ldigit #INT hdigit #INT fl
+   dup fl ! 10 /MOD 65 + hdigit ! 65 + ldigit !
+   COP_WINDOW_X 73 + COP_WINDOW_Y 29 + 50 18 SETWINDOW
+   COPWNDBCKGND FILLWINDOW
+   fl @ 0< not if
+    INDICATORCOLOR Color ! COP_WINDOW_X 34 + POSX ! COP_WINDOW_Y 30 + POSY ! a"       " OUTLINE
+    hdigit @ OUTCHAR ldigit @ OUTCHAR
+   then
+}
+;
+
+( Position indicator AS: color -->)
+: DRAW_COP_POSITION_INDICATOR
+  COPFILE_CPI db@ 0= not if
+  Color !
+  COP_WINDOW_X 72 + COP_WINDOW_Y 28 + COP_WINDOW_X 123 + COP_WINDOW_Y 47 + DRAWRECTANGLE
+  else
+   drop
+  then
+;
+
+: DrawCOPPanel
+	COP_WINDOW_X COP_WINDOW_Y COP_WINDOW_WIDTH COP_WINDOW_HEIGHT SetWindow
+
+	COP_CFG_NUM @ CASE
+		1 OF
+			a" Single door" StdBorder2
+		  ENDOF
+		2 OF
+			a" Front door" StdBorder2
+		  ENDOF		
+		3 OF
+			a" Back door" StdBorder2
+		  ENDOF		
+	ENDCASE
+
+	COPWNDBCKGND FillWindow
+
+	Light-Gray COLOR !	
+
+	COPFONT SetFont
+
+	UNACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON
+	UNACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON
+
+	33 1 DO I UNACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON LOOP
+
+	UNACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON	
+	UNACTIVEKEYCOLOR DRAW_COP_FIRE_KEY
+	UNACTIVEKEYCOLOR DRAW_COP_VENTILATOR_KEY
+	UNACTIVEKEYCOLOR DRAW_COP_SPECIAL_KEY
+
+	UNACTIVEINDICATORCOLOR DRAW_COP_OVERLOADING_INDICATOR
+	INDICATORCOLOR DRAW_COP_DIR_INDICATOR
+	INDICATORCOLOR DRAW_COP_POSITION_INDICATOR
+	-1 DRAW_COP_POSITION_INDICATOR_NUMBER
+
+	BOLD SetFont
+;
+
+: DrawTestMenu ( index -->)
+{
+	#INT select_item
+	select_item !
+	14 34 310 168 SetWindow
+	a" Test stages" StdBorder2
+	MENUWALLPAPER FillWindow
+
+   	False
+	a"  8 - Bell sound"
+	a"  7 - Key activation"
+	a"  6 - Intercom sound"
+	a"  5 - Overload indicator"
+	a"  4 - Direction indicator"
+	a"  3 - Position indicator"
+	a"  2 - Manually activated buttons"
+	a"  1 - All buttons ON"
+
+		#INT YTEXT
+		#INT INDX 1 INDX !
+		63 YTEXT !
+		BEGIN
+			MENUTEXT Color !
+			19 POSX !
+			YTEXT @ POSY !
+			INDX @ CASE
+			  1 OF
+				COPFILE_FLOORCOUNT db@ 0> not IF
+					MENUTEXTU Color !
+				then
+			  ENDOF
+			  2 OF
+				COPFILE_FLOORCOUNT db@ 0> not COPFILE_DOB db@ 0= COPFILE_DCB db@ 0= COPFILE_BB db@ 0= AND AND AND IF
+					MENUTEXTU Color !
+				then
+			  ENDOF
+			  3 OF
+				COPFILE_CPI db@ 0= if
+					MENUTEXTU Color !
+				then
+			  ENDOF
+			  4 OF
+				COPFILE_CDL db@ 0= if
+					MENUTEXTU Color !	
+				then
+			  ENDOF
+			  5 OF
+				COPFILE_OLS db@ 0= if
+					MENUTEXTU Color !	
+				then
+			  ENDOF
+			  6 OF
+				COPFILE_ICU db@ 0= if
+					MENUTEXTU Color !	
+				then
+			  ENDOF
+			  7 OF
+				COPFILE_ESK db@ 0= COPFILE_ISS db@ 0= COPFILE_FAN db@ 0= AND AND if
+					MENUTEXTU Color !	
+				then
+			  ENDOF
+			  8 OF
+				COPFILE_BUZ db@ 0= if
+					MENUTEXTU Color !	
+				then
+			  ENDOF
+			ENDCASE 
+
+			INDX @ select_item @ = 
+			if
+				GetWindow
+				20 POSY @ 298 16 SetWindow
+				MENUSELECT FillWindow SetWindow
+				Black Color !
+			then
+				OUTLINE
+			INDX 1+!
+			YTEXT @ 16 + YTEXT !
+			DUP
+		WHILE
+		REPEAT
+	}
+;
+
+: DrawCmndMenu ( index -->)
+	{
+	#INT select_item
+	select_item !
+	14 205 310 105 SetWindow
+	a" Options" StdBorder2
+	CMNDWALLPAPER FillWindow
+
+   	False
+	a"  Q - Exit"
+	a"  L - Load contract file"
+	a"  C - Port configuration"
+	#INT YTEXT
+	#INT INDX 1 INDX !
+	235 YTEXT !
+	BEGIN
+		MENUTEXT Color !
+		19 POSX !
+		YTEXT @ POSY !
+		INDX @ select_item @ =
+		if
+			GetWindow
+			20 POSY @ 298 16 SetWindow
+			MENUSELECT FillWindow SetWindow
+			Black Color !
+			OUTLINE
+		else
+			OUTLINE
+		then
+		INDX 1+!
+		YTEXT @ 16 + YTEXT !
+		DUP
+	WHILE
+	REPEAT
+	}
+;
+
+: DrawAboutMenu 
+	{
+	14 315 410 150 SetWindow
+	a" About" StdBorder2
+	ABOUTWALLPAPER FillWindow
+
+   	False
+	a"  URL: http://coldcore.ru"
+	a"  (‘) 2000 All Copyright by Raydac Research Group Ltd."
+	a"  Author: Igor Maznitsa (email: igor.maznitsa@coldcore.ru)"
+	a" "
+	a"  It is part of software-hardware complex TESTCOP v 1.02"
+	a" "
+
+	#INT YTEXT
+	#INT INDX 1 INDX !
+	345 YTEXT !
+	BEGIN
+		Dark-Green Color !
+		19 POSX !
+		YTEXT @ POSY !
+		OUTLINE
+		INDX 1+!
+		YTEXT @ 16 + YTEXT !
+		DUP
+	WHILE
+	REPEAT
+	}
+;
+
+: DrawAllWindow
+		DrawPicture		
+		-1 DrawTestMenu
+		0 DrawCmndMenu
+		DrawAboutMenu
+		DrawCOPPanel
+;
+
+: DIALOG_SELECT_PORT_CONFIG ( Port configuration dialog)
+{
+	#INT select_item
+	select_item !
+	180 155 280 170 SetWindow
+	a" Port configuration" StdBorder2
+	Dark-Blue FillWindow
+
+   	False
+	a"  3 ... Back door"
+	a"  2 ... Front door"
+	a"  1 ... Single door"
+
+		#INT YTEXT
+		#INT INDX 1 INDX !
+		185 YTEXT !
+		BEGIN
+			MENUTEXT Color !
+			185 POSX !
+			YTEXT @ POSY !
+			INDX @ select_item @ =
+			if
+				GetWindow
+				185 POSY @ 270 16 SetWindow
+				MENUSELECT FillWindow SetWindow
+				Black Color !
+				OUTLINE
+			else
+				OUTLINE
+			then
+			INDX 1+!
+			YTEXT @ 16 + YTEXT !
+			DUP
+		WHILE
+		REPEAT
+}
+;
+
+: TEST_COP_1_ONFBUTTON ( button -->)
+  ACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON 
+;
+
+: TEST_COP_1_OFFFBUTTON ( button -->)
+  UNACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON 
+;
+
+: TEST_COP_1_ONSBUTTON ( button -->)
+  COPFILE_DCB db@ 0= not if
+	  ACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON 
+  then
+  COPFILE_DOB db@ 0= not if
+	  ACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON 
+  then
+--  COPFILE_BB db@ 0= not if
+--	  UNACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON 
+--  then
+;
+
+: TEST_COP_1_OFFSBUTTON ( button -->)
+  COPFILE_DCB db@ 0= not if
+	  UNACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON 
+  then
+  COPFILE_DOB db@ 0= not if
+	  UNACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON 
+  then
+--  COPFILE_BB db@ 0= not if
+--	  UNACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON 
+--  then
+;
+
+: TEST_COP_1 ( Panel button indication)
+{
+  COPFILE_FLOORCOUNT db@ 0> if
+  1 DrawTestMenu
+  COPFONT SetFont
+  
+  ClearCOPBuffer
+  
+( Floor button ligthing)
+  ADDR_CB00 COPFILE_FLOORCOUNT db@ + ADDR_CB00 DO
+	I COPDATA@ 4 *
+	cop_buf + dup @ ROT OR swap !
+  LOOP
+
+--  COPFILE_DCB db@ 0= not if
+--	ADDR_DCB COPDATA@ 4 *
+--	cop_buf + dup @ ROT OR swap !
+-- then
+--  COPFILE_DOB db@ 0= not if
+--	ADDR_DOB COPDATA@ 4 *
+--	cop_buf + dup @ ROT OR swap !
+--  then
+
+  SendCOPBuffer
+  COPFILE_FLOORCOUNT db@ 1+ 1 DO 
+   I ACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON
+  LOOP
+
+( Special button lighting)
+--  TEST_COP_1_ONSBUTTON
+
+  key drop
+  
+( All buttons OFF)
+  ClearCOPBuffer
+  SendCOPBuffer
+
+--  TEST_COP_1_OFFSBUTTON
+  COPFILE_FLOORCOUNT db@ 1+ 1 DO I TEST_COP_1_OFFFBUTTON LOOP
+
+  BOLD SetFont
+  then
+}
+;
+
+: TEST_COP_2 ( activated buttons ON)
+{
+  #int laddr #int lmask #int lbnum #int lprev
+
+  COPFILE_FLOORCOUNT db@ 0> IF
+
+  2 DrawTestMenu
+  COPFONT SetFont
+
+  0 0 COP!
+  0 lprev !
+  BEGIN
+   0 lbnum !
+   0 laddr ! 0 lmask ! 
+     ADDR_CB00 COPFILE_FLOORCOUNT db@ + ADDR_CB00 DO
+	I COPDATA@ COP@ AND 0= not IF I COPDATA@ laddr ! lmask ! I ADDR_CB00 - 1+ lbnum ! THEN
+     LOOP
+   33 1 DO lbnum @ I = not if I UNACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON then LOOP
+   ClearCOPBuffer
+   lbnum @ 0= not
+   if 
+    lmask @ laddr @ 4 * cop_buf + !
+    lbnum @ ACTIVEBUTTONCOLOR DRAW_FLOOR_BUTTON
+   then 
+
+   COPFILE_DOB db@ 0= not if
+	ADDR_DOB COPDATA@ COP@ AND 0= not IF ACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON lbnum 1+! else UNACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON then
+   then 
+
+   COPFILE_DCB db@ 0= not if
+	ADDR_DCB COPDATA@ COP@ AND 0= not IF ACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON lbnum 1+! else UNACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON then
+   then 
+
+   COPFILE_BB db@ 0= not if
+	0 COP@ 2 AND 0= if 
+		ACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON lbnum 1+! 
+	else
+		UNACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON 
+	then
+   then
+
+   lbnum @ lprev @ = not if
+    lbnum @ 0= not if beep then
+   then
+
+   lbnum @ lprev !
+
+   SendCOPBuffer
+   ?KEY
+  UNTIL  
+  KEY DROP
+  ClearCOPBuffer
+  SendCOPBuffer
+
+   COPFILE_BB db@ 0= not if
+	UNACTIVESBUTTONCOLOR DRAW_COP_BELL_BUTTON
+   then
+
+   COPFILE_DOB db@ 0= not if
+	UNACTIVESBUTTONCOLOR DRAW_COP_OPEN_BUTTON
+   then 
+
+   COPFILE_DCB db@ 0= not if
+	UNACTIVESBUTTONCOLOR DRAW_COP_CLOSE_BUTTON
+   then 
+
+  BOLD SetFont
+  THEN
+}
+;
+
+( floor --> )
+: TEST_COP_3_VIEWFLOOR
+  {
+	#int ldig #int hdig
+
+	10 /MOD hdig ! ldig !
+
+	0 0 COP!
+	16 4 COP!
+	150 DELAY
+	ldig @ CASE
+		0 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			16 10 COP! ( d1)
+			16 12 COP! ( e1)
+			16 30 COP! ( f1)
+			0  13 COP! ( g1)
+		  ENDOF
+		1 OF
+			0  32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			0  10 COP! ( d1)
+			0  12 COP! ( e1)
+			0  30 COP! ( f1)
+			0  13 COP! ( g1)
+		 ENDOF
+		2 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			0  6  COP! ( c1)
+			16 10 COP! ( d1)
+			16 12 COP! ( e1)
+			0  30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		3 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			16 10 COP! ( d1)
+			0  12 COP! ( e1)
+			0  30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		4 OF
+			0  32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			0  10 COP! ( d1)
+			0  12 COP! ( e1)
+			16 30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		5 OF
+			16 32 COP! ( a1)
+			0  36 COP! ( b1)
+			16 6 COP!  ( c1)
+			16 10 COP! ( d1)
+			0  12 COP! ( e1)
+			16 30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		6 OF
+			16 32 COP! ( a1)
+			0  36 COP! ( b1)
+			16 6  COP! ( c1)
+			16 10 COP! ( d1)
+			16 12 COP! ( e1)
+			16 30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		7 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6 COP!  ( c1)
+			0  10 COP! ( d1)
+			0  12 COP! ( e1)
+			0  30 COP! ( f1)
+			0  13 COP! ( g1)
+		ENDOF
+		8 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			16 10 COP! ( d1)
+			16 12 COP! ( e1)
+			16 30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+		9 OF
+			16 32 COP! ( a1)
+			16 36 COP! ( b1)
+			16 6  COP! ( c1)
+			16 10 COP! ( d1)
+			0  12 COP! ( e1)
+			16 30 COP! ( f1)
+			16 13 COP! ( g1)
+		ENDOF
+	ENDCASE		
+
+	hdig @ CASE 
+		0 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			16 20 COP! ( e2)
+			16 22 COP! ( f2)
+			0  21 COP! ( g2)
+		ENDOF
+		1 OF
+			0  24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			0  18 COP! ( d2)
+			0  20 COP! ( e2)
+			0  22 COP! ( f2)
+			0  21 COP! ( g2)
+		ENDOF
+		2 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			0  14 COP! ( c2)
+			16 18 COP! ( d2)
+			16 20 COP! ( e2)
+			0  22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		3 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			0  20 COP! ( e2)
+			0  22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		4 OF
+			0  24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			0  18 COP! ( d2)
+			0  20 COP! ( e2)
+			16  22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		5 OF
+			16 24 COP! ( a2)
+			0  28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			0  20 COP! ( e2)
+			16 22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		6 OF
+			16 24 COP! ( a2)
+			0  28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			16 20 COP! ( e2)
+			16 22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		7 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			0  18 COP! ( d2)
+			0  20 COP! ( e2)
+			0  22 COP! ( f2)
+			0  21 COP! ( g2)
+		ENDOF
+		8 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			16 20 COP! ( e2)
+			16 22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF
+		9 OF
+			16 24 COP! ( a2)
+			16 28 COP! ( b2)
+			16 14 COP! ( c2)
+			16 18 COP! ( d2)
+			0  20 COP! ( e2)
+			16 22 COP! ( f2)
+			16 21 COP! ( g2)
+		ENDOF	
+	ENDCASE
+	8 0 COP!
+	150 DELAY
+  }
+;
+
+: TEST_COP_3 ( Check position indicator)
+  COPFILE_CPI DB@ 0= not if
+  3 DrawTestMenu
+  COPFONT SetFont
+  BEGIN
+	  100 0 DO
+		I DRAW_COP_POSITION_INDICATOR_NUMBER
+		I TEST_COP_3_VIEWFLOOR
+		200 DELAY
+		?KEY IF LEAVE THEN
+	  LOOP
+  ?KEY
+  UNTIL
+  KEY DROP
+  8 0 COP!
+  64 5 DO 0 I COP! LOOP
+  150 DELAY
+  0 4 COP!
+  0 0 COP!
+  -1 DRAW_COP_POSITION_INDICATOR_NUMBER
+  BOLD SetFont
+ then
+;
+
+: TEST_COP_4 ( Check direction indicator)
+{
+ #int lmaskup #int lmaskdwn 
+ #int laddrup #int laddrdwn
+
+ COPFILE_CDL DB@ 0= not if
+ ADDR_CUDL COPDATA@ laddrup ! lmaskup !
+ ADDR_CDDL COPDATA@ laddrdwn ! lmaskdwn !
+
+ 4 DrawTestMenu
+ COPFONT SetFont
+BEGIN
+ laddrup @ laddrdwn @ = if
+  lmaskup @ laddrup @ COP!
+ else
+  lmaskup @ laddrup @ cop!
+  0 laddrdwn @ cop!
+ then
+ INDICATORCOLOR DRAW_COP_DIR_TOP_INDICATOR
+ COPWNDBCKGND DRAW_COP_DIR_BOT_INDICATOR
+ 1000 DELAY  
+ laddrup @ laddrdwn @ = if
+  lmaskdwn @ laddrup @ COP!
+ else
+  0 laddrup @ cop!
+  lmaskdwn @ laddrdwn @ cop!
+ then
+ COPWNDBCKGND DRAW_COP_DIR_TOP_INDICATOR
+ INDICATORCOLOR DRAW_COP_DIR_BOT_INDICATOR
+ 1000 DELAY  
+ ?key
+UNTIL
+ key drop
+ 0 laddrup @ cop!
+ 0 laddrdwn @ cop!
+ COPWNDBCKGND DRAW_COP_DIR_TOP_INDICATOR
+ COPWNDBCKGND DRAW_COP_DIR_BOT_INDICATOR
+ 0 0 COP!
+ BOLD SetFont
+ then
+}
+;
+
+: TEST_COP_5 ( Overload indicator check)
+{
+ #int laddr #int lmask
+ 
+ COPFILE_OLS db@ 0= not IF
+ ADDR_OLS COPDATA@ laddr ! lmask !
+  
+ 5 DrawTestMenu
+ COPFONT SetFont
+ BEGIN
+  lmask @ laddr @ COP!
+  Red DRAW_COP_OVERLOADING_INDICATOR
+  500 DELAY  
+  0 laddr @ COP!
+  UNACTIVEINDICATORCOLOR DRAW_COP_OVERLOADING_INDICATOR
+  500 DELAY  
+  ?KEY
+ UNTIL
+ KEY DROP
+ UNACTIVEINDICATORCOLOR DRAW_COP_OVERLOADING_INDICATOR
+ BOLD SetFont
+ THEN
+}
+;
+
+: TEST_COP_6_DLG
+{
+	#int YTEXT
+
+	50 150 540 120 SetWindow
+	a" Panel intercom testing" StdBorder2
+	Dark-Blue FillWindow
+
+   	False
+	a"                    Just press any key to stop the test."
+	a"  "
+	a"              You should hear some intermittent 1 kHz sound."
+	a"                 Warning! Panel intercom is under testing."
+
+	Yellow Color !
+
+	185 YTEXT !
+	BEGIN
+		75 POSX !
+		YTEXT @ POSY !
+		OUTLINE
+		YTEXT @ 16 + YTEXT !
+		DUP
+	WHILE
+	REPEAT
+
+	COPFONT SetFont
+	BEGIN
+		190 POSY !
+		65 POSX !
+		Light-Green Color !
+		a" ‚ƒ" OUTLINE
+		1 0 COP!
+		500 DELAY
+		190 POSY !
+		65 POSX !
+		Dark-Blue Color !
+		a" ‚ƒ" OUTLINE
+		0 0 COP!
+		1500 DELAY
+		?KEY
+	UNTIL
+	KEY DROP
+	BOLD SetFont
+	0 0 COP!
+}
+;
+
+: TEST_COP_6 ( Check intercom)
+  COPFILE_ICU DB@ 0= not IF
+  6 DrawTestMenu
+  TEST_COP_6_DLG
+  DrawAllWindow
+  THEN
+;
+
+: TEST_COP_7 ( Check keys)
+{
+  #int ls #int lprev
+  COPFILE_ESK DB@ COPFILE_ISS DB@ COPFILE_FAN DB@ OR OR 0= not IF
+  7 DrawTestMenu
+  COPFONT SetFont
+  0 lprev !
+  BEGIN
+  0 ls !
+  ( Check fan key)
+   COPFILE_FAN db@ 0= not if
+	0 COP@ 1 AND 0= if
+		ACTIVEKEYCOLOR DRAW_COP_VENTILATOR_KEY		
+		-1 ls !
+	else
+		UNACTIVEKEYCOLOR DRAW_COP_VENTILATOR_KEY		
+	then
+   then 
+  ( Check firemen key ESK)
+   COPFILE_ESK db@ 0= not if
+ 		ADDR_ESK copdata@ COP@ AND 0= IF
+		 	UNACTIVEKEYCOLOR DRAW_COP_FIRE_KEY
+		else
+			ACTIVEKEYCOLOR DRAW_COP_FIRE_KEY
+			-1 ls !
+		then
+   then
+  ( Check special service key ISS)
+   COPFILE_ISS db@ 0= not if
+ 		ADDR_ISS copdata@ COP@ AND 0= IF
+		 	UNACTIVEKEYCOLOR DRAW_COP_SPECIAL_KEY
+		else
+			ACTIVEKEYCOLOR DRAW_COP_SPECIAL_KEY
+			-1 ls !
+		then
+  then
+  ls @ lprev @ <> if beep then
+  ls @ lprev ! 
+  ?KEY
+  UNTIL
+  KEY DROP
+  nosound
+   COPFILE_FAN db@ 0= not if
+	UNACTIVEKEYCOLOR DRAW_COP_VENTILATOR_KEY		
+   then
+   COPFILE_ESK db@ 0= not if
+ 	UNACTIVEKEYCOLOR DRAW_COP_FIRE_KEY
+   then
+   COPFILE_ISS db@ 0= not if
+ 	UNACTIVEKEYCOLOR DRAW_COP_SPECIAL_KEY
+    then
+  BOLD SetFont
+  THEN
+}
+;
+
+: TEST_COP_8_DLG
+{
+	#int YTEXT #int laddr #int lmask
+  COPFILE_BUZ DB@ 0= not if
+	ClearCopBuffer
+	SendCopBuffer
+	ADDR_BUZ copdata@ laddr ! lmask !
+	130 150 400 120 SetWindow
+	a" Panel bell test" StdBorder2
+	Dark-Blue FillWindow
+
+   	False
+	a"               Just press any key to stop the test."
+	a"  "
+	a"              You should hear some intermittent bell."
+	a"                Warning! Panel bell is under testing."
+
+	White Color !
+
+	185 YTEXT !
+	BEGIN
+		155 POSX !
+		YTEXT @ POSY !
+		OUTLINE
+		YTEXT @ 16 + YTEXT !
+		DUP
+	WHILE
+	REPEAT
+
+	COPFONT SetFont
+	BEGIN
+		190 POSY !
+		145 POSX !
+		Yellow Color !
+		a" €" OUTLINE
+		lmask @ laddr @ COP!
+		500 DELAY
+		190 POSY !
+		145 POSX !
+		Dark-Blue Color !
+		a" €" OUTLINE
+		0 laddr @ COP!
+		500 DELAY
+		?KEY
+	UNTIL
+	KEY DROP
+	BOLD SetFont
+   then
+}
+;
+
+: TEST_COP_8 ( Bell check)
+  COPFILE_BUZ DB@ 0= not if
+  8 DrawTestMenu
+  TEST_COP_8_DLG
+  DrawAllWindow
+  then
+;
+
+: SELECTCONFIG
+{
+  #int lnewcfg
+  COP_CFG_NUM @ DIALOG_SELECT_PORT_CONFIG 
+  COP_CFG_NUM @ lnewcfg !
+  begin
+	key CASE
+	'1' OF 
+		1 DIALOG_SELECT_PORT_CONFIG 
+		  1 lnewcfg !
+	    ENDOF
+ 	'2' OF
+		2 DIALOG_SELECT_PORT_CONFIG 
+		  2 lnewcfg !
+	    ENDOF
+ 	'3' OF
+		3 DIALOG_SELECT_PORT_CONFIG 
+		  3 lnewcfg !
+	    ENDOF
+	/UP OF
+		lnewcfg @ 1 > if
+			lnewcfg 1-!
+			lnewcfg @ DIALOG_SELECT_PORT_CONFIG 
+		then 
+	    ENDOF
+	/DOWN OF
+		lnewcfg @ COP_CFG_COUNT <  if
+			lnewcfg 1+!
+			lnewcfg @ DIALOG_SELECT_PORT_CONFIG 
+		then 
+	    ENDOF
+	/ESC OF
+	     DrawAllWindow
+	     EXIT
+	    ENDOF
+	/ENTER OF
+	     lnewcfg @ COP_CFG_NUM !
+	     lnewcfg @ case 
+		1 of
+		  COPCFG_STD COP_DATA_ADDRESS !
+		endof
+		2 of
+		  COPCFG_PEREDN COP_DATA_ADDRESS !
+		endof
+		3 of
+		  COPCFG_BCK COP_DATA_ADDRESS !
+		endof
+	     endcase
+	     DrawAllWindow
+	     EXIT
+	    ENDOF
+	ENDCASE	
+  again
+}
+;
+
+: EDITFILE ( ASCIIzTitle --> flag )
+   FILE-X FILE-Y 540 100 MakeWindow
+   a" File contract name" StdBorder
+   1 FillWindow
+   FILE-X 20 + FILE-Y 37 + GotoXY
+   FILE-TITLE Color ! OutLine
+   FILE-X 10 + FILE-Y 60 + 520 26 SetWindow
+   Black Gray Border
+   FileName FILE-X 20 + FILE-Y 65 + 65 FILE-NAME FILE-BACK FILE-CURSOR
+   ['] Key ['] ?Key True EditLine
+   Dup
+   If
+      FileName a" ." 0 Pos* 0<
+      If
+         FileName a" .cop" FileName Concat*
+      Then
+   Then
+;
+
+: InitAllCOPFILE
+	32 COPFILE_FLOORCOUNT DB!
+ 	1 COPFILE_CPI DB!
+ 	1 COPFILE_CDL DB!
+ 	1 COPFILE_OLS DB!
+	1 COPFILE_BUZ DB!
+ 	1 COPFILE_ICU DB!
+ 	1 COPFILE_ESK DB!
+ 	1 COPFILE_ISS DB!
+ 	1 COPFILE_FAN DB!
+ 	1 COPFILE_DOB DB!
+ 	1 COPFILE_DCB DB!
+ 	1 COPFILE_BB  DB!
+;
+
+: TRY2LOAD ( --> )
+   FileName 32 Here FindFirst
+     FileName 0 FOpen
+     If
+               Dup To Handle
+	       COPDATABLOCK 32 fread
+	       handle fclose drop
+	       swap 32 = and if
+		COPFILE_LABEL DBW@ $ABCDEF = not if
+		 a" File loading error!" a" It is not a contract file!" outerror	false
+		else
+		 true
+		then
+	       else	
+		 a" File loading error!" a" It is not a contract file!" outerror	false
+	       then
+     else
+	 a" File loading error!" a" Can't find file!" outerror	
+     Then
+     not if 
+	InitAllCOPFILE
+     else
+	COPFILE_FLOORCOUNT db@ 32 > if
+		32 COPFILE_FLOORCOUNT DB!
+	then
+ 	COPFILE_FLOORCOUNT db@ 0< if 
+		0 COPFILE_FLOORCOUNT DB!
+	then
+	COPFILE_CFG db@ 2 > if 0 COPFILE_CFG db! then
+
+	COPFILE_CFG db@
+	case 
+		0 of
+		  COPCFG_STD COP_DATA_ADDRESS !
+    	          1 COP_CFG_NUM !
+		endof
+		1 of
+		  COPCFG_PEREDN COP_DATA_ADDRESS !
+    	          2 COP_CFG_NUM !
+		endof
+		2 of
+		  COPCFG_BCK COP_DATA_ADDRESS !
+    	          3 COP_CFG_NUM !
+		endof
+        endcase
+
+     then 
+;
+
+: LoadContract
+ a" Enter name of a contract file:" EditFile
+ if
+  RemoveWindow
+  Try2Load
+  DrawAllWindow
+ else 
+  RemoveWindow
+ then
+;
+
+: MAIN_LOOP
+		BEGIN
+		 -1 DrawTestMenu
+		 key
+		 CASE
+( ------------------------------------------------------------------)
+			'1' OF ( buttons ON)
+				TEST_COP_1
+			    ENDOF
+			'!' OF ( buttons ON)
+				TEST_COP_1
+			    ENDOF
+( ------------------------------------------------------------------)
+			'2' OF ( activated buttons ON)
+				TEST_COP_2
+			    ENDOF
+			'@' OF ( activated buttons ON)
+				TEST_COP_2
+			    ENDOF
+( ------------------------------------------------------------------)
+			'3' OF ( position indicator)
+				TEST_COP_3
+			    ENDOF
+			'#' OF ( position indicator)
+				TEST_COP_3
+			    ENDOF
+( ------------------------------------------------------------------)
+			'4' OF ( directiona indicator)
+				TEST_COP_4
+			    ENDOF
+			'$' OF ( directiona indicator)
+				TEST_COP_4
+			    ENDOF
+( ------------------------------------------------------------------)
+			'5' OF ( overload indicator)
+				TEST_COP_5
+			    ENDOF
+			'%' OF ( overload indicator)
+				TEST_COP_5
+			    ENDOF
+( ------------------------------------------------------------------)
+			'6' OF ( intercom)
+				TEST_COP_6
+			    ENDOF
+			'^' OF ( intercom)
+				TEST_COP_6
+			    ENDOF
+( ------------------------------------------------------------------)
+			'7' OF ( keys)
+				TEST_COP_7
+			    ENDOF
+			'&' OF ( keys)
+				TEST_COP_7
+			    ENDOF
+( ------------------------------------------------------------------)
+			'8' OF ( bell)
+				TEST_COP_8
+			    ENDOF
+			'*' OF ( bell)
+				TEST_COP_8
+			    ENDOF
+( ------------------------------------------------------------------)
+			( 'q') 113 OF
+				EXIT
+			    ENDOF
+			'Q' OF
+				EXIT
+			    ENDOF
+			'©' OF
+				EXIT
+			    ENDOF
+			'‰' OF
+				EXIT
+			    ENDOF
+( ------------------------------------------------------------------)
+		( 'c')  99 OF
+				SELECTCONFIG
+			    ENDOF
+		( 'C')  67 OF
+				SELECTCONFIG
+			    ENDOF
+		( '‘')	145 OF
+				SELECTCONFIG
+			    ENDOF
+		( 'á')  225 OF
+				SELECTCONFIG
+			    ENDOF			
+( ------------------------------------------------------------------)
+		( 'l')  76 OF
+				LoadContract
+			    ENDOF
+		( 'L')  108 OF
+				LoadContract
+			    ENDOF
+		( '«') 164 OF
+				LoadContract
+			    ENDOF
+		( '‹') 132 OF
+				LoadContract
+			    ENDOF
+( ------------------------------------------------------------------)
+		 ENDCASE
+		AGAIN
+;
+
+: MAIN
+
+  Here To FileName 101 Allot
+  Here To COPDATABLOCK 32 Allot
+
+  FileName 100 0 FILL
+
+( turn on everyting)
+
+  InitAllCOPFILE
+
+  ParseCommandLine
+  Bl Word >ASCIIz ?Done
+  If
+  	FileName 0 80 Copy*
+    FileName a" demo-mode" Compare* 0= If 
+	  ." demo-mode activated" cr
+	  true to DEMOMODE
+	Else 
+  	  FileName a" ." 0 Pos* 0<
+  	  If FileName a" .cop" FileName Concat* Then
+	  true to STARTWITHFILE
+	Then
+  Then
+
+  COPCFG_STD COP_DATA_ADDRESS ! ( Standard configuration is activated)
+  1 COP_CFG_NUM !
+
+  COP_MODUL_INIT
+
+  STARTWITHFILE not if
+	  COP_HARDWARE_TEST not if
+		cr
+    		." Communication module is either off or broken!"
+			key drop
+			bye
+	 then	   
+  then
+	1 SetIO
+	?GRAPH
+	IF
+		SETDEFAULTCOP
+		SetGraphMode
+		DrawAllWindow				
+
+      		STARTWITHFILE
+      		If
+         		Try2Load
+			DrawAllWindow
+      		Then
+
+		MAIN_LOOP		
+
+		SetTextMode
+	ELSE
+		." Error initializing graphics driver...\r\n"
+	THEN
+;
+Compress On
+Build .\BUILD\testcop

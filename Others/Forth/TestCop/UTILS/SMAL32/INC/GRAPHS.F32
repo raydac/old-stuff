@@ -1,0 +1,1373 @@
+
+Comment: **********************************************************************
+
+       Graphics modes dispatcher by Alexandr Larionov, September 1996
+
+********************************************************************** Comment;
+
+Defer INITGRAPH
+Defer COUTLINE
+Defer REMOVEWINDOW
+Defer POPSTATE
+Defer FULLSCREEN
+Defer RED
+Defer LIGHT-GREEN
+Defer BLUE
+Defer GRAY
+Defer CHWINDOW
+Defer GETCOLOR
+Defer GRAPHSELECTOR
+Defer X2
+Defer Y-SIZE
+Defer LINE
+Defer GETIMAGESIZE
+Defer SETFONT
+Defer SETGRAPHMODE
+Defer ELLIPSE
+Defer ROUTLINE2
+Defer MAKEWINDOW
+Defer PUSHSTATE
+Defer BORDER
+Defer DARK-RED
+Defer GREEN
+Defer DARK-BLUE
+Defer DARK-GRAY
+Defer FINDCOLOR
+Defer SETCOLOR
+Defer COLORS
+Defer X1
+Defer X-SIZE
+Defer SETPIXEL
+Defer GETLINEWIDTH
+Defer GOTOXY
+Defer LOADPALETTE
+Defer EDITLINE
+Defer ROUTLINE
+Defer POPWINDOW
+Defer OUTLINE
+Defer FILLWINDOW
+Defer YELLOW
+Defer DARK-GREEN
+Defer WHITE
+Defer BLACK
+Defer >COLOR
+Defer OUTCHAR2
+Defer Y2
+Defer POSY
+Defer AUXCOLOR
+Defer PUTIMAGE
+Defer SETTEXTMODE
+Defer GETWINDOW
+Defer PALETTE
+Defer COUTLINE2
+Defer OUTLINE2
+Defer PUSHWINDOW
+Defer CLS
+Defer MAGENTA
+Defer BROWN
+Defer LIGHT-BLUE
+Defer LIGHT-GRAY
+Defer ALIGNWINDOW
+Defer SHOWVIRTWINDOW
+Defer OUTCHAR
+Defer Y1
+Defer POSX
+Defer COLOR
+Defer GETIMAGE
+Defer GETFONT
+Defer SETWINDOW
+Defer ?GRAPH
+
+\ =============================================================================
+Vocabulary VGA640
+Use VGA640
+
+>List VGA640 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VGA640 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VGA640 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VGA640 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VGA640 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VGA640 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VGA640 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VGA640 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VGA640 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VGA640 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VGA640 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VGA640 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VGA640 ( --> )
+   [ VGA640 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VGA640 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VGA640 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VGA640 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VGA640 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VGA640 ] ['] RED              [ Forth ] To RED
+   [ VGA640 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VGA640 ] ['] BLUE             [ Forth ] To BLUE
+   [ VGA640 ] ['] GRAY             [ Forth ] To GRAY
+   [ VGA640 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VGA640 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VGA640 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VGA640 ] ['] X2               [ Forth ] To X2
+   [ VGA640 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VGA640 ] ['] LINE             [ Forth ] To LINE
+   [ VGA640 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VGA640 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VGA640 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VGA640 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VGA640 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VGA640 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VGA640 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VGA640 ] ['] BORDER           [ Forth ] To BORDER
+   [ VGA640 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VGA640 ] ['] GREEN            [ Forth ] To GREEN
+   [ VGA640 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VGA640 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VGA640 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VGA640 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VGA640 ] ['] COLORS           [ Forth ] To COLORS
+   [ VGA640 ] ['] X1               [ Forth ] To X1
+   [ VGA640 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VGA640 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VGA640 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VGA640 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VGA640 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VGA640 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VGA640 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VGA640 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VGA640 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VGA640 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VGA640 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VGA640 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VGA640 ] ['] WHITE            [ Forth ] To WHITE
+   [ VGA640 ] ['] BLACK            [ Forth ] To BLACK
+   [ VGA640 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VGA640 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VGA640 ] ['] Y2               [ Forth ] To Y2
+   [ VGA640 ] ['] POSY             [ Forth ] To POSY
+   [ VGA640 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VGA640 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VGA640 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VGA640 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VGA640 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VGA640 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VGA640 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VGA640 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VGA640 ] ['] CLS              [ Forth ] To CLS
+   [ VGA640 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VGA640 ] ['] BROWN            [ Forth ] To BROWN
+   [ VGA640 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VGA640 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VGA640 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VGA640 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VGA640 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VGA640 ] ['] Y1               [ Forth ] To Y1
+   [ VGA640 ] ['] POSX             [ Forth ] To POSX
+   [ VGA640 ] ['] COLOR            [ Forth ] To COLOR
+   [ VGA640 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VGA640 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VGA640 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VGA640 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary VGA320
+Use VGA320
+
+>List VGA320 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VGA320 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VGA320 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VGA320 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VGA320 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VGA320 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VGA320 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VGA320 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VGA320 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VGA320 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VGA320 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VGA320 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VGA320 ( --> )
+   [ VGA320 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VGA320 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VGA320 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VGA320 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VGA320 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VGA320 ] ['] RED              [ Forth ] To RED
+   [ VGA320 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VGA320 ] ['] BLUE             [ Forth ] To BLUE
+   [ VGA320 ] ['] GRAY             [ Forth ] To GRAY
+   [ VGA320 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VGA320 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VGA320 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VGA320 ] ['] X2               [ Forth ] To X2
+   [ VGA320 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VGA320 ] ['] LINE             [ Forth ] To LINE
+   [ VGA320 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VGA320 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VGA320 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VGA320 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VGA320 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VGA320 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VGA320 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VGA320 ] ['] BORDER           [ Forth ] To BORDER
+   [ VGA320 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VGA320 ] ['] GREEN            [ Forth ] To GREEN
+   [ VGA320 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VGA320 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VGA320 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VGA320 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VGA320 ] ['] COLORS           [ Forth ] To COLORS
+   [ VGA320 ] ['] X1               [ Forth ] To X1
+   [ VGA320 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VGA320 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VGA320 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VGA320 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VGA320 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VGA320 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VGA320 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VGA320 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VGA320 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VGA320 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VGA320 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VGA320 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VGA320 ] ['] WHITE            [ Forth ] To WHITE
+   [ VGA320 ] ['] BLACK            [ Forth ] To BLACK
+   [ VGA320 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VGA320 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VGA320 ] ['] Y2               [ Forth ] To Y2
+   [ VGA320 ] ['] POSY             [ Forth ] To POSY
+   [ VGA320 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VGA320 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VGA320 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VGA320 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VGA320 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VGA320 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VGA320 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VGA320 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VGA320 ] ['] CLS              [ Forth ] To CLS
+   [ VGA320 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VGA320 ] ['] BROWN            [ Forth ] To BROWN
+   [ VGA320 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VGA320 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VGA320 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VGA320 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VGA320 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VGA320 ] ['] Y1               [ Forth ] To Y1
+   [ VGA320 ] ['] POSX             [ Forth ] To POSX
+   [ VGA320 ] ['] COLOR            [ Forth ] To COLOR
+   [ VGA320 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VGA320 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VGA320 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VGA320 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary VESA640
+Use VESA640
+
+>List VESA640 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VESA640 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VESA640 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VESA640 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VESA640 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VESA640 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VESA640 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VESA640 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VESA640 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VESA640 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VESA640 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VESA640 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VESA640 ( --> )
+   [ VESA640 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VESA640 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VESA640 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VESA640 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VESA640 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VESA640 ] ['] RED              [ Forth ] To RED
+   [ VESA640 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VESA640 ] ['] BLUE             [ Forth ] To BLUE
+   [ VESA640 ] ['] GRAY             [ Forth ] To GRAY
+   [ VESA640 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VESA640 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VESA640 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VESA640 ] ['] X2               [ Forth ] To X2
+   [ VESA640 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VESA640 ] ['] LINE             [ Forth ] To LINE
+   [ VESA640 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VESA640 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VESA640 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VESA640 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VESA640 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VESA640 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VESA640 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VESA640 ] ['] BORDER           [ Forth ] To BORDER
+   [ VESA640 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VESA640 ] ['] GREEN            [ Forth ] To GREEN
+   [ VESA640 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VESA640 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VESA640 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VESA640 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VESA640 ] ['] COLORS           [ Forth ] To COLORS
+   [ VESA640 ] ['] X1               [ Forth ] To X1
+   [ VESA640 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VESA640 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VESA640 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VESA640 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VESA640 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VESA640 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VESA640 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VESA640 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VESA640 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VESA640 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VESA640 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VESA640 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VESA640 ] ['] WHITE            [ Forth ] To WHITE
+   [ VESA640 ] ['] BLACK            [ Forth ] To BLACK
+   [ VESA640 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VESA640 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VESA640 ] ['] Y2               [ Forth ] To Y2
+   [ VESA640 ] ['] POSY             [ Forth ] To POSY
+   [ VESA640 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VESA640 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VESA640 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VESA640 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VESA640 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VESA640 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VESA640 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VESA640 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VESA640 ] ['] CLS              [ Forth ] To CLS
+   [ VESA640 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VESA640 ] ['] BROWN            [ Forth ] To BROWN
+   [ VESA640 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VESA640 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VESA640 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VESA640 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VESA640 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VESA640 ] ['] Y1               [ Forth ] To Y1
+   [ VESA640 ] ['] POSX             [ Forth ] To POSX
+   [ VESA640 ] ['] COLOR            [ Forth ] To COLOR
+   [ VESA640 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VESA640 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VESA640 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VESA640 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary VESA800
+Use VESA800
+
+>List VESA800 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VESA800 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VESA800 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VESA800 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VESA800 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VESA800 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VESA800 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VESA800 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VESA800 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VESA800 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VESA800 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VESA800 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VESA800 ( --> )
+   [ VESA800 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VESA800 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VESA800 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VESA800 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VESA800 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VESA800 ] ['] RED              [ Forth ] To RED
+   [ VESA800 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VESA800 ] ['] BLUE             [ Forth ] To BLUE
+   [ VESA800 ] ['] GRAY             [ Forth ] To GRAY
+   [ VESA800 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VESA800 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VESA800 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VESA800 ] ['] X2               [ Forth ] To X2
+   [ VESA800 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VESA800 ] ['] LINE             [ Forth ] To LINE
+   [ VESA800 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VESA800 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VESA800 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VESA800 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VESA800 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VESA800 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VESA800 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VESA800 ] ['] BORDER           [ Forth ] To BORDER
+   [ VESA800 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VESA800 ] ['] GREEN            [ Forth ] To GREEN
+   [ VESA800 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VESA800 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VESA800 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VESA800 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VESA800 ] ['] COLORS           [ Forth ] To COLORS
+   [ VESA800 ] ['] X1               [ Forth ] To X1
+   [ VESA800 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VESA800 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VESA800 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VESA800 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VESA800 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VESA800 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VESA800 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VESA800 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VESA800 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VESA800 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VESA800 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VESA800 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VESA800 ] ['] WHITE            [ Forth ] To WHITE
+   [ VESA800 ] ['] BLACK            [ Forth ] To BLACK
+   [ VESA800 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VESA800 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VESA800 ] ['] Y2               [ Forth ] To Y2
+   [ VESA800 ] ['] POSY             [ Forth ] To POSY
+   [ VESA800 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VESA800 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VESA800 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VESA800 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VESA800 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VESA800 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VESA800 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VESA800 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VESA800 ] ['] CLS              [ Forth ] To CLS
+   [ VESA800 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VESA800 ] ['] BROWN            [ Forth ] To BROWN
+   [ VESA800 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VESA800 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VESA800 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VESA800 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VESA800 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VESA800 ] ['] Y1               [ Forth ] To Y1
+   [ VESA800 ] ['] POSX             [ Forth ] To POSX
+   [ VESA800 ] ['] COLOR            [ Forth ] To COLOR
+   [ VESA800 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VESA800 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VESA800 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VESA800 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary VESA1024
+Use VESA1024
+
+>List VESA1024 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VESA1024 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VESA1024 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VESA1024 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VESA1024 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VESA1024 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VESA1024 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VESA1024 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VESA1024 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VESA1024 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VESA1024 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VESA1024 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VESA1024 ( --> )
+   [ VESA1024 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VESA1024 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VESA1024 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VESA1024 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VESA1024 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VESA1024 ] ['] RED              [ Forth ] To RED
+   [ VESA1024 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VESA1024 ] ['] BLUE             [ Forth ] To BLUE
+   [ VESA1024 ] ['] GRAY             [ Forth ] To GRAY
+   [ VESA1024 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VESA1024 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VESA1024 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VESA1024 ] ['] X2               [ Forth ] To X2
+   [ VESA1024 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VESA1024 ] ['] LINE             [ Forth ] To LINE
+   [ VESA1024 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VESA1024 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VESA1024 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VESA1024 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VESA1024 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VESA1024 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VESA1024 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VESA1024 ] ['] BORDER           [ Forth ] To BORDER
+   [ VESA1024 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VESA1024 ] ['] GREEN            [ Forth ] To GREEN
+   [ VESA1024 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VESA1024 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VESA1024 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VESA1024 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VESA1024 ] ['] COLORS           [ Forth ] To COLORS
+   [ VESA1024 ] ['] X1               [ Forth ] To X1
+   [ VESA1024 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VESA1024 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VESA1024 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VESA1024 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VESA1024 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VESA1024 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VESA1024 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VESA1024 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VESA1024 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VESA1024 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VESA1024 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VESA1024 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VESA1024 ] ['] WHITE            [ Forth ] To WHITE
+   [ VESA1024 ] ['] BLACK            [ Forth ] To BLACK
+   [ VESA1024 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VESA1024 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VESA1024 ] ['] Y2               [ Forth ] To Y2
+   [ VESA1024 ] ['] POSY             [ Forth ] To POSY
+   [ VESA1024 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VESA1024 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VESA1024 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VESA1024 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VESA1024 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VESA1024 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VESA1024 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VESA1024 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VESA1024 ] ['] CLS              [ Forth ] To CLS
+   [ VESA1024 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VESA1024 ] ['] BROWN            [ Forth ] To BROWN
+   [ VESA1024 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VESA1024 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VESA1024 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VESA1024 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VESA1024 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VESA1024 ] ['] Y1               [ Forth ] To Y1
+   [ VESA1024 ] ['] POSX             [ Forth ] To POSX
+   [ VESA1024 ] ['] COLOR            [ Forth ] To COLOR
+   [ VESA1024 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VESA1024 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VESA1024 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VESA1024 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary VESA1280
+Use VESA1280
+
+>List VESA1280 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List VESA1280 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List VESA1280 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List VESA1280 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List VESA1280 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List VESA1280 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List VESA1280 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List VESA1280 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List VESA1280 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List VESA1280 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List VESA1280 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List VESA1280 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-VESA1280 ( --> )
+   [ VESA1280 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ VESA1280 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ VESA1280 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ VESA1280 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ VESA1280 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ VESA1280 ] ['] RED              [ Forth ] To RED
+   [ VESA1280 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ VESA1280 ] ['] BLUE             [ Forth ] To BLUE
+   [ VESA1280 ] ['] GRAY             [ Forth ] To GRAY
+   [ VESA1280 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ VESA1280 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ VESA1280 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ VESA1280 ] ['] X2               [ Forth ] To X2
+   [ VESA1280 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ VESA1280 ] ['] LINE             [ Forth ] To LINE
+   [ VESA1280 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ VESA1280 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ VESA1280 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ VESA1280 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ VESA1280 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ VESA1280 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ VESA1280 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ VESA1280 ] ['] BORDER           [ Forth ] To BORDER
+   [ VESA1280 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ VESA1280 ] ['] GREEN            [ Forth ] To GREEN
+   [ VESA1280 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ VESA1280 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ VESA1280 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ VESA1280 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ VESA1280 ] ['] COLORS           [ Forth ] To COLORS
+   [ VESA1280 ] ['] X1               [ Forth ] To X1
+   [ VESA1280 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ VESA1280 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ VESA1280 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ VESA1280 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ VESA1280 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ VESA1280 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ VESA1280 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ VESA1280 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ VESA1280 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ VESA1280 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ VESA1280 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ VESA1280 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ VESA1280 ] ['] WHITE            [ Forth ] To WHITE
+   [ VESA1280 ] ['] BLACK            [ Forth ] To BLACK
+   [ VESA1280 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ VESA1280 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ VESA1280 ] ['] Y2               [ Forth ] To Y2
+   [ VESA1280 ] ['] POSY             [ Forth ] To POSY
+   [ VESA1280 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ VESA1280 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ VESA1280 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ VESA1280 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ VESA1280 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ VESA1280 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ VESA1280 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ VESA1280 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ VESA1280 ] ['] CLS              [ Forth ] To CLS
+   [ VESA1280 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ VESA1280 ] ['] BROWN            [ Forth ] To BROWN
+   [ VESA1280 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ VESA1280 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ VESA1280 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ VESA1280 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ VESA1280 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ VESA1280 ] ['] Y1               [ Forth ] To Y1
+   [ VESA1280 ] ['] POSX             [ Forth ] To POSX
+   [ VESA1280 ] ['] COLOR            [ Forth ] To COLOR
+   [ VESA1280 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ VESA1280 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ VESA1280 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ VESA1280 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary HI640
+Use HI640
+
+>List HI640 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List HI640 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List HI640 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List HI640 DARK-RED GREEN DARK-BLUE DARK-GRAY SETCOLOR COLORS
+>List HI640 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List HI640 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List HI640 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List HI640 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List HI640 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List HI640 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List HI640 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List HI640 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-HI640 ( --> )
+   [ HI640 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ HI640 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ HI640 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ HI640 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ HI640 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ HI640 ] ['] RED              [ Forth ] To RED
+   [ HI640 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ HI640 ] ['] BLUE             [ Forth ] To BLUE
+   [ HI640 ] ['] GRAY             [ Forth ] To GRAY
+   [ HI640 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ HI640 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ HI640 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ HI640 ] ['] X2               [ Forth ] To X2
+   [ HI640 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ HI640 ] ['] LINE             [ Forth ] To LINE
+   [ HI640 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ HI640 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ HI640 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ HI640 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ HI640 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ HI640 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ HI640 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ HI640 ] ['] BORDER           [ Forth ] To BORDER
+   [ HI640 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ HI640 ] ['] GREEN            [ Forth ] To GREEN
+   [ HI640 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ HI640 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ HIDDEN ] ['] (DEFER)         [ Forth ] To FINDCOLOR
+   [ HI640 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ HI640 ] ['] COLORS           [ Forth ] To COLORS
+   [ HI640 ] ['] X1               [ Forth ] To X1
+   [ HI640 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ HI640 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ HI640 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ HI640 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ HI640 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ HI640 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ HI640 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ HI640 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ HI640 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ HI640 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ HI640 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ HI640 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ HI640 ] ['] WHITE            [ Forth ] To WHITE
+   [ HI640 ] ['] BLACK            [ Forth ] To BLACK
+   [ HI640 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ HI640 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ HI640 ] ['] Y2               [ Forth ] To Y2
+   [ HI640 ] ['] POSY             [ Forth ] To POSY
+   [ HI640 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ HI640 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ HI640 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ HI640 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ HI640 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ HI640 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ HI640 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ HI640 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ HI640 ] ['] CLS              [ Forth ] To CLS
+   [ HI640 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ HI640 ] ['] BROWN            [ Forth ] To BROWN
+   [ HI640 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ HI640 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ HI640 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ HI640 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ HI640 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ HI640 ] ['] Y1               [ Forth ] To Y1
+   [ HI640 ] ['] POSX             [ Forth ] To POSX
+   [ HI640 ] ['] COLOR            [ Forth ] To COLOR
+   [ HI640 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ HI640 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ HI640 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ HI640 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary HI800
+Use HI800
+
+>List HI800 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List HI800 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List HI800 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List HI800 DARK-RED GREEN DARK-BLUE DARK-GRAY SETCOLOR COLORS
+>List HI800 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List HI800 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List HI800 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List HI800 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List HI800 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List HI800 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List HI800 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List HI800 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-HI800 ( --> )
+   [ HI800 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ HI800 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ HI800 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ HI800 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ HI800 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ HI800 ] ['] RED              [ Forth ] To RED
+   [ HI800 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ HI800 ] ['] BLUE             [ Forth ] To BLUE
+   [ HI800 ] ['] GRAY             [ Forth ] To GRAY
+   [ HI800 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ HI800 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ HI800 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ HI800 ] ['] X2               [ Forth ] To X2
+   [ HI800 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ HI800 ] ['] LINE             [ Forth ] To LINE
+   [ HI800 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ HI800 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ HI800 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ HI800 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ HI800 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ HI800 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ HI800 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ HI800 ] ['] BORDER           [ Forth ] To BORDER
+   [ HI800 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ HI800 ] ['] GREEN            [ Forth ] To GREEN
+   [ HI800 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ HI800 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ HIDDEN ] ['] (DEFER)         [ Forth ] To FINDCOLOR
+   [ HI800 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ HI800 ] ['] COLORS           [ Forth ] To COLORS
+   [ HI800 ] ['] X1               [ Forth ] To X1
+   [ HI800 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ HI800 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ HI800 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ HI800 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ HI800 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ HI800 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ HI800 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ HI800 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ HI800 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ HI800 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ HI800 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ HI800 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ HI800 ] ['] WHITE            [ Forth ] To WHITE
+   [ HI800 ] ['] BLACK            [ Forth ] To BLACK
+   [ HI800 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ HI800 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ HI800 ] ['] Y2               [ Forth ] To Y2
+   [ HI800 ] ['] POSY             [ Forth ] To POSY
+   [ HI800 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ HI800 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ HI800 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ HI800 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ HI800 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ HI800 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ HI800 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ HI800 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ HI800 ] ['] CLS              [ Forth ] To CLS
+   [ HI800 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ HI800 ] ['] BROWN            [ Forth ] To BROWN
+   [ HI800 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ HI800 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ HI800 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ HI800 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ HI800 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ HI800 ] ['] Y1               [ Forth ] To Y1
+   [ HI800 ] ['] POSX             [ Forth ] To POSX
+   [ HI800 ] ['] COLOR            [ Forth ] To COLOR
+   [ HI800 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ HI800 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ HI800 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ HI800 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary HI1024
+Use HI1024
+
+>List HI1024 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List HI1024 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List HI1024 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List HI1024 DARK-RED GREEN DARK-BLUE DARK-GRAY SETCOLOR COLORS
+>List HI1024 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List HI1024 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List HI1024 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List HI1024 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List HI1024 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List HI1024 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List HI1024 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List HI1024 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-HI1024 ( --> )
+   [ HI1024 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ HI1024 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ HI1024 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ HI1024 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ HI1024 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ HI1024 ] ['] RED              [ Forth ] To RED
+   [ HI1024 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ HI1024 ] ['] BLUE             [ Forth ] To BLUE
+   [ HI1024 ] ['] GRAY             [ Forth ] To GRAY
+   [ HI1024 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ HI1024 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ HI1024 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ HI1024 ] ['] X2               [ Forth ] To X2
+   [ HI1024 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ HI1024 ] ['] LINE             [ Forth ] To LINE
+   [ HI1024 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ HI1024 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ HI1024 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ HI1024 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ HI1024 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ HI1024 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ HI1024 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ HI1024 ] ['] BORDER           [ Forth ] To BORDER
+   [ HI1024 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ HI1024 ] ['] GREEN            [ Forth ] To GREEN
+   [ HI1024 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ HI1024 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ HIDDEN ] ['] (DEFER)          [ Forth ] To FINDCOLOR
+   [ HI1024 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ HI1024 ] ['] COLORS           [ Forth ] To COLORS
+   [ HI1024 ] ['] X1               [ Forth ] To X1
+   [ HI1024 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ HI1024 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ HI1024 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ HI1024 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ HI1024 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ HI1024 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ HI1024 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ HI1024 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ HI1024 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ HI1024 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ HI1024 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ HI1024 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ HI1024 ] ['] WHITE            [ Forth ] To WHITE
+   [ HI1024 ] ['] BLACK            [ Forth ] To BLACK
+   [ HI1024 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ HI1024 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ HI1024 ] ['] Y2               [ Forth ] To Y2
+   [ HI1024 ] ['] POSY             [ Forth ] To POSY
+   [ HI1024 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ HI1024 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ HI1024 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ HI1024 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ HI1024 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ HI1024 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ HI1024 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ HI1024 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ HI1024 ] ['] CLS              [ Forth ] To CLS
+   [ HI1024 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ HI1024 ] ['] BROWN            [ Forth ] To BROWN
+   [ HI1024 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ HI1024 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ HI1024 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ HI1024 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ HI1024 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ HI1024 ] ['] Y1               [ Forth ] To Y1
+   [ HI1024 ] ['] POSX             [ Forth ] To POSX
+   [ HI1024 ] ['] COLOR            [ Forth ] To COLOR
+   [ HI1024 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ HI1024 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ HI1024 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ HI1024 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary 2V640
+Use 2V640
+
+>List 2V640 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List 2V640 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List 2V640 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List 2V640 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List 2V640 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List 2V640 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List 2V640 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List 2V640 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List 2V640 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List 2V640 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List 2V640 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List 2V640 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-2V640 ( --> )
+   [ 2V640 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ 2V640 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ 2V640 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ 2V640 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ 2V640 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ 2V640 ] ['] RED              [ Forth ] To RED
+   [ 2V640 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ 2V640 ] ['] BLUE             [ Forth ] To BLUE
+   [ 2V640 ] ['] GRAY             [ Forth ] To GRAY
+   [ 2V640 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ 2V640 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ 2V640 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ 2V640 ] ['] X2               [ Forth ] To X2
+   [ 2V640 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ 2V640 ] ['] LINE             [ Forth ] To LINE
+   [ 2V640 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ 2V640 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ 2V640 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ 2V640 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ 2V640 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ 2V640 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ 2V640 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ 2V640 ] ['] BORDER           [ Forth ] To BORDER
+   [ 2V640 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ 2V640 ] ['] GREEN            [ Forth ] To GREEN
+   [ 2V640 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ 2V640 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ 2V640 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ 2V640 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ 2V640 ] ['] COLORS           [ Forth ] To COLORS
+   [ 2V640 ] ['] X1               [ Forth ] To X1
+   [ 2V640 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ 2V640 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ 2V640 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ 2V640 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ 2V640 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ 2V640 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ 2V640 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ 2V640 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ 2V640 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ 2V640 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ 2V640 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ 2V640 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ 2V640 ] ['] WHITE            [ Forth ] To WHITE
+   [ 2V640 ] ['] BLACK            [ Forth ] To BLACK
+   [ 2V640 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ 2V640 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ 2V640 ] ['] Y2               [ Forth ] To Y2
+   [ 2V640 ] ['] POSY             [ Forth ] To POSY
+   [ 2V640 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ 2V640 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ 2V640 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ 2V640 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ 2V640 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ 2V640 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ 2V640 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ 2V640 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ 2V640 ] ['] CLS              [ Forth ] To CLS
+   [ 2V640 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ 2V640 ] ['] BROWN            [ Forth ] To BROWN
+   [ 2V640 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ 2V640 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ 2V640 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ 2V640 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ 2V640 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ 2V640 ] ['] Y1               [ Forth ] To Y1
+   [ 2V640 ] ['] POSX             [ Forth ] To POSX
+   [ 2V640 ] ['] COLOR            [ Forth ] To COLOR
+   [ 2V640 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ 2V640 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ 2V640 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ 2V640 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary 2V800
+Use 2V800
+
+>List 2V800 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List 2V800 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List 2V800 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List 2V800 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List 2V800 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List 2V800 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List 2V800 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List 2V800 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List 2V800 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List 2V800 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List 2V800 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List 2V800 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-2V800 ( --> )
+   [ 2V800 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ 2V800 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ 2V800 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ 2V800 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ 2V800 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ 2V800 ] ['] RED              [ Forth ] To RED
+   [ 2V800 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ 2V800 ] ['] BLUE             [ Forth ] To BLUE
+   [ 2V800 ] ['] GRAY             [ Forth ] To GRAY
+   [ 2V800 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ 2V800 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ 2V800 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ 2V800 ] ['] X2               [ Forth ] To X2
+   [ 2V800 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ 2V800 ] ['] LINE             [ Forth ] To LINE
+   [ 2V800 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ 2V800 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ 2V800 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ 2V800 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ 2V800 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ 2V800 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ 2V800 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ 2V800 ] ['] BORDER           [ Forth ] To BORDER
+   [ 2V800 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ 2V800 ] ['] GREEN            [ Forth ] To GREEN
+   [ 2V800 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ 2V800 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ 2V800 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ 2V800 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ 2V800 ] ['] COLORS           [ Forth ] To COLORS
+   [ 2V800 ] ['] X1               [ Forth ] To X1
+   [ 2V800 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ 2V800 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ 2V800 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ 2V800 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ 2V800 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ 2V800 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ 2V800 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ 2V800 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ 2V800 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ 2V800 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ 2V800 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ 2V800 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ 2V800 ] ['] WHITE            [ Forth ] To WHITE
+   [ 2V800 ] ['] BLACK            [ Forth ] To BLACK
+   [ 2V800 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ 2V800 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ 2V800 ] ['] Y2               [ Forth ] To Y2
+   [ 2V800 ] ['] POSY             [ Forth ] To POSY
+   [ 2V800 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ 2V800 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ 2V800 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ 2V800 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ 2V800 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ 2V800 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ 2V800 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ 2V800 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ 2V800 ] ['] CLS              [ Forth ] To CLS
+   [ 2V800 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ 2V800 ] ['] BROWN            [ Forth ] To BROWN
+   [ 2V800 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ 2V800 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ 2V800 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ 2V800 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ 2V800 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ 2V800 ] ['] Y1               [ Forth ] To Y1
+   [ 2V800 ] ['] POSX             [ Forth ] To POSX
+   [ 2V800 ] ['] COLOR            [ Forth ] To COLOR
+   [ 2V800 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ 2V800 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ 2V800 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ 2V800 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary 2V1024
+Use 2V1024
+
+>List 2V1024 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List 2V1024 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List 2V1024 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List 2V1024 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List 2V1024 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List 2V1024 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List 2V1024 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List 2V1024 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List 2V1024 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List 2V1024 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List 2V1024 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List 2V1024 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-2V1024 ( --> )
+   [ 2V1024 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ 2V1024 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ 2V1024 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ 2V1024 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ 2V1024 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ 2V1024 ] ['] RED              [ Forth ] To RED
+   [ 2V1024 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ 2V1024 ] ['] BLUE             [ Forth ] To BLUE
+   [ 2V1024 ] ['] GRAY             [ Forth ] To GRAY
+   [ 2V1024 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ 2V1024 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ 2V1024 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ 2V1024 ] ['] X2               [ Forth ] To X2
+   [ 2V1024 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ 2V1024 ] ['] LINE             [ Forth ] To LINE
+   [ 2V1024 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ 2V1024 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ 2V1024 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ 2V1024 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ 2V1024 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ 2V1024 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ 2V1024 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ 2V1024 ] ['] BORDER           [ Forth ] To BORDER
+   [ 2V1024 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ 2V1024 ] ['] GREEN            [ Forth ] To GREEN
+   [ 2V1024 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ 2V1024 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ 2V1024 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ 2V1024 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ 2V1024 ] ['] COLORS           [ Forth ] To COLORS
+   [ 2V1024 ] ['] X1               [ Forth ] To X1
+   [ 2V1024 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ 2V1024 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ 2V1024 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ 2V1024 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ 2V1024 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ 2V1024 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ 2V1024 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ 2V1024 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ 2V1024 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ 2V1024 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ 2V1024 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ 2V1024 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ 2V1024 ] ['] WHITE            [ Forth ] To WHITE
+   [ 2V1024 ] ['] BLACK            [ Forth ] To BLACK
+   [ 2V1024 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ 2V1024 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ 2V1024 ] ['] Y2               [ Forth ] To Y2
+   [ 2V1024 ] ['] POSY             [ Forth ] To POSY
+   [ 2V1024 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ 2V1024 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ 2V1024 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ 2V1024 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ 2V1024 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ 2V1024 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ 2V1024 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ 2V1024 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ 2V1024 ] ['] CLS              [ Forth ] To CLS
+   [ 2V1024 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ 2V1024 ] ['] BROWN            [ Forth ] To BROWN
+   [ 2V1024 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ 2V1024 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ 2V1024 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ 2V1024 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ 2V1024 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ 2V1024 ] ['] Y1               [ Forth ] To Y1
+   [ 2V1024 ] ['] POSX             [ Forth ] To POSX
+   [ 2V1024 ] ['] COLOR            [ Forth ] To COLOR
+   [ 2V1024 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ 2V1024 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ 2V1024 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ 2V1024 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+Vocabulary 2V1280
+Use 2V1280
+
+>List 2V1280 INITGRAPH COUTLINE REMOVEWINDOW POPSTATE FULLSCREEN RED
+>List 2V1280 BLUE GRAY CHWINDOW GETCOLOR GRAPHSELECTOR X2 Y-SIZE LINE
+>List 2V1280 SETFONT SETGRAPHMODE ELLIPSE ROUTLINE2 MAKEWINDOW PUSHSTATE
+>List 2V1280 DARK-RED GREEN DARK-BLUE DARK-GRAY FINDCOLOR SETCOLOR COLORS
+>List 2V1280 X-SIZE SETPIXEL GETLINEWIDTH GOTOXY LOADPALETTE EDITLINE
+>List 2V1280 POPWINDOW OUTLINE FILLWINDOW YELLOW DARK-GREEN WHITE BLACK
+>List 2V1280 OUTCHAR2 Y2 POSY AUXCOLOR PUTIMAGE SETTEXTMODE GETWINDOW
+>List 2V1280 COUTLINE2 OUTLINE2 PUSHWINDOW CLS MAGENTA BROWN LIGHT-BLUE
+>List 2V1280 LIGHT-GRAY ALIGNWINDOW SHOWVIRTWINDOW OUTCHAR Y1 POSX COLOR
+>List 2V1280 GETIMAGE GETFONT SETWINDOW ?GRAPH LIGHT-GREEN GETIMAGESIZE
+>List 2V1280 BORDER ROUTLINE >COLOR PALETTE X1
+
+Debug @
+[If]
+   >List 2V1280 SETGRAPHMODE SETTEXTMODE LOADPALETTE
+[Then]
+
+: SET-2V1280 ( --> )
+   [ 2V1280 ] ['] INITGRAPH        [ Forth ] To INITGRAPH
+   [ 2V1280 ] ['] COUTLINE         [ Forth ] To COUTLINE
+   [ 2V1280 ] ['] REMOVEWINDOW     [ Forth ] To REMOVEWINDOW
+   [ 2V1280 ] ['] POPSTATE         [ Forth ] To POPSTATE
+   [ 2V1280 ] ['] FULLSCREEN       [ Forth ] To FULLSCREEN
+   [ 2V1280 ] ['] RED              [ Forth ] To RED
+   [ 2V1280 ] ['] LIGHT-GREEN      [ Forth ] To LIGHT-GREEN
+   [ 2V1280 ] ['] BLUE             [ Forth ] To BLUE
+   [ 2V1280 ] ['] GRAY             [ Forth ] To GRAY
+   [ 2V1280 ] ['] CHWINDOW         [ Forth ] To CHWINDOW
+   [ 2V1280 ] ['] GETCOLOR         [ Forth ] To GETCOLOR
+   [ 2V1280 ] ['] GRAPHSELECTOR    [ Forth ] To GRAPHSELECTOR
+   [ 2V1280 ] ['] X2               [ Forth ] To X2
+   [ 2V1280 ] ['] Y-SIZE           [ Forth ] To Y-SIZE
+   [ 2V1280 ] ['] LINE             [ Forth ] To LINE
+   [ 2V1280 ] ['] GETIMAGESIZE     [ Forth ] To GETIMAGESIZE
+   [ 2V1280 ] ['] SETFONT          [ Forth ] To SETFONT
+   [ 2V1280 ] ['] SETGRAPHMODE     [ Forth ] To SETGRAPHMODE
+   [ 2V1280 ] ['] ELLIPSE          [ Forth ] To ELLIPSE
+   [ 2V1280 ] ['] ROUTLINE2        [ Forth ] To ROUTLINE2
+   [ 2V1280 ] ['] MAKEWINDOW       [ Forth ] To MAKEWINDOW
+   [ 2V1280 ] ['] PUSHSTATE        [ Forth ] To PUSHSTATE
+   [ 2V1280 ] ['] BORDER           [ Forth ] To BORDER
+   [ 2V1280 ] ['] DARK-RED         [ Forth ] To DARK-RED
+   [ 2V1280 ] ['] GREEN            [ Forth ] To GREEN
+   [ 2V1280 ] ['] DARK-BLUE        [ Forth ] To DARK-BLUE
+   [ 2V1280 ] ['] DARK-GRAY        [ Forth ] To DARK-GRAY
+   [ 2V1280 ] ['] FINDCOLOR        [ Forth ] To FINDCOLOR
+   [ 2V1280 ] ['] SETCOLOR         [ Forth ] To SETCOLOR
+   [ 2V1280 ] ['] COLORS           [ Forth ] To COLORS
+   [ 2V1280 ] ['] X1               [ Forth ] To X1
+   [ 2V1280 ] ['] X-SIZE           [ Forth ] To X-SIZE
+   [ 2V1280 ] ['] SETPIXEL         [ Forth ] To SETPIXEL
+   [ 2V1280 ] ['] GETLINEWIDTH     [ Forth ] To GETLINEWIDTH
+   [ 2V1280 ] ['] GOTOXY           [ Forth ] To GOTOXY
+   [ 2V1280 ] ['] LOADPALETTE      [ Forth ] To LOADPALETTE
+   [ 2V1280 ] ['] EDITLINE         [ Forth ] To EDITLINE
+   [ 2V1280 ] ['] ROUTLINE         [ Forth ] To ROUTLINE
+   [ 2V1280 ] ['] POPWINDOW        [ Forth ] To POPWINDOW
+   [ 2V1280 ] ['] OUTLINE          [ Forth ] To OUTLINE
+   [ 2V1280 ] ['] FILLWINDOW       [ Forth ] To FILLWINDOW
+   [ 2V1280 ] ['] YELLOW           [ Forth ] To YELLOW
+   [ 2V1280 ] ['] DARK-GREEN       [ Forth ] To DARK-GREEN
+   [ 2V1280 ] ['] WHITE            [ Forth ] To WHITE
+   [ 2V1280 ] ['] BLACK            [ Forth ] To BLACK
+   [ 2V1280 ] ['] >COLOR           [ Forth ] To >COLOR
+   [ 2V1280 ] ['] OUTCHAR2         [ Forth ] To OUTCHAR2
+   [ 2V1280 ] ['] Y2               [ Forth ] To Y2
+   [ 2V1280 ] ['] POSY             [ Forth ] To POSY
+   [ 2V1280 ] ['] AUXCOLOR         [ Forth ] To AUXCOLOR
+   [ 2V1280 ] ['] PUTIMAGE         [ Forth ] To PUTIMAGE
+   [ 2V1280 ] ['] SETTEXTMODE      [ Forth ] To SETTEXTMODE
+   [ 2V1280 ] ['] GETWINDOW        [ Forth ] To GETWINDOW
+   [ 2V1280 ] ['] PALETTE          [ Forth ] To PALETTE
+   [ 2V1280 ] ['] COUTLINE2        [ Forth ] To COUTLINE2
+   [ 2V1280 ] ['] OUTLINE2         [ Forth ] To OUTLINE2
+   [ 2V1280 ] ['] PUSHWINDOW       [ Forth ] To PUSHWINDOW
+   [ 2V1280 ] ['] CLS              [ Forth ] To CLS
+   [ 2V1280 ] ['] MAGENTA          [ Forth ] To MAGENTA
+   [ 2V1280 ] ['] BROWN            [ Forth ] To BROWN
+   [ 2V1280 ] ['] LIGHT-BLUE       [ Forth ] To LIGHT-BLUE
+   [ 2V1280 ] ['] LIGHT-GRAY       [ Forth ] To LIGHT-GRAY
+   [ 2V1280 ] ['] ALIGNWINDOW      [ Forth ] To ALIGNWINDOW
+   [ 2V1280 ] ['] SHOWVIRTWINDOW   [ Forth ] To SHOWVIRTWINDOW
+   [ 2V1280 ] ['] OUTCHAR          [ Forth ] To OUTCHAR
+   [ 2V1280 ] ['] Y1               [ Forth ] To Y1
+   [ 2V1280 ] ['] POSX             [ Forth ] To POSX
+   [ 2V1280 ] ['] COLOR            [ Forth ] To COLOR
+   [ 2V1280 ] ['] GETIMAGE         [ Forth ] To GETIMAGE
+   [ 2V1280 ] ['] GETFONT          [ Forth ] To GETFONT
+   [ 2V1280 ] ['] SETWINDOW        [ Forth ] To SETWINDOW
+   [ 2V1280 ] ['] ?GRAPH           [ Forth ] To ?GRAPH
+;
+
+\ =============================================================================
+
+: SET-VIRTSCR ( --> )
+   ['] V-COUTLINE         To COUTLINE
+   ['] V-POPSTATE         To POPSTATE
+   ['] V-FULLSCREEN       To FULLSCREEN
+   ['] V-CHWINDOW         To CHWINDOW
+   ['] V-X2               To X2
+   ['] V-Y-SIZE           To Y-SIZE
+   ['] V-LINE             To LINE
+   ['] V-GETIMAGESIZE     To GETIMAGESIZE
+   ['] V-SETFONT          To SETFONT
+   ['] V-ELLIPSE          To ELLIPSE
+   ['] V-ROUTLINE2        To ROUTLINE2
+   ['] V-PUSHSTATE        To PUSHSTATE
+   ['] V-BORDER           To BORDER
+   ['] V-COLORS           To COLORS
+   ['] V-X1               To X1
+   ['] V-X-SIZE           To X-SIZE
+   ['] V-SETPIXEL         To SETPIXEL
+   ['] V-GETLINEWIDTH     To GETLINEWIDTH
+   ['] V-GOTOXY           To GOTOXY
+   ['] V-ROUTLINE         To ROUTLINE
+   ['] V-OUTLINE          To OUTLINE
+   ['] V-FILLWINDOW       To FILLWINDOW
+   ['] V-OUTCHAR2         To OUTCHAR2
+   ['] V-Y2               To Y2
+   ['] V-POSY             To POSY
+   ['] V-AUXCOLOR         To AUXCOLOR
+   ['] V-GETWINDOW        To GETWINDOW
+   ['] V-COUTLINE2        To COUTLINE2
+   ['] V-OUTLINE2         To OUTLINE2
+   ['] V-CLS              To CLS
+   ['] V-OUTCHAR          To OUTCHAR
+   ['] V-Y1               To Y1
+   ['] V-POSX             To POSX
+   ['] V-COLOR            To COLOR
+   ['] V-GETFONT          To GETFONT
+   ['] V-SETWINDOW        To SETWINDOW
+   ['] V-SHOWVIRTWINDOW   To SHOWVIRTWINDOW
+;
+
+\ =============================================================================
+
+Set-VGA640

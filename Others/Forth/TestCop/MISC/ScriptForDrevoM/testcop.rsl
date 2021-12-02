@@ -1,0 +1,133 @@
+// Скрипт для формирования бинарных файлов содержащих конфигурации панелей для
+// заданного контракта
+#define li : integer;
+// Создаем файл для панели передней двери
+#createbinfile(KONTRDIR+KONTRNO+".cop")
+// Записываем метку файла
+#writeint(0,11259375)
+// Записываем количество этажей
+#writeint(1,STOPS_NO)
+// Присутствие индикатора положения CPI
+#if CPI 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие индикатора направления CDI
+#if CDI 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие индикатора перегрузки OLS
+#if (LWO or ANS or LNS) 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие звонка BUZ
+#writeint(1,1)
+// Присутствие переговорного устройства ICU
+#writeint(1,1)
+// Присутствие ключа перевозки пожарных EFS
+#if (EEC and EFS_KEY) 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие ключа независимого обслуживания ISS
+#if ISS_KEY 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие ключа вентилятора FAN
+#if (FAN and (FAN_TYPE="FAN1"))
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие кнопки открытия дверей DOB
+#writeint(1,1)
+// Присутствие кнопки закрытия дверей DСB
+#if DCB 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие кнопки звонка BB
+#writeint(1,1)
+// Номер конфигурации "передняя дверь" 
+#writeint(1,0)
+// Заполняем резервные байты
+#for li=0 to 14
+#writeint(1,0)
+#next li
+#closebinfile
+// Выясняем наличие задней двери
+#if (RDOOR and (N_PEOPLE=13))
+#then
+//--------------------------------------------------
+// Создаем файл для панели задней двери
+#createbinfile(KONTRDIR+KONTRNO+"_b.cop")
+// Записываем метку файла
+#writeint(0,11259375)
+// Записываем количество этажей
+#writeint(1,STOPS_NO)
+// Присутствие индикатора положения CPI
+#writeint(1,0)
+// Присутствие индикатора направления CDI
+#writeint(1,0)
+// Присутствие индикатора перегрузки OLS
+#writeint(1,0)
+// Присутствие звонка BUZ
+#writeint(1,1)
+// Присутствие переговорного устройства ICU
+#writeint(1,1)
+// Присутствие ключа перевозки пожарных EFS
+#if (EEC and EFS_KEY) 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие ключа независимого обслуживания ISS
+#if ISS_KEY 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие ключа вентилятора FAN
+#if (FAN and (FAN_TYPE="FAN1"))
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие кнопки открытия дверей DOB
+#writeint(1,1)
+// Присутствие кнопки закрытия дверей DСB
+#if DCB 
+#then
+#writeint(1,1)
+#else
+#writeint(1,0)
+#endif
+// Присутствие кнопки звонка BB
+#writeint(1,1)
+// Номер конфигурации "задняя дверь" 
+#writeint(1,0)
+// Заполняем резервные байты
+#for li=0 to 14
+#writeint(1,0)
+#next li
+#closebinfile
+#endif

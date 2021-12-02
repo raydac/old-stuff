@@ -1,0 +1,221 @@
+
+\ Заполнение цветом V-COLOR области текущего виртуального экрана, ограниченной
+\ бордюром цвета V-AUXCOLOR
+
+Code V-FILL     ; ( X Y --> )
+
+                mov     dword ptr [old_ebp],ebp
+                push    esi
+                fcall   "GETVIRTSCREEN"
+                fcall   "L0"
+                pop     edi
+                mov     ebp,dword ptr [edi]
+                sub     ebp,256
+                pop     edi
+                pop     esi
+                mov     bl,byte ptr [edi+28h]
+                mov     bh,byte ptr [edi+2ch]
+                mov     eax,dword ptr [edi+4]
+                mov     dword ptr [md],eax
+                mul     dword ptr [edi+8]
+                lea     eax,byte ptr [eax+edi+63]
+                mov     dword ptr [a3],eax
+                lea     eax,byte ptr [edi+64]
+                mov     dword ptr [a2],eax
+                pop     ecx
+                mov     eax,dword ptr [edi+4]
+                mul     ecx
+                lea     eax,byte ptr [eax+edi+64]
+                mov     dword ptr [a0],eax
+                pop     ecx
+                add     ecx,eax
+                add     eax,dword ptr [edi+4]
+                dec     eax
+                mov     dword ptr [a1],eax
+                mov     edi,ecx
+                ; sub     ecx,dword ptr [md]
+                mov     dword ptr [xl],ecx
+                mov     dword ptr [xr],ecx
+                call    adj_fill
+                mov     ebp,dword ptr [old_ebp]
+                next
+
+        adj_fill:
+                ; IN:
+                ;    EBP = Stack "fence"
+                ;    EDI = addr(x,y)
+                ;     BX = colors
+                ;
+                ;    [a0] = addr(0,y)
+                ;    [a1] = addr(DX-1,y)
+                ;    [a2] = addr(0,0)
+                ;    [a3] = addr(DX-1,DY-1)
+                ;    [md] = D*DX
+                ;
+                ; OUT:
+                ;    EDI = addr(xr,y)
+
+
+                mov     edx,edi
+                mov     ecx,edi
+                ;    EDX = addr(xl,y)
+                ;    ECX = addr(xr,y)
+
+                ; ScanLeft
+                mov     edi,dword ptr [a0]
+        scan_left:
+                dec     edx
+                cmp     edx,edi
+                jc      short scan_left_done
+                cmp     byte ptr [edx],bl
+                jz      short scan_left_done
+                cmp     byte ptr [edx],bh
+                jnz     short scan_left
+        scan_left_done:
+                inc     edx
+
+                ; ScanRight
+                mov     edi,dword ptr [a1]
+        scan_right:
+                inc     ecx
+                cmp     ecx,edi
+                ja      short scan_right_done
+                cmp     byte ptr [ecx],bl
+                jz      short scan_right_done
+                cmp     byte ptr [ecx],bh
+                jnz     short scan_right
+        scan_right_done:
+                dec     ecx
+
+                ; Line()
+                mov     edi,edx
+        line_loop:
+                mov     byte ptr [edi],bl
+                inc     edi
+                cmp     edi,ecx
+                jna     short line_loop
+
+                cmp     esp,ebp
+                ja      start_recurse
+                ret
+
+        start_recurse:
+
+                ; For #1
+                mov     eax,dword ptr [md]
+                add     edx,eax
+                add     ecx,eax
+                add     dword ptr [a0],eax
+                add     dword ptr [a1],eax
+                cmp     ecx,dword ptr [a3]
+                ja      short for_1_done
+                cmp     edx,dword ptr [a2]
+                jc      short for_1_done
+                mov     edi,edx
+        for_1_loop:
+                cmp     edi,ecx
+                ja      short for_1_done
+                cmp     byte ptr [edi],bl
+                jz      short for_1_next
+                cmp     byte ptr [edi],bh
+                jz      short for_1_next
+                push    dword ptr [xl]
+                push    dword ptr [xr]
+                mov     dword ptr [xl],edx
+                mov     dword ptr [xr],ecx
+                call    adj_fill
+                mov     edx,dword ptr [xl]
+                mov     ecx,dword ptr [xr]
+                pop     dword ptr [xr]
+                pop     dword ptr [xl]
+        for_1_next:
+                inc     edi
+                jmp     short for_1_loop
+        for_1_done:
+                mov     eax,dword ptr [md]
+                sub     edx,eax
+                sub     ecx,eax
+                sub     dword ptr [a0],eax
+                sub     dword ptr [a1],eax
+
+                ; For #2
+                neg     dword ptr [md]
+                mov     eax,dword ptr [md]
+                add     edx,eax
+                add     ecx,eax
+                add     dword ptr [a0],eax
+                add     dword ptr [a1],eax
+                cmp     ecx,dword ptr [a3]
+                ja      for_3_done
+                cmp     edx,dword ptr [a2]
+                jc      for_3_done
+                mov     edi,edx
+                mov     eax,dword ptr [xl]
+                add     eax,dword ptr [md]
+        for_2_loop:
+                cmp     edi,eax
+                jnc     short for_2_done
+                cmp     byte ptr [edi],bl
+                jz      short for_2_next
+                cmp     byte ptr [edi],bh
+                jz      short for_2_next
+                push    dword ptr [xl]
+                push    dword ptr [xr]
+                mov     dword ptr [xl],edx
+                mov     dword ptr [xr],ecx
+                call    adj_fill
+                mov     edx,dword ptr [xl]
+                mov     ecx,dword ptr [xr]
+                pop     dword ptr [xr]
+                pop     dword ptr [xl]
+                mov     eax,dword ptr [xl]
+                add     eax,dword ptr [md]
+        for_2_next:
+                inc     edi
+                jmp     short for_2_loop
+        for_2_done:
+
+                ; For #3
+                mov     edi,dword ptr [xr]
+                add     edi,dword ptr [md]
+        for_3_loop:
+                cmp     edi,ecx
+                jnc     short for_3_done
+                cmp     byte ptr [edi],bl
+                jz      short for_3_next
+                cmp     byte ptr [edi],bh
+                jz      short for_3_next
+                push    dword ptr [xl]
+                push    dword ptr [xr]
+                mov     dword ptr [xl],edx
+                mov     dword ptr [xr],ecx
+                call    adj_fill
+                mov     edx,dword ptr [xl]
+                mov     ecx,dword ptr [xr]
+                pop     dword ptr [xr]
+                pop     dword ptr [xl]
+        for_3_next:
+                inc     edi
+                jmp     short for_3_loop
+        for_3_done:
+                mov     eax,dword ptr [md]
+                sub     edx,eax
+                sub     ecx,eax
+                sub     dword ptr [a0],eax
+                sub     dword ptr [a1],eax
+                neg     dword ptr [md]
+
+                mov     edi,ecx
+                ret
+
+
+        a0:     dd      0
+        a1:     dd      0
+        a2:     dd      0
+        a3:     dd      0
+        md:     dd      0
+        xl:     dd      0       ; REVXL
+        xr:     dd      0       ; REVXR
+        old_ebp: dd     0
+
+EndCode

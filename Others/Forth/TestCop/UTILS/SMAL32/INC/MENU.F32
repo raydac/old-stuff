@@ -1,0 +1,300 @@
+
+Comment: **********************************************************************
+
+                Menu/ListBox by Alexandr Larionov. July 1996
+
+********************************************************************** Comment;
+
+?Use SetGraphMode VGA640
+?Use /F1 KbdCodes
+?Include ResetMouse Mouse
+
+: STDDRAWLINE ( asc flag --> )
+   HideMouse
+   Dup>R If Color Else AuxColor Then @ FillWindow
+   X1 @ Y1 @ Y2 @ Over - 1+ GetFont $c + @ - 2/ + GotoXY
+   R@ If Color AuxColor ExChange Then
+   OutLine
+   R> If Color AuxColor ExChange Then
+   PutMouse
+;
+
+: XMENU ( asc x0 y0 dx dy xstep ystep maxitems *drawline|0 *key flag item --> item )
+   {
+      #Int #KEY
+      #Int #DRAWLINE
+      #Int #ADDR
+      #Int #X0
+      #Int #Y0
+      #Int #DX
+      #Int #DY
+      #Int #YSTEP
+      #Int #XSTEP
+      #Int #MAXITEMS
+      #Int #ITEMLIST
+      #Int #ITEMCOUNT
+      #Int #SCROLLOUTFLAG
+
+      #Int #CX
+      #Int #SX
+
+      #CX !
+      #ScrollOutFlag !
+      #Key ! ?Dup IfNot ['] StdDrawLine Then #DrawLine !
+      #MaxItems ! #YStep ! #XStep !
+      #DY ! #DX ! #Y0 ! #X0 ! #Addr !
+
+      1 #ItemCount !
+      Here #ItemList !
+      #Addr @ ,
+      0
+      Begin
+         #Addr @ a" \r\n" Rot Pos*
+         Dup -1 <>
+      While
+         2+ Dup #Addr @+ ,
+         #ItemCount 1+!
+      Repeat
+      Drop
+
+      #ItemCount @ 1 >
+      If
+         #ItemCount @ 1
+         ?Do
+            0 i Cells #ItemList @+ @ 2- c!
+         Loop
+      Then
+
+      #CX @ #ItemCount @ < IfNot #ItemCount @ 1- 0 Max #CX ! Then
+
+      #SX 0! #CX @ #CX 0! #Call #SetItem
+
+      #Call #ReDraw
+
+      Begin
+         #Call #ReadKey
+
+         Case
+            Set /Down /Right /Tab Of
+               #CX @ #SX @+ 1+ #ItemCount @ <
+               If
+                  #CX @ 1+ #MaxItems @ <
+                  If
+                     #CX @
+                     True #CX !
+                     Dup #Call #ReDrawLine
+                     1+ Dup #CX !
+                     #Call #ReDrawLine
+                  Else
+                     #SX 1+!
+                     #Call #ReDraw
+                  Then
+               Else
+                  #ScrollOutFlag @
+                  If
+                     #SX @
+                     If
+                        #CX 0! #SX 0!
+                        #Call #ReDraw
+                     Else
+                        #CX @ #CX 0! #Call #ReDrawLine
+                        0 #Call #ReDrawLine
+                     Then
+                  Then
+               Then
+            EndOf
+            Set /Up /Left /Shift+Tab Of
+               #CX @ #SX @+
+               If
+                  #CX @
+                  If
+                     #CX @
+                     True #CX !
+                     Dup #Call #ReDrawLine
+                     1- Dup #CX !
+                     #Call #ReDrawLine
+                  Else
+                     #SX 1-!
+                     #Call #ReDraw
+                  Then
+               Else
+                  #ScrollOutFlag @
+                  If
+                     #MaxItems @ #ItemCount @ <
+                     If
+                        #MaxItems @ 1- #CX !
+                        #ItemCount @ #MaxItems @ - #SX !
+                        #Call #ReDraw
+                     Else
+                        #ItemCount @ #MaxItems @ UMin 1- #CX !
+                        0 #Call #ReDrawLine
+                        #CX @ #Call #ReDrawLine
+                     Then
+                  Then
+               Then
+            EndOf
+            /Home Of
+               #SX @
+               If
+                  #SX 0!
+                  #CX 0!
+                  #Call #ReDraw
+               Else
+                  #CX @
+                  If
+                     #CX @ #CX 0! #Call #ReDrawLine
+                     0 #Call #ReDrawLine
+                  Then
+               Then
+            EndOf
+            /End Of
+               #SX @ #CX @+ #ItemCount @ 1- <
+               If
+                  #ItemCount @ #MaxItems @ - #SX @ =
+                  #ItemCount @ #MaxItems @ > Not Or
+                  If
+                     #CX @
+                     #MaxItems @ #ItemCount @ UMin 1- #CX !
+                     #CX @
+                     #Call #ReDrawLine
+                     #Call #ReDrawLine
+                  Else
+                     #MaxItems @ #ItemCount @ UMin 1- #CX !
+                     #ItemCount @ #MaxItems @ - #SX !
+                     #Call #ReDraw
+                  Then
+               Then
+            EndOf
+            /PageUp Of
+               #CX @
+               If
+                  #CX @ #CX 0! #Call #ReDrawLine
+                  0 #Call #ReDrawLine
+               Else
+                  #SX @
+                  If
+                     #SX @ #MaxItems @ <
+                     If
+                        #SX 0!
+                     Else
+                        #MaxItems @ #SX -!
+                     Then
+                     #Call #ReDraw
+                  Then
+               Then
+            EndOf
+            /PageDown Of
+               #SX @ #CX @ + #ItemCount @ 1- <
+               If
+                  #CX @ #MaxItems @ 1- <
+                  If
+                     #CX @ #MaxItems @ #ItemCount @ UMin 1- Dup #CX !
+                     #Call #ReDrawLine
+                     #Call #ReDrawLine
+                  Else
+                     #SX @ #MaxItems @ 2* + #ItemCount @ <
+                     If
+                        #MaxItems @ #SX +!
+                     Else
+                        #ItemCount @ #MaxItems @ - #SX !
+                     Then
+                     #Call #ReDraw
+                  Then
+               Then
+            EndOf
+            Set /Enter /Esc Of
+               #Goto #ExitMenu
+            EndOf
+            True Of
+               #Call #SetItem
+               #Call #ReDraw
+               #Goto #ExitMenu
+            EndOf
+            -2 Of
+               MouseY #Y0 @ - #YStep @ / #SX @+
+               Dup #ItemCount @ <
+               If
+                  #Call #SetItem
+                  #Call #ReDraw
+                  Begin GetMouse MouseLeftPressed Not Until
+               Else
+                  Drop
+               Then
+            EndOf
+               Drop
+         EndCase
+      Again
+
+      #Label #READKEY
+         #Key @
+         If
+            #SX @ #CX @+
+
+            GetWindow 2>R 2>R
+            #X0 @ #Y0 @
+            #MaxItems @ 1- #XStep @ * #DX @ +
+            #MaxItems @ 1- #YStep @ * #DY @ +
+            SetWindow
+            #Key @Execute
+            2R> 2R> SetWindow
+
+            Case
+               True Of Dup #SX @ #CX @+ = If False Else True Exit Then EndOf
+            EndCase
+            Press
+         Else
+            27
+         Then
+         Exit
+
+      #Label #REDRAW
+         HideMouse
+         #MaxItems @ 0
+         ?Do
+            i #Call #ReDrawLine
+         Loop
+         PutMouse
+         Exit
+
+      #Label #REDRAWLINE ( n --> )
+         Dup>R #XStep @ * #X0 @+
+         R@ #YStep @ * #Y0 @+
+         #DX @ #DY @ SetWindow
+         R@ #SX @+ #ItemCount @ <
+         If R@ #SX @+ Cells #ItemList @+ @ Else NullString Then
+         R> #CX @ = #Key @ 0= 0= And
+         HideMouse
+         #DrawLine @Execute
+         PutMouse
+         Exit
+
+      #Label #SETITEM ( item --> )
+         Dup #SX @ #CX @+ = If Drop Exit Then
+         Dup #MaxItems @ 2/ < #MaxItems @ #ItemCount @ < Not Or
+         If
+            #CX !
+            #SX 0!
+         Else
+            Dup #ItemCount @ 1- #MaxItems @ 2/ - >
+            If
+               #ItemCount @ #MaxItems @ - #SX !
+               #SX @ - #CX !
+            Else
+               #MaxItems @ 2/ #CX !
+               #CX @ - #SX !
+            Then
+         Then
+         Exit
+
+      #Label #EXITMENU
+
+         #ItemCount @ 1
+         ?Do
+            13 i Cells #ItemList @+ @ 2- c!
+         Loop
+
+         #CX @ #SX @+
+   }
+;
+
+>List HIDDEN STDDRAWLINE

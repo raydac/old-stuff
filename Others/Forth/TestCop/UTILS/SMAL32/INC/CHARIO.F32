@@ -1,0 +1,163 @@
+
+: TEXTFILE ( n --> )
+   Create ,                     \ +00 - buffer size
+   0 ,                          \ +04 - file handle (returned by DOS)
+   0 ,                          \ +08 - buffer handle (in dynamic memory)
+   0 ,                          \ +0c - characters in buffer
+   0 ,                          \ +10 - next character position
+   Create;
+;
+
+: TOPEN ( t asc --> flag )
+   Swap Dup 4+ 16 Erase
+   >R 0 FOpen Dup
+   If
+      Swap R@ 4+ !
+      R@ @ 0 0 New
+      If
+         Drop R@ 8 + !
+         R@ @ R@ $c + !
+         R@ @ R> $10 + !
+      Else
+         R> 4 + @ FClose
+         2Drop False
+      Then
+   Else
+      RDrop
+   Then
+;
+
+: TCLOSE ( t --> )
+   Dup>R 8 + @ Dispose
+   R@ 8 + 0!
+   R@ 4+ @ FClose Drop
+   R> 4+ 0!
+;
+
+: TEOF ( t --> flag )
+   Dup>R $c + @ R@ $10 + @ =
+   R@ $c + @ R> @ < And
+;
+
+: TSEEK ( t pos --> flag )
+   Swap Dup>R
+   Cell+ @ 0 Rot FSeek If Drop Else RDrop False Exit Then
+   R@ @ R@ $c + !
+   R@ @ R> $10 + !
+   True
+;
+
+: TTELL ( t --> pos )
+   Dup>R Cell+ @ FTell IfNot RDrop 0 Exit Then
+   R@ $c + @ - R> $10 + @+
+;
+
+: TREAD ( t addr n1 --> )
+   {
+      #Int MAXSIZE
+      #Int ADDR
+      #Int FILE
+      #Int REALSIZE
+      #Int BUFFER
+
+      MaxSize ! Addr ! File !
+      RealSize 0!
+
+      File @ 8+ @ Address Buffer !
+
+      Begin
+         RealSize @ MaxSize @ <
+      While
+         File @ $10 + @ File @ $c + @ <
+         IfNot
+            File @ $c + @ File @@ < #IfGoto #EndTRead
+            File @ 4+ @ Buffer @ File @@ FRead IfNot 0 Then
+            File @ $10 + 0!
+            Dup File @ $c + !
+            #IfNotGoto #EndTRead
+         Then
+         File @ $10 + Dup @ Swap 1+! Buffer @+ c@
+         Dup 13 = If Drop #Goto #EndTRead Then
+         Dup 10 = If Drop Else Addr @ RealSize @+ c! RealSize 1+! Then
+      Repeat
+
+   #Label #ENDTREAD
+
+      0 Addr @ RealSize @+ c!
+   }
+;
+
+Code TREAD ; ( t addr n1 --> )
+
+                pop     edx
+                pop     edi
+                pop     ebx
+                mov     dword ptr [temp_si],esi
+                xor     ecx,ecx
+                pushad
+                push    dword ptr [ebx+8]
+                fcall   ADDRESS
+                pop     dword ptr [buffer_ptr]
+                popad
+                mov     esi,dword ptr [buffer_ptr]
+                add     esi,dword ptr [ebx+10h]
+
+        tr_1:
+                cmp     ecx,edx
+                jnc     short tr_end
+
+                mov     eax,dword ptr [ebx+10h]
+                cmp     eax,dword ptr [ebx+0ch]
+                jc      short tr_2
+
+                ; IfNot
+                mov     eax,dword ptr [ebx+0ch]
+                cmp     eax,dword ptr [ebx]
+                jc      short tr_end
+
+                pushad
+                push    dword ptr [ebx+4]
+                push    dword ptr [buffer_ptr]
+                push    dword ptr [ebx]
+                fcall   FREAD
+                pop     eax
+                or      eax,eax
+                jz      short skip_pop2
+                pop     eax
+        skip_pop2:
+                mov     dword ptr [bytes_read],eax
+                popad
+                mov     eax,dword ptr [bytes_read]
+                mov     dword ptr [ebx+0ch],eax
+                mov     dword ptr [ebx+10h],0
+                mov     esi,dword ptr [buffer_ptr]
+                ; Then
+                or      eax,eax
+                jz      short tr_end
+
+        tr_2:
+                mov     al,byte ptr [esi]
+                inc     dword ptr [ebx+10h]
+                inc     ecx
+                inc     esi
+                cmp     al,13
+                jz      short tr_end
+                cmp     al,1ah
+                jz      short tr_end
+                cmp     al,10
+                jz      short tr_1
+                mov     byte ptr [edi],al
+                inc     edi
+                jmp     short tr_1
+
+        tr_end:
+                mov     byte ptr [edi],0
+
+                mov     esi,dword ptr [temp_si]
+                next
+
+temp_si:        dd      0
+buffer_ptr:     dd      0
+bytes_read:     dd      0
+
+EndCode

@@ -1,0 +1,355 @@
+
+?Include TOUTLINE VGAText
+
+0 Value CURSOR_ITEM             \ Номер строки, которую необходимо подсветить
+
+$3b Value ATTR_MENU_BORDER
+$30 Value ATTR_MENU_PASSIVE
+$03 Value ATTR_MENU_ACTIVE
+$3e Value ATTR_MENU_HEADER
+
+Code SHOW_TEXT_FRAME ; ( asc start-y-pos x0 y0 dx dy --> )
+
+                mov     eax,dword ptr [pfa "CURSOR_ITEM"]
+                mov     dword ptr [cursor_item],eax
+                mov     dword ptr [temp_si],esi
+                pop     dword ptr [w_dy]
+                pop     dword ptr [w_dx]
+                pop     eax
+                mul     dword ptr [pfa "VRAMSCREENWIDTH"]
+                pop     edi
+                add     edi,eax
+                add     edi,edi
+                add     edi,dword ptr [pfa "VRAMOFFSET"]
+                pop     dword ptr [skip_lines]
+                pop     esi
+
+                push    es
+                mov     es,word ptr [pfa "VRAMSELECTOR"]
+
+                mov     eax,dword ptr [pfa "VRAMSCREENWIDTH"]
+                sub     eax,dword ptr [w_dx]
+                add     eax,eax
+                mov     dword ptr [inc_edi],eax
+
+        skip_lines_loop:
+                cmp     dword ptr [skip_lines],0
+                jz      short next_line_loop
+        skip_one_line_loop:
+                mov     al,byte ptr [esi]
+                or      al,al
+                jz      short next_line_loop
+                inc     esi
+                cmp     al,13
+                jnz     short skip_one_line_loop
+
+        line_skiped:
+                dec     dword ptr [skip_lines]
+                jmp     short skip_lines_loop
+
+        next_line_loop:
+                mov     ecx,dword ptr [w_dx]
+        next_line_loop_a:
+                mov     ah,byte ptr [pfa "ATTR_MENU_PASSIVE"]
+                cmp     dword ptr [cursor_item],0
+                jnz     short next_char_loop
+                mov     ah,byte ptr [pfa "ATTR_MENU_ACTIVE"]
+
+        next_char_loop:
+                mov     al,byte ptr [esi]
+                cmp     al,13
+                jz      accept_cr
+                or      al,al
+                jz      accept_cr
+                cmp     al,9
+                jz      accept_tab
+                cmp     al,'~'
+                jnz     short store_char
+                cmp     byte ptr [esi+1],'~'
+                jnz     short nc_0
+                add     esi,2
+                jmp     short next_line_loop_a
+
+        nc_0:   cmp     byte ptr [esi+1],13
+                jz      short store_char
+                cmp     byte ptr [esi+1],0
+                jz      short store_char
+                cmp     byte ptr [esi+2],13
+                jz      short store_char
+                cmp     byte ptr [esi+2],0
+                jz      short store_char
+                add     esi,3
+                mov     al,byte ptr [esi-2]
+                sub     al,'0'
+                jc      short next_line_loop_a
+                cmp     al,10
+                jc      short nc_1
+                sub     al,7
+        nc_1:   and     al,15
+                shl     al,4
+                mov     ah,al
+                mov     al,byte ptr [esi-1]
+                sub     al,'0'
+                jc      short next_line_loop_a
+                cmp     al,10
+                jc      nc_2
+                sub     al,7
+        nc_2:   and     al,15
+                or      ah,al
+                jmp     short next_char_loop
+
+        store_char:
+                mov     word ptr es:[edi],ax
+                inc     esi
+                add     edi,2
+                dec     ecx
+                jnz     short next_char_loop
+
+        skip_line_rest:
+                mov     al,byte ptr [esi]
+                or      al,al
+                jz      short skip_done
+                inc     esi
+                cmp     al,13
+                jnz     short skip_line_rest
+
+        skip_done:
+                add     edi,dword ptr [inc_edi]
+                dec     dword ptr [cursor_item]
+                dec     dword ptr [w_dy]
+                jnz     next_line_loop
+
+        all_done:
+                pop     es
+                mov     esi,dword ptr [temp_si]
+                next
+
+        accept_tab:
+                inc     esi
+        tab_loop:
+                mov     al,' '
+                mov     word ptr es:[edi],ax
+                add     edi,2
+                dec     ecx
+                jz      short skip_line_rest
+                mov     edx,dword ptr [w_dx]
+                sub     edx,ecx
+                and     edx,7
+                jnz     short tab_loop
+                jmp     next_char_loop
+
+        accept_cr:
+                mov     al,' '
+                dec     esi
+                jmp     short store_char
+
+w_dx:           dd      0
+w_dy:           dd      0
+temp_si:        dd      0
+skip_lines:     dd      0
+cursor_item:    dd      0
+inc_edi:        dd      0
+
+EndCode
+Visual
+
+Code COUNT_LINES ; ( asc scr-width --> n )
+
+                pop     edx
+                pop     edi
+                xor     ebx,ebx         ; количество строк
+                mov     dword ptr [text_start],edi
+
+        cl_line_loop:
+                mov     ecx,edx         ; ко-во символов до конца строчки
+        cl_char_loop:
+                mov     al,byte ptr [edi]
+                inc     edi
+                or      al,al
+                jz      short cl_end
+                cmp     al,13
+                jz      short cl_next_line
+                dec     ecx
+                jnz     short cl_char_loop
+
+                cmp     byte ptr [edi],13
+                jnz     short cl_next_line
+                inc     edi
+
+        cl_next_line:
+                inc     ebx
+                jmp     short cl_line_loop
+
+        cl_end:
+                dec     edi
+                cmp     edi,dword ptr [text_start]
+                jz      short cl_end2
+                cmp     byte ptr [edi-1],13
+                jz      short cl_end2
+                inc     ebx
+        cl_end2:
+                push    ebx
+                next
+
+text_start:     dd      0
+
+EndCode
+
+False Value MENU_WRAP_FLAG
+0 Value VMENU_LAST_KEY
+
+: VERTICAL_MENU ( asc-message|false asc item x y dx dy --> item true | false )
+   0 26 TGotoXY
+   TMakeWindow
+   {
+      #Int #ASC
+      #Int #MESSAGE
+      #Int #LINES
+      #Int #SX
+
+      To Cursor_Item #Asc ! #Message ! #SX 0!
+      #Asc @ $7fffffff Count_Lines #Lines !
+
+      Cursor_Item TDY #Message @ If 4- Else 2- Then <
+      IfNot
+         Cursor_Item TDY
+            #Message @ If 5 Else 3 Then - Dup To Cursor_Item - #SX !
+      Then
+
+      TBorder#7 Attr_Menu_Border TBorder
+
+      #Message @
+      If
+         TX1 TY1 1+ TDX 1 '─ Attr_Menu_Border FillBlock
+
+         #Message @ Attr_Menu_Header
+         Over ASCIIzLen TDX Swap - 2/ TX1 + TY1 ToutLine
+
+         2+To TY1
+         2-To TDY
+      Then
+
+      1+To TX1
+      2-To TDX
+
+      #Call #ShowFrame
+
+      Begin
+         Key Dup To VMenu_Last_Key
+         Case
+            /Esc Of
+               False #Goto #Exit
+            EndOf
+            /Enter Of
+               Cursor_Item #SX @+
+               True
+               #Goto #Exit
+            EndOf
+            /Ctrl+Enter Of
+               Cursor_Item #SX @+ True #Goto #Exit
+            EndOf
+            /Up Of
+               Menu_Wrap_Flag
+               IfNot
+                  Cursor_Item #SX @+
+                  If
+                     Cursor_Item
+                     If
+                        1-To Cursor_Item
+                     Else
+                        #SX 1-!
+                     Then
+                     #Call #ShowFrame
+                  Then
+               Else
+                  Cursor_Item #IfNotGoto #End 1-To Cursor_Item #Call #ShowFrame
+               Then
+            EndOf
+            /Down Of
+               #Label #DOWN
+
+               Menu_Wrap_Flag
+               IfNot
+                  Cursor_Item #SX @+ 1+ #Lines @ <
+                  If
+                     Cursor_Item 1+ TDY <
+                     If
+                        1+To Cursor_Item
+                     Else
+                        #SX 1+!
+                     Then
+                     #Call #ShowFrame
+                  Then
+               Else
+                  Cursor_Item 1+ #Lines @ < #IfNotGoto #Home 1+To Cursor_Item #Call #ShowFrame
+               Then
+            EndOf
+            /PageUp Of
+               TDY #Lines @ < #IfNotGoto #Home
+               Cursor_Item
+               If
+                  0 To Cursor_Item
+                  #Call #ShowFrame
+               Else
+                  #SX @
+                  If
+                     #SX @ TDY 1- <
+                     If
+                        #SX 0!
+                     Else
+                        TDY 1- #SX -!
+                     Then
+                     #Call #ShowFrame
+                  Then
+               Then
+            EndOf
+            /Home Of
+               #Label #Home
+               Cursor_Item #SX @+ If 0 To Cursor_Item #SX 0! #Call #ShowFrame Then
+            EndOf
+            /PageDown Of
+               Cursor_Item #SX @+ 1+ #Lines @ <
+               If
+                  TDY #Lines @ <
+                  If
+                     Cursor_Item TDY 1- <
+                     If
+                        TDY 1- To Cursor_Item
+                     Else
+                        #SX @ TDY 1- 2* + #Lines @ < #IfNotGoto #End
+                        TDY 1- #SX +!
+                     Then
+                  Else
+                     #Lines @ 1- To Cursor_Item
+                     #SX 0!
+                  Then
+                  #Call #ShowFrame
+               Then
+            EndOf
+            /End Of
+               #Label #End
+               Cursor_Item #SX @+ 1+ #Lines @ <
+               If
+                  TDY #Lines @ >
+                  If
+                     #Lines @ 1- To Cursor_Item
+                     #SX 0!
+                  Else
+                     #Lines @ 1- TDY 1- Dup To Cursor_Item - #SX !
+                  Then
+                  #Call #ShowFrame
+               Then
+            EndOf
+               Drop
+         EndCase
+      Again
+
+      #Label #SHOWFRAME
+         ( asc start-x-pos start-y-pos x0 y0 dx dy --> )
+         #Asc @ #SX @ TX1 TY1 TDX TDY Show_Text_Frame
+         Exit
+
+      #Label #EXIT
+   }
+   TRemoveWindow
+;
