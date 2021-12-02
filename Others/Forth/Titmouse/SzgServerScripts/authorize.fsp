@@ -1,0 +1,34 @@
+( ћодуль дл€ проверки авторизации в системе)
+
+1 setoutstream
+"" variable auth_str1
+0 variable con_1
+0 variable usertable_rs
+
+"com.ms.jdbc.odbc.JdbcOdbcDriver" DB_LOAD DROP
+"SZG" "" "" "Cp1251" DB_CONNECT con_1 !
+
+: test_user
+	fsp-authstr "" s=
+	if
+		"HTTP/1.0 401 \r\n" s.
+		"WWW-Authenticate: Basic realm=\"SZG\"\r\n\r\n" 
+		s.
+		quit
+	then
+	con_1 @ "select * from usertable where StrComp(user_np,\'" fsp-authstr s+ "\',0)=0;" s+ db_exq
+	dup usertable_rs ! db_next
+	not
+	if 
+		"accden.fsp" playfile
+	then
+	"htm" sendhttphdr
+;
+test_user
+
+( AS: -> 0|-1)
+: its_admin
+	con_1 @ "select * from systable;" db_exq dup db_next drop
+	dup "admin" auth_str1 @ db_ngetstr db_rsclose 
+	auth_str1 @ fsp-authstr s= if -1 else 0 then
+;

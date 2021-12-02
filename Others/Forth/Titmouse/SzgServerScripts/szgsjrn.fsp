@@ -1,0 +1,112 @@
+<%%
+( Версия 2.00 )
+
+"authorize.fsp" load
+
+"" VARIABLE str_1
+VARIABLE int_1 
+VARIABLE rs_1 
+
+: is_admin
+	its_admin 0= 
+	if
+		"accden.fsp" playfile
+	then
+;
+is_admin
+
+: page_header
+"<html>
+<head>
+<title>СЗГ Журнал Системных Сообщений</title>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+</head>
+
+<body bgcolor=\"#FFFFFF\" text=\"#000000\">
+<p><img src=\"nfd_logo.gif\"></p>
+<h3 align=\"center\">ЖУРНАЛ СИСТЕМНЫХ СООБЩЕНИЙ</h3>
+<div align=\"center\">
+  <table width=\"100%\" border=\"0\">
+    <tr bgcolor=\"#99CCFF\"> 
+      <td width=\"10%\"> 
+        <div align=\"center\"><b>№</b></div>
+      </td>
+      <td width=\"14%\"> 
+        <div align=\"center\"><b>Время </b></div>
+      </td>
+      <td width=\"76%\"> 
+        <div align=\"center\"><b>Содержание</b></div>
+      </td>
+    </tr>" s.
+;
+
+: <:> ":" s. ;
+: <//> "/" s. ;
+
+(AS msg_index date index type ->)
+: page_row
+   dup 0= (info)
+   if
+	drop "<tr bgcolor=\"#AAFFAA\">" s.
+   else
+    dup 1 = (warning)
+    if 
+	drop "<tr bgcolor=\"#FFFFAA\">" s.
+    else
+     2 = (error)	
+     if
+	"<tr bgcolor=\"#FFAAAA\">" s.
+     then
+    then
+   then  
+ "<td width=\"10%\"><center><h4>" s. . "</h4></center></td>
+      <td width=\"14%\"><center><h5>" s. dup time_break swap rot . <:> . <:> . " " s. date_break swap rot . <//> . <//> . "</h5></center></td>
+      <td width=\"76%\" valign=\"top\"><h4>" s. s. "</h4></td>
+    </tr>" s.
+;
+
+: page_bottom
+"  </table>
+</div>
+<center>
+<a href=\"szgsjrn.fsp\">Обновить журнал</a>&nbsp;&nbsp;
+<a href=\"szgsjrn.fsp?clrjrnl\">Очистить журнал</a>
+</body>
+</html>" s.
+;
+
+: wr_jrnl
+	page_header
+	con_1 @
+	"select * from admin_messages order by date;" db_exq dup rs_1 !
+	db_next
+	if
+		1 int_1 !
+		begin
+			rs_1 @ "message" str_1 @ db_ngetstr str_1 @
+			rs_1 @ "date" db_ngetint
+			int_1 @
+			rs_1 @ "type" db_ngetint
+			page_row
+			int_1 1+!
+			rs_1 @ db_next not
+		until	
+	then
+	page_bottom
+;
+
+: main
+	fsp-query "" s==
+	if
+	 wr_jrnl
+	 quit
+	then
+	fsp-query "clrjrnl" s==
+	if
+	 con_1 @ "delete from admin_messages;" db_exu drop
+	 wr_jrnl
+	 quit
+	then
+;
+main
+%%>

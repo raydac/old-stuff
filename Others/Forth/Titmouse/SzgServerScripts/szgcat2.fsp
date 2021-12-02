@@ -1,0 +1,29 @@
+<%%
+(Выводит список контрактов при работе с категориями)
+"authorize.fsp" load
+0 VARIABLE rs_1
+"" VARIABLE str_1
+%%>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"></head><body bgcolor="#FFFFFF">
+<%%
+: contr_row
+	rs_1 @ "contr_num" str_1 @ db_ngetstr
+	"<a href=\"szgcat1.fsp?&cat=" s. ? cat s. "&contract=" s. str_1 @ s. "&afilter=" s. ? afilter s. "\" target=\"main\">" s.
+	str_1 @ s. "</a><br>" s.
+;
+
+: contr_list
+con_1 @ "select contr_num from contr_active " 
+"afilter" sfind if "where " s+ ? afilter s+ then
+ " order by contr_num;" s+ db_exq dup rs_1 ! db_next
+if
+	begin
+		contr_row
+		rs_1 @ db_next not
+	until
+then
+rs_1 @ db_rsclose
+;
+contr_list
+%%>
+</body></html>

@@ -1,0 +1,447 @@
+<%%
+( Скрипт "Рабочее место пользователя системы "Сетевой Заводской График"
+Автор: И.А.Мазница
+Версия: 2.00)
+
+"authorize.fsp" load
+
+0 VARIABLE con_2
+" " VARIABLE us_comment
+0 VARIABLE fields_rs
+0 VARIABLE rs_1 
+0 VARIABLE int_i
+its_admin VARIABLE is_admin
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+"" VARIABLE str_4
+"" VARIABLE str_ac
+"" VARIABLE str_5
+"" VARIABLE str_6
+"" VARIABLE str_7
+"" VARIABLE my_tkn
+-1 VARIABLE flag_1
+0  VARIABLE flag_2
+
+: filters_lst
+  usertable_rs @ "filtertable" str_6 @ db_ngetstr
+  str_6 @ s_tr "" s= not
+  if
+	"&nbsp;&nbsp;&nbsp;<strong>Фильтр:</strong><select name=\"afilter\" onChange=\"FilterChange()\">" s.
+	con_1 @ "select * from " str_6 @ s+ db_exq dup db_next
+	if
+		begin
+			dup "sqlfilter" str_6 @ db_ngetstr
+			"<option value=\"" s. str_6 @ s. "\"" s.
+			"afilter" sfind
+			if
+				? afilter str_6 @ s=
+				if
+					" selected" s.
+				then
+			then
+			">" s.
+			dup "name" str_6 @ db_ngetstr
+			str_6 @ s. "</option>" s.
+			dup db_next not
+		until
+	then
+	db_rsclose
+	"</select>" s.
+  then
+;
+
+( AS: header ->)
+: first_page_head
+"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">" s.
+is_admin @
+if
+"<script language=\"JavaScript\">
+//<!--
+function CreateOnBase()
+{
+	var base=\"\";
+	var curfrm;
+	for(var li=0;li<document.forms.length;li++)
+	{
+   	   curfrm=document.forms[li];
+	   if (curfrm.name.substring(0,4)==\"chkk\")
+	   {
+	   	if (curfrm.elements[\"C1\"].checked)
+	   	{
+			base=curfrm.elements[\"index\"].value;
+			break;
+	   	}
+	   }
+	}
+	if (base==\"\")
+	{
+		alert(\"Не выбран базовый контракт!\");
+		return; 
+	}
+	curfrm=document.forms[\"outform\"];
+	curfrm.elements[\"base\"].value=base;
+	curfrm.method=\"GET\";
+	curfrm.action=\"szgnewcn.fsp\";
+	curfrm.submit();
+}
+function EdtOffst()
+{
+	var base=\"\";
+	var curfrm;
+	for(var li=0;li<document.forms.length;li++)
+	{
+   	   curfrm=document.forms[li];
+	   if (curfrm.name.substring(0,4)==\"chkk\")
+	   {
+	   	if (curfrm.elements[\"C1\"].checked)
+	   	{
+			base=curfrm.elements[\"index\"].value;
+			break;
+	   	}
+	   }
+	}
+	if (base==\"\")
+	{
+		alert(\"Не выбран контракт!\");
+		return; 
+	}
+	curfrm=document.forms[\"outform\"];
+	curfrm.elements[\"value\"].value=base;
+	curfrm.method=\"GET\";
+	curfrm.action=\"szgedtof.fsp\";
+	curfrm.submit();
+}
+function DelContract()
+{
+	var indx=\"\";
+	var curfrm;
+	var sss=\"\";
+	for(var li=0;li<document.forms.length;li++)
+	{
+   	   curfrm=document.forms[li];
+	   if (curfrm.name.substring(0,4)==\"chkk\")
+	   {
+	    if (curfrm.elements[\"C1\"].checked)
+	    {
+		indx+=(sss+curfrm.elements[\"index\"].value);
+		sss=\',\';
+	    }
+	   }
+	}
+	if (indx.length==0)
+	{
+		alert(\"Нет выбранных контрактов!\");
+		return;
+	}
+	curfrm=document.forms[\"outform\"];
+	curfrm.elements[\"value\"].value=indx;
+	curfrm.action=\"szguser.fsp?delcontract\";
+	curfrm.submit();
+}
+function Move2Archiv()
+{
+	var indx=\"\";
+	var curfrm;
+	var sss=\"\";
+	for(var li=0;li<document.forms.length;li++)
+	{
+   	   curfrm=document.forms[li];
+	   if (curfrm.name.substring(0,4)==\"chkk\")
+	   {
+	    if (curfrm.elements[\"C1\"].checked)
+	    {
+		indx+=(sss+curfrm.elements[\"index\"].value);
+		sss=\',\';
+	    }
+	   }
+	}
+	if (indx.length==0)
+	{
+		alert(\"Нет выбранных контрактов!\");
+		return;
+	}
+	curfrm=document.forms[\"outform\"];
+	curfrm.elements[\"value\"].value=indx;
+	curfrm.action=\"szguser.fsp?movecontract\";
+	curfrm.submit();
+}
+function AddContract()
+{
+	var curfrm=document.forms[\"outform\"];
+	curfrm.action=\"szgnewcn.fsp\";
+	curfrm.submit();
+}
+function Archive()
+{
+	var curfrm=document.forms[\"outform\"];
+	curfrm.action=\"szgarch.fsp\";
+	curfrm.submit();
+}
+//-->
+</script>
+<form method=\"POST\" name=\"outform\"><input type=\"hidden\" name=\"value\"><input type=\"hidden\" name=\"base\"></form>" s.
+then
+"<script language=\"JavaScript\">
+//<!--
+function GoTo(an)
+{
+	location=an;
+}
+function FilterChange()
+{
+	document.forms[\"especialform\"].submit();
+}
+//-->
+</script>
+<img src=\"nfd_logo.gif\">
+<p align=\"center\"><font color=\"#004080\"><big><strong>" s. s. "</strong></big></font></p>" s.
+flag_1 @
+if
+"<p><form name=\"especialform\" method=\"GET\" action=\"szguser.fsp\"><strong>Номер контракта:</strong><input type=\"text\" size=\"16\" name=\"contract\"><input type=\"submit\" value=\"Выбрать\">" s. filters_lst "</form></p>" s.
+then
+"<div align=\"left\">
+<table border=\"1\" width=\"100%\">" s.
+;
+
+( AS: comment name anchor index contr_index ->)
+: first_page_one_record
+"<tr>" s.
+is_admin @
+if
+	"<td width=\"6%\" align=\"center\"><form name=\"chkk" s. int_i @ . "\"><p><input type=\"checkbox\" name=\"C1\" value=\"ON\"><input type=\"hidden\" name=\"index\" value=\"" s. . "\"></p></form></td>" s.
+0
+then
+drop
+ "<td width=\"12%\" align=\"center\"><strong>" s. . "</strong></td>
+ <td width=\"20%\"><strong><a href=\"szguser.fsp?&contract=" s.
+ s. "&afilter=" s. "afilter" sfind if ? afilter s. else "true" s. then
+ "\">" s. s. "</a></strong></td>
+ <td width=\"68%\"><strong>" s.
+ s. "</strong></td></tr>" s.
+;
+
+( AS: name anchor index ->)
+: cat_one_record
+"<tr>
+ <td width=\"12%\"><p align=\"center\"><strong>" s. . "</strong></td>
+ <td width=\"88%\"><strong><a href=\"" s. s. "&afilter=" s. "afilter" sfind if ? afilter  else "true" then s. "\">" s. s. "</a></strong></td></tr>" s.
+;
+
+: cat_page_bottom
+ "</table></div><center><strong><a href=\"szgcat.fsp?cat=*&contract=" s. ? contract s. "&afilter=" s. ? afilter s. "\">Показать все поля</a>&nbsp;&nbsp;<a href=\"szguser.fsp\">Список контрактов</a></strong></center></body></html>" s.
+;
+
+: first_page_bottom
+"</table></div>" s.
+is_admin @
+if
+"<form method=\"POST\" action=\"\">
+ <div align=\"center\"><center><p><input type=\"button\"
+  value=\"Создать\" name=\"CREATE_B\" onClick=\"AddContract()\">
+<input type=\"button\"
+  value=\"Создать на основе...\" name=\"CREATEON_B\" onClick=\"CreateOnBase()\">
+<input type=\"button\"
+  value=\"Удалить\" onClick=\"DelContract()\" name=\"DELETE_B\">
+<input type=\"button\"
+  value=\"Редакт. смещения\" onClick=\"EdtOffst()\" name=\"EDITOFFST_B\">
+<input type=\"button\"
+  value=\"Архив\" onClick=\"Archive()\" name=\"ARCH_B\">
+<input type=\"button\" value=\"Перенести в архив\" onClick=\"Move2Archiv()\" name=\"MOVEARCH_B\">
+</p>
+  </center></div>
+</form>" s.
+then
+"<form><p><center><input type=\"button\" value=\"Построить отчет\" onClick=\"GoTo(\'szgreprt.fsp\')\"><input type=\"button\" value=\"Суммарная информация\" onClick=\"GoTo(\'szganal.fsp\')\"></center></p></form></body></html>" s.
+;
+
+: city_name
+	fields_rs @ "zakaz_addr_city" db_ngetint str_5 @ i2s
+	"select * from zakaz_addr_city where index=" str_6 @ s!
+	con_1 @  str_6 @ str_5 @ s+ db_exq dup db_next
+	if
+		dup "item" str_5 @ db_ngetstr db_rsclose
+	else
+		db_rsclose "BAD_CITY_INDEX" str_5 @ s!
+	then
+;
+
+: list_page
+		"СПИСОК РАБОЧИХ КОНТРАКТОВ" first_page_head 
+		con_1 @ "select index,contr_num,zakaz_addr_city,zakaz_address from contr_active"
+		"afilter" sfind
+		if
+			? afilter "" s= not
+			if
+				" where " s+ ? afilter s+
+				? afilter s_enc drop
+			then
+		then
+		" order by contr_num;" s+ 
+		db_exq dup fields_rs ! db_next
+		1 int_i !
+		if
+			begin
+			 fields_rs @ dup "contr_num" str_7 @ db_ngetstr
+			 "zakaz_address" us_comment @ db_ngetstr 
+			 city_name
+			 str_5 @ ", " s+ us_comment @ s+ 
+			 str_7 @ dup 
+			 int_i @ 
+			 fields_rs @ "index" db_ngetint 
+			 first_page_one_record
+			 fields_rs @ db_next not
+			 int_i 1+!
+			until 					
+		else
+			"Список контрактов пуст :-(" s.
+		then
+		first_page_bottom 
+;
+
+: categ_list
+	"Контракт №" ? contract s+ first_page_head
+	con_1 @ "select * from categorytable;" db_exq dup fields_rs ! db_next
+	1 int_i !
+	if
+		"afilter" sfind if ? afilter s_enc drop then
+		begin						
+			fields_rs @ dup "categoryname" str_7 @ db_ngetstr
+			"anchor" us_comment @ db_ngetstr
+			str_7 @ us_comment @ ? contract s+ int_i @ cat_one_record
+			int_i @ 1 + int_i !
+			fields_rs @ db_next not
+		until
+	else
+		"Список категорий пуст! :(" s.
+	then
+	cat_page_bottom 
+;
+
+: update_fields
+	"SZG" "" "" "Cp1251" DB_CONNECT con_2 !
+	con_2 @ 0 db_autocommit
+	
+	? fieldlist ',' tkn_set dup my_tkn !
+	tkn_?
+	if
+		"" str_3 @ s!
+		"" str_ac @ s!
+		"" str_4 @ s!
+		datetime str_2 @ i2s
+		begin
+			my_tkn @ str_1 @ tkn_nxt 
+			str_ac @ str_3 @ s+ str_1 @ s+ "=" s+ str_2 @ s+ drop
+			str_4 @ str_3 @ s+ str_1 @ s+ "=\'" s+ FSP-AUTHNAME s+ "\'" s+ drop
+			my_tkn @ tkn_? not
+		"," str_3 @ s!
+		until		
+		con_2 @ "update contr_ac_date set " str_ac @ s+ " where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+
+		con_2 @ "update contr_ac_name set " str_4 @ s+ " where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+
+		con_2 @ "update contr_active set " ? fieldnames s+ " where contr_num=\'" s+ ? contract s+ "\';" s+ db_exu drop
+	
+		con_2 @ db_commit
+	then
+	con_2 @ db_close
+;
+
+: del_contract
+	"SZG" "" "" "Cp1251" DB_CONNECT con_2 !
+	 con_2 @ "delete from contr_active where index in(" ? value s+ ");" s+ 
+	 db_exu
+	 drop
+	 con_2 @ db_close
+;
+
+: move_contr
+	con_1 @ "select contr_num from contr_active where index in(" ? value s+ ");" s+ db_exq dup fields_rs ! db_next
+	if
+		"" str_2 @ s!
+		0 flag_2 !
+		begin
+			fields_rs @ "contr_num" str_1 @ db_ngetstr
+			str_2 @ flag_2 @ if "," s+ else -1 flag_2 ! then
+			"\'" s+ str_1 @ s+ "\'" s+ drop
+			fields_rs @ db_next not
+		until
+
+		"SZG" "" "" "Cp1251" DB_CONNECT con_2 !
+		con_2 @ 0 db_autocommit
+		con_2 @ "insert into contr_archive select * from contr_active where index in(" ? value s+ ");" s+ db_exu drop
+		con_2 @ "insert into contr_archivet select * from contr_activet where index in(" str_2 @ s+ ");" s+  db_exu drop
+		con_2 @ "delete from contr_active where index in(" ? value s+ ");" s+ db_exu drop
+		con_2 @ db_commit
+		con_2 @ db_close
+	then
+	fields_rs @ db_rsclose
+;
+
+: ok_message
+ "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<body bgcolor=\"#FFFFFF\"><center><p><h3>Изменения успешно внесены в базу</h3></p><p><form method=\"GET\" action=\"szguser.fsp\" target=\"_top\"><input type=\"hidden\" name=\"contract\" value=\"" s. ? contract s. "\"><input type=\"hidden\" name=\"afilter\" value=\"" s. ? afilter s. "\"><input type=\"submit\" value=\"Вернуться к списку категорий\"></form></p></center></body></html>" s.
+;
+
+: tst_contract
+	con_1 @ "select index from contr_active where contr_num=\'" ? contract s+ "\';" 
+	s+ db_exq dup db_next swap db_rsclose
+;
+
+: tst_filter
+	? contract "" s= ? afilter "" s= not and
+;
+
+: err_contr
+		"<html><body><title>Не найден контракт</title><center><strong>Контракт " s. ? contract s. " не найден</strong><p><form method=\"POST\" action=\"szguser.fsp\"><input type=\"submit\" value=\"Вернуться к списку контрактов\"></form></center></body></html>" s.
+;
+
+: main 
+	FSP-QUERY "" s==
+	if 
+		list_page
+		quit
+	then
+
+	FSP-QUERY "delcontract" s==
+	if
+	 del_contract
+	 list_page
+	 quit
+	then
+
+	FSP-QUERY "movecontract" s==
+	if
+	move_contr
+ 	 list_page
+	 quit
+	then
+	
+	0 flag_1 !
+	FSP-QUERY "update" s==
+	if
+		update_fields
+		ok_message
+		quit
+	then
+
+	-1 flag_1 !
+	tst_filter
+	if
+		list_page
+		quit
+	then
+
+	0 flag_1 !
+	tst_contract
+	if
+		categ_list
+	else
+		err_contr
+		quit
+	then
+;
+main
+%%>

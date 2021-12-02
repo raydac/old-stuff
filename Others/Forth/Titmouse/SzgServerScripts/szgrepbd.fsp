@@ -1,0 +1,283 @@
+<%%
+"authorize.fsp" load
+VARIABLE rs_1 
+"" VARIABLE str_1
+"" VARIABLE str_2
+
+: page_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"></head>
+<body bgcolor=\"#FFFFFF\">" s.
+;
+
+: page_bot
+"</body></html>" s.
+;
+
+: jscript
+"<script language=\"JavaScript\">
+//<!--
+function sletempl(ls)
+{
+ var lst=\"\";
+ var fr=parent.frames[\"fields\"].document;
+ for(var lj=0;lj<ls.length;lj++)
+ {
+	if(ls.charAt(lj)==\'.\')
+	{
+		for(var li=0; li<fr.forms.length;li++)
+		{
+			if (fr.forms[li].elements[\"index\"].value==lst) { fr.forms[li].elements[\"chk\"].checked=true; break; }
+		}
+		lst=\"\";
+	}
+	else
+	{
+		lst+=ls.charAt(lj);
+	}
+ }
+}
+function CreateFieldsList(mmm)
+{
+ var ls=\"\";
+ var lacc=\"\";
+ var lcount=0;
+ var fr=parent.frames[\"fields\"].document;
+ for(var li=0;li<fr.forms.length;li++)
+ {
+	var cur_frm=fr.forms[li];
+	if (cur_frm.elements[\"chk\"].checked)
+	{
+		lacc+=(ls+cur_frm.elements[\"index\"].value);
+		ls=\',\';
+		lcount++
+	}
+ }
+ if (mmm!=0)
+	{ 
+		if (lcount>mmm) 
+		{ 
+			alert(\"Выбрано больше \"+mmm+\" полей!\"); 
+			return 123456;
+		}
+	}
+ return lacc;
+}
+function CreateContrList()
+{
+ var ls=\"\";
+ var lacc=\"\";
+ var fr=parent.frames[\"contracts\"].document;
+ for(var li=0;li<fr.forms.length;li++)
+ {
+	var cur_frm=fr.forms[li];
+	if (cur_frm.elements[\"chk\"].checked)
+	{
+		lacc+=(ls+cur_frm.elements[\"index\"].value);
+		ls=\',\';
+	}
+ }
+ return lacc;
+}
+function Rep1() // Проходной отчет
+{
+	var fieldlst=\"\";
+	var clst=\"\";
+	var zapf=\"\"
+	var zapc=\"\"
+	var frm = document.forms[\"outform\"];
+	frm.elements[\"reportname\"].value=
+document.forms[\"prop_form\"].elements[\"report_name\"].value;
+	curfrm=document.forms[\"prop_form\"];
+
+	fieldlst=CreateFieldsList(0);
+	clst=CreateContrList();
+
+	if (fieldlst==\"\") {alert(\"Нет выбранных полей!\");return;}
+	if (clst==\"\"){alert(\"Нет выбранных контрактов!\"); return;	}
+
+	var frm = document.forms[\"outform\"];
+	frm.elements[\"fieldlist\"].value=fieldlst;
+	frm.elements[\"contractlist\"].value=clst;
+	if (document.forms[\"report_section\"].elements[\"plan_time\"].checked)
+	frm.elements[\"pl_flag\"].value=\"Y\";
+	else frm.elements[\"pl_flag\"].value=\"N\";
+
+	frm.action=\"szgrep1.fsp\"; 
+	frm.submit();
+}
+function Rep2() // Сквозной отчет
+{
+	var fieldlst=\"\";
+	var clst=\"\";
+	var zapf=\"\"
+	var zapc=\"\"
+	var fr_dd,fr_mm,fr_yy,to_dd,to_mm,to_yy,date_start,date_end,date_diff;
+	var frm = document.forms[\"outform\"];
+	frm.elements[\"reportname\"].value=
+document.forms[\"prop_form\"].elements[\"report_name\"].value;
+	curfrm=document.forms[\"prop_form\"];
+
+	fieldlst=CreateFieldsList(80);
+	clst=CreateContrList();
+	if (fieldlst==123456) return;
+	if (fieldlst==\"\") {alert(\"Нет выбранных полей!\");return;}
+
+	if (clst==\"\"){alert(\"Нет выбранных контрактов!\"); return;	}
+
+	fr_dd=parseInt(curfrm.elements[\"dd_from\"].value,10);
+	fr_mm=parseInt(curfrm.elements[\"mm_from\"].value,10);
+	fr_yy=parseInt(curfrm.elements[\"yy_from\"].value,10);
+
+	to_dd=parseInt(curfrm.elements[\"dd_to\"].value,10);
+	to_mm=parseInt(curfrm.elements[\"mm_to\"].value,10);
+	to_yy=parseInt(curfrm.elements[\"yy_to\"].value,10);
+
+	date_start = new Date(fr_yy,fr_mm-1,fr_dd);
+	date_end = new Date(to_yy,to_mm-1,to_dd);
+	date_diff = date_end.getTime()-date_start.getTime();
+
+	if (isNaN(date_start)) { alert(\"Ошибка в начальной дате!\"); return;}
+	if (isNaN(date_end)) { alert(\"Ошибка в конечной дате!\"); return;}
+
+	if (date_diff<0) { alert(\"Конечная дата меньше начальной!\"); return;}
+	if (date_diff==0) { alert(\"Конечная дата равна начальной!\"); return;}
+
+	if ((date_diff/86400000)>200) { alert(\"Временной интервал превышает 200 дней!\"); return;}
+
+	var frm = document.forms[\"outform\"];
+	frm.elements[\"fieldlist\"].value=fieldlst;
+	frm.elements[\"contractlist\"].value=clst;
+	frm.elements[\"datefrom\"].value=date_start.getTime();
+	frm.elements[\"dateto\"].value=date_end.getTime();
+
+	frm.action=\"szgrep2.fsp\"; 
+	frm.submit();
+}
+function allfields(sel)
+{
+	var fr=parent.frames[\"fields\"].document;
+	for(var li=0; li<fr.forms.length;li++)
+	{
+		fr.forms[li].elements[\"chk\"].checked=sel;
+	}
+}
+function allcontr(sel)
+{
+	var fr=parent.frames[\"contracts\"].document;
+	for(var li=0; li<fr.forms.length;li++)
+	{
+		fr.forms[li].elements[\"chk\"].checked=sel;
+	}
+}
+function planfield()
+{
+	var fr=parent.frames[\"fields\"].document;
+	for(var li=0; li<fr.forms.length;li++)
+	{
+		var fff=fr.forms[li]; 
+		if (fff.elements[\"dt\"].value==\"1\")
+		{
+			fff.elements[\"chk\"].checked=true;
+		}
+	}	
+}
+function seltimecontracts()
+{
+	var curfrm;
+	var fr=parent.frames[\"contracts\"].document;
+
+	var fr_dd,fr_mm,fr_yy,to_dd,to_mm,to_yy;
+	var data_start,data_end;
+	var data_otgr;
+	curfrm=document.forms[\"prop_form\"];
+	fr_dd=parseInt(curfrm.elements[\"dd_from\"].value,10);
+	fr_mm=parseInt(curfrm.elements[\"mm_from\"].value,10);
+	fr_yy=parseInt(curfrm.elements[\"yy_from\"].value,10);
+
+	to_dd=parseInt(curfrm.elements[\"dd_to\"].value,10);
+	to_mm=parseInt(curfrm.elements[\"mm_to\"].value,10);
+	to_yy=parseInt(curfrm.elements[\"yy_to\"].value,10);
+
+	data_start = new Date(fr_yy,fr_mm-1,fr_dd);
+	data_end = new Date(to_yy,to_mm-1,to_dd);
+	data_diff = data_end.getTime()-data_start.getTime();
+
+	if (isNaN(data_start)) { alert(\"Ошибка в начальной дате!\"); return;}
+	if (isNaN(data_end)) { alert(\"Ошибка в конечной дате!\"); return;}
+
+	if (data_diff<0) { alert(\"Конечная дата меньше начальной!\"); return;}
+	if (data_diff==0) { alert(\"Конечная дата равна начальной!\"); return;}
+
+	for (var li=0;li<fr.forms.length;li++)
+	{
+		curfrm=fr.forms[li];
+		data_otgr=parseInt(curfrm.elements[\"week\"].value,10);
+		data_otgr=((data_otgr-428)*604800000)+(new Date(2000,0,7)).getTime();
+		if ((data_otgr>=data_start)&&(data_otgr<=data_end)) curfrm.elements[\"chk\"].checked=true;
+	}
+}
+//-->
+</script>" s.
+;
+
+(as : name index_str->)
+: templ_row
+  "<tr><td><strong><a href=\"#\" onClick=\"sletempl(\'" s. s. "\')\">" s. s. "</a></strong></td></tr>" s.
+;
+
+: templates
+  con_1 @ "select * from prn_templates order by name;" db_exq dup rs_1 ! db_next
+  if
+	begin
+		rs_1 @ "name" str_1 @ db_ngetstr
+		rs_1 @ "findex" str_2 @ db_ngetstr
+		str_1 @ str_2 @ templ_row
+		rs_1 @ db_next not
+	until
+  then
+;
+
+: body
+"<form name=\"outform\" target=\"_top\" method=\"POST\" action=\"szgreprt.fsp\"><input type=\"hidden\" name=\"reportname\"><input type=\"hidden\" name=\"fieldlist\"><input type=\"hidden\" name=\"contractlist\"><input type=\"hidden\" name=\"datefrom\"><input type=\"hidden\" name=\"dateto\"><input type=\"hidden\" name=\"pl_flag\" value=\"N\"></form>
+<form name=\"prop_form\">
+ <strong>Наименование отчета</strong> <input
+  type=\"text\" name=\"report_name\" size=\"42\" tabindex=\"1\" value=\"Без имени\"></p>
+  <p><strong>Временной интервал с</strong> <input type=\"text\"
+  name=\"dd_from\" size=\"2\" tabindex=\"2\" value=\"1\"><strong> / </strong><input type=\"text\" name=\"mm_from\"
+  size=\"2\" tabindex=\"3\" value=\"1\"><strong> / </strong><input type=\"text\" name=\"yy_from\" size=\"4\"
+  tabindex=\"4\" value=\"2000\"><strong> по </strong>" s. datetime date_break swap rot "<input type=\"text\" name=\"dd_to\" size=\"2\" tabindex=\"5\" value=\"" s. . "\"><strong> / </strong><input
+  type=\"text\" name=\"mm_to\" size=\"2\" tabindex=\"6\" value=\"" s. . "\"><strong> / </strong><input type=\"text\"
+  name=\"yy_to\" size=\"4\" tabindex=\"7\" value=\"" s. . "\"></p>
+</form>
+<table border=\"0\" width=\"100%\">
+  <tr>
+    <td width=\"100%\" bgcolor=\"#FFFFD2\"><h4>Выбор полей</h4>
+    <center><table bgcolor=\"#EEEEEE\" border=\"0\" width=\"75%\"><tr bgcolor=\"#BBFFBB\"><td><strong><center>Шаблоны полей</strong></center></td></tr>" s.
+templates
+"</table></center>
+<form method=\"POST\"><div align=\"center\"><center><p><input type=\"button\"
+value=\"Все поля\" name=\"B1\" onClick=\"allfields(true)\"><input type=\"button\"
+value=\"Планируемые поля\" name=\"B2\" onClick=\"planfield()\"><input type=\"button\"
+value=\"Отменить\" name=\"B3\" onClick=\"allfields(false)\"></p></center></div>
+</form></td></tr><tr>
+<td width=\"100%\" bgcolor=\"#BBBBFF\"><h4>Выбор контрактов</h4>
+<form method=\"POST\">
+<div align=\"center\"><center><p><input type=\"button\"
+value=\"Все контракты\" name=\"B1\" onClick=\"allcontr(true)\"><input type=\"button\"
+value=\"Из интервала\" name=\"B2\" onClick=\"seltimecontracts()\"><input type=\"button\" value=\"Отменить\" name=\"B3\" onClick=\"allcontr(false)\"></p></center></div>
+</form></td></tr><tr><td width=\"100%\" bgcolor=\"#FFBBBB\"><h4>Тип отчета</h4>
+<form name=\"report_section\"><input type=\"checkbox\" name=\"plan_time\"><strong>Вывод  планируемых дат</strong><div align=\"center\"><center><p><input type=\"button\"
+value=\"Отчет о продвижении\" name=\"B1\" onClick=\"Rep1()\"><input type=\"button\"
+value=\"Сквозной отчет\" name=\"B2\" onClick=\"Rep2()\"></p></center></div>
+</form></td></tr></table></div>" s.
+;
+
+: main
+	page_head
+	jscript
+	body
+	page_bot
+;
+main
+%%>

@@ -1,0 +1,270 @@
+<%%
+(
+  Скрипт для редактирования содержимого LOOKUP полей в
+  системе "Сетевой Заводской График"
+  команды list, edit
+  Версия 2.00
+)
+
+"authorize.fsp" load
+
+VARIABLE str_1 "" str_1 !
+VARIABLE str_2 "" str_2 !
+VARIABLE str_3 "" str_3 !
+VARIABLE str_4 "" str_4 !
+
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+
+VARIABLE flg_1 0 flg_1 !
+
+VARIABLE main_rs
+VARIABLE scnd_rs
+
+: is_admin
+	its_admin 0= if
+		"accden.fsp" playfile
+		quit
+	then
+;
+is_admin
+
+( Формирует шапку и заголовок
+ AS: header2 header1 -> )
+: page1_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">
+<form name=\"outform\"><input type=\"hidden\" name=\"username\" value></form>
+<img src=\"nfd_logo.gif\">
+<h2 align=\"center\"><font color=\"#004080\"><strong>" s. s. "</strong></h2></font></p>
+<h3 align=\"center\"><em><font color=\"#FF0000\"><strong>" s. s. "</strong></font></em></h3>
+<table border=\"1\" width=\"100%\">
+<tr><td width=\"20%\" bgcolor=\"#BBBBFF\"><center><strong>№</strong></center></td><td width=\"80%\" bgcolor=\"#BBBBFF\"><center><strong>Параметр</strong></center></td>" s.
+;
+
+( Формирует шапку и заголовок
+ AS: header2 header1 -> )
+: page2_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\"" s.
+flg_1 @
+if
+ " onLoad=\"ErrMessage()\">" s.
+else
+ ">" s.
+then
+"<script language=\"JavaScript\">
+//<!--
+" s.
+flg_1 @
+if
+"function ErrMessage()
+{
+  alert(\"Некоторые из выбранных значений используются в рабочих или отгруженных контрактах и не могут быть удалены!\");
+}
+" s.
+then
+"function AddItem()
+{
+ var ni=prompt(\"Ввод нового значения в список!\",\"\"); 
+ if (ni==null) return;
+ if (ni.length>0)
+ {
+  document.forms[0].elements[\"fldindx\"].value=\"\\\'\"+ni+\"\\\'\";
+  document.forms[0].elements[\"cmnd\"].value=\"additem\";
+  document.forms[0].submit();
+ }
+}
+function CreateDelList()
+{
+ var tmp_str=\"\";
+ for(var li=1;li<(document.forms.length-1);li++)
+ {
+  if (document.forms[li].elements[\"C1\"].checked)
+   {
+    if (tmp_str.length==0) 
+	tmp_str = document.forms[li].elements[\"V1\"].value;
+    else
+	tmp_str += (\",\"+document.forms[li].elements[\"V1\"].value);
+   }
+ } 
+ if (tmp_str.length==0) alert (\"Нет выбранных элементов!\");
+ else
+ {
+  document.forms[0].elements[\"fldindx\"].value=tmp_str;
+  document.forms[0].elements[\"cmnd\"].value=\"delete\";
+  document.forms[0].submit();
+ }
+}
+//-->
+</script>
+<form method=\"POST\" name=\"outform\" action=\"szglkped.fsp\"><input type=\"hidden\" name=\"cmnd\" value>
+<input type=\"hidden\" name=\"fldindx\" value>
+<input type=\"hidden\" name=\"parname\" value=\"" s. ? parname s.
+"\"><input type=\"hidden\" name=\"tablename\" value=\"" s. str_1 @ s.
+"\"></form>
+<img src=\"nfd_logo.gif\">
+<h2 align=\"center\"><font color=\"#004080\"><strong>" s. s. "</strong></h2></font></p>
+<h3 align=\"center\"><em><font color=\"#FF0000\"><strong>Поле &quot;" s. s. 
+"&quot;" s. "</strong></font></em></h3>
+<table width=\"100%\" border=\"1\">
+<tr><td width=\"10%\" bgcolor=\"#BBBBFF\"><center><strong>Выбор</strong></center></td>
+<td  width=\"10%\" bgcolor=\"#BBBBFF\"><center><strong>№<strong></center></td><td width=\"80%\" bgcolor=\"#BBBBFF\"><center><strong>Значение<strong></center></td></tr>" s.
+;
+
+( Формирует "подвал" )
+: page2_bottom
+"</table>
+<div align=\"center\">
+<form>
+<input type=\"button\" onClick=\"AddItem()\" value=\"Добавить значение\">
+<input type=\"button\" onClick=\"CreateDelList()\" value=\"Удалить выбранные значения\">
+</form>
+</div>
+</body></html>" s.
+;
+
+(Выводит одну строку в таблицу
+ AS: viewname anchor index ->
+)
+: one_row
+ "<tr><td width=\"20%\"><center>" s. . 
+ "</center></td><td width=\"80%\">" s. 
+ "<a href=\"szglkped.fsp?&cmnd=edit&parname=" s. s. 
+ "\">" s. s. "</a></td></tr>" s.
+;
+
+( Формирует "подвал" )
+: page1_bottom
+"</table></body></html>" s.
+;
+
+(Вывод строки
+ AS: viewname index index_table ->
+)
+: one_row2
+	"<tr><td width=\"10%\">
+	<div align=\"center\"><form><center><p><input type=\"checkbox\" name=\"C1\"
+      value=\"ON\"></p>" s.
+	"<input type=\"hidden\" name=\"V1\" value=\"" s. . 
+      "\"></center></form></div></td><td  width=\"10%\">
+	<center>" s. . 
+	"</center></td><td width=\"80%\">" s. s. "</td></tr>" s.
+;
+
+(Вывод строк в таблицу на 2-й странице)
+: page2rows
+  con_1 @ "select * from " str_1 @ s+ " order by item;" s+ db_exq dup scnd_rs ! 
+  db_next
+  if
+	1 int_1 !
+	begin
+	 scnd_rs @ "item" str_1 @ db_ngetstr 
+	 str_1 @ int_1 @ 
+	 scnd_rs @ "index" db_ngetint
+	 one_row2
+	 int_1 @ 1 + int_1 !
+	 scnd_rs @ db_next not
+	until
+  else
+	page2_bottom "EMPTY!" s. quit
+  then
+;
+
+: edit_page
+ "Поле " con_1 @ "select * from sysfields where userfldname=\'" ? parname s+ "\'" s+ db_exq dup 
+ main_rs !
+ db_next
+ if
+  main_rs @ "lookuptable" str_1 @ db_ngetstr
+  main_rs @ "viewname" str_3 @ db_ngetstr str_3 @ "Администратор" page2_head
+  page2rows
+  page2_bottom
+ else
+  "Unknown field!!!" s.
+ then 
+;
+
+(Проверяет используемость удаляемых значений в системе
+ AS: str_val -> true|false
+)
+: tst_del
+  drop -1 
+;
+
+( Удаляет из таблицы индексы из списка )
+: del_rec
+  con_1 @ "select index from contr_active where " ? parname s+ " in (" s+ ? fldindx s+ ");" s+ db_exq dup dup db_next swap db_rsclose
+  not
+  if
+   con_1 @ "select index from contr_archive where " ? parname s+ " in (" s+ ? fldindx s+ ");" s+ db_exq dup dup db_next swap db_rsclose
+   not
+   if
+	  con_1 @ "delete from " ? tablename s+ " where index in (" s+ ? fldindx s+ ");" s+
+	  db_exu drop  
+   else
+    -1 flg_1 !
+   then
+  else   
+   -1 flg_1 !
+  then
+;
+
+( Добавляет запись в список )
+: add_rec
+  con_1 @ "insert into " ? tablename s+ " (item) values(" s+ ? fldindx s+ ");" s+
+  db_exu drop  
+;
+
+: main
+	? cmnd "list" s=
+	if
+	"Поля системы, имеющие предопределенные значения" "Администратор" page1_head
+	 con_1 @ "select * from lookup_tables order by viewname;" db_exq dup main_rs !
+	 db_next
+	 if
+	  1 int_1 !
+	  begin
+	   main_rs @ dup "viewname" str_1 @ db_ngetstr
+	   "fieldname" str_2 @ db_ngetstr
+	   str_1 @ str_2 @ int_1 @ one_row
+	   int_1 @ 1 + int_1 !
+	   main_rs @ db_next not	
+	  until
+	 else
+	  "Field list is empty!" s.
+	 then 
+	 page1_bottom
+	 quit
+	then
+
+	? cmnd "edit" s=
+	if
+	 edit_page
+	 quit
+	then
+
+	? cmnd "delete" s=
+	if
+	 del_rec
+	 edit_page
+	 quit
+	then
+
+	? cmnd "additem" s=
+	if
+	 add_rec
+	 edit_page
+	 quit
+	then
+	"Unknown command " s.
+;
+main
+%%>

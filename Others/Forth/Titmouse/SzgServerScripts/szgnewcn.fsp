@@ -1,0 +1,508 @@
+<%%
+( Скрипт "Рабочее место пользователя системы "Сетевой Заводской График"
+"Создание нового контракта"
+Автор: И.А.Мазница
+Версия: 1.00)
+
+"authorize.fsp" load
+
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+"" VARIABLE str_4
+
+VARIABLE fields_rs
+VARIABLE lookup_rs
+VARIABLE rs_1
+VARIABLE rs_2
+
+VARIABLE db_con2
+
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+VARIABLE int_4
+VARIABLE int_5
+VARIABLE int_6
+VARIABLE int_7
+
+VARIABLE flag_1 0 flag_1 !
+
+: <tr> "<tr>" s. ;
+: </tr> "</tr>" s. ;
+: <tdz> "<td width=\"30%\" valign=\"top\">" s. ;
+: </td> "</td>" s. ;
+: <tds> "<td width=\"70%\">" s. ;
+: <formn> "<form name=\"" s. "fldst" s. int_6 @ . "\"><p>" s. ;
+: </form> "</p></form>" s. ;
+
+( Формирует шапку и заголовок )
+: page_header
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\"><script language=\"JavaScript\">
+//<!--
+function Valid(AStr)
+{
+	for(var li=0;li<(AStr.length-1);li++)
+	{
+		if (AStr.charAt(li)==\'\\\'\') return false;
+	}
+	return true;
+}
+function AddToBase()
+{
+	var cur_form;
+	var str_fldname=\"\";
+	var fldname = \"\";
+	var str_value=\"\";
+	var str_fldname_t=\"\";
+	var str_value_t=\"\";
+	var cur_val;
+	var cur_typ;	
+	var first=false;
+	var first2=false;
+	
+	var dd,mm,yy,dddd;	
+
+	for(var li=1;li<(document.forms.length-1);li++)
+	{
+		cur_form = document.forms[li];
+		if (cur_form.name.substring(0,5)==\"fldst\")
+		{
+			if (first) {	str_fldname += \",\";	str_value += \",\"; }
+			first = true;
+			cur_typ = cur_form.elements[\"field_type\"].value;
+			fldname = cur_form.elements [\"field_name\"].value;
+			if (fldname==\"contr_num\") 			
+document.forms[\"outform\"].elements[\"conti\"].value=cur_form.elements [\"value\"].value;
+			if (cur_typ==1) // Число
+			{
+				cur_val = document.forms[li].elements[\"value\"].value;
+				cur_val = parseInt(cur_val,10);
+				if (isNaN(cur_val)) 
+				{
+					alert(\"Ошибка ввода в числовое поле!\");
+					return;
+				}
+			 		str_fldname += fldname;
+			 		str_value += cur_val;
+				continue;
+			}
+			if (cur_typ==2) // Строка
+			{
+				cur_val = cur_form.elements[\"value\"].value;
+				if (!Valid(cur_val))
+				{
+					alert(\"Недопустимый символ!\");return;
+				}
+					str_fldname += fldname;
+					str_value += (\"\\\'\"+cur_val+\"\\\'\");
+				continue;
+				}
+				if (cur_typ==3) // Дата
+				{
+					dd=cur_form.elements[\"day\"].value;
+					mm=cur_form.elements[\"montag\"].value;
+					if ((dd==\'\')||(mm=\'\'))
+					{
+						str_fldname += fldname;
+						str_value += 0;
+						continue;
+					}
+					dd = parseInt(cur_form.elements[\"day\"].value,10);
+					mm = parseInt(cur_form.elements[\"montag\"].value,10)-1;
+					yy = parseInt(cur_form.elements[\"year\"].value,10);
+					dddd = new Date(yy,mm,dd);
+
+					if (isNaN(dddd)) 
+					{
+						alert(\"Ошибка ввода во временное поле!\");
+						return;
+					}
+
+					str_fldname += fldname;
+					str_value += dddd.getTime();
+					continue;
+				}
+				if (cur_typ==4) // Флаг
+				{
+					cur_val = document.forms[li].elements[\"value\"].checked;
+					str_fldname += fldname;
+					if (cur_val) str_value += \"1\"; else str_value += \"0\";
+				continue;
+			}
+			if (cur_typ==5) // Список
+			{
+				cur_val = cur_form.elements[\"value\"].options[document.forms[li].elements[\"value\"].selectedIndex].value;
+					str_value += cur_val;
+					str_fldname += fldname;
+				continue;
+			}
+			if (cur_typ==6) // Мемо
+			{
+				cur_val = cur_form.elements[\"value\"].value;
+				if (!Valid(cur_val))
+				{
+					alert(\"Недопустимый символ!\");return;
+				}
+					str_fldname += fldname;
+					str_value += (\"\\\'\"+cur_val+\"\\\'\");
+				continue;
+			}
+		}
+	else
+	{
+		if(cur_form.name.substring(0,6)==\"offfld\")
+		{
+			if (first2) {	str_fldname_t += \",\";	str_value_t += \",\"; }
+			first2 = true;
+			fldname = cur_form.elements [\"fldname\"].value;
+			str_fldname_t += (fldname+\"_d,\"+fldname+\"_o\");
+			if (cur_form.elements[\"chk\"].checked)
+			{
+				str_value_t += (cur_form.elements[\"delay\"].value+\",\"+cur_form.elements[\"offst\"].value);
+			}
+			else
+			{
+				str_value_t += \"0,0\";
+			}
+		}
+	}
+}
+ cur_form=document.forms[\"outform\"];
+ cur_form.elements[\"fldnamest\"].value=str_fldname_t;
+ cur_form.elements[\"fldvaluest\"].value=str_value_t;
+
+ cur_form.elements[\"fldvalues\"].value=str_value;
+ cur_form.elements[\"fldnames\"].value=str_fldname;
+ cur_form.action=\"szgnewcn.fsp?addcontract\";
+ cur_form.submit();
+}
+//-->
+</script>
+<form method=\"POST\" name=\"outform\"><input type=\"hidden\" name=\"fldvalues\" value=\"\"><input type=\"hidden\" name=\"fldvaluest\" value=\"\"><input type=\"hidden\" name=\"fldnames\" value=\"\"><input type=\"hidden\" name=\"fldnamest\" value=\"\"><input type=\"hidden\" name=\"conti\" value=\"\"></form>
+<img src=\"nfd_logo.gif\">
+<h2 align=\"center\"><font color=\"#004080\"><strong>Новый контракт</strong></h2></font></p>
+<table border=\"1\" width=\"100%\">" s.
+;
+
+( Формирует "подвал" )
+: page_bottom
+"<p><form><center><input type=\"button\"
+  onClick=\"AddToBase()\" value=\"Занести в базу\"></center></p></form></div>" s.
+;
+
+: fld_name
+	<tdz>
+	"<strong>" s.
+	fields_rs @ "viewname" str_1 @ db_ngetstr
+	str_1 @ s.
+	"</strong>" s.
+	</td>
+;
+
+: hdn_fld
+	"<input type=\"hidden\" name=\"field_name\" value=\"" s.
+	fields_rs @ dup "userfldname" str_1 @ db_ngetstr
+	str_1 @ s.
+	"fieldsize" db_ngetint int_2 !
+	"\">" s.
+	"<input type=\"hidden\" name=\"field_type\" value=\"" s.
+	int_1 @
+	.
+	"\">" s.
+;
+
+: int_field
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	"<input type=\"text\" name=\"value\" size=\"" s. int_2 @ . "\" value=\"" s. 
+	flag_1 @
+	if
+		rs_2 @ str_1 @ db_ngetint .
+	else
+		"0" s.
+	then
+	"\">" s.
+	</form>
+	</td>
+  </tr>
+;
+
+: str_field
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	"<input type=\"text\" name=\"value\" size=\"" s. int_2 @ . 
+	flag_1 @
+	if
+		"\" value=\"" s. rs_2 @ str_1 @ str_4 @ db_ngetstr str_4 @ s2html s.
+	then
+	"\">" s.
+	</form>
+	</td>
+  </tr>
+;
+
+: ?sn. dup 0= not if . else drop then ;
+
+: date_field
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	flag_1 @
+	if 
+		rs_2 @ str_1 @ db_ngetint dup 0= if 0 0 0 else date_break swap rot then
+	    "<input name=\"day\" type=\"text\" size=\"2\" value=\"" s. ?sn. "\"> 
+    &nbsp;/&nbsp;<input name=\"montag\" type=\"text\" size=\"2\" value=\"" s. ?sn. "\"> 
+    &nbsp;/&nbsp;<input name=\"year\" type=\"text\" size=\"4\" value=\"" s.
+	?sn. 
+	else
+	    "<input name=\"day\" type=\"text\" size=\"2\" value=\"\"> 
+    &nbsp;/&nbsp;<input name=\"montag\" type=\"text\" size=\"2\" value=\"\"> 
+    &nbsp;/&nbsp;<input name=\"year\" type=\"text\" size=\"4\" value=\"" s.
+	datetime date_break swap drop swap drop . 
+	then
+	"\">" s. 
+	</form>
+	</td>
+  </tr>
+;
+
+: flag_field
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	"<input type=\"checkbox\" name=\"value\" value=\"ON\"" s. 
+	flag_1 @
+	if
+	 rs_2 @ str_1 @ db_ngetint 0= not
+	 if 
+		" checked" s.
+	 then
+	then
+	">" s.
+	</form>
+	</td>
+  </tr>
+;
+
+: list_field
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	flag_1 @ 
+	if
+	 rs_2 @ str_1 @ db_ngetint int_7 !
+	then
+	fields_rs @ "lookuptable" str_1 @ db_ngetstr
+	"select * from " str_2 @ s!
+	con_1 @ str_2 @ str_1 @ s+ db_exq dup lookup_rs ! db_next
+	if 
+	 "<select name=\"value\">" s.
+	 begin
+	  "<option value=\"" s. 
+	  lookup_rs @ "index" db_ngetint dup 
+	  flag_1 @
+	  if
+		int_7 @ =
+		if
+			. "\" selected>" s.
+		else
+			. "\">" s.
+		then
+	  else
+		drop . "\">" s.
+	  then
+	  lookup_rs @ "item" str_1 @ db_ngetstr str_1 @ s. "</option>" s. 
+	  lookup_rs @ db_next not
+	 until
+	 "</select>" s.
+	else
+	 "EMPTY!!!" s.
+	then
+	</form>
+	</td>
+  </tr>
+;
+
+: memo_field
+  <tr> 
+  <tr> 
+	fld_name
+	<tds>
+	<formn>
+	hdn_fld
+	"<textarea name=\"value\" rows=\"4\" cols=\"" s. int_2 @ . "\">" s.
+	flag_1 @
+	if
+		rs_2 @ str_1 @ str_4 @ db_ngetstr str_4 @ s2html s.
+	then
+	"</textarea>" s.
+	</form>
+	</td>
+  </tr>
+;
+
+: one_off_row
+fields_rs @ "category" db_ngetint
+100 * 2/ dup 100 / 100 * - 
+  0=
+  if
+	"<tr bgcolor=\"#FFFFBB\">" s.
+  else
+	"<tr bgcolor=\"#BBFFFF\">" s.
+  then     
+"<form name=\"offfld" s. int_6 @ . "\">
+<input type=\"hidden\" name=\"fldname\" value=\"" s. 
+fields_rs @ "userfldname" str_1 @ db_ngetstr str_1 @ s. "\">
+<td width=\"12%\"><center><input type=\"checkbox\" name=\"chk\" checked></center></td>
+<td width=\"18%\">" s. fields_rs @ "viewname" str_1 @ db_ngetstr str_1 @ s. "</td>
+<td width=\"35%\"><center><input type=\"text\" name=\"offst\" size=\"5\" value=\"" s. fields_rs @ "delaydate" db_ngetint . "\"></center></td><td width=\"35%\"><center><input type=\"text\" name=\"delay\" size=\"5\" value=\"" s. fields_rs @ "work_delay" db_ngetint . "\"></center></td></form></tr>" s.
+;
+
+: off_fields
+  0 int_6 !
+  con_1 @ "select userfldname,viewname,delaydate,work_delay,category from sysfields where date_typ=1 order by category,sysfields.order;" db_exq dup fields_rs ! db_next
+ if
+"<center><h3><font color=\"#FF0000\">Планируемые поля</font></h3></center>
+<table border=\"1\" width=\"100%\">
+  <tr bgcolor=\"#FFFF00\" align=\"center\">
+    <td width=\"12%\"><font color=\"#004080\"><strong>Присутствие</strong></font></td>
+    <td width=\"18%\"><font color=\"#004080\"><strong>Наименование</strong></font></td>
+    <td width=\"35%\"><font color=\"#004080\"><strong>Смещение</strong></font></td>
+    <td width=\"35%\"><font color=\"#004080\"><strong>Продолжительность</strong></font></td>
+  </tr>" s.
+	0 int_6 !
+	begin
+		one_off_row		
+		int_6 1+!
+		fields_rs @ db_next not
+	until
+ "</table>" s.
+ then
+;
+
+: records
+  0 int_6 !
+  con_1 @ "select * from sysfields where add_flag=1 order by sysfields.order_add;" db_exq dup fields_rs ! db_next
+  if
+	begin
+	 fields_rs @ "datatype" db_ngetint dup int_1 ! dup
+	 (Длинное целое)
+	 1 =
+	 if
+	  drop int_field
+	 else
+	  (Строка)
+	  dup 2 =	
+	  if
+	   drop str_field
+	  else 
+	   (Дата)
+	   dup 3 =
+	   if
+	    drop date_field
+	   else
+	    (Флаг)
+	    dup 4 =
+	    if
+	     drop flag_field
+	    else
+	     (Список)
+	     dup 5 =
+	     if
+		drop list_field
+	     else
+		(МЕМО)
+		dup 6 =
+		if
+		 drop memo_field
+		then
+	     then	  
+	    then
+	   then	
+	  then 
+	 then
+	 int_6 1+!
+	 fields_rs @ db_next not
+	until
+  then
+ fields_rs @ db_rsclose
+"</table><form>" s.
+;
+
+: add_contr
+
+  "SZG" "" "" "Cp1251" DB_CONNECT db_con2 !
+  
+(Формируем список полей для добавления персональных технологических смещений)
+  "" str_3 @ s! (содержит имена полей)
+
+  db_con2 @ 0 db_autocommit
+  "insert into contr_active(" ? fldnames s+ ") values(" s+ ? fldvalues s+ ");" s+
+  db_con2 @ swap db_exu drop
+
+  db_con2 @ "insert into contr_activet(index," ? fldnamest s+ ") values(\'" s+ ? conti s+ "\'," s+ ? fldvaluest s+ ");" s+ db_exu drop
+
+  db_con2 @ "insert into contr_ac_name(index) values(\'" ? conti s+ "\');" s+ db_exu drop
+  db_con2 @ "insert into contr_ac_date(index) values(\'" ? conti s+ "\');" s+ db_exu drop
+  db_con2 @ "insert into contr_ac_c(index) values(\'" ? conti s+ "\');" s+ db_exu drop
+  db_con2 @ "insert into contr_ac_tn(index) values(\'" ? conti s+ "\');" s+ db_exu drop
+
+  db_con2 @ db_commit  
+
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\"><p><center><h3>Контракт " s. ? conti s. " успешно внесен в базу данных</h3></p>
+<p><center><form action=\"szguser.fsp\"><input type=\"submit\" value=\"Вернуться к списку контрактов\"></form></center></p></body></html>" s. 
+;
+
+: create_onbase
+	-1 flag_1 !
+	con_1 @ "select * from contr_active where index=" ? base s+
+	db_exq dup rs_2 ! db_next not
+	if
+		"<html><body>Базовый контракт не обнаружен в базе</body></html>" s.
+		quit
+	then
+	page_header
+	records
+	off_fields
+	page_bottom
+;
+
+: main 
+	FSP-QUERY "" s==
+	if
+	 page_header
+	 records
+	 off_fields
+ 	 page_bottom	
+	 quit
+	then
+	FSP-QUERY "addcontract" s==
+	if
+	 add_contr	 
+	 quit
+	then
+	create_onbase
+;
+main
+%%>

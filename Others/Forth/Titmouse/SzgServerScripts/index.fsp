@@ -1,0 +1,28 @@
+<%%
+(
+	Скрипт "Сетевой Заводской График"
+	Автор: И.А.Мазница
+	Версия: 1.00
+) 	
+
+VARIABLE admin_name "" admin_name !
+VARIABLE str_1 "" str_1 !
+
+"authorize.fsp" load %%>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><title>OTIS Saint Petersburg</title>
+</head><body bgcolor="#FFFFFF"><p align="left"><img src="nfd_logo.gif"><div align="center"></p><center><p align="center"><big><font color="#000080"><strong><big>Система &quot;Сетевой Заводской График&quot;</big></strong></font></big></p>
+<hr><table border="0" width="52%">
+<%%
+: main
+	its_admin 0=
+	if
+	  "<tr><td width=\"100%\"><p align=\"left\"><big><strong> 1. Рабочее место администратора</strong></big></td></tr>" s.
+	else
+	  "<tr><td width=\"100%\"><p align=\"left\"><big><strong><a href=\"admin.fsp\"> 1. Рабочее место администратора</a></strong></big></td></tr>" s.
+	then
+;
+main
+%%>
+<tr><td width="100%"><big><strong><a href="szguser.fsp">2. Рабочее место пользователя</a></strong></big></td>    
+ </tr></table></center></div><hr></body></html>

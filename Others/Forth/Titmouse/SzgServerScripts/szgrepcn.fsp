@@ -1,0 +1,38 @@
+<%%
+(Выводит список контрактов с чекбоксами, неделей отгрузки и индексом
+	Версия 2.00
+)
+
+"authorize.fsp" load
+
+VARIABLE rs_1
+VARIABLE int_1
+"" VARIABLE str_1
+
+: contr_row
+  "<tr><td><strong><small><form name=\"contr" s. int_1 @ . "\"><p><input type=\"hidden\" name=\"index\" value=\"" s. rs_1 @ "index" db_ngetint . "\"><input type=\"hidden\" name=\"week\" value=\"" s. rs_1 @ "week_izgotovl" db_ngetint . "\"><input type=\"checkbox\" name=\"chk\">" s. rs_1 @ "contr_num" str_1 @ db_ngetstr str_1 @ s. "</p></form></small></strong></td></tr>" s. 
+;
+
+: page_contr
+ con_1 @ "select contr_num,week_izgotovl,index from contr_active order by contr_num;" db_exq dup rs_1 ! db_next
+if
+	1 int_1 !
+	"<table>" s.
+	begin
+		contr_row		
+		int_1 1+!
+		rs_1 @ db_next not
+	until
+	"</table>" s.
+then
+rs_1 @ db_rsclose
+;
+%%>
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"></head>
+<body bgcolor="#FFFFFF"> 
+<%%
+page_contr
+%%>
+</body></html>

@@ -1,0 +1,47 @@
+<%%
+( Вывод аналитической информации по контрактам)
+
+"authorize.fsp" load
+
+VARIABLE rs_1
+"" VARIABLE str_1
+"" VARIABLE str_2
+
+: page_header
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Сведения по рабочим контрактам системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">
+<img src=\"nfd_logo.gif\">
+<h2 align=\"center\"><font color=\"#004080\"><strong>Суммарная информация по рабочим контрактам</strong></h2></font></p><center><table border=\"1\" width=\"100%\"><tr align=\"center\" bgcolor=\"#BBFFBB\"><td width=\"20%\"><strong>Номер контракта</strong></td><td width=\"80%\"><strong>Информация</strong></td></tr>" s.
+;
+
+: page_bottom
+ "</table><p><form method=\"POST\" action=\"szguser.fsp\"><center><input type=\"submit\" value=\"Список контрактов\"></center></form></p></body></html>" s.
+;
+
+: one_contr
+	rs_1 @ "contr_num" str_1 @ db_ngetstr
+	rs_1 @ "comment" str_2 @ db_ngetstr
+	"<tr><td width=\"20%\" align=\"center\"><a href=\"szgcat1.fsp?&cat=*&contract=" s. str_1 @ s. "&afilter=true" s. "\">" s. str_1 @ s. "</a></td><td width=\"80%\">" s. str_2 @ s. "</td></tr>" s.
+;
+
+: contr_list
+	con_1 @ "select * from analitik_table order by contr_num" db_exq dup rs_1 ! db_next
+	if
+		begin
+			one_contr
+			rs_1 @ db_next not
+		until
+	then
+	rs_1 @ db_rsclose
+;
+
+: main
+	page_header
+	contr_list
+	page_bottom
+;
+main
+%%>

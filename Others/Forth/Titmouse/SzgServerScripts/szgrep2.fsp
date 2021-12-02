@@ -1,0 +1,289 @@
+<%%
+(Сквозной отчет) 
+"authorize.fsp" load
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+VARIABLE int_4
+VARIABLE str_1 "" str_1 !
+VARIABLE str_2 "" str_2 !
+VARIABLE str_3 "" str_3 !
+VARIABLE str_4 "" str_4 !
+VARIABLE rs_1
+VARIABLE rs_2
+VARIABLE rs_3
+VARIABLE m_pnt
+VARIABLE flag_c
+VARIABLE start_date
+VARIABLE end_date
+VARIABLE contrdate
+VARIABLE colorcell
+VARIABLE colortable
+VARIABLE contr_num
+VARIABLE dof_table (указатель на таблицу со смещениями и задержками)
+VARIABLE dof_count (количество элементов в таблице dof)
+
+(инициализация массива месяцев)
+: monat_init
+  12 allot dup m_pnt ! 
+  dup "Январь" swap ! 1+
+  dup "Февраль" swap ! 1+
+  dup "Март" swap ! 1+
+  dup "Апрель" swap ! 1+
+  dup "Май" swap ! 1+
+  dup "Июнь" swap ! 1+
+  dup "Июль" swap ! 1+
+  dup "Август" swap ! 1+
+  dup "Сентябрь" swap ! 1+
+  dup "Октябрь" swap ! 1+
+  dup "Ноябрь" swap ! 1+
+  "Декабрь" swap !
+;
+monat_init
+
+(инициализация массива цветов)
+: color_init 16 allot dup colortable !
+  dup "\"#000080\">" swap ! 1+
+  dup "\"#008000\">" swap ! 1+
+  dup "\"#008080\">" swap ! 1+
+  dup "\"#800000\">" swap ! 1+
+  dup "\"#800080\">" swap ! 1+
+  dup "\"#808000\">" swap ! 1+
+  dup "\"#808080\">" swap ! 1+
+  dup "\"#0000FF\">" swap ! 1+
+  dup "\"#00FF00\">" swap ! 1+
+  dup "\"#00FFFF\">" swap ! 1+
+  dup "\"#FF0000\">" swap ! 1+
+  dup "\"#FF00FF\">" swap ! 1+
+  dup "\"#FFFF00\">" swap ! 1+
+  dup "\"#555555\">" swap ! 1+
+  dup "\"#AAAAAA\">" swap ! 1+
+  dup "\"#DDDDDD\">" swap ! 1+
+;
+color_init
+
+: color_dec
+	dup 15 >
+	if
+	 drop "\"#000000\">" 
+	else
+	 colortable @ + @
+	then
+;
+
+: monat_dec
+ 1-  m_pnt @ + @
+;
+
+( AS: header_index ->)
+: page_header
+s2html
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>" s. dup s. "</title></head>
+<body bgcolor=\"#FFFFFF\">
+<table border=\"0\"><tr>
+    <td width=\"100%\" style=\"border-bottom: medium solid rgb(255,0,0)\"><font color=\"#0000A0\"><small><strong>ЗАО
+    &quot;ОТИС Санкт-Петербург&quot;</strong></small></font></td>
+  </tr>
+  <tr>
+    <td width=\"100%\"><font color=\"#000000\"><small><strong>СЕТЕВОЙ ЗАВОДСКОЙ
+    ГРАФИК</strong></small></font></td>
+  </tr>
+  <tr><td width=\"100%\"><h6><strong>" s. datetime dup time_break swap rot . ":" s. . ":" s. . " " s. date_break swap rot . "/" s. . "/" s. . " (" s. fsp-authname s. ")" s.
+"</strong></h6></tr></table>
+<div align=\"center\"><table border=\"0\">
+  <tr>
+    <td width=\"100%\"><h3><p align=\"center\">" s. s. "</h3></td></tr><tr><td>" s.
+;
+
+: page_bottom
+"</td></tr></table></div></body></html>" s.
+;
+
+(Выводит шапку таблицы)
+: head_row
+  "<tr><td rowspan=\"2\"><strong><center>&nbsp;&nbsp;№\\Дата&nbsp;&nbsp;</center></strong></td>" s. 
+   start_date @ dup int_1 ! date_break drop swap drop int_2 !
+   1 int_3 !
+   begin
+    int_1 @ 86400000 + dup int_1 !	
+date_break drop swap drop dup int_2 @ = not 
+    if
+    "<td colspan=\"" s. int_3 @ . "\"><strong><center>" s. int_2 @ monat_dec s. int_2 ! "</center></strong></td>" s.
+    1 int_3 !
+    else
+     drop
+     int_3 1+!
+    then
+    int_1 @ end_date @ < not
+   until
+  int_3 @ 1 = not if "<td colspan=\"" s. int_3 @ . "\"><strong><center>" s. int_2 @ monat_dec s. "</td>" s. then 
+  "</center></strong></tr><tr>" s. 
+   start_date @ int_1 !
+   end_date @ 86400000 + int_3 !
+   begin
+    int_1 @ weekday dup
+    0= swap 6 = or
+    if
+	"<td bgcolor=\"#CCCCCC\">" s. 
+	else
+	"<td>" s. 
+    then
+    int_1 @ date_break drop drop . "</td>" s.
+    int_1 @ 86400000 + dup int_1 !	
+    int_3 @ < not
+   until
+  "</tr>" s. 
+;
+
+(вывод цветовой таблицы)
+: color_table_botton
+"<p></p><table border=\"0\">" s. 
+  con_1 @ "select index,viewname from sysfields where date_typ=1 and index in(" fieldlist s+ ") order by category,sysfields.order;" s+
+  db_exq dup rs_2 ! db_next
+  if 
+	0 int_1 !
+	begin
+	 rs_2 @ "index" db_ngetint 100 * flag_c !
+	 "<tr>" s.	 
+	 "<td width=\"20\" bgcolor=" s. int_1 @ color_dec s.  "&nbsp;</td><td>&nbsp;-&nbsp;" s.
+	 rs_2 @ "viewname" str_2 @ db_ngetstr str_2 @ s. 
+	 "</td></tr>" s.
+	 int_1 1+!
+	 rs_2 @ db_next not
+	until	
+    rs_2 @ db_rsclose
+  then
+"</table>" s.
+;
+
+: fill_doftable (инициализация dof-таблицы верхн предел,нижн предел)
+  0 dof_count !
+  "select userfldname from sysfields where date_typ=1 and index in(" str_2 @ s!
+  con_1 @ str_2 @ fieldlist s+ ") order by category,sysfields.order;" s+
+  db_exq dup rs_3 ! db_next 
+  if
+	dof_table @ int_1 !
+	begin
+		rs_3 @ 1 str_2 @ db_getstr
+		str_2 @ str_3 @ s! str_3 @ "_o" s+ 
+		rs_2 @ str_3 @ db_ngetint dup
+		0> not
+		if
+			86400000 * contrdate @ + dup int_2 ! weekday int_3 !
+		else
+			drop 0 int_2 !
+		then
+		int_2 @ dup int_1 @ ! int_1 1+!
+		0= not
+		if
+			str_2 @ str_3 @ s! str_3 @ "_d" s+
+			rs_2 @ str_3 @ db_ngetint dup
+			int_3 @ 6 =
+			if
+				1+
+			then
+			int_3 @ >
+			if
+				dup 7 + 7 / 2* +
+			then
+			86400000 * int_2 @ swap - 
+		else
+			0
+		then
+		int_1 @ ! int_1 1+!
+		dof_count 1+!
+		rs_3 @ db_next not
+	until
+  then
+  rs_2 @ db_rsclose
+  rs_3 @ db_rsclose
+;
+
+(Вывод строки по контракту, контракт в rs_1)
+: contract_row
+  rs_1 @ "contr_num" contr_num @ db_ngetstr
+  rs_1 @ "week_izgotovl" db_ngetint 428 - 604800000 *
+  7 1 2000 DATE_PACK + 12 sethh contrdate !
+  "select * from contr_activet where index=\'" str_2 @ s!
+  con_1 @  str_2 @ contr_num @ s+ "\';" s+ db_exq dup rs_2 ! db_next drop
+  fill_doftable
+  "<tr>" s.
+
+  "<td><strong><font color=\"#000000\">" s. contr_num @ s. "</font></strong></td>" s.
+   start_date @ 11 sethh int_1 !
+   end_date @ 86400000 + int_3 !
+   begin
+    int_1 @ weekday dup
+    0= swap 6 = or
+    if
+	"<td bgcolor=\"#CCCCCC\">" str_2 @ s! 
+    else
+	dof_table @ int_4 !
+	0 int_2 !
+	-1 flag_c !
+	begin
+		dof_table @ int_2 @ 2* + @ dup
+		0= not
+		if
+		 int_1 @ < not
+		 if
+			dof_table @ int_2 @ 2* + 1+ @
+			int_1 @ > not
+			if
+				"<td bgcolor=" str_2 @ s! str_2 @ int_2 @ color_dec s+ drop 0 flag_c !
+			else
+				flag_c @
+				if
+					"<td>" str_2 @ s!
+				then
+			then
+		 else
+			flag_c @
+			if
+				"<td>" str_2 @ s!
+			then
+		 then
+		else
+		 drop 
+ 		 flag_c @
+		 if
+			"<td>" str_2 @ s!
+		 then
+		then
+	 int_2 1+!
+	 int_2 @ dof_count @ > 
+	until
+    then
+    str_2 @ s.
+    "&nbsp;</td>" s.
+    int_1 @ 86400000 + int_1 !	
+    int_1 @ int_3 @ >
+   until
+  "</tr>" s. 
+;
+
+: report_body
+"<table border=\"1\">" s.
+  dateto s2i end_date ! datefrom s2i start_date !
+  head_row
+  con_1 @ "select * from contr_active where index in(" contractlist s+ ") order by contr_num;" s+ db_exq dup rs_1 ! db_next
+ if
+  begin
+   contract_row
+   rs_1 @ db_next not
+  until
+ then
+"</table>" s.
+color_table_botton
+;
+
+: main
+  200 allot dof_table !
+  reportname page_header
+  report_body
+  page_bottom
+;
+main
+%%>

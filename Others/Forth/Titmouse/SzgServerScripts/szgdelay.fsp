@@ -1,0 +1,104 @@
+<%%
+( Скрипт "Рабочее место пользователя системы "Сетевой Заводской График"
+Автор: И.А.Мазница
+Версия: 2.00)
+
+"authorize.fsp" load
+
+"" VARIABLE admin_name
+"" VARIABLE us_comment
+"" VARIABLE str_1
+VARIABLE fields_rs
+VARIABLE int_i
+its_admin VARIABLE is_admin
+
+( AS: header ->)
+: page_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">
+<script language=\"JavaScript\">
+//<!--
+function Refrat()
+{
+	var ind,dela,cur,frm;
+	var accum=\"\";
+	for(var li=1;li<(document.forms.length-1);li++)
+ 	{
+	  frm = document.forms[\"fform\"+li];
+	  cur = frm.elements[\"curtxt\"].value;
+	  ind = frm.elements[\"index\"].value;	
+	  dela = frm.elements[\"timedelay\"].value;	
+	  if (isNaN(cur)||isNaN(dela)) { alert(\"Ошибка ввода значения\");return;} 
+	  accum=accum+ind+\"|\"+cur+\"|\"+dela+\"|\";
+	} 
+	if (parseInt(dela,10)<=0) { alert(\"Значение продолжительности работ, должно быть больше 0!\"); return;}
+	document.forms[0].elements[\"fldlst\"].value=accum;
+	document.forms[0].submit();
+}
+//-->
+</script>
+<form method=\"POST\" action=\"admin.fsp?upddelay\" name=\"outform\"><input type=\"hidden\" name=\"fldlst\" value=\"\"></form>
+<img src=\"nfd_logo.gif\">
+<p align=\"center\"><font color=\"#004080\"><big><strong> Корректировка временных смещений</strong></big></font></p>
+<div align=\"left\">
+<table border=\"1\" width=\"100%\">
+<tr><td width=\"10%\" bgcolor=\"#BBBBFF\"><strong><center>№</center></strong></td><td width=\"50%\" bgcolor=\"#BBBBFF\"><strong><center>
+Наименование</center></strong></td><td width=\"20%\" bgcolor=\"#BBBBFF\"><strong><center>Смещение</center></strong></td><td width=\"20%\" bgcolor=\"#BBBBFF\"><strong><center>Продолжительность</center></strong></td>
+</tr>" s.
+;
+
+( AS: delay_value index_fld state field_view index ->)
+: one_record
+  >R 
+  "<tr>
+    <td width=\"10%\"><center>" s. R@ . "</center></td><td width=\"50%\">" s. s.
+  "</td>
+  <td width=\"20%\">
+  <form name=\"fform" s. R@ . "\">
+   <p><center>
+   <input type=\"text\" size=\"8\" value=\"" s. . "\" name=\"curtxt\">
+   <input type=\"hidden\" name=\"index\" value=\"" s. . "\">
+   </center></p>
+  </td><td width=\"20%\"><p><center><input type=\"text\" name=\"timedelay\" value=\"" s. . "\" size=\"8\"></center></p></form></td> 
+</tr>" s. 
+dropr
+;
+
+: page_bottom
+ "</table></div></body></html>
+  <div align=\"center\"><p><form><center><input type=\"button\" onClick=\"Refrat()\" value=\"Занести в базу\"></center></form></p></div></body></html>" s.
+;
+
+: draw_page
+  page_head
+  con_1 @ "select * from sysfields where date_typ=1;" 
+  db_exq dup fields_rs ! db_next 
+  if 
+   1 int_i !
+   begin
+    fields_rs @ "work_delay" db_ngetint 
+    fields_rs @ "index" db_ngetint 
+    fields_rs @ "delaydate" db_ngetint
+    fields_rs @ "viewname" admin_name @ db_ngetstr 
+    admin_name @ int_i @ one_record
+    int_i 1+!
+    fields_rs @ db_next not
+   until
+  then  
+
+  page_bottom
+;
+
+: main 
+	? cmnd "list" s==
+	if 
+	 draw_page
+	else
+	 "Unknown command!" s. quit
+	then
+;
+main
+%%>

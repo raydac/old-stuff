@@ -1,0 +1,6 @@
+<%%
+: hallo 34 ;
+
+?FIND hallo .
+%%>
+

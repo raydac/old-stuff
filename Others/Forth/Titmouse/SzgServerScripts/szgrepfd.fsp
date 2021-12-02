@@ -1,0 +1,39 @@
+<%%
+(Выводит список полей с чекбоксами и индексом)
+
+"authorize.fsp" load
+VARIABLE rs_1
+VARIABLE int_1
+"" VARIABLE str_1
+VARIABLE int_2
+
+: fld_row
+  rs_1 @ "category" db_ngetint
+  100 * 2/ dup 100 / 100 * - 
+  0=
+  if
+	"<tr bgcolor=\"#FFFFBB\">" s.
+  else
+	"<tr bgcolor=\"#BBFFFF\">" s.
+  then     
+  "<td><strong><small><form name=\"field" s. int_1 @ . "\"><p><input type=\"hidden\" name=\"index\" value=\"" s. rs_1 @ "index" db_ngetint . "\"><input type=\"hidden\" name=\"dt\" value=\"" s. rs_1 @ "date_typ" db_ngetint . "\"><input type=\"checkbox\" name=\"chk\">" s. rs_1 @ "viewname" str_1 @ db_ngetstr str_1 @ s. "</p></form></small></strong></td></tr>" s. 
+;
+
+: page_contr
+ con_1 @ "select category,index,viewname,date_typ from sysfields order by category,sysfields.order;" db_exq dup rs_1 ! db_next
+if
+	1 int_1 !
+	begin
+		fld_row		
+		int_1 1+!
+		rs_1 @ db_next not
+	until
+then
+rs_1 @ db_rsclose
+;
+%%>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"></head>
+<body bgcolor="#FFFFFF"><table width="100%" border="0">
+<%% page_contr %%>
+</table></body></html>

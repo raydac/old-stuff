@@ -1,0 +1,240 @@
+<%%
+(Отчет о состоянии текущих работ по активным контрактам)
+"authorize.fsp" load
+
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+VARIABLE int_4
+VARIABLE int_5
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+"" VARIABLE str_4
+"" VARIABLE str_5
+"" VARIABLE _cntr_num
+VARIABLE rs_1
+VARIABLE rs_2
+VARIABLE rs_3
+VARIABLE rs_4
+VARIABLE rs_5
+VARIABLE contrdate
+VARIABLE delaydate
+VARIABLE contrindex
+VARIABLE flag_1
+VARIABLE int_6
+
+( AS: header_index ->)
+: page_header
+s2html
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>" s. dup s. "</title></head>
+<body bgcolor=\"#FFFFFF\">
+<table border=\"0\"><tr>
+    <td width=\"100%\" style=\"border-bottom: medium solid rgb(255,0,0)\"><font color=\"#0000A0\"><small><strong>ЗАО
+    &quot;ОТИС Санкт-Петербург&quot;</strong></small></font></td>
+  </tr>
+  <tr>
+    <td width=\"100%\"><font color=\"#000000\"><small><strong>СЕТЕВОЙ ЗАВОДСКОЙ
+    ГРАФИК</strong></small></font></td>
+  </tr>
+<tr><td width=\"100%\"><h6><strong>" s. datetime dup time_break swap rot . ":" s. . ":" s. . " " s. date_break swap rot . "/" s. . "/" s. . " (" s. fsp-authname s. ")" s.
+"</strong></h6></tr>
+</table>
+<div align=\"center\"><table border=\"0\">
+  <tr>
+    <td width=\"100%\"><h3><p align=\"center\">" s. s. "</h3></td></tr><tr><td>" s.
+;
+
+: page_bottom
+"</td></tr></table></div></body></html>" s.
+;
+
+(Заголовки столбцов таблицы)
+: header_table
+   "<tr>" s.
+   con_1 @ "select * from sysfields where index in(" fieldlist s+ ") order by category,sysfields.order;" s+ db_exq dup rs_1 ! db_next
+	if
+		begin
+			rs_1 @ "viewname" str_1 @ db_ngetstr
+			"<td bgcolor=\"#F0F0F0\"><center><strong>&nbsp;" s. str_1 @ s. "&nbsp;</strong></center></td>" s.
+			rs_1 @ db_next not
+		until
+	then	
+    rs_1 @ db_rsclose	
+    "</tr>" s.
+;
+
+( Выводит одну ячейку в таблицу в str_2 индекс поля, в rs_1 строка с текущим контрактом )
+: table_cell
+	"select * from sysfields where index=" str_3 @ s!
+	con_1 @ str_3 @ str_2 @ s+ " order by category,sysfields.order;" s+ db_exq dup rs_2 ! db_next
+	if
+		rs_2 @ "userfldname" str_3 @ db_ngetstr str_3 @ str_5 @ s!
+		rs_2 @ "datatype" db_ngetint
+		dup 1 = (int)
+		if
+		 rs_1 @ str_3 @ db_ngetint "<td>" s. .
+		else
+		 dup 2 = (str)
+		 if
+		  rs_1 @ str_3 @ str_2 @ db_ngetstr
+		  str_2 @ "" s=
+		  if
+		  "<td>&nbsp;" s.
+		  else	
+		  "<td>" s. str_2 @ s.
+		  then
+		 else
+		  dup 3 = (date)
+		  if
+		   rs_1 @ str_3 @ db_ngetint int_4 !
+		   rs_2 @ "date_typ" db_ngetint dup int_5 ! 0= not
+		   if
+			str_5 @ str_4 @ s!
+			rs_5 @ str_5 @ "_o" s+ db_ngetint 86400000 * delaydate !
+			rs_5 @ str_4 @ "_d" s+ db_ngetint int_6 !
+		   else
+			0 delaydate !	
+		   then
+		   int_6 @ 0= not
+		   if	
+		    int_5 @ 0= contrdate @ 0= or
+		    if
+		     "<td>" str_4 @ s!
+		    else
+		     contrdate @ delaydate @ + int_4 @ >
+		      if
+			int_4 @ 0=
+			if
+			 contrdate @ delaydate @ + datetime >
+			 if
+			  "<td>" str_4 @ s!
+			 else
+			  "<td bgcolor=\"#FFBBBB\">" str_4 @ s!
+			 then
+			else
+			 "<td bgcolor=\"#BBFFBB\">" str_4 @ s!
+			then
+		      else
+			"<td bgcolor=\"#FFBBBB\">" str_4 @ s!
+		      then
+		    then
+		   else
+		    "<td>" str_4 @ s!	
+		   then
+		   int_4 @ str_4 @ s.
+		   dup 0=
+		    if
+			drop "&nbsp;" s.
+		    else
+			date_break swap rot . "/" s. . "/" s. .
+		    then
+			int_5 @	0>
+			if
+				flag_1 @
+				contrdate @ 0= not and int_6 @ 0= not and
+				if
+				 contrdate @ delaydate @ + date_break swap rot "[" s. . "/" s. . "/" s. . "]" s.
+				then
+			then
+ 		  else
+		   dup 4 = (flag)
+		   if
+		    rs_1 @ str_3 @ db_ngetint 0=
+			if
+			"<td>&nbsp;</td>" s. else "<td><center>*</center>" s. then
+		   else		
+		    dup 5 = (list)
+		    if
+			rs_1 @ str_3 @ db_ngetint dup int_4 !
+			0=
+			if
+			 "<td>&nbsp;" s.
+			else
+			 rs_2 @ "lookuptable" str_5 @ db_ngetstr
+			 "select * from " str_4 @ s!
+			 con_1 @ str_4 @ str_5 @ s+ " where index=" s+ int_4 @ str_5 @ i2s str_5 @ s+
+			 db_exq dup db_next
+			 if
+			  "item" str_4 @ db_ngetstr "<td>" s. str_4 @ s.
+			 else
+			  "<td>&nbsp;" s.
+			 then
+			 db_rsclose
+			then
+		    else		
+		     dup 6 = (memo)
+		     if
+			"<td>(MEMO)" s.
+		     else "<td>ERRORRRR!!!" s. 	
+		     then
+		    then
+		   then	
+		  then
+		 then
+		then
+	then
+"</td>" s.
+rs_2 @ db_rsclose
+;
+
+(Выводит строку в таблицу)
+: contract_row
+  "select * from contr_activet where index=\'" str_5 @ s!
+  con_1 @ str_5 @ _cntr_num @ s+ "\';" s+ db_exq dup rs_5 ! db_next drop
+  fieldlist ',' tkn_set int_2 !
+  rs_1 @ "index" db_ngetint contrindex !
+  "<tr>" s.
+  int_2 @ tkn_?
+  if
+	 rs_4 @ "week_izgotovl" db_ngetint dup
+	 0=
+	 if
+		contrdate !
+	 else
+	 	428 - 604800000 *
+  	 	7 1 2000 DATE_PACK + contrdate !
+	 then
+	begin
+		int_2 @ str_2 @ tkn_nxt
+		table_cell
+		int_2 @ tkn_? not
+	until
+  then
+  rs_5 @ db_rsclose
+  "</tr>" s.
+;
+
+: report_body
+"<table border=\"1\">" s.
+header_table
+  con_1 @ "select week_izgotovl,contr_num from contr_active where index in(" contractlist s+ ") order by week_izgotovl,contr_num;" s+ db_exq dup rs_4 ! db_next drop
+  con_1 @ "select * from contr_active where index in(" contractlist s+ ") order by week_izgotovl,contr_num;" s+ db_exq dup rs_1 ! db_next
+	if
+	 begin
+		rs_4 @ "contr_num" _cntr_num @ db_ngetstr
+		contract_row
+		rs_4 @ db_next drop
+		rs_1 @ db_next not
+	 until
+	 "</table>" s.
+	then
+	rs_4 @ db_rsclose
+	rs_1 @ db_rsclose
+;
+
+: main
+  pl_flag "Y" s==
+  if
+	-1 flag_1 !
+  else
+	0 flag_1 !
+  then
+  reportname page_header
+  report_body
+  page_bottom
+;
+main
+%%>

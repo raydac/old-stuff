@@ -1,0 +1,139 @@
+<%%
+(Скрипт редактирования смещений и видимости полей контракта после создания
+ Версия: 2.00
+)
+
+"authorize.fsp" load
+
+VARIABLE rs_1 
+VARIABLE rs_2 
+VARIABLE rs_3 
+
+VARIABLE int_1 
+VARIABLE fld_offst
+VARIABLE fld_delay
+
+"" VARIABLE str_1 
+"" VARIABLE str_2
+"" VARIABLE contract
+"" VARIABLE fld_name
+
+: test_admin
+	its_admin 0=
+	if
+		"accden.fsp" playfile quit
+	then
+;
+test_admin
+
+: page_header
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Редактирование техн. смещений контракта</title>
+</head><body bgcolor=\"#FFFFFF\">
+<img src=\"nfd_logo.gif\">
+<center><h2>Редактирование техн. смещений</h2><font color=\"#0000FF\"><h3><strong>Контракт &quot;" s. contract @ s. "&quot;</h3></font></center>" s.
+;
+
+: page_bottom
+ "<center><p><form><input type=\"button\" value=\"Занести в базу\" onClick=\"PutToBase()\"></form></p></body></html>" s.
+;
+
+: jscript
+"<script language=\"JavaScript\">
+function PutToBase()
+{
+	var curfrm;
+	var accum=\'\';
+	var ls=\'\';
+	var loff,ldel,lnm;
+	for(var li=0;li<document.forms.length;li++)
+	{
+		curfrm=document.forms[li];
+		if (curfrm.name.substring(0,3)==\"ddd\")
+		{
+			lnm=curfrm.elements[\"fld_name\"].value;
+			loff=parseInt(curfrm.elements[\"offst\"].value,10);
+			ldel=parseInt(curfrm.elements[\"delay\"].value,10);
+			if (!curfrm.elements[\"chk\"].checked) ldel=0;
+			if (isNaN(loff)||isNaN(ldel))
+			{
+				alert(\"Ошибка ввода!\");return;
+			}
+			accum+=(ls+lnm+\"_o=\"+loff+\",\"+lnm+\"_d=\"+ldel);
+			ls=\',\';
+		}
+	}
+	curfrm=document.forms[\"outform\"];
+	curfrm.elements[\"outdata\"].value=accum;
+	curfrm.submit();
+}
+</script><form name=\"outform\" method=\"POST\" action=\"szgedtof.fsp\"><input type=\"hidden\" name=\"outdata\" value=\"\">
+<input type=\"hidden\" name=\"conty\" value=\"" s. contract @ s. "\"></form>" s.
+;
+
+: page_row
+  rs_2 @ "category" db_ngetint
+  100 * 2/ dup 100 / 100 * - 
+  0=
+  if
+	"<tr bgcolor=\"#FFFFBB\">" s.
+  else
+	"<tr bgcolor=\"#BBFFFF\">" s.
+  then     
+  "<form name=\"ddd" s. int_1 @ . "\"><td width=\"10%\"><center><input type=\"checkbox\" name=\"chk\"" s.
+ rs_2 @ "userfldname" fld_name @ db_ngetstr
+ fld_name @ dup str_1 @ s! str_2 @ s!
+ rs_1 @ str_1 @ "_o" s+ db_ngetint fld_offst !
+ rs_1 @ str_2 @ "_d" s+ db_ngetint dup fld_delay !
+ 0= not
+ if
+  " checked" s.
+ else
+  rs_2 @ "delaydate" db_ngetint fld_offst !
+  rs_2 @ "work_delay" db_ngetint fld_delay !
+ then
+ "><input type=\"hidden\" name=\"fld_name\" value=\"" s. fld_name @ s. "\"></center></td><td width=\"40%\">" s. rs_2 @ "viewname" str_1 @ db_ngetstr str_1 @ s. "</td><td width=\"25%\"><center><input type=\"text\" name=\"offst\" size=\"4\" value=\"" s. fld_offst @ . "\"></center></td><td width=\"25%\"><center><input type=\"text\" name=\"delay\" size=\"4\" value=\"" s. fld_delay @ . "\"></center></td></form></tr>" s.
+;
+
+: page_body
+  con_1 @ "select * from contr_activet where index=\'" contract @ s+ "\';" s+ db_exq dup rs_1 ! db_next drop 
+  con_1 @ "select userfldname,viewname,delaydate,work_delay,category from sysfields where date_typ<>0 order by category,sysfields.order;" db_exq  dup rs_2 ! db_next
+if
+	"<table width=\"100%\" border=\"1\"><tr bgcolor=\"#FFFF00\"><td width=\"10%\"><center><strong>Видимость</strong></center></td><td width=\"40%\"><center><strong>Имя поля</strong></center></td><td width=\"25%\"><center><strong>Смещение</strong></center></td><td width=\"25%\"><center><strong>Длительность</strong></center></td></tr>" s.
+	1 int_1 !
+	begin
+		page_row
+		int_1 1+!
+		rs_2 @ db_next not
+	until
+	"</table>" s.
+else
+ "<h3>Нет планируемых полей</h3>" s.
+then
+;
+
+: upd_contr
+	con_1 @ "update contr_activet set " ? outdata s+ " where index=\'" s+ ? conty s+ "\';" s+ db_exu drop
+	"<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><body><center><h3>Изменения успешно внесены в базу</h3><p><form method=\"POST\" action=\"szguser.fsp\"><input type=\"submit\" value=\"Вернуться к списку контрактов\"></form></center></body></html>" s.
+;
+
+: main
+  fsp-query "" s= not
+  if
+  	con_1 @ "select contr_num from contr_active where index=" ? value s+ db_exq dup dup db_next not
+  	if
+		"<html><body><h3>Ошибочный индекс контракта</body></html>" s. quit
+  	then
+  	"contr_num" contract @ db_ngetstr
+  	db_rsclose
+  	page_header
+  	jscript
+  	page_body
+  	page_bottom
+  else
+	upd_contr
+  then
+;
+main
+%%>

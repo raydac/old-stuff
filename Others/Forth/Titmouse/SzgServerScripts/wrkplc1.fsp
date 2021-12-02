@@ -1,0 +1,392 @@
+(Скрипт рабочего места для броузеров без поддержки JavaScript и других наворотов)
+
+VARIABLE cur_con
+VARIABLE cur_con2
+VARIABLE rs_1
+VARIABLE rs_2
+VARIABLE rs_3
+VARIABLE rs_4
+
+VARIABLE time_rs
+VARIABLE name_rs
+VARIABLE comment_rs
+
+VARIABLE str_1 "" str_1 !
+VARIABLE str_2 "" str_2 !
+VARIABLE str_3 "" str_3 !
+VARIABLE str_4 "" str_4 !
+VARIABLE str_5 "" str_5 !
+
+VARIABLE _str_date "" _str_date !
+VARIABLE _str_name "" _str_name !
+
+VARIABLE _cur_date "" _cur_date !
+VARIABLE cnt_name_ "" cnt_name_ !
+VARIABLE res_name "" res_name !
+VARIABLE fields_count
+VARIABLE fields_point
+VARIABLE fields_accum "" fields_accum !
+VARIABLE field_nm "" field_nm !
+VARIABLE field_nms
+VARIABLE field_sz
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+
+0 send-enable !
+
+"com.ms.jdbc.odbc.JdbcOdbcDriver" DB_LOAD DROP
+"jdbc:odbc:szgdb" "" "" DB_CONNECT cur_con !
+
+: test_user
+	CGI-AUTHPSSWRD "" s=
+	if
+		"HTTP/1.0 401 \r\n" ss.
+		"WWW-Authenticate: Basic realm=\"SZG\"\r\n\r\n" 
+		ss.
+		quit
+	then
+	cur_con @
+	"select * from usertable where user_np=\'" CGI-AUTHPSSWRD s+ "\';" s+ db_exq
+	dup rs_1 ! db_next
+	not
+	if 
+		"This user are absent in data base" ss. quit
+	then
+	rs_1 @ "user_specpage" res_name @ db_ngetstr
+"HTTP/1.0 200 OK\r\nMIME-Version: 1.0\r\nServer: RHTTP1.0\r\nContent-type: text/html\r\nPragma: no cache\r\n\r\n" ss.
+;
+test_user
+
+(Добавить поле в список полей AS: имя_поля )
+: add_field
+   i, fields_accum @ str_1 @ s+ "|" s+ drop fields_count 1+!
+;
+
+(Создает в памяти список полей, доступных данному пользователю)
+: fields_list
+   herei fields_point !   
+   0 fields_count !	
+   cur_con @ "select index,userfldname from sysfields;" db_exq dup rs_2 ! db_next
+   cur_con 
+   if
+   	begin
+		rs_2 @ "userfldname" str_1 @ db_ngetstr
+		rs_1 @ str_1 @ db_ngetint
+		0= not
+		if
+			rs_2 @ "index" db_ngetint add_field
+		then
+		rs_2 @ db_next not
+  	until 
+   then
+   rs_2 @ db_rsclose
+   rs_1 @ db_rsclose
+;
+fields_list
+
+: page_header
+"<html><head><title>Сетевой Заводской График</title>
+</head><body bgcolor=\"#FFFFFF\" text=\"#000000\">
+<h4><strong>Сетевой Заводской График</strong></h4>
+<h3 align=\"center\"><strong>" ss. ss. "</strong></h3>" ss.
+;
+
+: page_bottom
+ "</body></html>" ss.
+;
+
+: one_contract
+	"<p><a href=\"" ss. res_name @  ss. "?&cmnd=edit&index=" ss. rs_2 @ "index" db_ngetint sn. "\">" ss. rs_2 @ "contr_num" str_1 @ db_ngetstr
+	str_1 @ ss. " (" ss. rs_2 @ "zakaz_name" str_1 @ db_ngetstr str_1 @ s2html ss. ")</a></p>" ss.
+;
+
+: hand_text
+	"<form method=\"GET\" action=\"wrkplc1.fsp\"><strong>Номер контракта: </strong><input type=\"text\" size=\"16\" name=\"cntr\" value=\"\"><input type=\"hidden\" name=\"cmnd\" value=\"editc\"><input type=\"submit\" value=\"Перейти\"></form><hr>" ss.
+;
+
+: contr_list
+	"Рабочие контракты" page_header
+	hand_text
+	cur_con @ "select index,contr_num,zakaz_name from contr_active;" db_exq dup rs_2 ! db_next
+	if
+	 begin
+		one_contract
+		rs_2 @ db_next not
+	 until 
+	else
+	 "<p align=\"center\">Нет активных контрактов</p>" ss.
+	then
+	page_bottom
+;
+
+: <p> "<p>" ss. ;
+: </p> "</p>" ss. ;
+: <ac> "<a href=\"" ss. res_name @ ss. "?&cmnd=comment&contract=" ss. cnt_name_ @ ss.
+"&fild=" ss. field_nms @ ss. "\">" ss. ;
+
+: str_edt (строка)
+ drop
+ <p> <ac> field_nm @ ss. "</a>: " ss.
+ "<input type=\"text\" size=\"" ss. field_sz @ sn. "\" name=\"" ss. field_nms @ ss. "\" value=\"" ss. 
+ rs_2 @ field_nms @ str_1 @ db_ngetstr str_1 @ s2html ss. "\">" ss.
+ </p>
+;
+
+: num_edt (число)
+ drop
+ <p> <ac> field_nm @ ss. "</a>: " ss.
+ "<input type=\"text\" size=\"" ss. field_sz @ sn. "\" name=\"" ss. field_nms @ ss. "\" value=\"" ss. 
+ rs_2 @ field_nms @ db_ngetint sn. "\">" ss.
+ </p>
+;
+
+: list_edt (список)
+ drop
+ rs_3 @ "lookuptable" str_3 @ db_ngetstr
+ rs_2 @ field_nms @ db_ngetint int_2 !
+ <p> <ac> field_nm @ ss. "</a>: " ss.
+ "<select name=\"" ss. field_nms @ ss. "\" size=\"1\">" ss.
+ "select * from " str_4 @ s!
+ str_4 @ str_3 @ s+ cur_con @ swap db_exq dup rs_4 ! db_next
+ if
+  begin
+   "<option value=\"" ss.
+   rs_4 @ "index" db_ngetint dup sn. int_2 @ 
+   =
+   if
+    "\" selected>" ss. 
+   else
+    "\">" ss. 
+   then
+    rs_4 @ "item" str_4 @ db_ngetstr str_4 @ s2html ss.
+   "</option>" ss.
+   rs_4 @ db_next not
+  until
+ then
+ rs_4 @ db_rsclose
+ "</select>" ss. </p>
+;
+
+: flag_edt (флаг)
+ drop
+ <p> <ac> field_nm @ ss. "</a>: " ss.
+ "<input type=\"checkbox\" name=\"" ss. field_nms @ ss. "\" value=\"1\"" ss.
+ rs_2 @ field_nms @ db_ngetint 
+ 0=
+ if
+  ">" ss.
+ else
+  " checked>" ss.
+ then
+ </p>
+;
+
+: date_edt (дата)
+ <p> <ac> field_nm @ ss. "</a>:<strong> " ss. 
+ datetime date_break swap rot sn. " / " ss. sn. " / " ss. sn.
+ "</strong><input type=\"hidden\" name=\"" ss. field_nms @ ss. "\" value=\"" ss. datetime sn. "\">" ss.
+ </p>
+;
+
+: memo_edt (мемо)
+ <p> <ac> field_nm @ ss. "</a>: " ss. </p>
+;
+
+: contr_update
+	"" str_1 @ s!
+	"" str_3 @ s!
+	-1 int_2 !
+	-1 int_3 !
+	datetime _cur_date @ i2s
+	? fieldsaccum '|' tkn_set dup int_1 !
+	tkn_? 
+	if
+		begin
+		 int_1 @ str_2 @ tkn_nxt
+		 cur_con @ "select datatype from sysfields where userfldname=\'" str_4 @ s!
+		 str_4 @ str_2 @ s+ "\';" s+ db_exq dup rs_4 ! db_next drop
+		 str_1 @ 
+		 int_2 @
+		 if
+		  0 int_2 !
+		 else
+		  "," s+
+		 then
+		 rs_4 @ 1 db_getint
+		 dup 		 
+		 2 = swap 6 = or
+		 if
+		  str_2 @ s+ "=\'" s+ str_2 @ sexecute s+ "\'" s+
+		 else
+		  str_2 @ s+ "=" s+ str_2 @ dup
+		  sfind
+		  if
+		   sexecute dup "" s==
+		   if
+		    drop "0" s+
+		   else
+		    s+
+		   then
+		  else
+		   drop "0" s+
+		  then 
+		 then
+		 rs_4 @ db_rsclose
+		 int_3 @
+		 if
+		  0 int_3 !
+		 else
+	  		 _str_name @ 
+			"," s+
+			_str_date @ 
+			"," s+
+		 then
+		 _str_name @ str_2 @ s+ "=\'" s+ fsp-clientname s+ "\'" s+ 
+		 _str_date @ str_2  @ s+ "=" s+ _cur_date @ s+
+		 int_1 @ tkn_? not
+		until 
+	then
+	"jdbc:odbc:szgdb" "" "" DB_CONNECT dup cur_con2 !
+	0 db_autocommit
+	cur_con2 @ "update contr_active set " str_1 @ s+ " where contr_num=\'" s+ ? contr_num s+ "\';" s+ db_exu drop
+	cur_con2 @ "update contr_ac_name set " _str_name @ s+ " where index=\'" s+ ? contr_num s+ "\';" s+ db_exu drop
+	cur_con2 @ "update contr_ac_date set " _str_date @ s+ " where index=\'" s+ ? contr_num s+ "\';" s+ db_exu drop
+	cur_con2 @ db_commit
+	<p> "<center><strong>Изменения успешно внесены</strong></center>" ss. </p>
+;
+
+: contr_comment
+	cur_con @ "select * from contr_ac_name where index=\'" ? contract s+ "\';" s+ db_exq dup name_rs ! db_next
+
+	cur_con @ "select * from contr_ac_date where index=\'" ? contract s+ "\';" s+ db_exq dup time_rs ! db_next
+
+	cur_con @ "select * from contr_ac_c where index=\'" ? contract s+ "\';" s+ db_exq dup comment_rs ! db_next
+
+	cur_con @ "select * from sysfields where userfldname=\'" ? fild s+ "\';" s+ db_exq dup
+	rs_2 ! db_next
+	if
+		"Контракт №" ? contract s+ page_header
+		"<center><p><strong>Поле &quot;" ss. rs_2 @ "viewname" str_2 @ db_ngetstr str_2 @ ss. "&quot;</strong></p></center>" ss. 
+"<p><strong>Время&nbsp;последнего&nbsp;изменения:&nbsp;" ss.
+    time_rs @ ? fild db_ngetint 
+    dup 0= not
+	if 
+dup time_break swap rot sn. ":" ss. sn. ":" ss. sn. "&nbsp;" ss. date_break swap rot sn. "/" ss. sn. "/" ss. sn.
+   "</strong></p>" ss.
+	else
+	 "Поле не изменялось</strong>" ss. 
+	then
+    "<p><strong>Изменил&nbsp;пользователь:&nbsp;" ss. name_rs @ ? fild str_3 @ db_ngetstr str_3 @ ss.
+    "</font></strong></p>
+   <p><strong>Комментарии</strong></p><form method=\"POST\" action=\"" ss. res_name @ ss. "?updcmnt\"><input type=\"hidden\" name=\"cmnd\" value=\"updcmnt\"><input type=\"hidden\" name=\"contract\" value=\"" ss. ? contract ss. "\"><input type=\"hidden\" name=\"fild\" value=\"" ss. ? fild ss. "\"><center><p><textarea rows=\"10\" name=\"cmnt\" cols=\"64\">" ss. 
+comment_rs @ ? fild str_2 @ db_ngetstr str_2 @ s2html ss. "</textarea></p>" ss.
+   "<p><input type=\"submit\" name=\"btn\" value=\"Внести в базу\"></p>" ss.
+  page_bottom
+	else
+		"Bad field name!!!!" ss.
+	then
+;
+
+: contr_edit
+	cur_con @ "select * from contr_active where " str_2 @ s+ db_exq dup rs_2 ! db_next not
+	if 
+		"Error contract index!" ss. quit
+	then
+	rs_2 @ "contr_num" cnt_name_ @ db_ngetstr "Контракт №" cnt_name_ @ s+ page_header
+	"<form name=\"outform\" " ss. "method=\"POST\" action=\"" ss. res_name @ ss. "?update\"><input type=\"hidden\" name=\"contr_num\" value=\"" ss. cnt_name_ @ ss. "\"><input type=\"hidden\" name=\"cmnd\" value=\"update\"><input type=\"hidden\" name=\"fieldsaccum\" value=\"" ss. fields_accum @ ss. "\">" ss.
+	fields_count @ 1- 0 do
+		i fields_point @ + @  str_5 @ i2s
+		"select * from sysfields where index="  str_2 @ s!
+		str_2 @ str_5 @ s+ cur_con @ swap db_exq dup rs_3 ! db_next not
+		if
+			"Unknown field name!" ss. quit
+		then
+		rs_3 @ "userfldname" field_nms @ db_ngetstr
+		rs_3 @ "viewname" field_nm @ db_ngetstr
+		rs_3 @ "datatype" db_ngetint
+		rs_3 @ "fieldsize" db_ngetint field_sz !
+		dup 1 = (int) 
+		if
+		 num_edt
+		else
+		 dup 2 = (str)		
+		 if
+		  str_edt
+		 else
+		  dup 3 = (date)
+		  if
+		   date_edt
+		  else
+		   dup 4 = (flag)
+		   if
+		    flag_edt
+		   else 
+		    dup 5 = (list)
+		    if
+		     list_edt
+		    else
+		     dup 6 = (memo)
+		     if
+			memo_edt
+		     else
+		      "Unknown field type" ss. quit 
+		     then
+		    then
+		   then
+		  then
+		 then
+		then
+		rs_3 @ db_rsclose
+	loop
+	"<center><input type=\"submit\" value=\"Занести в базу\"></center></form>" ss. 
+;
+
+: contr_updcomment
+  "jdbc:odbc:szgdb" "" "" DB_CONNECT dup cur_con2 !
+  0 db_autocommit
+
+  cur_con2 @ "update contr_ac_c set " ? fild s+ "=\'" s+ ? cmnt s+ "\' where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+  cur_con2 @ "update contr_ac_name set " ? fild s+ "=\'" s+ fsp-clientname s+ "\' where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+  cur_con2 @ "update contr_ac_date set " ? fild s+ "=" s+ datetime str_1 @ i2s str_1 @ s+ " where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+ cur_con2 @ db_commit
+;
+
+: main
+	fsp-query "" s=
+	if
+		contr_list
+		quit
+	then
+	? cmnd "edit" s==
+	if
+		"index=" str_2 @ s!
+		str_2 @ ? index s+ "\'" s+ drop
+		contr_edit
+		quit
+	then
+	? cmnd "editc" s==
+	if
+		"contr_num=\'" str_2 @ s!
+		str_2 @ ? cntr s+ "\'" s+ drop
+		contr_edit
+		quit
+	then
+	? cmnd "update" s==
+	if
+		contr_update
+		quit
+	then
+	? cmnd "comment" s==
+	if
+		contr_comment
+		quit
+	then
+	? cmnd "updcmnt" s==
+	if
+		contr_updcomment
+		contr_list
+		quit
+	then
+;
+main

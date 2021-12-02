@@ -1,0 +1,4 @@
+: dead_image
+"<html><body bgcolor=\"#FFFFFF\"><center><p><img src=\"contrnot.gif\" alt=\"Контракт неактивен\"></p><h3><strong>Контракт был удален из списка текущих контрактов</strong></h3></p></center></body></html>" ss.
+;
+dead_image

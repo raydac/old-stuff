@@ -1,0 +1,566 @@
+<%%
+( Скрипт "Рабочее место пользователя системы "Сетевой Заводской График"
+Автор: И.А.Мазница
+Версия: 2.00)
+
+"authorize.fsp" load
+
+VARIABLE con_2
+
+VARIABLE contr_rs (Контракт)
+VARIABLE fld_rs   (Метаданные о поле)
+VARIABLE look_rs  (Список значений)
+VARIABLE tech_rs  (Технологические смещения)
+
+"" VARIABLE fld_name
+
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+"" VARIABLE str_4
+"" VARIABLE str_5
+
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE int_3
+VARIABLE int_4
+VARIABLE int_5
+VARIABLE int_6
+VARIABLE contrdate
+
+VARIABLE view_only 
+
+: <tr> "<tr bgcolor=\"" s. str_4 @ s. "\" valign=\"top\">" s. ;
+: </tr> "</tr>" s. ;
+: <tdz> "<td width=\"30%\">" s. ;
+: </td> "</td>" s. ;
+: <tds> "<td width=\"70%\">" s. ;
+
+( Формирует шапку и заголовок
+ AS: header2 header1 -> )
+: first_page_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">
+<form method=\"POST\" action=\"szguser.fsp?update\" name=\"_out\" target=\"main\"><input type=\"hidden\" name=\"afilter\" value=\"" s. ? afilter s. "\"><input type=\"hidden\" name=\"fieldnames\"><input type=\"hidden\" name=\"fieldlist\"><input name=\"contract\" type=\"hidden\" value=\"" s. ? contract s. "\"></form>
+<img src=\"nfd_logo.gif\">
+<h2 align=\"center\"><font color=\"#004080\"><strong>" s. s. "</strong></h2></font></p>
+<h3 align=\"center\"><em><font color=\"#FF0000\"><strong>" s. s. "&quot;</strong></font></em></h3>
+<table border=\"1\" width=\"100%\">
+" s.
+;
+
+( вывод поля со списком )
+: lst_field
+  "#FFFFFF" str_4 @ s!
+  "<tr>" s.
+  fld_rs @ "lookuptable" str_1 @ db_ngetstr 
+  fld_rs @ "viewname" str_3 @ db_ngetstr  
+  contr_rs @ fld_name @ db_ngetint int_1 !
+
+  usertable_rs @ fld_name @ db_ngetint
+  0= view_only @ 0= or
+  if
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   "select * from " str_2 @ s! 
+   con_1 @ str_2 @ str_1 @ s+ " where index=" s+ int_1 @ str_1 @ i2s str_1 @ s+ 
+   db_exq dup db_next 
+   if
+    "item" str_1 @ db_ngetstr
+    <tds> str_1 @ s. </td>
+   else
+    <tds> "Не выбрано значение" s. </td>
+   then   
+  else 
+   "select * from " str_2 @ s! 
+   con_1 @ str_2 @ str_1 @ s+ " order by item;" s+ db_exq dup
+   look_rs !
+   db_next
+   if 
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. 
+   str_3 @ s. "</a></strong>" s. </td> <tds> "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"5\"><p><select name=\"value\" size=\"1\">" s.
+   begin
+    look_rs @ "item" str_1 @ db_ngetstr
+    look_rs @ "index" db_ngetint dup str_2 @ i2s
+    int_1 @ =
+    if
+     "<option selected value=\"" s. str_2 @ s. "\">" s. str_1 @ s. "</option>" s.
+    else
+     "<option value=\"" s. str_2 @ s. "\">" s. str_1 @ s. "</option>" s.
+    then
+    look_rs @ 
+    db_next 
+    not
+   until
+  then
+  "</select><input type=\"hidden\" name=\"etallla\" value=\"" s. int_1 @ . "\"></p></form>" s. </td>
+  then 
+  </tr>
+;
+
+( вывод целочисленного поля )
+: int_field
+  "#FFFFFF" str_4 @ s!
+  <tr>
+  fld_rs @ "viewname" str_3 @ db_ngetstr  
+  contr_rs @ fld_name @ db_ngetint int_1 !
+  fld_rs @ "fieldsize" db_ngetint int_2 !
+  usertable_rs @ fld_name @ db_ngetint 
+  0= view_only @ 0= or
+  if
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds> int_1 @ . </td>
+  else 
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds>
+   "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"1\"><p><input name=\"value\" type=\"text\" size=\"" s. int_2 @ . "\" value=\"" s. int_1 @ . "\"></p><input type=\"hidden\" name=\"etallla\" value=\"" s. int_1 @ . "\"></form>" s. </td>
+  then 
+  </tr>
+;
+
+( вывод строкового поля )
+: str_field
+  "#FFFFFF" str_4 @ s!
+  <tr>
+  fld_rs @ "viewname" str_3 @ db_ngetstr  
+  contr_rs @ fld_name @ str_1 @ db_ngetstr
+  fld_rs @ "fieldsize" db_ngetint int_2 !
+  usertable_rs @ fld_name @ db_ngetint 
+  0= view_only @ 0= or
+  if
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds> 
+   str_1 @ "" s= 
+   if
+    "&nbsp;" s. 
+   else
+    str_1 @ s. 
+   then
+   </td>
+  else 
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</strong>" s. </td>
+   <tds>
+   "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"2\"><p><input name=\"value\" type=\"text\" size=\"" s. int_2 @ . "\" value=\"" s. str_1 @ s2html s. "\"></p><input type=\"hidden\" name=\"etallla\" value=\"" s. str_1 @ s. "\"></form>" s. </td>
+  then 
+  </tr>
+;
+
+( вывод поля даты )
+: date_field
+  1 int_5 !
+  -1 int_4 !
+  "#FFFFFF" str_4 @ s!
+  fld_rs @ dup "viewname" str_3 @ db_ngetstr  
+  "date_typ" db_ngetint dup int_1 !
+  0= not
+  if	 
+   fld_name @ str_4 @ s! 
+   tech_rs @ str_4 @ "_o" s+ db_ngetint int_4 !
+   fld_name @ str_4 @ s! 
+   tech_rs @ str_4 @ "_d" s+ db_ngetint int_5 !
+  then
+
+  int_5 @ 0> 
+  if
+  contrdate @ int_4 @ 86400000 * + int_4 !   
+  contr_rs @ fld_name @ db_ngetint int_5 !
+
+  int_1 @
+  if
+   int_5 @ int_4 @ > 
+   if
+    "#FFBBBB" str_4 @ s!
+   else
+    int_5 @ 0=
+    if
+     datetime int_4 @ >
+     if
+      "#FFBBBB" str_4 @ s!
+     else
+      "#FFFFFF" str_4 @ s!
+     then
+    else 
+     "#BBFFBB" str_4 @ s!
+    then
+   then
+  then
+  contrdate @ 0=
+  if  	
+	"#FFFFFF" str_4 @ s!
+  then
+  <tr>
+
+  usertable_rs @ fld_name @ db_ngetint dup int_6 !
+  0= view_only @ 0= or
+  if
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds>
+   int_5 @ dup
+   0=
+   if
+	drop "Дата не проставлена " s.
+   else
+    date_break swap rot . "/" s. . "/" s. . 
+   then
+  else 
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds>
+   int_5 @ dup 0= 
+   if
+    "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"3\"><p><input name=\"dd\" type=\"text\" size=\"2\" value=\"\">&nbsp;/&nbsp;<input name=\"mm\" type=\"text\" size=\"2\" value=\"\">&nbsp;/&nbsp;<input name=\"yy\" type=\"text\" size=\"4\" value=\"\"><input type=\"button\" value=\"...\" onClick=\"InsCurDate(\'" s. fld_name @ s. "\')\"><input type=\"hidden\" name=\"etallla\" value=\"0\">" s. 
+   else
+    date_break swap rot
+    "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"3\"><p><input name=\"dd\" type=\"text\" size=\"2\" value=\"" s. . "\">" s. 
+    "&nbsp;/&nbsp;<input name=\"mm\" type=\"text\" size=\"2\" value=\"" s. . "\">" s. 
+    "&nbsp;/&nbsp;<input name=\"yy\" type=\"text\" size=\"4\" value=\"" s. . "\">
+    <input type=\"button\" value=\"...\" onClick=\"InsCurDate(\'" s. fld_name @ s. "\')\"><input type=\"hidden\" name=\"etallla\" value=\"" s. int_5 @ 1000 / . "\">" s. 
+   then
+  then 
+  int_1 @
+  if   
+   contrdate @ 0= not
+   if
+    "&nbsp;&nbsp;<strong>(Планируемая дата " s. int_4 @ date_break swap rot . "/" s.  . "/" s. . ")</strong>" s. 
+   then
+  then
+  int_6 @ 0= not 
+  if
+   "</p></form>" s.
+  then
+  </td>
+  </tr>
+ then
+;
+
+( вывод FLAG поля)
+: flag_field
+  "#FFFFFF" str_4 !
+  <tr>
+  fld_rs @ "viewname" str_3 @ db_ngetstr  
+  contr_rs @ fld_name @ db_ngetint int_1 !
+  usertable_rs @ fld_name @ db_ngetint 
+  0= view_only @ 0= or
+  if
+   <tdz>
+   "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds>
+   int_1 @ 0=
+   if
+      "<img src=\"flag_off.gif\" alt=\"ФЛАГ СБРОШЕН\">" s. 
+   else
+      "<img src=\"flag_on.gif\" alt=\"ФЛАГ УСТАНОВЛЕН\">" s. 
+   then	
+   </td>
+  else 
+   <tdz>
+   "<p><strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   int_1 @ 0=
+   <tds>
+   if
+    "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"4\"><p><input name=\"value\" type=\"checkbox\" value=\"ON\">" s. "<input  type=\"hidden\" name=\"etallla\" value=\"0\"></p></form>" s.
+   else
+    "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"4\"><p><input name=\"value\" type=\"checkbox\" value=\"ON\" checked>" s. "<input  type=\"hidden\" name=\"etallla\" value=\"1\"></p></form>" s.
+   then
+   </td>
+  then 
+  </tr>
+;
+
+( вывод MEMO поля )
+: memo_field
+  "#FFFFFF" str_4 !
+ <tr>
+  fld_rs @ "viewname" str_3 @ db_ngetstr  
+  contr_rs @ fld_name @ str_1 @ db_ngetstr
+  fld_rs @ "fieldsize" db_ngetint int_2 !
+  usertable_rs @ fld_name @ db_ngetint 
+  0= view_only @ 0= or
+  if
+   <tdz> "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds> str_1 @ s. </td>
+  else 
+   <tdz> "<strong><a href=\"szgcmnt.fsp?&field=" s. fld_name @ s. "&contract=" s. ? contract s. "&cat=" s. ? cat s. "&afilter=" s. ? afilter s. "\">" s. str_3 @ s. "</a></strong>" s. </td>
+   <tds> "<form name=\"" s. fld_name @ s. "\"><input type=\"hidden\" name=\"_typ\" value=\"6\"><p><textarea name=\"value\" rows=\"3\" cols=\"" s. int_2 @ . "\">" s. str_1 @ s. "</textarea></p>" s. "<input type=\"hidden\" name=\"etallla\" value=\"" s. str_1 @  s. "\"></form>" s. </td>
+  then 
+ </tr> 
+;
+
+: script_cat
+"<script language=\"JavaScript\">
+//<!--
+function InsCurDate(aname)
+{
+	var tfrm = document.forms[aname];
+	var curd = new Date();
+	tfrm.elements[\"dd\"].value=curd.getDate();
+	tfrm.elements[\"mm\"].value=curd.getMonth()+1;
+	var yyy=curd.getYear();
+	if (yyy<1980) tfrm.elements[\"yy\"].value=curd.getYear()+1900; else
+	tfrm.elements[\"yy\"].value=curd.getYear();
+}
+function CreateUpdate()
+{
+	var tmpf;
+	var kav=\"\";
+	var flds_lst=\"\";
+	var cflds_lst=\"\";
+	var value_lst;
+	var dd,mm,yy,etallla;
+	var username=\"" s. FSP-AUTHNAME s. "\";
+	var upd_date=new Date().getTime();
+	for (var li=1;li<(document.forms.length-1);li++)
+	{
+		tmpf=document.forms[li];
+		if (tmpf.name.substring(0,1)==\"_\") continue;
+
+		etallla=tmpf.elements[\"etallla\"].value;
+		if (tmpf.elements[\"_typ\"].value==1)// int
+		{
+			if (tmpf.elements[\"value\"].value!=etallla)
+			{
+				flds_lst+=(kav+tmpf.name+\"=\"+tmpf.elements[\"value\"].value);
+				cflds_lst+=(kav+tmpf.name);
+				kav=\",\";
+			}
+		}
+		else
+		if (tmpf.elements[\"_typ\"].value==2)// str
+		{
+			if (tmpf.elements[\"value\"].value!=etallla)
+			{
+				flds_lst+=(kav+tmpf.name+\"=\\\'\"+tmpf.elements[\"value\"].value+\"\\\'\");
+				cflds_lst+=(kav+tmpf.name);
+				kav=\",\";
+			}
+		}
+		else
+		if (tmpf.elements[\"_typ\"].value==3)// date
+		{
+			if ((tmpf.elements[\"dd\"]==\"\")||(tmpf.elements[\"mm\"]==\"\"||
+			tmpf.elements[\"yy\"]==\"\")) 
+			{
+				if (etallla!=\"0\")
+				{
+					flds_lst+=(kav+tmpf.name+\"=0\");
+					cflds_lst+=(kav+tmpf.name);
+					kav=\",\";
+				}
+			}
+			else
+			{
+				dd=parseInt(tmpf.elements[\"dd\"].value,10);
+				mm=parseInt(tmpf.elements[\"mm\"].value-1,10);
+				yy=parseInt(tmpf.elements[\"yy\"].value,10);
+				value_lst=new Date(yy,mm,dd).getTime();
+				if (isNaN(value_lst)) value_lst=0;
+				etallla=parseInt(etallla,10);
+				if (etallla!=(value_lst/1000))
+				{
+					flds_lst+=(kav+tmpf.name+\"=\"+value_lst);
+					cflds_lst+=(kav+tmpf.name);
+					kav=\",\";
+				}
+			}
+		}
+		else
+		if (tmpf.elements[\"_typ\"].value==4)// flag
+		{
+			if (etallla==1) etallla=true; else etallla=false;
+			if (etallla!=tmpf.elements[\"value\"].checked)
+			{
+			 if (tmpf.elements[\"value\"].checked) 
+				flds_lst+=(kav+tmpf.name+\"=1\"); else flds_lst+=(kav+tmpf.name+\"=0\");
+ 			 cflds_lst+=(kav+tmpf.name);
+			kav=\",\";
+			}
+		}
+		else
+		if (tmpf.elements[\"_typ\"].value==5)// list
+		{
+			value_lst=tmpf.elements[\"value\"].options[tmpf.elements[\"value\"].selectedIndex].value;	
+			if (etallla!=value_lst)
+			{
+				flds_lst+=(kav+tmpf.name+\"=\"+value_lst);
+				cflds_lst+=(kav+tmpf.name);
+				kav=\",\";
+			}
+		}
+		else
+		if (tmpf.elements[\"_typ\"].value==6)// memo
+		{
+			if (etallla!=tmpf.elements[\"value\"].value)
+			{
+				flds_lst+=(kav+tmpf.name+\"=\\\'\"+tmpf.elements[\"value\"].value+\"\\\'\");
+				cflds_lst+=(kav+tmpf.name);
+				kav=\",\";
+			}
+		}
+	}
+	if (flds_lst==\"\") alert(\"Нет изменений!\");
+	else
+	{	
+		document.forms[\"_out\"].elements[\"fieldnames\"].value=flds_lst;
+		document.forms[\"_out\"].elements[\"fieldlist\"].value=cflds_lst;
+		document.forms[\"_out\"].submit();
+	}
+}
+//-->
+</script>" s.
+;
+
+( Формирует "подвал" )
+: first_page_bottom
+"</table>" s.
+view_only @ 0= not
+if
+"<form name=\"_button\" target=\"main\"><p><center><input type=\"button\"
+  value=\"Занести изменения в базу\" onClick=\"CreateUpdate()\"></center></p></form></div>" s.
+then
+;
+
+: upd_c
+	"SZG" "" "" "Cp1251" DB_CONNECT con_2 !
+	con_2 @ 0 db_autocommit 
+	 ? cmnt s2sql str_5 @ s!
+	 str_5 @ "" s=
+	 if
+		" " str_5 @ s!
+	 then
+	 con_2 @ "update contr_ac_c set " ? field s+ "=\'" s+ str_5 @ s+ "\' where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+	 con_2 @ "update contr_ac_tn set " ? field s+ "=" s+ ? stdprb s+ " where index=\'" s+ ? contract s+ "\';" s+ db_exu drop
+	 con_2 @ db_commit
+	 con_2 @ db_close
+;
+
+: main 
+	-1 view_only !
+	FSP-QUERY "" s==
+	if 
+		"ERROR COMMAND!" s.
+		quit
+	else
+
+	con_1 @ "select week_izgotovl from contr_active where contr_num=\'" ? contract s+ "\';" s+ db_exq dup db_next not
+	 if
+		"szgcnten.fsp" playfile	quit
+	 then	 
+ 	 con_1 @
+	 "select * from contr_activet where index=\'" ? contract s+ "\';" s+ db_exq dup tech_rs ! db_next drop
+
+	 1 db_getint dup
+	 0=
+	 if
+	  contrdate !
+	 else	   
+	  428 - 604800000 *
+  	  7 1 2000 DATE_PACK + contrdate !
+	 then
+
+ 	 con_1 @
+	 "select * from contr_active where contr_num=\'" ? contract s+ "\';" s+ db_exq 
+	 dup contr_rs ! db_next not
+	 if
+		"szgcnten.fsp" playfile	quit
+	 then	 
+
+	FSP-QUERY "updcmnt" s==
+	if
+		upd_c
+	then
+
+	? cat "*" s==
+	if
+	 0 view_only !
+	 "&quot;Все разделы" "Контракт №" ? contract s+ first_page_head
+	 con_1 @
+	 "select * from sysfields order by category,sysfields.order;" db_exq 
+	 dup fld_rs ! db_next 
+	else
+	 con_1 @ 
+	 "select categoryname from categorytable where index=" ? cat s+ db_exq dup
+	 db_next
+	 not
+	 if
+		"ERROR: This category not found!!!" s. quit
+	 then
+	 1  str_1 @ db_getstr
+	 "Раздел &quot;" str_1 @ s+ "Контракт №" ? contract s+ first_page_head 
+	 script_cat		
+	 con_1 @
+	 "select * from sysfields where category=" ? cat s+ " order by category,sysfields.order;" s+ db_exq 
+	 dup fld_rs ! db_next 
+	then
+		not
+		if 
+			"Field list is empty!!!" s. quit
+		else
+			begin
+				fld_rs @ "userfldname" fld_name @ db_ngetstr
+				fld_rs @ "datatype" db_ngetint
+				dup
+				(1 - Длинное целое)
+				1 =
+				if 
+				 int_field
+				else
+				 dup	
+ 				 (2 - Строка)
+				 2 =
+				 if
+				  str_field
+				 else
+				  dup
+				  (3 - Дата)
+				  3 =
+				  if
+				   date_field
+				  else
+				   dup
+				   (4 - Флаг)
+				   4 =
+				   if
+				    flag_field
+				   else
+				    dup 
+				    (5 - Список)
+				    5 =
+				    if 
+				     lst_field 
+				    else
+				     dup
+				     (6-MEMO поле)
+				     6 = 
+				     if
+				      memo_field 
+				     else
+				      (7 - TABLE поле)
+				      7 = 
+				      if
+				       (tabl_field)
+				      then
+				     then
+				    then 	
+				   then 	
+             			  then			
+				 then
+				then
+
+			     fld_rs @ db_next not
+			until
+		then
+		
+		first_page_bottom	
+	then
+;
+main
+%%>

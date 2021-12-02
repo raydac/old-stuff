@@ -1,0 +1,122 @@
+<%%
+(Скрипт для работы с архивом системы "Сетевой Заводской График")
+
+"authorize.fsp" load
+
+VARIABLE str_1 "" str_1 !
+VARIABLE str_2 "" str_2 !
+VARIABLE str_3 "" str_3 !
+VARIABLE int_1
+VARIABLE int_2
+VARIABLE rs_1
+
+: ld_script
+"<form method=\"POST\" name=\"outform\"><input type=\"hidden\" name=\"indx\"><input type=\"hidden\" name=\"cmnd\" value=\"\"></form>
+<script language=\"JavaScript\">
+ //<!-- 
+function DelContr()
+{
+	var cur_frm;
+	var acc=\"\";
+	var flg = false;
+	for(var li=0;li<document.forms.length;li++)
+	{
+		cur_frm=document.forms[li];
+		if (cur_frm.name.substring(0,8)==\"frm_cntr\")
+		{
+			if (cur_frm.elements[\"chk\"].checked)
+			{
+				if (flg) acc+=\",\";
+				acc+=cur_frm.elements[\"indx\"].value;
+				flg=true;
+			}
+		}
+	}
+	if (acc==\"\") 
+	{
+		alert(\"Нет выбранных контрактов\");
+		return;
+	}
+	cur_frm=document.forms[\"outform\"];
+	cur_frm.elements[\"indx\"].value=acc;
+	cur_frm.elements[\"cmnd\"].value=\"del\";
+	cur_frm.action=\"szgarch.fsp?cmnd\";
+	cur_frm.submit();
+}
+function Report()
+{
+	cur_frm=document.forms[\"outform\"];
+	cur_frm.action=\"szgarch.fsp\";
+	cur_frm.submit();
+}
+ //-->
+</script>" s.
+;
+
+: ld_admin
+	its_admin 0=
+	if
+		"accden.fsp" playfile
+		quit		
+	then
+;
+ld_admin
+
+(в rs_1 указатель стоит на строке с контрактом, int_1 содержит порядковый номер контракта)
+: contr_row
+  rs_1 @ "contr_num" str_1 @ db_ngetstr
+  rs_1 @ "zakaz_name" str_2 @ db_ngetstr
+  rs_1 @ "index" db_ngetint int_2 !
+  "<tr><form name=\"frm_cntr" s. int_1 @ . "\"><input type=\"hidden\" name=\"indx\" value=\"" s. int_2 @ . "\"><td width=\"10%\" align=\"center\">
+  <input type=\"checkbox\" name=\"chk\"></td>
+  <td width=\"6%\" align=\"center\">" s. int_1 @ . "</td>
+  <td width=\"16%\">" s. str_1 @ s. "</td>
+  <td width=\"68%\">" s. str_2 @ s. "</td><form></tr>" 
+;
+
+: lst_archive
+  con_1 @ "select index,contr_num,zakaz_name,date_otgr from contr_archive order by date_otgr;" db_exq dup rs_1 ! db_next
+  if
+	1 int_1 !
+	begin
+		contr_row		
+		int_1 1+!
+		rs_1 @ db_next not
+	until
+	"</table></div>" s.
+  else
+	"</table></div>" s.
+	"<p>Архив не содержит контрактов</p>" s.
+  then
+;
+%%>
+<html><head><title>Архив системы &quot;СЗГ&quot;</title></head>
+<body bgcolor="#FFFFFF"><p><img src="Nfd_logo.gif"></p>
+<h3 align="center"><strong>АРХИВ ОТГРУЖЕННЫХ КОНТРАКТОВ</strong></h3>
+<div align="center"><table border="1" width="100%"><tr bgcolor="#FFFF00">
+<td width="10%" align="center"><font color="#0000A0"><strong>Выбор</strong></font></td>
+<td width="6%" align="center"><font color="#0000A0"><strong>№</strong></font></td>
+<td width="16%" align="center"><font color="#0000A0"><strong>Номер</strong></font></td>
+<td width="68%" align="center"><strong><font color="#0000A0">Заказчик</font></strong></td></tr><%% 
+ld_script
+
+: del_contr
+	"delete from contr_archive where index in (" ? indx s+ ");" s+ con_1 @ swap db_exu drop
+;
+
+: main
+  fsp-query "cmnd" s==
+  if
+   ? cmnd "del" s==
+   if
+	del_contr
+	lst_archive
+   then
+  then
+;
+
+lst_archive
+%%>
+<form method="POST" action="--WEBBOT-SELF--">
+  <div align="center"><center><p><input type="button" value="Удалить выбранные"
+  name="B1" onClick="DelContr()"><input type="button" value="Построитель отчетов" name="B2" onClick="Report()"></p></center></div></form></body></html>

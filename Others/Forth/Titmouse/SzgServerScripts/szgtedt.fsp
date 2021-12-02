@@ -1,0 +1,303 @@
+<%%
+(Скрипт "создание шаблонов полей" для построителя отчетов
+ Версия: 2.00
+)
+
+"authorize.fsp" load
+
+VARIABLE rs_1
+"" VARIABLE str_1
+"" VARIABLE str_2
+VARIABLE int_1
+VARIABLE int_2
+0 VARIABLE flag_1
+
+: test_admin
+	its_admin 0=
+	if
+		"accden.fsp" playfile quit	
+	then
+;
+test_admin
+
+: page_header
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Редактирование шаблонов полей</title>
+</head><body bgcolor=\"#FFFFFF\"" s.
+flag_1 @ 
+if
+ " onLoad=\"FillCheckField(\'" s. s. "\')\"" s.
+then
+"><img src=\"nfd_logo.gif\">
+<p align=\"center\"><font color=\"#004080\"><big><strong>" s. s. "</strong></big></font></p>" s. 
+;
+
+: page_bottom
+"<p><center><form name=\"addsh\"><input type=\"button\" value=\"Добавить шаблон\" onClick=\"AddTemplForm()\"><input type=\"button\" value=\"Удалить выбранные шаблоны\" onClick=\"DelTempl()\"></form></center></body></html>" s.
+;
+
+: page_bottom_add
+"<p><center><form name=\"addsh\"><input type=\"button\" value=\"Занести в базу\" onClick=\"AddTemplToBase()\"></form></center></body></html>" s.
+;
+
+: page_bottom_edt
+"<p><center><form name=\"addsh\"><input type=\"button\" value=\"Занести в базу\" onClick=\"InsertEdit()\"></form></center></body></html>" s.
+;
+
+: jscript
+"<form name=\"outform\" method=\"POST\" action=\"szgtedt.fsp\"><input type=\"hidden\" name=\"template\" value=\"\"><input type=\"hidden\" name=\"cmnd\" value=\"\"><input type=\"hidden\" name=\"index\">" s.
+flag_1 @
+if
+"<input type=\"hidden\" name=\"aindex\" value=\"\">" s.
+then
+"</form> 
+<script language=\"JavaScript\">
+//<!--
+function FillCheckField(fsel)
+{
+	var lcfrm;
+	var lacc=\"\";
+	for(var li=0;li<fsel.length;li++)
+	{
+		if (fsel.charAt(li)==\'.\')
+		{
+			for(var lj=0;lj<document.forms.length;lj++)
+			{
+				lcfrm=document.forms[lj];
+				if (lcfrm.name.substring(0,5)==\"field\")
+				{
+					if (lcfrm.elements[\"indx\"].value==lacc)
+					{
+						lcfrm.elements[\"chk\"].checked=true;
+						lacc=\"\";
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			lacc+=fsel.charAt(li);		
+		}
+	}
+}
+function CreateListTempl()
+{
+	var lacc=\"\";
+	var lss=\"\";
+	for(var li=0;li<document.forms.length;li++)
+	{
+		var cfrm=document.forms[li];
+		if (cfrm.name.substring(0,3)==\"sel\")
+		{
+			if (cfrm.elements[\"chk\"].checked)
+			{
+				lacc+=(lss+cfrm.elements[\"indx\"].value);
+				lss=\",\";			
+			}
+		}
+	}
+	return lacc;
+}
+function CreateFldList()
+{
+	var lacc=\"\";
+	for(var li=0;li<document.forms.length;li++)
+	{
+		var cfrm=document.forms[li];
+		if (cfrm.name.substring(0,5)==\"field\")
+		{
+			if (cfrm.elements[\"chk\"].checked)
+			{
+				lacc+=(cfrm.elements[\"indx\"].value+\".\");
+			}
+		}
+	}
+	return lacc;
+}
+function DelTempl()
+{
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"delete\";
+	var lstr=CreateListTempl();
+	if (lstr==\"\") {alert(\"Нет выбранных полей!\");return;}
+	document.forms[\"outform\"].elements[\"index\"].value=CreateListTempl();
+	document.forms[\"outform\"].submit();
+}
+function AddTemplForm()
+{
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"addfrm\";
+	document.forms[\"outform\"].submit();
+}
+function AddTemplToBase()
+{
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"addtempl\";
+	var lstr=CreateFldList();
+	var lssr=document.forms[\"propform\"].elements[\"nme\"].value;
+	var flag=true;
+	for(var li=0;li<lssr.length;li++)
+	{
+		if (lssr.charAt(li)!=\' \') flag=false;
+	}
+	if (flag) { alert(\"Не задано имя шаблона!\");return;}
+	if (lstr==\"\") { alert(\"Нет выбранных полей!\");return;}
+	document.forms[\"outform\"].elements[\"index\"].value=lstr;
+	document.forms[\"outform\"].elements[\"template\"].value=lssr;
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"addnew\";
+	document.forms[\"outform\"].submit();
+}
+function InsertEdit()
+{
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"edttempl\";
+	var lstr=CreateFldList();
+	var lssr=document.forms[\"propform\"].elements[\"nme\"].value;
+	var flag=true;
+	for(var li=0;li<lssr.length;li++)
+	{
+		if (lssr.charAt(li)!=\' \') flag=false;
+	}
+	if (flag) { alert(\"Не задано имя шаблона!\");return;}
+	if (lstr==\"\") { alert(\"Нет выбранных полей!\");return;}
+	document.forms[\"outform\"].elements[\"aindex\"].value=document.forms[\"index_tmpl\"].elements[\"indxx\"].value;
+	document.forms[\"outform\"].elements[\"index\"].value=lstr;
+	document.forms[\"outform\"].elements[\"template\"].value=lssr;
+	document.forms[\"outform\"].elements[\"cmnd\"].value=\"insedt\";
+	document.forms[\"outform\"].submit();
+}
+//-->
+</script>" s.
+;
+
+: fld_lst
+"<table border=\"1\" width=\"100%\">
+  <tr bgcolor=\"#FFFF00\" align=\"center\">
+    <td width=\"6%\"><strong>№</strong> </td>
+    <td width=\"15%\"><strong>Выбор</strong> </td>
+    <td width=\"79%\"><strong>Имя поля</strong> </td>
+  </tr>" s.
+
+con_1 @ "select category,index,viewname from sysfields order by category,sysfields.order;" db_exq dup rs_1 ! db_next
+  if
+	1 int_1 !
+	begin
+		rs_1 @ "category" db_ngetint
+		  100 * 2/ dup 100 / 100 * - 
+		  0=
+		  if
+			"<tr bgcolor=\"#FFFFBB\">" s.
+		  else
+			"<tr bgcolor=\"#BBFFFF\">" s.
+		  then     
+		"<td width=\"6%\"><center>" s. int_1 @ . "</center></td>
+		<td width=\"15%\"><form name=\"field" s. int_1 @ . "\"><center><p><input type=\"hidden\" name=\"indx\" value=\"" s. rs_1 @ "index" db_ngetint . "\"><input type=\"checkbox\" name=\"chk\"></p></center></form></td><td width=\"79%\">" s. rs_1 @ "viewname" str_1 @ db_ngetstr str_1 @ s. "</td><tr>" s. 
+		int_1 1+!
+		rs_1 @ db_next not
+	until
+	"</table>" s.
+  then
+;
+
+: tmpl_row
+rs_1 @ "index" db_ngetint int_2 !
+"<tr>
+<td width=\"6%\"><center>" s. int_1 @ . "</center></td>
+<td width=\"15%\"><center><form name=\"sel" s. int_1 @ . "\"><p><input type=\"checkbox\" name=\"chk\"><input type=\"hidden\" name=\"indx\" value=\"" s. int_2 @ . "\"></p></form></center></td>
+<td width=\"79%\"><a href=\"szgtedt.fsp?&cmnd=edit&template=" s. int_2 @ . "\">" s. rs_1 @ "name" str_1 @ db_ngetstr str_1 @ s. "</a></td></tr>" s.
+;
+
+: tmpl_list
+"Редактирование шаблонов полей" page_header
+"<center>
+<table width=\"100%\" border=\"1\">
+<tr bgcolor=\"#BBFFBB\" align=\"center\">
+<td width=\"6%\"><strong>№</strong></td>
+<td width=\"15%\"><strong>Выбор</strong></td>
+<td width=\"79%\"><strong>Наименование</strong></td></tr>" s.
+  jscript
+  con_1 @ "select * from prn_templates order by name;" db_exq dup rs_1 ! db_next
+  if
+	1 int_1 !
+	begin
+		tmpl_row		
+		int_1 1+!
+		rs_1 @ db_next not
+	until
+	"</table>" s.
+  else
+	"</table><p>Template list is empty</p>" s.
+  then
+  page_bottom
+;
+
+: del_tmpl
+con_1 @ "delete from prn_templates where index in (" ? index s+ ");" s+ db_exu drop
+;
+
+: add_templ
+	con_1 @ "insert into prn_templates(name,findex) values(\'" ? template s+ "\',\'" s+ ? index s+ "\');" s+ db_exu drop
+;
+
+: add_form
+  "Новый шаблон полей" page_header
+  jscript
+  "<strong><form name=\"propform\">Наименование шаблона <input type=\"text\" name=\"nme\" value=\"Новый шаблон\" size=\"65\"></form>" s.
+  fld_lst
+  page_bottom_add
+;
+
+: edit_templ
+	-1 flag_1 !
+	con_1 @ "select * from prn_templates where index=" ? template s+ db_exq dup rs_1 !
+	db_next
+	rs_1 @ "name" str_2 @ db_ngetstr
+	"Редактирование шаблона \"" str_2 @ s+ "\"" s+ rs_1 @ "findex" str_1 @ db_ngetstr str_1 @ page_header
+	jscript
+	"<form name=\"index_tmpl\"><input type=\"hidden\" name=\"indxx\" value=\"" s. 
+	rs_1 @ "index" db_ngetint . "\"></form>" s.
+	rs_1 @ db_rsclose
+	  "<strong><form name=\"propform\">Наименование шаблона <input type=\"text\" name=\"nme\" value=\"" s. str_2 @ s. "\" size=\"65\"></form>" s.
+	fld_lst
+	page_bottom_edt
+;
+
+: edt_ins
+	con_1 @ "update prn_templates set name=\'" ? template s+ "\',findex=\'" s+ ? index s+ "\' where index=" s+ ? aindex s+  db_exu drop
+;
+
+: main
+	fsp-query "empty" s==
+	if
+		tmpl_list
+		quit
+	then	
+	? cmnd "edit" s==
+	if
+		edit_templ
+		quit
+	then
+	? cmnd "delete" s==
+	if
+		del_tmpl
+		tmpl_list
+		quit
+	then
+	? cmnd "addfrm" s==
+	if
+		add_form
+		quit
+	then
+	? cmnd "addnew" s==
+	if
+		add_templ
+		tmpl_list
+		quit
+	then
+	? cmnd "insedt" s==
+	if
+		edt_ins
+		tmpl_list
+		quit
+	then
+;
+main
+%%>

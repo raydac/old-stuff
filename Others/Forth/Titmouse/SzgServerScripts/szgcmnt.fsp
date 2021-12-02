@@ -1,0 +1,97 @@
+<%%
+( Скрипт "Рабочее место пользователя системы "Сетевой Заводской График"
+Автор: И.А.Мазница
+Версия: 2.00)
+
+"authorize.fsp" load
+
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+VARIABLE fields_rs
+VARIABLE int_i
+VARIABLE protmode
+VARIABLE problem_nom
+
+VARIABLE date_rs
+VARIABLE name_rs
+VARIABLE comment_rs
+VARIABLE stdprb_rs
+VARIABLE rs_1
+
+( AS: header ->)
+: page_head
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Рабочее место пользователя системы
+&quot;Сетевой Заводской График&quot;</title>
+</head><body bgcolor=\"#FFFFFF\">
+<img src=\"nfd_logo.gif\">
+<h3><p align=\"center\"><font color=\"#FF0000\"><big><strong>Контракт &quot;" s. contract s. "&quot;</strong></big></font></p></h3>
+<p align=\"center\"><font color=\"#004080\"><big><strong>" s. s. "</strong></big></font></p>" s.
+;
+
+: page_bottom
+ "</body></html>" s.
+;
+
+: stnd_prbl
+ stdprb_rs @ field db_ngetint problem_nom !
+ "<select name=\"stdprb\" size=\"1\">" s.
+ con_1 @ "select * from standart_problems;" db_exq dup rs_1 ! db_next drop
+ begin
+	"<option value=\"" s.
+	rs_1 @ "index" db_ngetint dup . "\" " s.
+	problem_nom @ =
+	if
+	"selected" s.
+	then
+	">" s.
+	rs_1 @ "item" str_2 @ db_ngetstr str_2 @ s2html s. "</option>" s.
+	rs_1 @ db_next not
+ until
+ rs_1 @ db_rsclose
+ "</select>" s.
+;
+
+: draw_page
+  "Поле &quot;" fields_rs @ "viewname" str_3 @ db_ngetstr str_3 @ s+ "&quot;" s+ page_head
+"<p><strong>Время&nbsp;последнего&nbsp;изменения:&nbsp;<font color=\"#0000FF\">" s.
+    date_rs @ field db_ngetint 
+    dup 0= not
+	if 
+dup time_break swap rot . ":" s. . ":" s. . "&nbsp;" s. date_break swap rot . "/" s. . "/" s. .
+   "</font></strong></p>" s.
+	else
+	 "Поле не изменялось</font></strong>" s. 
+	then
+    "<p><strong>Изменил&nbsp;пользователь:&nbsp;<font color=\"#0000FF\">" s. name_rs @ field  str_3 @ db_ngetstr str_3 @ s.
+    "</font></strong></p>
+   <form method=\"POST\" action=\"szgcat1.fsp?updcmnt\"><p><strong>Стандартные проблемы:&nbsp;</strong>" s. stnd_prbl
+   "</p><p><strong>Комментарии</strong></p><input type=\"hidden\" name=\"contract\" value=\"" s. contract s. "\"><input type=\"hidden\" name=\"afilter\" value=\"" s. 
+?find afilter if
+? afilter
+else
+ "on"
+then
+s. "\"><input type=\"hidden\" name=\"field\" value=\"" s. field s. "\"><input type=\"hidden\" name=\"cat\" value=\"" s. cat s. "\"><center><p><textarea rows=\"10\" name=\"cmnt\" cols=\"64\">" s. comment_rs @ field str_2 @ db_ngetstr str_2 @ s2html s. "</textarea></p>" s.
+  protmode @
+  if 
+   "<p><input type=\"submit\" name=\"btn\" value=\"Внести в базу\"></p>" s.
+  then
+  "</center></form>" s. 
+  page_bottom
+;
+
+: main 
+ 	 usertable_rs @ field db_ngetint protmode !
+	 con_1 @ "select viewname from sysfields where userfldname=\'" field s+ "\';" s+  db_exq
+	 dup db_next drop fields_rs !
+	 con_1 @ "select " field s+ " from contr_ac_date where index=\'" s+ contract s+ "\';" s+ db_exq dup date_rs ! db_next drop
+	 con_1 @ "select " field s+ " from contr_ac_c where index=\'" s+ contract s+ "\';" s+ db_exq dup comment_rs ! db_next drop
+	 con_1 @ "select " field s+ " from contr_ac_name where index=\'" s+ contract s+ "\';" s+ db_exq dup name_rs ! db_next drop
+	 con_1 @ "select " field s+ " from contr_ac_tn where index=\'" s+ contract s+ "\';" s+ db_exq dup stdprb_rs ! db_next drop
+	 draw_page
+;
+main
+%%>

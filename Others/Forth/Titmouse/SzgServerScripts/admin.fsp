@@ -1,0 +1,435 @@
+<%%
+(
+ Скрипт для администрирования системы "Сетевой Заводской График"
+ Поддерживает команды : adduser, deluser, adduserform, upduser, edit, upddelay 
+ Автор:   Мазница И.А.
+ Версия:  2.00
+)
+
+"authorize.fsp" load
+
+VARIABLE con_2
+"" VARIABLE str_1
+"" VARIABLE str_2
+"" VARIABLE str_3
+"" VARIABLE str_4
+"" VARIABLE str_5
+"" VARIABLE str_6
+VARIABLE fields_rs
+VARIABLE user_rs
+VARIABLE int_i
+VARIABLE int_1
+
+: fill_state_edt
+	its_admin 0=
+	if 
+		"accden.fsp" playfile
+	then
+	con_1 @ "select * from sysfields order by category,sysfields.order;" db_exq  dup fields_rs ! db_next drop
+
+	con_1 @ "select * from usertable where user_name=\'" ? delusername s+ "\';" s+ db_exq  dup user_rs ! db_next drop
+;
+
+: page_head_edt
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>Редактирование пользователя&nbsp;" s. ? delusername s. 
+"</title></head><body bgcolor=\"#FFFFFF\">
+<script language=\"JavaScript\">
+//<!--
+function fillparam()
+{
+	var psswrd=document.forms[\'normform\'].elements[\'pss\'].value;
+	var comment=document.forms[\'normform\'].elements[\'comment\'].value;
+	if ((psswrd.length==0)||(comment.length==0)) 
+	{
+		alert(\"Присутствуют пустые поля!\");
+		return;
+	}
+	if (psswrd.length>16) 
+	{
+		alert(\"Размер пароля превышает 16 символов!\");
+		return;
+	}
+	var accum=\"\";
+	var lii,liii;
+	for(var li=2;li<(document.forms.length-1);li++)
+	{
+		liii=document.forms[li];
+		lii=liii.elements[\'D1\'];
+		if (li==2)
+		{
+			accum=(liii.elements[\'fldname\'].value+\'=\'
+			+lii.options[lii.selectedIndex].value);
+		}
+		else
+		{
+			accum+=(\',\'+liii.elements[\'fldname\'].value+\'=\'+
+			lii.options[lii.selectedIndex].value);
+		}
+	}
+
+	document.forms[0].elements[\'levelstr\'].value=accum;
+	document.forms[0].elements[\'levelstr\'].value+=\',user_psswd=\\\'\'+psswrd+\'\\\'\';
+	document.forms[0].elements[\'levelstr\'].value+=\',user_comment=\\\'\'+comment+\'\\\'\';
+document.forms[0].elements[\'levelstr\'].value+=\',user_np=\\\'\'+\'" s. ? delusername s. "\'+\':\'" s. "+psswrd+\'\\\'\';
+	document.forms[0].submit();
+}
+//-->
+</script>
+<form name=\"outform\" method=\"POST\" action=\"admin.fsp?upduser\">
+  <input type=\"hidden\" name=\"levelstr\" value><input type=\"hidden\" name=\"username\" value=\"" s. ? delusername s. 
+"\"></form>
+<img src=\"nfd_logo.gif\">" s.
+;
+
+(AS: dostup field_name field_view_name number -> )
+: one_row_edt
+fields_rs @ "category" db_ngetint
+100 * 2/ dup 100 / 100 * - 
+0=
+if
+"<tr bgcolor=\"#FFFFBB\">"
+else
+"<tr bgcolor=\"#BBFFFF\">"
+then
+s.
+"<td><p align=\"center\">" s. . "</td>" s.
+    "<td>" s. s. "</td>" s. dup
+    "<td><form>
+	<input type=\"hidden\" name=\"fldname\" value=\"" s. s. "\">" s.	
+        "<p><center><select name=\"D1\" size=\"1\">" s.
+
+	user_rs @ swap db_ngetint
+	0=
+	if
+        "<option selected value=\"0\">Только чтение</option>
+        <option value=\"1\">Полный доступ</option>" s.
+	else
+        "<option value=\"0\">Только чтение</option>
+        <option selected value=\"1\">Полный доступ</option>" s.
+
+	then
+      "</select>
+      </center></p>
+    </form>
+    </td>
+  </tr>" s.
+;
+
+: page_bot_edt
+"</table>
+</div>
+<form method=\"POST\" action=\"--WEBBOT-SELF--\">
+  <div align=\"center\"><center><p><input type=\"button\"
+  value=\"Внести изменения в базу\" name=\"B1\" onClick=\"fillparam()\"></p>
+  </center></div>
+</form><hr></body></html>" s.
+;
+
+: form_norm_edt 
+"<p align=\"center\"><font color=\"#000080\"><big><strong><big>Редактирование
+пользователя&nbsp;" s. ? delusername s. "</big></strong></big></font></p>
+
+<p align=\"center\"><font color=\"#FF0000\"><strong><big>Общие сведения</big></strong></font></p>
+
+<form method=\"POST\" name=\"normform\">
+  <p><em><strong>Пароль&nbsp;</strong></em> <input type=\"password\" name=\"pss\"
+  size=\"16\" value=\"" s.
+	user_rs @ "user_psswd" str_5 @ db_ngetstr str_5 @ s2html s.
+  "\"></p>
+  <div align=\"left\"><p><em><strong>Комментарий</strong></em></p>
+  </div><div align=\"left\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <textarea rows=\"3\" name=\"comment\" cols=\"42\">" s.
+   user_rs @ "user_comment" str_5 @ db_ngetstr str_5 @ s2html s.
+ "</textarea></p>
+  </div>
+</form>
+<p align=\"center\"><font color=\"#FF0000\"><big><strong>Уровень доступа к
+полям системы</strong></big></font></p>
+<div align=\"left\">
+<table border=\"1\" width=\"100%\">
+  <tr>
+    <td width=\"6%\" align=\"center\" bgcolor=\"#FFFF00\"><font color=\"#400080\"><strong>№</strong></font></td>
+    <td width=\"44%\" align=\"center\" bgcolor=\"#FFFF00\"><font color=\"#400080\"><strong>Наименование
+    поля</strong></font></td>
+    <td width=\"50%\" align=\"center\" bgcolor=\"#FFFF00\"><font color=\"#400080\"><strong>Уровень
+    доступа</strong></font></td>
+  </tr>" s.
+;
+
+: main_edt
+	page_head_edt
+	form_norm_edt
+	1 int_i !
+	begin
+		fields_rs @ "userfldname" str_6 @ db_ngetstr str_6 @
+		fields_rs @ "viewname" str_5 @ db_ngetstr str_5 @ 
+		int_i @ one_row_edt 
+		int_i 1+!
+		fields_rs @ db_next not	
+	until	
+
+	page_bot_edt
+;
+
+: page_head1
+"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<meta name=\"GENERATOR\" content=\"Microsoft FrontPage 3.0\">
+<title>OTIS Saint Petersburg</title>
+</head><body bgcolor=\"#FFFFFF\">
+<form method=\"POST\" action=\"admin.fsp?deluser\" name=\"outform\" > <input name=\"delusername\" type=\"HIDDEN\" value=\"\"> 
+</form> 
+<script language=\"JavaScript\">
+//<!--
+// Создает список пользователей для удаления
+function createDelUsers()
+{
+	var tmp_str=\"\";
+	var iii=0;
+	var curfrm;
+	document.forms[0].elements[\"delusername\"].value=\"\";
+	for(var li=0;li<document.forms.length;li++)
+ 	{
+		curfrm=document.forms[li];
+		if (curfrm.name.substring(0,4)==\"ussr\")
+		{
+		 if (curfrm.elements[\"chbox\"].checked)
+		 {
+			iii++;
+			if (document.forms[\"outform\"].elements[\"delusername\"].value.length!=0) 
+			document.forms[\"outform\"].elements[\"delusername\"].value += (\",\\\'\"+curfrm.elements[\"username\"].value+\"\\\'\");
+			else
+			document.forms[\"outform\"].elements[\"delusername\"].value += (\"\\\'\"+document.forms[li].elements[\"username\"].value+\"\\\'\");
+		 }
+		}
+	} 
+	if (iii==0) alert(\"Нет выбранных пользователей!\"); else
+	document.forms[0].submit();
+}
+function edituser(nm)
+{
+	document.forms[0].action=\"admin.fsp?edit\";
+	document.forms[0].elements[\"delusername\"].value=nm;
+	document.forms[0].submit();
+}
+//-->
+</script>
+<img src=\"nfd_logo.gif\"><p align=\"center\">
+<big><font color=\"#0000A0\"><big><strong>Администратор</strong></big></font></big></p>
+<p align=\"center\"><font color=\"#FF0000\"><big><em><strong>Список
+пользователей системы</strong></em></big></font></p>
+<div align=\"left\">
+<table border=\"1\" width=\"100%\">
+  <tr>
+    <td width=\"8%\" bgcolor=\"#00FFFF\" align=\"center\"><strong><font color=\"#000080\">Выбор</font></strong></td>
+    <td width=\"6%\" bgcolor=\"#00FFFF\" align=\"center\"><p align=\"center\"><font color=\"#000080\"><strong>№</strong></font></td>
+    <td width=\"21%\" bgcolor=\"#00FFFF\" align=\"center\"><font color=\"#0000A0\"><strong>Системное
+    имя</strong></font></td>
+    <td width=\"65%\" bgcolor=\"#00FFFF\" align=\"center\"><font color=\"#0000A0\"><strong>Комментарии</strong></font></td>
+  </tr>" s.
+;
+
+(Слово формирует строку с управляющими тегами, ему передаются номер юзера, его имя 
+и комментарий AS: num_int name_indx comment_indx ->)
+: one_user
+  "<tr><td width=\"8%\" valign=\"middle\" align=\"center\"><form name=\"ussr" s. int_i @ . "\"><div align=\"center\"><center><p><input type=\"checkbox\" name=\"chbox\" value=\"ON\"><input
+type=\"hidden\" name=\"username\" value=\"" s. swap dup s. swap "\">" s.
+
+"</p>
+      </center></div>
+    </form>
+    </td>" s.
+
+    "<td width=\"6%\">" s. rot . "</td>" s.
+    "<td width=\"21%\"><a href=\"javascript:edituser(\'" s. swap dup s. "\')\">" s. s. "</a></td>" s.
+    "<td width=\"65%\">" s. s2html s. "</td></tr>" s.
+;
+
+: page_btm1
+"</table></div><form method=\"GET\" action=\"admin.fsp?adduserform\">
+<div align=\"center\"><center><p><input type=\"button\"
+  value=\"Добавить пользователя\" onClick=\'location=\"admin.fsp?adduserform\"\'><input type=\"button\"
+  value=\"Удалить выбранных пользователей\" onClick=\"createDelUsers()\"></p>
+</form>
+<table width=\"100%\">
+<tr><td><form method=\"POST\" action=\"szglkped.fsp\">
+ <input type=\"hidden\" name=\"cmnd\" value=\"list\">
+ <input type=\"submit\" value=\"Поля списков\">
+</form></td>
+<td><form method=\"POST\" action=\"szgdelay.fsp\">
+ <input type=\"hidden\" name=\"cmnd\" value=\"list\">
+ <input type=\"submit\" value=\"Техн. смещения\">
+</form></td><td>
+<td><form method=\"POST\" action=\"szgtedt.fsp?empty\">
+ <input type=\"hidden\" name=\"cmnd\" value=\"list\">
+ <input type=\"submit\" value=\"Шаблоны полей\">
+</form></td>
+<td><form method=\"POST\" action=\"szgsjrn.fsp\">
+ <input type=\"hidden\" name=\"cmnd\" value=\"sysjournal\">
+ <input type=\"submit\" value=\"Системный журнал\">
+</form></td></tr></table>
+  </center>
+</div>
+<hr>
+</body>
+</html>" s.
+;
+
+: write_page
+	page_head1
+		con_1 @ 
+		"select user_name,user_comment from usertable order by user_name;" db_exq dup user_rs !
+		db_next
+		if 
+			0 int_i !
+			BEGIN
+				user_rs @ "user_name" str_5 @ db_ngetstr
+				user_rs @ "user_comment" str_6 @ db_ngetstr
+				int_i @ 1+ dup int_i ! str_5 @ str_6 @ one_user
+				user_rs @ db_next not
+			UNTIL
+		then
+	page_btm1
+;
+
+: inp_user_form
+"<html><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">
+<title>OTIS Saint Petersburg</title>
+</head>
+<body bgcolor=\"#FFFFFF\">
+<script language=\"JavaScript\">
+//<!--
+// Функция проверяет заполненность полей
+function checkfields()
+{
+	var nmlen = document.forms[0].elements[\"username\"].value.length;
+	var pslen = document.forms[0].elements[\"userpsswrd\"].value.length;
+	var cmlen = document.forms[0].elements[\"commentfld\"].value.length;
+	if ((nmlen==0)||(pslen==0)||(cmlen==0))
+	{
+		alert(\"Недопустимо наличие пустых полей!\");
+		return;
+	}
+	if (nmlen>16)
+	{
+		alert(\"Текст в поле имени пользователя, больше 16 символов!\");
+		return;
+	}
+	if (pslen>16)
+	{
+		alert(\"Текст в поле пароля пользователя, больше 16 символов!\");
+		return;
+	}
+	document.forms[\"adduserform\"].submit();
+}
+//-->
+</script>
+<p align=\"left\"><img src=\"nfd_logo.gif\"></p>
+<p align=\"center\"><font color=\"#0000A0\"><big><big><strong>Добавление
+пользователя</strong></big></big></font></p>
+<form method=\"POST\" name=\"adduserform\" action=\"admin.fsp?addclient\">
+  <p><em><strong>Системное имя пользователя (не больше 16
+  букв) </strong></em>&nbsp;&nbsp; <input type=\"text\" name=\"username\" size=\"32\"
+  tabindex=\"0\"></p>
+  <p><em><strong>Пароль пользователя</strong></em> <em><strong>(не
+  больше 16 букв)</strong></em> <input type=\"password\" name=\"userpsswrd\" size=\"36\"
+  tabindex=\"1\"></p>
+  <p><em><strong>Комментарии</strong></em>&nbsp;&nbsp;&nbsp; </p>
+  <div align=\"center\"><center><p><textarea rows=\"4\" name=\"commentfld\" cols=\"66\" tabindex=\"2\"></textarea></p>
+  </center></div><div align=\"center\"><center><p><input type=\"button\"
+  value=\"Добавить\" name=\"B1\" tabindex=\"3\" onClick=\"checkfields()\"></p>
+  </center></div>
+</form><hr></body></html>" s.
+;
+
+: upd_delays
+  "SZG" "" "" "Cp1251" DB_CONNECT con_2 !
+  con_2 @ 0 db_autocommit
+  ? fldlst '|' tkn_set dup int_1 ! 
+  tkn_? 
+  if
+  	begin
+		int_1 @ str_2 @ tkn_nxt    
+		int_1 @ str_3 @ tkn_nxt    
+		int_1 @ str_4 @ tkn_nxt    
+   		"update sysfields set delaydate=" str_1 @ s!
+		con_2 @ str_1 @ str_3 @ s+ ",work_delay=" s+ str_4 @ s+ " where index=" s+ str_2 @ s+ db_exu drop
+   		int_1 @ TKN_? not
+	until 
+ then
+  con_2 @ db_commit
+;
+
+: main
+	FSP-QUERY "" s=
+	if
+		write_page
+	else
+		FSP-QUERY "adduserform" s==
+			if
+				inp_user_form
+				quit	
+			then
+
+		FSP-QUERY "addclient" s==
+		 	if
+		   		? username str_5 @ s!
+	 	  		con_1 @ 
+		  		"select user_name from usertable where user_name=\'" 
+		  		str_5 @ s+ "\';" s+ db_exq
+		  		db_next
+		  		if
+					"<p><strong><h3> ERROR!</h3></strong></p>
+					<p>Duplicate user name</p>" s. quit
+		  		then		 
+		 
+		 		str_5 @ ":" s+ ? userpsswrd s+
+		  		con_1 @
+  	 	  		"insert into usertable(user_np,user_name,user_psswd,user_comment) 
+		  		values(\'" str_5 @ s+ "\',\'" s+ ? username s+ "\',\'" s+ 
+		  		? userpsswrd s+ "\',\'" s+ ? commentfld s+ "\');" s+		
+		  		db_exu
+		  		write_page
+				quit
+			then
+
+ 		FSP-QUERY "deluser" s==
+	 		if
+             				? delusername str_5 @ s!
+	  			con_1 @
+	  			"delete from usertable where user_name in(" str_5 @ s+ ");" s+ db_exu
+	  			write_page				
+	  			quit
+	 		then
+
+		 FSP-QUERY "edit" s==
+	 		if
+				fill_state_edt
+				main_edt quit
+	 		then	
+
+ 		FSP-QUERY "upduser" s==
+	 		if
+	  			con_1 @
+	  			"update usertable set " ? levelstr s+ " where user_name=\'" s+ ? username s+ "\';" s+ db_exu
+	  			0>
+	  			if	
+					write_page quit
+	  			else
+					"User are absent in table!" s. quit
+	  			then
+	 		then	
+
+ 		FSP-QUERY "upddelay" s==
+	 		if
+	  			upd_delays
+	  			write_page quit
+	 		then	
+
+ 		"Unknown command" s.
+	then
+;
+main
+%%>
