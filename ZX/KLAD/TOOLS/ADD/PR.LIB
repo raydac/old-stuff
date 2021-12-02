@@ -1,0 +1,391 @@
+/*	Функции общего назначения	*/
+UDG (ll1)
+int ll1;
+{
+#asm
+    LD L,(IY+6)
+    LD H,(IY+7)
+    LD (23606),HL
+#endasm
+}
+BORDER (ll1)
+int ll1;
+{
+#asm
+    LD A,(IY+6)
+    LD BC,254
+    OUT (C),A
+#endasm
+}
+INMASK (port,mask)
+int port,mask;
+{
+#asm
+    LD B,(IY+9)
+    LD C,(IY+8)
+    LD D,(IY+6)
+    IN A,(C)
+    AND D
+    LD C,A
+    LD B,0
+#endasm
+}
+INK (ll1)
+int ll1;
+{
+#asm
+    LD A,(SETV_A)
+    LD C,(IY+6)
+    AND 248
+    OR C
+    LD (SETV_A),A
+#endasm
+}
+PAPER (ll1)
+int ll1;
+{
+#asm
+      LD A,(SETV_A)
+      LD C,(IY+6)
+      AND 199
+      SLA C
+      SLA C    
+      SLA C
+      OR C
+      LD (SETV_A),A
+#endasm
+}
+FLASH (ll1)
+int ll1;
+{
+#asm
+    LD A,18
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+BRIGHT (ll1)
+int ll1;
+{
+#asm
+    LD A,19
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+INVERSE (ll1)
+int ll1;
+{
+#asm
+    LD A,20
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+OVER (ll1)
+int ll1;
+{
+#asm
+    LD A,21
+    RST 16
+    LD A,(IY+6)
+    RST 16
+#endasm
+}
+AT (x,y)
+int x,y;
+{
+#asm
+    LD A,(IY+6)
+    CALL 3742
+    LD A,(IY+8)
+    ADD A,L
+    LD L,A
+    LD (23684),HL
+#endasm
+}
+SCRCLS ()
+{
+#asm
+    DEFB 1,0,#18,#21,0,#40,#36,0,#0B,#23,#78,#B1,#20,#F8
+    DEFB 1,0,3,#3A,#8D,#5C,#57,#72,#0B,#23,#78,#B1,#20,#F9
+#endasm
+}
+SETPOTOK (pot)
+char pot;
+{
+#asm
+    LD A,(IY+6)
+    CALL 5633
+#endasm
+}
+PUTCH (char)
+char char;
+{
+#asm
+   LD A,(IY+6)
+   RST 16
+#endasm
+}
+PRSTR (ll1)
+int ll1;
+{
+#asm
+       LD L,(IY+6)
+       LD H,(IY+7)
+pr#sta LD A,(HL)
+       OR A
+       JR Z,pr#end
+       PUSH HL
+       LD L,A
+       LD H,0
+       ADD HL,HL
+       ADD HL,HL
+       ADD HL,HL
+       LD DE,(23606)
+       ADD HL,DE
+       LD DE,(23684)
+       EX DE,HL
+       PUSH HL
+       LD B,8
+p#Sy1  LD A,(DE)
+       LD (HL),A
+       INC DE
+       INC H
+       DJNZ p#Sy1
+       POP HL
+       PUSH HL
+       LD A,H
+       AND #18
+       RRCA
+       RRCA
+       RRCA
+       ADD A,#58
+       LD H,A
+       LD A,(SETV_A)
+       LD (HL),A
+       POP HL
+       INC L
+       JR NZ,p#Sy2
+       LD A,H
+       ADD A,8
+       LD H,A
+       CP #58
+       JR C,p#Sy2
+       LD H,#40
+p#Sy2  LD (23684),HL
+       POP HL
+       INC HL
+       JR pr#sta   
+pr#end 
+#endasm
+}
+PR64S (ll1)
+int ll1;
+{
+#asm
+       LD L,(IY+6)
+       LD H,(IY+7)
+p6#sta LD A,(HL)
+       OR A
+       JR Z,p6#end
+       PUSH HL
+       LD L,A
+       LD H,0
+       ADD HL,HL
+       ADD HL,HL
+       ADD HL,HL
+       LD DE,(23606)
+       ADD HL,DE
+       LD DE,(23684)
+       EX DE,HL
+       PUSH HL
+       LD B,8
+p6#Sy1 LD A,(DE)
+
+       BIT 0,E
+       JR NZ,
+       AND #0F
+       OR (HL)
+       LD (HL),A
+       INC DE
+       INC H
+       DJNZ p6#Sy1
+       POP HL
+       PUSH HL
+       LD A,H
+       AND #18
+       RRCA
+       RRCA
+       RRCA
+       ADD A,#58
+       LD H,A
+       LD A,(SETV_A)
+       LD (HL),A
+       POP HL
+       INC L
+       JR NZ,p6#Sy2
+       LD A,H
+       ADD A,8
+       LD H,A
+       CP #58
+       JR C,p6#Sy2
+       LD H,#40
+p6#Sy2 LD (23684),HL
+       POP HL
+       INC HL
+       JR p6#sta   
+p6#end 
+#endasm
+}
+RND(ll1)
+int ll1;
+{
+#asm
+        LD HL,(SF#RND)
+        LD DE,7
+        ADD HL,DE
+        LD E,L
+        LD D,H
+        ADD HL,HL
+        ADD HL,HL
+        LD C,L
+        LD B,H
+        ADD HL,HL
+        ADD HL,BC
+        ADD HL,DE
+        LD (SF#RND),HL
+        LD A,H
+        LD E,(IY+6)
+        LD L,A
+        LD H,0
+        LD D,H
+        PUSH IY
+        CALL 12457
+        POP IY
+        LD A,H
+        PUSH HL
+        POP BC
+#endasm
+}
+RND255()
+{
+#asm
+        LD HL,(SF#RND)
+        LD DE,7
+        ADD HL,DE
+        LD E,L
+        LD D,H
+        ADD HL,HL
+        ADD HL,HL
+        LD C,L
+        LD B,H
+        ADD HL,HL
+        ADD HL,BC
+        ADD HL,DE
+        LD (SF#RND),HL
+        LD B,0
+        LD C,H
+#endasm
+}        
+PKEY()
+{
+#asm
+        LD BC,#F7FE
+        LD A,#FF
+        IN D,(C)
+        AND D
+        LD B,#FB
+        IN D,(C)
+        AND D
+        LD B,#FD
+        IN D,(C)
+        AND D
+        LD B,#FE
+        IN D,(C)
+        AND D
+        LD B,#EF
+        IN D,(C)
+        AND D
+        LD B,#DF
+        IN D,(C)
+        AND D
+        LD B,#BF
+        IN D,(C)
+        AND D
+        LD B,#7F
+        IN D,(C)
+        AND D
+        LD B,0
+        CPL
+        LD C,A
+#endasm
+}
+INTFUN (ll1) /* ll1 - адрес программы обработки маскируемого прерывания */
+int ll1;
+{
+#asm
+       DI
+       LD C,(IY+6)
+       LD B,(IY+7)
+       LD A,24
+       LD (65535),A
+       LD A,195
+       LD (65129),A
+       LD HL,i$int
+       LD (65130),HL
+       LD (i$iadr+1),BC
+       LD A,9
+       LD I,A
+       IM 2
+       JR i$iend
+i$int  DI
+       PUSH AF
+       PUSH BC
+       PUSH DE
+       PUSH HL
+       PUSH IY
+       PUSH IX
+       EXX
+       PUSH AF
+       PUSH BC
+       PUSH DE
+       PUSH HL
+       PUSH IY
+       PUSH IX
+       EXX
+i$iadr CALL 0000
+       EXX
+       POP IX
+       POP IY
+       POP HL
+       POP DE
+       POP BC
+       POP AF
+       EXX
+       POP IX
+       POP IY
+       POP HL
+       POP DE
+       POP BC
+       POP AF
+       EI
+       RET
+i$iend EI
+#endasm
+}
+CF128 (ll1) /* байт конфигурации компьютера в порте 32765 */
+int ll1;
+{
+#asm
+       LD BC,32765
+       LD A,(IY+6)
+       OUT (C),A
+#endasm
+}
+#asm
+SETV_A  DEFB #0F
+#endasm

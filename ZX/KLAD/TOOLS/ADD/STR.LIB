@@ -1,0 +1,179 @@
+#asm
+SETATR DEFB #F0
+#endasm
+/*	Функции общего назначения	*/
+UDG (ll1)
+int ll1;
+{
+#asm
+    LD L,(IY+6)
+    LD H,(IY+7)
+    LD (23606),HL
+#endasm
+}
+BORDER (ll1)
+int ll1;
+{
+#asm
+    LD A,(IY+6)
+    LD BC,254
+    OUT (C),A
+#endasm
+}
+INMASK (port,mask)
+int port,mask;
+{
+#asm
+    LD B,(IY+9)
+    LD C,(IY+8)
+    LD D,(IY+6)
+    IN A,(C)
+    AND D
+    LD C,A
+    LD B,0
+#endasm
+}
+INK (ll1)
+int ll1;
+{
+#asm
+    LD A,(SETATR)
+    LD C,(IY+6)
+    AND 248
+    OR C
+    LD (SETATR),A
+#endasm
+}
+PAPER (ll1)
+int ll1;
+{
+#asm
+      LD A,(SETATR)
+      LD C,(IY+6)
+      AND 199
+      SLA C
+      SLA C    
+      SLA C
+      OR C
+      LD (SETATR),A
+#endasm
+}
+AT (x,y)
+int x,y;
+{
+#asm
+    LD A,(IY+6)
+    CALL 3742
+    LD A,(IY+8)
+    ADD A,L
+    LD L,A
+    LD (23684),HL
+#endasm
+}
+SCRCLS ()
+{
+#asm
+    DEFB 1,0,#18,#21,0,#40,#36,0,#0B,#23,#78,#B1,#20,#F8
+    DEFB 1,0,3,#3A,#8D,#5C,#57,#72,#0B,#23,#78,#B1,#20,#F9
+#endasm
+}
+PCHAR (ll1)
+char ll1;
+{
+#asm
+       LD A,(IY+6)
+       LD L,A
+       LD H,0
+       ADD HL,HL
+       ADD HL,HL
+       ADD HL,HL
+       LD DE,(23606)
+       ADD HL,DE
+       LD DE,(23684)
+       EX DE,HL
+       PUSH HL
+       LD B,8
+p#SP1  LD A,(DE)
+       LD (HL),A
+       INC DE
+       INC H
+       DJNZ p#SP1
+       POP HL
+       PUSH HL
+       LD A,H
+       AND #18
+       RRCA
+       RRCA
+       RRCA
+       ADD A,#58
+       LD H,A
+       LD A,(SETATR)
+       LD (HL),A
+       POP HL
+       INC L
+       JR NZ,p#SP2
+       LD A,H
+       ADD A,8
+       LD H,A
+       CP #58
+       JR C,p#SP2
+       LD H,#40
+p#SP2  LD (23684),HL
+#endasm
+}
+PRSTR (ll1)
+int ll1;
+{
+#asm
+       LD L,(IY+6)
+       LD H,(IY+7)
+pr#sta LD A,(HL)
+       OR A
+       JR Z,pr#end
+       PUSH HL
+       LD L,A
+       LD H,0
+       ADD HL,HL
+       ADD HL,HL
+       ADD HL,HL
+       LD DE,(23606)
+       ADD HL,DE
+       LD DE,(23684)
+       EX DE,HL
+       PUSH HL
+       LD B,8
+p#Sy1  LD A,(DE)
+       LD (HL),A
+       INC DE
+       INC H
+       DJNZ p#Sy1
+       POP HL
+       PUSH HL
+       LD A,H
+       AND #18
+       RRCA
+       RRCA
+       RRCA
+       ADD A,#58
+       LD H,A
+       LD A,(SETATR)
+       LD (HL),A
+       POP HL
+       INC L
+       JR NZ,p#Sy2
+       LD A,H
+       ADD A,8
+       LD H,A
+       CP #58
+       JR C,p#Sy2
+       LD H,#40
+p#Sy2  LD (23684),HL
+       POP HL
+       INC HL
+       JR pr#sta   
+pr#end 
+#endasm
+}
+#asm
+*B 8x8.fnt
+#endasm
