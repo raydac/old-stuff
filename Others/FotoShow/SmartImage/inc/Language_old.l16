@@ -1,0 +1,33 @@
+
+CHARACTER_SET UTF8
+
+
+#define qtn_app_caption_string "FotoID"
+#define qtn_app_short_caption_string "FotoID"
+
+#define qtn_setting_state "Статус"
+#define qtn_setting_state_active "Активен"
+#define qtn_setting_state_inactive "Неактивен"
+
+#define qtn_setting_first_name "Имя"
+#define qtn_setting_last_name "Фамилия"
+#define qtn_setting_phone "Телефон"
+#define qtn_setting_duration "Длительность звонка"
+#define qtn_setting_mail "E-Mail"
+
+#define qtn_setting_title "Установки"
+
+#define qtn_show "Показать"
+#define qtn_hide "Скрыть"
+
+
+#define qtn_about "FotoID\nv.1.01\n© 2003 INFON\nhttp://www.infon.ru"
+
+#define qtn_menu_change "Изменить"
+#define qtn_menu_about "О программе"
+#define qtn_menu_options "Опции"
+#define qtn_menu_end_call "Конец разговора"
+#define qtn_menu_end_call1 "Конец текущего разговора"
+#define qtn_menu_exit "Выход"
+
+// End of File

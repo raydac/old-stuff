@@ -1,0 +1,25 @@
+;Smviewer.pkg
+
+;Language - standard language definitions
+&EN, RU
+#{"FotoShow","FotoShow"},(0x0776b005),0,1,1
+
+;Supports Series 60 v 0.9
+(0x101F6F88), 0, 0, 0, {"Series60ProductID","Series60ProductID"}
+
+
+
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.app"-"!:\system\apps\smviewer\smviewer.app"
+
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.rsc"-"!:\system\apps\smviewer\smviewer.rsc"
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.r01"-"!:\system\apps\smviewer\smviewer.r01"
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.r16"-"!:\system\apps\smviewer\smviewer.r16"
+
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer_caption.rsc"-"!:\system\apps\smviewer\smviewer_caption.rsc"
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer_caption.r01"-"!:\system\apps\smviewer\smviewer_caption.r01"
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer_caption.r16"-"!:\system\apps\smviewer\smviewer_caption.r16"
+
+
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.mbm"-"!:\system\apps\smviewer\smviewer.mbm"
+"\Symbian\6.1\Series60\epoc32\release\thumb\urel\smviewer.aif"-"!:\system\apps\smviewer\smviewer.aif"
+

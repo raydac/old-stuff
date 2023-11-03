@@ -1,0 +1,3 @@
+makesis SmartImage.pkg
+
+

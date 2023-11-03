@@ -1,0 +1,11 @@
+
+PRJ_PLATFORMS
+// specify the platforms your component needs to be built for here
+// defaults to WINS ARMI ARM4 THUMB so you can ignore this if you just build these
+
+
+PRJ_MMPFILES
+
+smilauncher.mmp 
+
+

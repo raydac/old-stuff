@@ -1,0 +1,8 @@
+/* Copyright (c) 2002, Nokia Mobile Phones. All rights reserved */
+
+#ifdef LANGUAGE_01
+#include "Language.l01"
+#endif
+#ifdef LANGUAGE_16
+#include "Language.l16"
+#endif

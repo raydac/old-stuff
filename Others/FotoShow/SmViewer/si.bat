@@ -1,0 +1,3 @@
+makesis SmViewer.pkg 
+
+

@@ -1,0 +1,80 @@
+CHARACTER_SET UTF8
+
+
+#define qtn_about "FotoShow\nv.1.01\n(c) 2003 INFON\nhttp://www.infon.ru"
+
+#define qtn_view1_open_item	"Открыть"
+
+#define qtn_view1_Attach_item "Добавить к контактам"
+#define qtn_view1_Select_item "Выделить"
+#define qtn_view1_UnSelect_item "Отменить выделение"
+#define qtn_view1_SelectAll_item "Выделить все"
+#define qtn_view1_UnSelectAll_item "Отменить все выделения"
+#define qtn_view1_GridView_item "Таблица"
+#define qtn_view1_ListView_item "Список"
+#define qtn_view1_Delete_item "Удалить"
+#define qtn_view1_Rename_item "Переименовать"
+#define qtn_view1_About_item "О программе"
+
+#define qtn_exit_item "Выход"
+
+
+#define qtn_view1_menu_image "Изображение"
+#define qtn_view1_menu_show "Слайдшоу"
+#define qtn_view1_menu_select "Выделить"
+#define qtn_view1_menu_settings "Настройки"
+
+
+#define qtn_view1_menu_select_sel "Выделенные изображения"
+#define qtn_view1_menu_select_all "Все изображения"
+#define qtn_view1_menu_select_ph "Изображения в осн.памяти"
+#define qtn_view1_menu_select_mc "Изображения на MMC карте"
+
+#define qtn_del_all_items "Удалить выделенные изображения?"
+#define qtn_del_current_item "Удалить?"
+#define qtn_rename_exist_file "Файл существует. Заменить?"
+#define qtn_exit "Покинуть FotoShow?"
+#define qtn_waiter_label "Изображение загружается, ждите..."
+
+#define qtn_view1_caption_string_format "Изображения %d / %d"
+#define qtn_view2_caption_string_format "%dx%d Увеличение %d%% "
+#define qtn_view1_caption_string_format2 "Найдено %d изображений"
+#define qtn_view3_caption_string "ДОбавить контакт"
+#define qtn__programmName "FotoShow"
+
+#define qtn_rename_querydlg_caption "Переименовать?"
+
+
+#define qtn_zoom "Увеличение"
+#define qtn_rotate "Поворот"
+#define qtn_right "Вправо"
+#define qtn_left "Влево"
+#define qtn_fit "Вписать в окно"
+#define qtn_in "В"
+#define qtn_out "Из"
+#define qtn_add "добавить"
+#define qtn_remove "Удалить"
+
+#define qtn_view1_tab "1"
+#define qtn_view2_tab "2"
+
+#define qtn_settings_sort "Сортировать"
+#define qtn_settings_sort_name "По имени"
+#define qtn_settings_sort_date "По дате"
+
+#define qtn_settings_loop "По кругу"
+#define qtn_settings_loop_on "Вкл."
+#define qtn_settings_loop_off "Выкл."
+
+#define qtn_settings_direction "Направление"
+#define qtn_settings_direction_down "Вниз"
+#define qtn_settings_direction_up "Вверх"
+#define qtn_settings_direction_random "Случайно"
+
+
+#define qtn_settings_delay "Задержка"
+#define qtn_settings_delay3 "3 сек."
+#define qtn_settings_delay5 "5 сек."
+#define qtn_settings_delay8 "8 сек."
+// End of File
+

@@ -1,0 +1,29 @@
+// smilauncher.MMP
+//
+// Copyright (c) 1997-1999 Symbian Ltd.  All rights reserved.
+//
+
+target          smilauncher.mdl
+targettype      DLL
+targetpath      \system\recogs\
+
+uid		0x10003A19 0x100012FB // KUidMimeTxtRecognizer
+unicodeuid	0x10003A19 0x100012FB
+
+project         EMIME
+subproject	REC
+systeminclude   \EPOC32\INCLUDE
+
+//document	RECTXT.MMP
+source          smilauncher.CPP
+
+library         EUSER.LIB APMIME.LIB EFSRV.LIB APGRFX.LIB APPARC.LIB 
+
+deffile MREC.DEF
+
+START WINS
+	baseaddress	0x70800000
+END
+
+START MARM
+END
